@@ -108,7 +108,8 @@ categories:
    > 想找一份钱多事少受人尊敬有成就感的工作，不现实。可以分阶段实现。
    > 
    > 找设计一个低门槛又灵活度高的工具，不现实。可以拆成两个产品做。
-   
+8. 专注当下，天人合一。
+
 ## 实践-情绪管理
 
 1. Feelings are just visitors. Let them come and go.
