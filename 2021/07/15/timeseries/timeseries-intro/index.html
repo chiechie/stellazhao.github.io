@@ -20,31 +20,28 @@
     var CONFIG = {"hostname":"chiechie.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="总结  随机过程，由一系列按照时间排序的随机变量组成。 序列的随机行为，由概率密度函数定义，如果我们能穷举出所有有限时间索引集合的分布，才能确定这个随机过程。  随机过程的定义并没有提到平移不变性。  平移不变性，移动一个时间步之后，概率分布保持不变。 严格平稳性，表示一个随机过程的所有有限时间索引集合对应的概率分布，都满足平移不变性。  随机过程如果有了平移不变性，就可以用更简洁的pdf来表达,">
+  <meta name="description" content="总结  随机过程，由一系列按照时间排序的随机变量组成。 序列的随机行为，由概率密度函数定义，如果能穷举出所有finite时间索引集合的概率分布，就可以确定该随机过程。  随机过程的定义并没有提到平移不变性。  平移不变性是指，移动一个时间步之后，概率分布保持不变。 严格平稳性，表示一个随机过程的所有finite时间索引集合对应的概率分布，都满足平移不变性。  随机过程如果有了平移不变性，就可以用更">
 <meta property="og:type" content="article">
 <meta property="og:title" content="时间序列1">
 <meta property="og:url" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/index.html">
 <meta property="og:site_name" content="Chiechie&#39;s Mini World">
-<meta property="og:description" content="总结  随机过程，由一系列按照时间排序的随机变量组成。 序列的随机行为，由概率密度函数定义，如果我们能穷举出所有有限时间索引集合的分布，才能确定这个随机过程。  随机过程的定义并没有提到平移不变性。  平移不变性，移动一个时间步之后，概率分布保持不变。 严格平稳性，表示一个随机过程的所有有限时间索引集合对应的概率分布，都满足平移不变性。  随机过程如果有了平移不变性，就可以用更简洁的pdf来表达,">
+<meta property="og:description" content="总结  随机过程，由一系列按照时间排序的随机变量组成。 序列的随机行为，由概率密度函数定义，如果能穷举出所有finite时间索引集合的概率分布，就可以确定该随机过程。  随机过程的定义并没有提到平移不变性。  平移不变性是指，移动一个时间步之后，概率分布保持不变。 严格平稳性，表示一个随机过程的所有finite时间索引集合对应的概率分布，都满足平移不变性。  随机过程如果有了平移不变性，就可以用更">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/image-20210715101032432.png">
-<meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/image-20210715102145421.png">
-<meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/image-20210715103831167.png">
-<meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/image-20210715105014565.png">
 <meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/image-20210715091517366.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/image-20210715101032432.png">
 <meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/image-20210715095528794.png">
 <meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/image-20210715140721430.png">
 <meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/image-20210715145052508.png">
 <meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/image-20210715153433604.png">
 <meta property="article:published_time" content="2021-07-15T00:25:11.000Z">
-<meta property="article:modified_time" content="2021-07-15T09:55:28.126Z">
+<meta property="article:modified_time" content="2021-07-15T12:52:45.282Z">
 <meta property="article:author" content="Chiechie">
 <meta property="article:tag" content="人工智能">
 <meta property="article:tag" content="最佳实践">
 <meta property="article:tag" content="量化交易">
 <meta property="article:tag" content="时序预测">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/image-20210715101032432.png">
+<meta name="twitter:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/image-20210715091517366.png">
 
 <link rel="canonical" href="https://chiechie.github.io/2021/07/15/timeseries/timeseries-intro/">
 
@@ -205,7 +202,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-07-15 08:25:11 / 修改时间：17:55:28" itemprop="dateCreated datePublished" datetime="2021-07-15T08:25:11+08:00">2021-07-15</time>
+              <time title="创建时间：2021-07-15 08:25:11 / 修改时间：20:52:45" itemprop="dateCreated datePublished" datetime="2021-07-15T08:25:11+08:00">2021-07-15</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -238,42 +235,30 @@
         <h2 id="总结">总结</h2>
 <ol type="1">
 <li><p>随机过程，由一系列按照时间排序的随机变量组成。</p></li>
-<li><p>序列的随机行为，由概率密度函数定义，如果我们能穷举出所有有限时间索引集合的分布，才能确定这个随机过程。</p>
+<li><p>序列的随机行为，由概率密度函数定义，如果能穷举出所有finite时间索引集合的概率分布，就可以确定该随机过程。</p>
 <blockquote>
 <p>随机过程的定义并没有提到平移不变性。</p>
 </blockquote></li>
-<li><p>平移不变性，移动一个时间步之后，概率分布保持不变。</p></li>
-<li><p>严格平稳性，表示一个随机过程的所有有限时间索引集合对应的概率分布，都满足平移不变性。</p>
+<li><p>平移不变性是指，移动一个时间步之后，概率分布保持不变。</p></li>
+<li><p>严格平稳性，表示一个随机过程的所有finite时间索引集合对应的概率分布，都满足平移不变性。</p>
 <blockquote>
-<p>随机过程如果有了平移不变性，就可以用更简洁的pdf来表达, 从而可以使用观测数据去估计出来。</p>
+<p>随机过程如果有了平移不变性，就可以用更简洁的pdf来表达。</p>
 </blockquote></li>
 <li><p>弱平稳性，也叫协方差平稳性，表示一个随机过程的所有2维时间索引集合对应的概率分布, 都满足平移不变性。</p></li>
-<li><p>相对严格平稳性，弱平稳性对随机过程的限制条件更少，因此表达能力更强，可以对更多类型的时间序列建模。同时理论性质也还可以。</p></li>
-<li><p>相关系数：两个随机变量标准化到均值=0，方差=1之后的，求协方差。</p></li>
+<li><p>满足弱平稳性的随机过程比仅满足强平稳行的随机过程多的多。</p></li>
 <li><p>满足协方差平稳性的随机过程满足表示定理(wold representation):</p></li>
 <li><p>什么是好的模型？p尽可能小，或者ma中的q尽可能小。</p></li>
-<li><p>使用滞后算子表述表达定理</p>
-<figure>
-<img src="./image-20210715101032432.png" alt="image-20210715101032432" /><figcaption aria-hidden="true">image-20210715101032432</figcaption>
-</figure></li>
-<li><p>协方差平稳过程<span class="math inline">\({X_t}\)</span>的脉冲响应函数（impulse response function）表示某个时刻的噪声（innovation）怎么影响后面的随机过程，the impact of the innovation on the process。</p>
-<p>​ <img src="./image-20210715102145421.png" alt="image-20210715102145421" /></p>
+<li><p>弱平稳随机过程<span class="math inline">\({X_t}\)</span>的脉冲响应函数（impulse response function）表示某个时刻的噪声（innovation）怎么影响后面的随机过程，即the impact of the innovation on the process。</p>
 <blockquote>
 <p>脉冲响应函数，有点像这个因子的能量衰减函数，总能量(long-run cumalative response)=1, 每过一段时间，这个因子释放一点能量，从而对观测值造成影响，释放能量随时间逐渐疲乏，趋近于0.</p>
 </blockquote></li>
 <li><p><span class="math inline">\(\psi\)</span>和<span class="math inline">\(\psi^{-1}\)</span>类似收集能量（或者innovation造成的影响）和消除能量（或者innovation造成的影响）。</p></li>
 <li><p>对<span class="math inline">\(X_t\)</span>进行消除能量操作（历史innovation的影响）之后，就只剩下当下时刻的innovation带来的影响了。</p>
-<figure>
-<img src="./image-20210715103831167.png" alt="image-20210715103831167" /><figcaption aria-hidden="true">image-20210715103831167</figcaption>
-</figure></li>
-<li><p>如果<span class="math inline">\(\psi\)</span>的逆存在，那么原始的ma过程等价于ar过程。即一个随机过程，既可以表达为从历史innovation中收集能量的过程，也可以表达为，对历史观测值中剔除能量的过程，观测值的系数就是自回归系数。</p>
-<figure>
-<img src="./image-20210715105014565.png" alt="image-20210715105014565" /><figcaption aria-hidden="true">image-20210715105014565</figcaption>
-</figure></li>
+<p>如果<span class="math inline">\(\psi\)</span>的逆存在，那么原始的ma过程等价于ar过程。即一个随机过程，既可以表达为从历史innovation中收集能量的过程，也可以表达为，对历史观测值中剔除能量的过程，观测值的系数就是自回归系数。</p></li>
 <li><p>经典的时序分析模型ARMA(p, q) 表示，对观测变量的多项式滞后操作+对噪声的多项式滞后操作，噪声<span class="math inline">\(\eta_t\)</span>是一个维纳过程</p></li>
 <li><p>随机游走就是一个一阶自回归模型，但是非平稳.</p></li>
 <li><p>自回归模型如果满足，特征方程的p个根（复数），都在单位元外面，该随机过程是平稳的。本质上是对回归函数的逆函数施加的收敛性约束。</p></li>
-<li><p>ARMA拓展到非平稳随机过程建模-ARIMA。</p></li>
+<li><p>如何对非平稳随机过程建模？先差分，那几个非平稳的例子验一验，比如随时间线性增长+白噪声，再比如</p></li>
 <li><p>金融数据大部分都是非平稳的，像随机游走，box和jenkins想出来了一种移除非平稳趋势的方法--差分</p></li>
 <li><p>平稳性测试：H0是平稳的，检验方法有KPSS测试</p>
 <p>非平稳性测试，H0假设是非平稳的，常用来检测非平稳性的方法单位根检验方法，例如Dickey-Fuller测试</p></li>
@@ -285,12 +270,18 @@
 </ol>
 <h2 id="附录">附录</h2>
 <ol type="1">
+<li><p>相关系数：两个随机变量标准化到均值=0，方差=1之后的，求协方差。</p></li>
 <li><p>wold representation定理</p>
 <figure>
 <img src="./image-20210715091517366.png" alt="wold representation" /><figcaption aria-hidden="true">wold representation</figcaption>
 </figure></li>
 </ol>
-<h2 id="表示定理的应用">表示定理的应用</h2>
+<h3 id="representation定理">representation定理</h3>
+<p>使用滞后算子表述representation定理</p>
+<figure>
+<img src="./image-20210715101032432.png" alt="image-20210715101032432" /><figcaption aria-hidden="true">image-20210715101032432</figcaption>
+</figure>
+<h3 id="representation定理的应用--估计时间序列背后的分布">representation定理的应用--估计时间序列背后的分布</h3>
 <p>表示定义的应用-给定一个时间序列，希望确定背后的分布：</p>
 <ol type="1">
 <li><p>假设：背后的随机过程由两部分构成，历史信息 + 白噪声，历史信息是过去p段时间的信息的线性变换，白噪声是的平稳的随机过程</p></li>
@@ -307,7 +298,7 @@
 <figure>
 <img src="./image-20210715095528794.png" alt="image-20210715095528794" /><figcaption aria-hidden="true">image-20210715095528794</figcaption>
 </figure>
-<h2 id="arma模型">ARMA模型</h2>
+<h3 id="arma模型">ARMA模型</h3>
 <figure>
 <img src="./image-20210715140721430.png" alt="image-20210715140721430" /><figcaption aria-hidden="true">image-20210715140721430</figcaption>
 </figure>
@@ -327,8 +318,9 @@
 </ol>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=uBeM1FUk4Ps&amp;t=362s">8. Time Series Analysis I</a></li>
-<li>https://ocw.mit.edu/courses/mathematics/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=uBeM1FUk4Ps&amp;t=362s">Time Series Analysis I--youtube</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://ocw.mit.edu/courses/mathematics/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/">Time Series Analysis---slide</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://ocw.mit.edu/courses/mathematics/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/">Topics in Mathematics with Applications in Finance-open course</a></p></li>
 </ol>
 
     </div>
@@ -413,7 +405,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">附录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%A8%E7%A4%BA%E5%AE%9A%E7%90%86%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">表示定理的应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#arma%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">ARMA模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#representation%E5%AE%9A%E7%90%86"><span class="nav-number">2.1.</span> <span class="nav-text">representation定理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#representation%E5%AE%9A%E7%90%86%E7%9A%84%E5%BA%94%E7%94%A8--%E4%BC%B0%E8%AE%A1%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E8%83%8C%E5%90%8E%E7%9A%84%E5%88%86%E5%B8%83"><span class="nav-number">2.2.</span> <span class="nav-text">representation定理的应用--估计时间序列背后的分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#arma%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.3.</span> <span class="nav-text">ARMA模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
