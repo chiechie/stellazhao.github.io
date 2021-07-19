@@ -17,7 +17,7 @@ categories:
 
 在深度学习中如何表示现实中的事物？
 
-Let’s make data tensors more concrete with a few examples similar to what you’ll encounter later. The data you’ll manipulate will almost always fall into one of the following categories:
+The data you’ll manipulate will almost always fall into one of the following categories:
 
 - Vector data:2D tensors of shape(samples,  features)
 - Timeseries data or sequence data:3D tensors of shape (samples, timesteps, features)
@@ -30,16 +30,16 @@ Let’s make data tensors more concrete with a few examples similar to what you�
 - 文本数据, 假设词典长度为2k，每一个doc可以表示为1个2k维的向量，位置的值代表词在文本中出现的次数。
 - 500个文件可以存储为(500, 20000).
 
-## 时间序列数据
+## 时间序列数据/文本数据
 
 - ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F_vMGBboznU.png?alt=media&token=73c12f97-acdb-4680-b4eb-79a9a07581f9)
-  
+
 时间序列数据一般表示成3-d的张亮，tf中使用3d张量存储，(samples, timestamp, features)
 每一个sample可以被编码成一个2d张量， 具体的两个例子
 
-1. 股票数据：每年有250个交易日，每个交易日的交易时长有390分钟，每个分钟可以抽取3个重要特征：当前价格，上一分钟最高成交价格，上一分钟最低价格
+1. 股票数据：每年有250个交易日，每个交易日的交易时长有390分钟，每分钟可以抽取3个重要特征：当前价格，上一分钟最高成交价格，上一分钟最低价格
     - 以每一天的交易数据为1个样本，构建的样本的shape为(250,390,3)
-2. TWEET数据：一条twitter长度不超过256，每个位置的字符来自128个assical码中的一个。每一条twitter的shape为（256， 128），1 百万 tweets 的shape为(1000000, 280, 128)
+2. TWEET数据：一条twitter长度不超过256，每个位置的字符来自128个assical码中的一个。每一条twitter的shape为（256， 128），1 百万 tweets 的shape为(1000000, 256, 128)
 
 ## 图像数据
 
@@ -70,7 +70,6 @@ keras中layer的基本类型：
 - dropout(Dropout)
 - 线性全连接层(Dense)
 - high-level层(LSTM)
-    
 ### 卷积层
 
 1. 卷积的维度有1Ｄ，2Ｄ，3D, 区别在于? 
@@ -84,15 +83,14 @@ keras中layer的基本类型：
 
 
 2. 什么情况下，1d比2d好用呢？其中2个维度上，做卷积没有意义(high,close,open,close)
-    
 
 ### 关于dropout
 
 keras中对dropout的处理，因为训练阶段需要dropout ，但是inference阶段不需要dropout，keras中如何设置？
 
-Keras does this by default. In Keras dropout is disabled in test mode. You can look at the code[here](https://github.com/keras-team/keras/blob/dc95ceca57cbfada596a10a72f0cb30e1f2ed53b/keras/layers/core.py#L109) and see that they use the dropped input in training and the actual input while testing.
+Keras does this by default.
 
-As far as I know you have to build your own training function from the layers and specify the training flag to predict with dropout (e.g. its not possible to specify a training flag for the predict functions). This is a problem in case you want to do GANs, which use the intermediate output for training and also train the network as a whole, due to a divergence between generated training images and generated test images.
+keras中，在test模式下，dropouts是不可以设置的，代码在[这里](https://github.com/keras-team/keras/blob/dc95ceca57cbfada596a10a72f0cb30e1f2ed53b/keras/layers/core.py#L109) and see that they use the dropped input in training and the actual input while testing.
 
 
 ## 算法超参数
@@ -108,18 +106,18 @@ As far as I know you have to build your own training function from the layers an
 - Instance Normalization（IN， 2017年）
 - Group Normalization（GN， 2018年）
 - Switchable Normalization（SN， 2018年）；
-  
+
 ![几种归一化方法g](dl-basic2/img_1.png)
 
 #### 问题1 transformer 为什么要使用LN而不是 BN？
 
-   
+
  在[paper: Rethinking Batch Normalization in Transformers](https://arxiv.org/pdf/2003.07845.pdf)中, 作者对比了cv和nlp的BN, 得出的结论是在nlp数据上基于batch的统计信息不稳定性过大(相比cv的数据)，导致bn在nlp上效果差。相比之下layer norm能够带来更稳定的统计信息，有利于模型学习
 
 Batch Normalization主要的问题是计算归一化统计量时计算的样本数太少，在RNN等动态模型中不能很好的反映全局统计分布信息，而Layer Normalization根据样本的特征数做归一化，是batch size无关的，只取决于隐层节点的数量，较多的隐层节点数量能保证Layer Normalization归一化统计分布信息的代表性。
 
 #### 问题2. IN直观上怎么理解？
-   
+
 在计算机视觉中，IN本质上是一种Style Normalization，它的作用相当于把不同的图片统一成一种风格。另外，既然IN和BN都会统一图片的风格，那么在Generator里加IN或BN应该是不利于生成风格多样的图片的，论文中也进行了展示：
 
 ![](https://pic2.zhimg.com/v2-235433127838fca762ebd10511de9ca7_b.jpg)
@@ -174,4 +172,5 @@ tensorflow中的损失函数:
 4. [从Style的角度理解Instance Normalization](https://zhuanlan.zhihu.com/p/57875010)
 5. [在时序数据上应用conv1D](https://blog.goodaudience.com/introduction-to-1d-convolutional-neural-networks-in-keras-for-time-sequences-3a7ff801a2cf)
 7. https://zhuanlan.zhihu.com/p/57875010
-8. https://stackoverflow.com/questions/47787011/how-to-disable-dropout-while-prediction-in-keras
+8. [How to disable dropout while prediction in keras?](https://stackoverflow.com/questions/47787011/how-to-disable-dropout-while-prediction-in-keras)
+
