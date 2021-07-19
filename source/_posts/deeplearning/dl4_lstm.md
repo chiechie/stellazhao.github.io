@@ -32,7 +32,7 @@ categories:
 
 ## LSTM应用-情感判断
 
-![](dl-basic2/img_3.png)
+![](./img_3.png)
 
 ![使用keras实现lstm](./image_1212.png)
 
@@ -87,15 +87,15 @@ categories:
 
 10. 更新长期记忆-传送带向量
 
-![](dl-basic2/img_1.png)
+![](./img_1.png)
 
 11. 更新短期机器-状态向量
 
-![](dl-basic2/img_2.png)
+![](./img_2.png)
 
 12. LSTM处理过程用数学公式表达
-![img_5.png](dl-basic2/img_5.png)
-![img_4.png](dl-basic2/img_4.png)
+![img_5.png](./img_5.png)
+![img_4.png](./img_4.png)
 
 
 ## 参考资料
