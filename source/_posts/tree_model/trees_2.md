@@ -8,7 +8,7 @@ tags:
 - 树模型
 - 决策树
 categories:
-- AI
+- 树模型
 ---
 
 
@@ -29,7 +29,7 @@ categories:
 ## 决策树算法-CART
 1. cart的特色是构建的一个binary tree，每次分支条件都是将一个空间以分为2，变成2个子空间，每个叶子结点的值，即response variable都是一个常数，是这么的到的：
   - 如果target var是一个连续变量，求落入该region的训练集的response均值，即${y_n}$的均值，其实这个均值对应的是最小化suqared error。
-构建一个决策树，主要是要确定partition，或者说分支条件，以及每个落入每个partition（或者说）中对应的预测值。
+  构建一个决策树，主要是要确定partition，或者说分支条件，以及每个落入每个partition（或者说）中对应的预测值。
   - 如果target var是一个离散变量，求众数对应的那个类别。
 2. 怎么确定分支条件？找一个decision stump，使用纯度（purify）来衡量分支的质量，如果左边的data set 和右边的dataset 纯度 都很高，（其中的大部分样本的label很接近），就说切分的很好。对应到计算上面，就是找一个让平均不纯度最小的切分方式（decision stump）。
 3. 如何确定分支/切割的不纯度？
