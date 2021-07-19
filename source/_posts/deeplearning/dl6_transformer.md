@@ -27,7 +27,7 @@ categories:
 - encoders的每个block有2层：self-attention和dense，每个block结构相同，但不共享权重。
 - decoders的每个block有3层：self-attention，attention和dense，其中attenton用来关注encoder的输出，
 - attention技术的演进：attention + 基于rnn的seq2seq --> self-attention + lstm --> attention/self attention + dense.
-- 论文通过增加"多头"注意机制强化self-attention layer。 这在两个方面改善了self-attention层的表现:它扩展了模型关注不同位置的能力。单头机制虽然会注意到其他单词，但是注意力还是 很有可能完全被当前自己的状态牵制。多头的话，相当于多审视几遍 这个注意力，减少完全 关注自己 情况发生的可能性。 它给予attention层多个"表示子空间"。 正如我们接下来将看到的，通过多头，我们不仅有一组，而且有多组 query / key / value 权重矩阵(Transformer 使用八个头，因此我们最终为每个encoders / decoders设置了八组)。 这些集合中的每一个都是随机初始化的。训练完后，每组的三个矩阵，用于将embedding输入映射到表征子空间。
+- "多头"注意机制在两个方面改善了self-attention层的表现:它扩展了模型关注不同位置的能力。单头机制虽然会注意到其他单词，但是注意力还是 很有可能完全被当前自己的状态牵制。多头相当于多审视几遍，避免完全关注自己情况。 它给予attention层多个"表示子空间"。多头导致产生了多组 query / key / value 权重矩阵(Transformer 使用八个头，因此我们最终为每个encoder/ decoder设置了八组)。 这些集合中的每一个都是随机初始化的。训练完后，每组的三个矩阵，用于将embedding输入映射到表征子空间。
 
 # 附录
 
@@ -49,7 +49,7 @@ categories:
 1. 每个单头self-attention层有三个参数矩阵，单头的context vector是一个d * m维的矩阵
 ![单头self-attention](./img_6.png)
 2. 多头attention层就有3*l个参数矩阵（l代表头的个数），多头的context vector是一个(dl) *m维的矩阵
-![多头self-attention](./img_7.png)
+  ![多头self-attention](./img_7.png)
    ![img](./transformer_attention_heads_qkv.png)
 3. 类似上面提到的单头self-attention计算，我们现在只是用8个不同的权重矩阵算了8次，并且得到了8个不同的 z 矩阵
 ![img](./transformer_attention_heads_z.png)
@@ -88,7 +88,6 @@ RNN通过hidden state策略，使得它将当前词与上下文（准确来说�
 ![img](./transformer_attention_heads_weight_matrix_o.png)
 2. 这就是multi-headed self-attention的大部分内容。把整个过程放在一个图中描述：
 ![img](./transformer_multi-headed_self-attention-recap.png)
-   
 
 
 
@@ -125,7 +124,7 @@ encoder network is a stack of 6 encoder blocks.
 ## 多头attention
 
 1. 单头attention层，要计算3个向量，先计算q跟每个k的相关性（求内积），然后做softmax变换得到权重得分，对所有的v使用该权重求和，得到decoder的这个词相对encoder的表示，也就是context vector。
-![单头atttion](img.png)
+![单头atttion](./img.png)
 2. decoder中的attention，q来自两部分：下面的decoder的输出和最上面encoder中的Keys矩阵和Values矩阵 。
    ![img_17.png](img_17.png)
    ![img_18.png](img_18.png)

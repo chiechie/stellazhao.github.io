@@ -38,7 +38,7 @@ PCA和Word2vec的区别在于，两者对于何为「最优表达」的定义不
 - PCA认为重构误差最小的表达，就是最好的表达。即经过编码-解码之后,重构回原来空间时丢失尽可能少。
 - word2vec认为如果一个中心词的表达跟上下文表达关联最大，就是最好的表达。即经过编码-解码之后，中心词映射为背景词，或者，背景词映射为中心词。想预测另外一个东西。 其中，前者是（Skip-gram model，SG），后者是连续词袋模型（Continuous Bag-of-Words，CBOW）。
 
-![img.png](img.png)
+![img.png](./img.png)
 
 
 ## how word2vec?
@@ -69,15 +69,15 @@ PCA和Word2vec的区别在于，两者对于何为「最优表达」的定义不
     - 中心词向量：$\boldsymbol{v}_{i} \in \mathbb{R}^{d}$
     - 背景词向量：$\boldsymbol{u}_{i} \in \mathbb{R}^{d}$
 - 模型的输出是条件概率，假设中心词$w_c$在词典中的索引为c，背景词$w_o$在词典中的索引为o，那么给定中心词生成背景词的条件概率为
-    
+  
   $$P\left(w_{o} \mid w_{c}\right)=\frac{\exp \left(\boldsymbol{u}_{o}^{\top} \boldsymbol{v}_{c}\right)}{\sum\limits_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)}$$
 - 假设给定一个长度为 T 的文本序列，设时间步 t 的词为 w(t) 。假设给定中心词的情况下背景词的生成相互独立，当背景窗口大小为 m 时，跳字模型的似然函数即给定任一中心词生成所有背景词的概率
     $$P\left(w_{o} \mid w_{c}\right)=\frac{\exp \left(\boldsymbol{u}_{o}^{\top} \boldsymbol{v}_{c}\right)}{\sum_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)}$$
-这里小于1或大于 T 的时间步可以被忽略。
+    这里小于1或大于 T 的时间步可以被忽略。
 
 
 - 参数估计方法：MLE, 即最大化如下对数似然函数来估计参数，等价于最小化交叉熵（用来计算两个函数或者概率之间的距离）
-    
+  
     $$  \prod\limits_{t=1}^{T} \prod\limits_{-m \leq j \leq m, j \neq 0} P\left(w^{(t+j)} \mid w^{(t)}\right)$$
     等价于最小化如下 损失函数
     $$ -\sum\limits_{i=1}^{T} \sum\limits_{-m \leq j \leq m, j \neq 0} \log P\left(w^{(t+j)} \mid w^{(t)}\right)$$
@@ -86,7 +86,7 @@ PCA和Word2vec的区别在于，两者对于何为「最优表达」的定义不
     
     按照梯度上升的思路，先求损失函数其中一项相对于$v_c$的梯度
     $$\begin{aligned} \frac{\partial \log P\left(w_{o} \mid w_{c}\right)}{\partial \boldsymbol{v}_{c}} &=\boldsymbol{u}_{o}-\frac{\sum_{j \in \mathcal{V}} \exp \left(\boldsymbol{u}_{j}^{\top} \boldsymbol{v}_{c}\right) \boldsymbol{u}_{j}}{\sum_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)} \\ &=\boldsymbol{u}_{o}-\sum_{j \in \mathcal{V}}\left(\frac{\exp \left(\boldsymbol{u}_{j}^{\top} \boldsymbol{v}_{c}\right)}{\sum_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)}\right) \boldsymbol{u}_{j} \\ &=\boldsymbol{u}_{o}-\sum_{j \in \mathcal{V}} P\left(w_{j} \mid w_{c}\right) \boldsymbol{u}_{j} \end{aligned}$$
-    
+
 训练结束后，对于词典中的任一索引为i的词，我们均得到该词作为中心词和背景词的两组词向量 $v_i$ 和 $u_i$ 。在自然语言处理应用中，一般使用跳字模型的中心词向量作为词的表征向量。
 
 #### 使用tensorflow实现一个跳字模型
@@ -171,8 +171,5 @@ $\begin{aligned}-\log P\left(w^{(t+j)} \mid w^{(t)}\right) &=-\log P\left(D=1 \m
 1. https://mk.woa.com/q/267975?strict=true&ADTAG=daily
 2. Distributed Representations of Words and Phrases and their Compositionality, Section 2
 
-
-
-## 参考
 1. [word2vec开源实现](https://github.com/tmikolov/word2vec)
 2. [dive into deep learning](https://zh.d2l.ai/chapter_natural-language-processing/word2vec.html#%E8%BF%9E%E7%BB%AD%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B)
