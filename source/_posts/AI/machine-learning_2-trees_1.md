@@ -1,5 +1,5 @@
 ---
-title: 树模型2 决策树介绍
+title: 树模型1 决策树介绍
 author: chiechie
 mathjax: true
 date: 2021-04-16 20:56:02
@@ -8,7 +8,7 @@ tags:
 - 树模型
 - 决策树
 categories:
-- 树模型
+- 机器学习
 ---
 
 
@@ -46,16 +46,16 @@ categories:
 
 ## 基本概念
 
-- 信息增益: 衡量切分前后，样本的秩序的提升or混乱程度的下降。
+- 信息增益: 衡量切分前后，样本纯度的提升or混乱度的下降。
 
 ```python
 IG = information before splitting (parent) — information after splitting (children)
 ```
-- 具体的，有两个衡量混乱程度的指标：Entropy 和 Gini Impurity
-    - **gini index**: $$I_{G}=1-\sum_{j=1}^{c} p_{j}^{2}$$
+- 具体的，有两个衡量纯度/混乱度的指标：Entropy 和 Gini Impurity
+    - 基尼系数（**gini index**）: $$I_{G}=1-\sum_{j=1}^{c} p_{j}^{2}$$
         - $p_j$: 落入该节点的样本中，第j类样本的占比
         - 如果所有样本都属于某一类c，gini系数最小，为0。
-    - entropy（熵）：$$I_{H}=-\sum_{j=1}^{c} p_{j} \log _{2}\left(p_{j}\right)$$
+    - 熵（entropy）：$$I_{H}=-\sum_{j=1}^{c} p_{j} \log _{2}\left(p_{j}\right)$$
         - $p_j$: 落入该节点的样本中，第j类样本的占比
         - 如果所有样本都属于某一类c，熵最小，为0。
 
@@ -125,11 +125,22 @@ classification tree切分节点时，参考信息增益，其他流程和构建�
 
 # 参考
 1. [决策树算法-linxuantian](https://www.youtube.com/watch?v=s9Um2O7N7YM)
-1. [决策树-linxuantian](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/209_present.pdf)
-1. [An Introduction to Statistical Learning](https://static1.squarespace.com/static/5ff2adbe3fe4fe33db902812/t/6062a083acbfe82c7195b27d/1617076404560/ISLR%2BSeventh%2BPrinting.pdf)
-2. [Why-is-entropy-used-instead-of-the-Gini-index](https://www.quora.com/Why-is-entropy-used-instead-of-the-Gini-index)
-1. [github-id3的实现1](https://github.com/dozercodes/DecisionTree)
-2. [github-id3的实现2](https://github.com/SebastianMantey/Decision-Tree-from-Scratch/blob/master/notebooks/decision_tree_functions.py)
-3. [wiki-Information_gain_in_decision_trees](https://en.wikipedia.org/wiki/Information_gain_in_decision_trees)
-4. [sklearn-decisiontree](https://scikit-learn.org/stable/auto_examples/tree/plot_unveil_tree_structure.html#sphx-glr-auto-examples-tree-plot-unveil-tree-structure-py)
-5. [quora-ID3-C4-5-and-CART的区别？](https://www.quora.com/What-are-the-differences-between-ID3-C4-5-and-CART)
+
+2. [决策树-linxuantian](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/209_present.pdf)
+
+3. [An Introduction to Statistical Learning](https://static1.squarespace.com/static/5ff2adbe3fe4fe33db902812/t/6062a083acbfe82c7195b27d/1617076404560/ISLR%2BSeventh%2BPrinting.pdf)
+
+4. [Why-is-entropy-used-instead-of-the-Gini-index](https://www.quora.com/Why-is-entropy-used-instead-of-the-Gini-index)
+
+5. [github-id3的实现1](https://github.com/dozercodes/DecisionTree)
+
+6. [github-id3的实现2](https://github.com/SebastianMantey/Decision-Tree-from-Scratch/blob/master/notebooks/decision_tree_functions.py)
+
+7. [wiki-Information_gain_in_decision_trees](https://en.wikipedia.org/wiki/Information_gain_in_decision_trees)
+
+8. [sklearn-decisiontree](https://scikit-learn.org/stable/auto_examples/tree/plot_unveil_tree_structure.html#sphx-glr-auto-examples-tree-plot-unveil-tree-structure-py)
+
+9. [quora-ID3-C4-5-and-CART的区别？](https://www.quora.com/What-are-the-differences-between-ID3-C4-5-and-CART)
+
+1. [youtube-gbdt](https://www.youtube.com/watch?v=2xudPOBz-vs)
+2. [xgboost]( https://arxiv.org/pdf/1603.02754.pdf)

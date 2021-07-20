@@ -1,5 +1,5 @@
 ---
-title: 树模型3 RandomForest，Adaboost和GBDT
+title: 树模型2 RandomForest，Adaboost和GBDT
 author: chiechie
 mathjax: true
 date: 2021-04-17 10:39:45
@@ -16,20 +16,21 @@ categories:
 
 
 ## 何为bagging和boosting？
+
 1. Bagging是一种数据采样的方法，Blending是一种模型混合的方法.
 2. Blending的方法有几个：投票/线性blending/stacking。
     - 如果每个base estimator一样重要，就对他们采用uniform的aggregation方式。
     - 如果有的base estimator特别重要，可以将estimator当成特征转换器使用，然后将不同estimator的输出做一个线性映射，得到最终的结果，这个也叫线性blending。
     - 如果想让这个aggregation更加复杂，也就是说，想要这个模型实现，在不同的condition下，不同的estimator发挥的重要性不一样，这个时候就要基于不同estimator的输出构建一个非线性映射。这个也叫stacking
-3. 投票追求的是公平稳定，其他两种追求高效。
+    3. 投票追求的是公平稳定，其他两种追求高效。
 4. 也可以一边构建base estimator，一边决定模型blending的方法。
     - uniform aggregation的代表是Bagging Tree/随机森林
     - AdaBoost通过改变样本权重的方式得到不一样的base estimator，一边根据他们的表现决定给每个estimator多少票。
     - 在不同条件下找到最优的base estimator的代表算法是决策树，回想一下，在决策树里面，不同的路径使用的是不同的叶子（在决策树的场景中，一个叶子就是一个base estimator）。
     - gradient boost是一种线性blending的方法，只不过，构建新的base estimator时，不是像AdaBoost那样重新对样本赋予权重，而是，直接去最小化残差，然后根据学到的结果，赋予当前base estimator一个权重。
-    - boosting-like的算法最受到欢迎，即aAdaBoost和GradientBoost
+    - boosting-like的算法最受到欢迎，即aAdaBoost和GradientBoost，还有xgboost和catboost
     
-   ![img_2.png](img_2.png)
+   ![img_2.png](./img_2.png)
 5. 为什么对模型做aggregation之后，效果变好了？相当于对特征做了非线性变换，整体表达能力更强；多个estimator求共识，相当于做了正则化，模型效果更稳定。
 6. 不同的blending方法中，有的方法解决overfitting，有的适合解决underfitting。
 7. boosting是多个base estimtor进行aggregate的一种方法，并且每个estimator都有一个自己的权重，GBDT和AdaBoosting要解决的就是一个问题。
@@ -40,13 +41,19 @@ categories:
 
 ### 随机森林
 
-1. Bagging是什么？通过bootstrap的方式抽样得到多分样本。Bagging的特点是，可以降低整体的模型预测的不稳定性，通过让多个base estimator投票或者取均值的方式。
-2. decision tree非常不稳定，训练数据稍微有一点变化，分支条件就会改变，从而整个树都长得不一样了。
-3. Bagging + decision tree综合起来构建随机森林。
+1. bootstrap是什么？是一种抽样的方法，通过多次有放回的抽样，得到多份独立的样本集，获得统计量。
+2. Bagging是什么？通过bootstrap的方式抽样得到多份样本。Bagging的特点是，可以降低整体的模型预测的不稳定性，通过让多个base estimator投票或者取均值的方式。
+3. decision tree非常不稳定，训练数据稍微有一点变化，分支条件就会改变，从而整个树都长得不一样了。
+4. bagging trees 是什么？针对单个决策树方差过大的问题，bagging trees 利用bootstrap，提取B份独立的样本集，分别估计出预测值$\hat{f}^{1}(x), \hat{f}^{2}(x), \ldots, \hat{f}^{B}(x)$ ，然后将结果取平均，就可以得到一个方差更小的预测模型，通过多次实验获得多个regression tree或者classification tree，对每一个input，会产生多个输出，regression tree的输出是K个树的输出取average。classification tree是采用投票的方法，大多数相同的那一类就是输出的那一类 。
+5. Bagging + decision tree综合起来构建随机森林。
     ![img_1.png](img_1.png)
-4. Bagging的部分可以并行化，从而可以更加有效地处理更大的训练数据。
-5. 构建base estimator时，除了对样本采样，还可以对特征采样，随机森林的原始论文作者建议，在构建cart的每个分支条件时，都随机采样一个特征子空间，在这个子空间中找一个最优的分割点。
-6. rf的作者还建议，可个对特征作随机组合，即构建投影矩阵，将原始的训练数据映射到一个低维的特征空间。
+6. Bagging的部分可以并行化，从而可以更加有效地处理更大的训练数据。
+7. 构建base estimator时，除了对样本采样，还可以对特征采样，随机森林的原始论文作者建议，在构建cart的每个分支条件时，都随机采样一个特征子空间，在这个子空间中找一个最优的分割点。
+8. 随机森林论文的作者还建议，可个对特征作随机组合，即构建投影矩阵，将原始的训练数据映射到一个低维的特征空间。
+
+3. random forest是bagging tree的加强版本，因为他考虑到了tree之间的de correlates，使得组合后结果的variance更小。构造树过程如下：consider 每一个split的时候，会从p个predictors中**随机**的挑$m = \sqrt p$）个作为split candidate，
+
+4. boosting跟bagging tree不一样的地方在于，trees are grown sequentially: each tree is grown using information from previously grown trees. Boosting不涉及每个bootstrap采样。
 
 
 
@@ -54,7 +61,11 @@ categories:
 
 ![adaboost](./img.png)
 
-AdaBoost通过改变样本权重的方式得到不一样的base estimator，一边根据他们的表现决定给每个estimator多少票。boosting中有三个重要的参数：
+1. AdaBoost通过改变样本权重的方式得到不一样的base estimator，一边根据他们的表现决定给每个estimator多少票。
+
+2. adaboosting的思路是，先训练出一个base estimator，根据预测结果的准确率，对样本的权重进行调整，预测不准的样本调高权重，预测准的样本调低权重，然后让下一个base estimmtor来学习。这样，原来base estimator搞不定的样本，在后续的学习中，得到更多的关注，最终的预测模型，是所有base estimator预测结果的线性组合，权重表示对应base estimator的预测准确率。
+
+
 
 
 ### GBDT 

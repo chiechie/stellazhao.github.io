@@ -7,7 +7,7 @@ tags:
 - 人工智能
 - 树模型
 categories:
-- 树模型
+- 机器学习
 ---
 
 ## xgboost
