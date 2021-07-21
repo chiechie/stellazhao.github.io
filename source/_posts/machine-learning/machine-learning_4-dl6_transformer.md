@@ -1,5 +1,5 @@
 ---
-title:机器学习4.6 深度学习6 Transformer
+title: 机器学习4.6 深度学习6 Transformer
 author: chiechie
 mathjax: true
 date: 2021-03-13 00:04:13
@@ -10,7 +10,7 @@ tags:
 - Transformer
 - Bert
 - attention
-categories:
+categories: 
 - 机器学习
 ---
 
@@ -27,7 +27,7 @@ categories:
 - encoders的每个block有2层：self-attention和dense，每个block结构相同，但不共享权重。
 - decoders的每个block有3层：self-attention，attention和dense，其中attenton用来关注encoder的输出，
 - attention技术的演进：attention + 基于rnn的seq2seq --> self-attention + lstm --> attention/self attention + dense.
-- "多头"注意机制在两个方面改善了self-attention层的表现:它扩展了模型关注不同位置的能力。单头机制虽然会注意到其他单词，但是注意力还是 很有可能完全被当前自己的状态牵制。多头相当于多审视几遍，避免完全关注自己情况。 它给予attention层多个"表示子空间"。多头导致产生了多组 query / key / value 权重矩阵(Transformer 使用八个头，因此我们最终为每个encoder/ decoder设置了八组)。 这些集合中的每一个都是随机初始化的。训练完后，每组的三个矩阵，用于将embedding输入映射到表征子空间。
+- "多头"注意机制扩展了模型关注不同位置的能力, 给予attention层多个"表示子空间", 每个头有自己的一组query / key / value 权重矩阵，当于审视多次上下文，
 
 # 附录
 
