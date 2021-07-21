@@ -1,5 +1,5 @@
 ---
-title: 深度学习6 word2vec
+title:  机器学习3 深度学习6 word2vec
 author: chiechie
 mathjax: true
 date: 2021-03-12 22:23:20
@@ -8,7 +8,7 @@ tags:
 - word2vec
 - 人工智能
 categories:
-- 深度学习
+- 机器学习
 ---
 
 > 词嵌入（word embedding）是指把一个词映射为一个实数域的向量，这个向量也叫词向量。

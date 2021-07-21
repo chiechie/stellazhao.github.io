@@ -8,7 +8,7 @@ tags:
 - 深度学习
 - backtesting
 categories: 
-- 深度学习
+- 机器学习
 ---
 
 ## 非监督学习

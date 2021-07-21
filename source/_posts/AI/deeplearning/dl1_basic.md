@@ -1,5 +1,5 @@
 ---
-title: 深度学习基础1 数据表示和神经网络基础
+title: 机器学习3 深度学习基础1 数据表示和神经网络基础
 author: chiechie
 mathjax: true
 date: 2021-03-07 16:35:36
@@ -8,7 +8,7 @@ tags:
 - low level
 - 最佳实践
 categories: 
-- 深度学习
+- 机器学习
 ---
 
 
@@ -167,14 +167,6 @@ tensorflow中的损失函数:
    - rmsprop：带动量的sgd和ada的结合
    - ada delta：在rmsprop基础行，进一步对步长调整
    - adam：
-
-
-
-
-
-
-
-
 
 
 # 参考资料

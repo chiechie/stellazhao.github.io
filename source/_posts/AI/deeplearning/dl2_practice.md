@@ -1,5 +1,5 @@
 ---
-title:  深度学习基础2 神经网络训练的一些小tricks
+title: 机器学习3 深度学习基础2 神经网络训练的一些小tricks
 author: chiechie
 mathjax: true
 date: 2021-03-08 10:17:31
@@ -8,7 +8,7 @@ tags:
 - low level
 - 最佳实践
 categories: 
-- 深度学习
+- 机器学习
 ---
 
 

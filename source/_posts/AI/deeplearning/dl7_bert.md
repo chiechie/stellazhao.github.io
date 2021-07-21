@@ -1,5 +1,5 @@
 ---
-title: 深度学习7 Bert
+title:  机器学习3 深度学习7 Bert
 author: chiechie
 mathjax: true
 date: 2021-03-14 11:50:30
@@ -11,7 +11,7 @@ tags:
 - Bert
 - attention
 categories:
-- 深度学习
+- 机器学习
 ---
 
 为什么有了word2vec还不够？还需要bert干嘛？因为一词多义，同样的词在不同的上下文中表达的意思不一样，而word2vec的表示是静态的。

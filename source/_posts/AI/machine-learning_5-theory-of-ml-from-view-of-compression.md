@@ -1,5 +1,5 @@
 ---
-title: 深度学习9 深度学习理论的统一框架-基于压缩视角
+title: 机器学习4 机器学习理论的统一框架-基于压缩视角
 author: chiechie
 mathjax: true
 date: 2021-03-16 18:39:48
@@ -19,14 +19,11 @@ categories:
 
 ## summary
 
-
-
 1. Ideal Intelligence或者AGI是什么？就是在做信号压缩，即从大量数据中找到所有的模式。
 
 2. 数据压缩就是describe the large amout of data in a more compact way
 3. finding all patterns = short description of raw data（low kolmogorov complexity）
 
-   
 
 
 ## 学术界的进展
