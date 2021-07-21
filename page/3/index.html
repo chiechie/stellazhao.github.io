@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/09/data_structure/ds1-linear-data-structure/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/10/svd-and-coding/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/07/09/data_structure/ds1-linear-data-structure/" class="post-title-link" itemprop="url">数据结构1 线性数据结构</a>
+            <a href="/2021/07/10/svd-and-coding/" class="post-title-link" itemprop="url">SVD和compression</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-07-09 12:13:11" itemprop="dateCreated datePublished" datetime="2021-07-09T12:13:11+08:00">2021-07-09</time>
+              <time title="创建时间：2021-07-10 11:40:31" itemprop="dateCreated datePublished" datetime="2021-07-10T11:40:31+08:00">2021-07-10</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-12 10:50:05" itemprop="dateModified" datetime="2021-07-12T10:50:05+08:00">2021-07-12</time>
+                <time title="修改时间：2021-07-12 12:10:47" itemprop="dateModified" datetime="2021-07-12T12:10:47+08:00">2021-07-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
                 </span>
             </span>
 
@@ -219,100 +219,32 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="总结">总结</h1>
-<ol type="1">
-<li>数组（array），链表（linked list），栈（stack），队列（queue）是最常用的线性的数据结构。</li>
-<li>数组是一片连续的存储空间中，链表在物理空间中不是连续地存在一起的。</li>
-</ol>
-<h1 id="通用的数据结构">通用的数据结构</h1>
-<h2 id="数组array">数组(array)</h2>
-<ol type="1">
-<li><p>数组是一个很基本的数据结构，使用数组和pointer可以构建出所有的数据结构</p></li>
-<li><p>数组分为静态数组（static array）和动态数组（dynamic array）两种.静态数组大小固定，动态数组可以扩展。</p>
-<blockquote>
-<p>wangshusen的视频里面分别叫array和向量vector，下面还是以动/静为标准。</p>
-</blockquote></li>
-<li><p>静态数组(static array)是一个固定长度的容器（container），包含了n个元素，每个元素有一个索引，索引值从[0,n-1]</p></li>
-<li><p>动态数组（dynamic array）的大小可以增加或者减少。</p></li>
-<li><p>indexable是什么意思？数组中的每一个槽位(slot)/索引(index)，都能关联到（be referenced with）一个数字。索引就好像给每个元素取的名字，是一个阿拉伯数字。</p></li>
-<li><p>静态数组是存储在内存中的一片连续的区域。</p></li>
-<li><p>什么时候使用静态数组：</p>
-<ul>
-<li>依次（sequentially）存储元素/读取（accessing）元素</li>
-<li>在读入/输出流式数据的时候，一次性读入数据量太大，所以分chunk读入数据，并且用buffer去读取每个chunk的数据，buffer就是用array实现的</li>
-<li>在lookuptable中，也会用到数组，因为可以按照index读取数据</li>
-<li>如果某个函数只允许返回1个，但是有多个信息需要返回，可以使用array构造一个workaround，将多个信息打包成一个array，然后返回这个array的指针或者reference</li>
-<li>动态规划：用于缓存子问题的answer，例如背包问题（knapsack problem）和 应变变换问题。</li>
-</ul></li>
-<li><p>静态数组和动态数组的时间复杂度</p>
-<ul>
-<li>读取的时间复杂度: 都是O(1)，因为数组是indexable的</li>
-<li>查找的时间复杂度：都是O（n），有可能查找的值找不到</li>
-<li>插入某个元素的时间复杂度：静态数组不允许插入（记住，他是一个长度固定的容器），动态数组插入的时间复杂度是O（n）- 添加的时间复杂度：</li>
-<li>删除：</li>
-</ul></li>
-<li><p>获取静态数组中元素的唯一方式，就是通过index去reference（数组的成员只对外暴露他们的index编号）。</p></li>
-<li><p>operations on 动态数组：静态数组上能做的操作，动态数组都能做，还能做的更多，比如增，删。</p></li>
-<li><p>怎么实现一个动态数组？</p>
-<ul>
-<li>方法1--使用静态数组实现：
-<ul>
-<li>初始化：创建一个静态数组，有一个初始容量，此后一遍增加元素一遍跟踪容器中元素的个数。</li>
-<li>添加新元素时，如果容器没满，直接加入； 如果容器满了，自动扩容--创建一个新的静态数组，大小为当前容量的2倍，将老的静态数组的元素复制到新的静态数组中，然后加入该元素。</li>
-</ul></li>
-</ul></li>
-</ol>
-<h2 id="链表linked-list">链表(linked list)</h2>
-<ol type="1">
-<li>链表上相邻的元素在物理存储上并不是相邻的，每个元素的物理未知只存在于他的上下游节点中。</li>
-<li>链表分为单链表（singly linked lists）和双链表(doubly linked lists）。</li>
-<li>按顺序查找链表也很快。</li>
-<li>链表是一种数组的组织形式，将数据组织成一个有序的一系列节点（nodes）的形式，每个节点（node）代表一个数据，每个节点都指向其他代表数据的节点。</li>
-<li>下面是一个单链表（singly linked），每个节点都包含一个数据，同时包含一个指针，指向他的邻居节点。最后一个节点的指针是空的。</li>
-</ol>
-<p><img src="img.png" alt="img.png" /> 6. 在哪里会用到链表？ - 需要实现某个抽象数据类型时会用到链表，比如要实现列表（lists），队列（Queue）和 栈（Stack），因为这些抽象数据类型需要频繁操作adding和remocving，而这两个操作对于链表来说是相当拿手的。 - 链表很容易对现实事物建模，如火车 - 创建循环列表时很有用，可以让链表的最后一个节点的指针指向第一个节点，训练列表对于建模重复事件循环很有用， - 实现哈希表通常使用链表处理冲突的问题。 7. 链表的几个关键元素： - head：指向链表的第一个节点的pointer， - tail：指向表示链表的最后一个节点的pointer， - pointer表示邻居节点的指针， - node：表示一个包含数据和指针的对象。在实现时，每个节点也可以被表示为structures，或者classes 8. 单链表和双链表的区别，单链表的每个节点只存储下一个邻居的pointer，双向链表的每个节点存储两个指针，分别是上一个邻居节点和下一个邻居节点。前者占用的内存是后者的1/2，缺点是不知道当前节点的前一个节点是什么，要找的话，只能从head开始遍历。如果要删除某个元素，双链表的时间复杂度是常数，单链表是线性的，因为他要重新遍历以找到上家，然后修改它的指针。 <img src="img_1.png" alt="单链表vs双链表-优缺点对比" /> 9. 链表中，同时存链表的第一个节点和最后一个节点，是为了更快速的添加和删除元素。 10. 链表中的复杂度分析： - 搜索某个值在链表中的位置：单链表和双链表的复杂度是O(n) - 在链表头部/尾部插入某个元素：单链表和双链表的复杂度是O(1) - 删除头部的元素：单链表和双链表的复杂度是O(1) - 删除尾部的元素：单链表的复杂度O(n)，双链表的复杂度是O(1) - 删除中间元素：单链表的时间复杂度为复杂度O(n)，双链表的复杂度是O(n)</p>
-<h2 id="栈stack">栈（stack）</h2>
-<ol type="1">
-<li><p>栈是一种线性的数据结构，栈的一端是固定的，跟现实世界中的stack一样，stack有两个主要的操作：入栈（push）和出栈（pop）。</p></li>
-<li><p>栈中有一个top指针指向栈的顶端。以为对栈的操作主要是集中在顶端。</p></li>
-<li><p>数据出栈（pop）和入栈（push）符合后进先出的顺序，也叫LIFO/</p>
+          <blockquote>
+<p>大矩阵怎么存？最简单的方式就是矩阵分块, 然后分chunk存/读/算，下一个chunk覆盖上一个chunk，始终占用一个chunk的内存。</p>
+<p>如果还想去噪，可以用svd，下面推演一下用svd可以节省多少空间</p>
+</blockquote>
+<p>SVD技术可以应用于信号压缩</p>
+<p>SVD是这样的, 随意一个矩阵A可以做如下分解</p>
+<p><span class="math display">\[A = U\Lambda V^T\]</span>==&gt;<span class="math display">\[U^T A = \Lambda V^T  \]</span></p>
+<p>可以把<span class="math inline">\(U^T\)</span>看成是encoding, <span class="math inline">\(U\)</span>看成是decoding, 压缩之后的信号是<span class="math inline">\(\Lambda V^T\)</span></p>
 <figure>
-<img src="/Users/shihuanzhao/research_space/chiechie.github.io/source/_posts/data_structure/image-20210711073942878.png" alt="image-20210711073942878" /><figcaption aria-hidden="true">image-20210711073942878</figcaption>
-</figure></li>
-<li><p>可以使用数组或者链表来实现一个栈。</p></li>
-<li><p>什么时候用到栈：括号匹配/撤销操作/汉诺塔/图遍历中的深度优先搜索。（DFS）</p></li>
-</ol>
-<h2 id="队列">队列</h2>
-<ol type="1">
-<li><p>队列是一个线性的数据结构，有两个主要的操作，入队（enqueue/adding/offering）和出队（dequeue/polling）。入队就是添加数据到队尾添，出队就是删除队头的数据。</p></li>
-<li><p>数据入队和出队，符合后进后出的顺序。（LILO）</p>
-<figure>
-<img src="/Users/shihuanzhao/research_space/chiechie.github.io/source/_posts/data_structure/image-20210711085139955.png" alt="image-20210711085139955" /><figcaption aria-hidden="true">image-20210711085139955</figcaption>
-</figure></li>
-<li><p>queue可以用于对排队场景建模；跟踪最新添加的k个数据；web server请求管理--谁先来就服务谁/图遍历中的广度优先搜索（BFS）。</p></li>
-<li><p>可以用链表来实现队列。</p></li>
-<li><p>使用队列实现BFS。 <img src="./image-20210711091627179.png" alt="image-20210711091627179" /></p></li>
-</ol>
-<h1 id="python中的数据结构">python中的数据结构</h1>
-<ol type="1">
-<li><p>在python中，list就是一个动态的数组，append有时候效率很低。</p></li>
-<li><p>在python中，collections.deque是一个double-ended queue，两端固定的队列，基于双向链表实现的插入效率更高一些。但是按照序号查找某个元素，效率不高。</p></li>
-<li><p>在python中怎么实现一个栈？</p>
-<ol type="1">
-<li>使用python内置的对象list，其自带的append和pop方法可以实现push和pop</li>
-<li>使用collections.deque，其自带的append和pop方法可以实现push和pop</li>
-</ol></li>
-</ol>
-<h1 id="参考">参考</h1>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://github.com/akzare/Algorithms">algorithm-python-github</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gXgEDyodOJU">youtube</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=V_TulH374hw">Graph-theoretic Models</a></li>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/13965757/what-is-the-difference-between-an-abstract-data-typeadt-and-a-data-structure">the difference-between-ADT和DS</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.csie.ntu.edu.tw/~htlin/course/dsa21spring/">数据结构和算法</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=RBSGKlAvoiM&amp;t=102s">Data Structures Easy to Advanced Course</a></li>
-<li>https://realpython.com/how-to-implement-python-stack/#implementing-a-python-stack</li>
-</ol>
+<img src="./奇异值分解.png" alt="奇异值分解" /><figcaption aria-hidden="true">奇异值分解</figcaption>
+</figure>
+<p>detail</p>
+<p>假设<span class="math inline">\(A \in R^{n*m}, U\in R^{n*n}, \Lambda \in R^{n*m}, V \in R^{m*m}\)</span></p>
+<p><span class="math inline">\(\Lambda\)</span>中的元素从大到小排列，前面k个元素绝对值大于0</p>
+<p>对三个矩阵分块，图中的阴影部分是我们要存储的部分</p>
+<p><span class="math display">\[\Lambda = [\Lambda_k, \mathbf{0_{m-k}}], \Lambda_k \in R^{n * k}, \Lambda_{(m-k)} \in R^{n * (m-k)}\]</span></p>
+<p><span class="math display">\[V = [ \mathbf{v_k},  \mathbf{v_{m-k}}],  \mathbf{v_k} \in R^{m*k},  \mathbf{v_k} \in R^{m*(m-k)} \]</span></p>
+<p><span class="math display">\[\Lambda V^T = [\Lambda_k, \mathbf{0_{m-k}}].[v_k, v_{m-k}]^T = \Lambda_k.v_k^T \]</span></p>
+<p>经过U做encoding之后的信息仅有 <span class="math inline">\(\Lambda_k\)</span>和<span class="math inline">\(v_k\)</span></p>
+<p>其中<span class="math inline">\(\Lambda_k\)</span>可以存为稀疏矩阵，含k个非零元素</p>
+<p><span class="math inline">\(v_k \in R^{m*k}\)</span>占用空间m*k</p>
+<p>U做类似的分解占用空间n*k</p>
+<p>一起需要存储的元素个数为<span class="math inline">\(k + m*k + n*k\)</span></p>
+<p>不做encoding的话，需要存储m * n 个元素</p>
+<p>总结一下:用了压缩算法之后，空间复杂度从O(n*m)降低到O(m)或O(n)</p>
+<p>当m,n很大，又很容冗余信息（k很小），svd分解能大量降低矩阵存储空间</p>
 
       
     </div>
@@ -332,7 +264,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/08/data_structure/ds0_summary/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/09/AI/deeplearning/dl10_lvm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -346,7 +278,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/07/08/data_structure/ds0_summary/" class="post-title-link" itemprop="url">数据结构0 总览</a>
+            <a href="/2021/07/09/AI/deeplearning/dl10_lvm/" class="post-title-link" itemprop="url">深度学习10 非监督学习</a>
         </h2>
 
         <div class="post-meta">
@@ -356,14 +288,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-07-08 09:17:29" itemprop="dateCreated datePublished" datetime="2021-07-08T09:17:29+08:00">2021-07-08</time>
+              <time title="创建时间：2021-07-09 18:20:08" itemprop="dateCreated datePublished" datetime="2021-07-09T18:20:08+08:00">2021-07-09</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 13:37:50" itemprop="dateModified" datetime="2021-07-09T13:37:50+08:00">2021-07-09</time>
+                <time title="修改时间：2021-07-12 08:27:44" itemprop="dateModified" datetime="2021-07-12T08:27:44+08:00">2021-07-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -371,7 +303,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+                  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
                 </span>
             </span>
 
@@ -386,78 +318,169 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>数据结构是在计算机中存储数据的方法</p>
-<p>一般情况下，精心挑选的数据结构能产生有效的算法</p>
-</blockquote>
-<h2 id="why-数据结构">why 数据结构？</h2>
+          <h2 id="非监督学习">非监督学习</h2>
 <ol type="1">
-<li>数据结构是对数据的一种组织形式，以方便后续数据被高效地使用。</li>
-<li>数据结构是创建快速高效算法的必要ingredeints，数据结构可以帮助管理和组织数据；让代码看起来更干净。</li>
-<li>数据结构/抽象数据类/程序的关系就好像，使用乐高搭建一个建筑，层层抽象。</li>
-</ol>
-<h3 id="抽象数据类型和数据结构">抽象数据类型和数据结构</h3>
-<ol start="2" type="1">
-<li>抽象数据类型(Abstract Data Type, ADT)是对数据结构的一个抽象，它只提供接口（interface），数据结构必须遵循该接口（interface），但是这个接口不涉及任何关于实施或者编程语言相关的细节。</li>
-<li>抽象数据类型的数据结构的关系，举个例子，从一个地方A到另一个地方B有很多种方法，可以骑自行车或者走路或者坐火车，前者是抽象数据类型，后者是该抽象数据类型对应的具体的数据结构。</li>
-<li>一个抽象数据类型之定义了数据结构应该实现什么功能，应该有哪些方法，至于方法的实现细节抽象数据类型是不管的。</li>
-<li>举几个抽象数据类型和数据结构的例子
-<ul>
-<li>抽象数据类型列表（list）可以使用动态数组或者链表实现，这两个数据结构都能实现add，removing，indexing元素。</li>
-<li>抽象数据类型队列（Queue）可以使用Linked list based Queue/Array based Queue/Stack based Queue。</li>
-<li>抽象数据类型（Map）可以使用Tree Map/Hash Map/Hash Table实现</li>
-</ul></li>
-<li>ADT is a logical description and data structure is concrete.</li>
-<li>ADT is the logical picture of the data and the operations to manipulate the component elements of the data.</li>
-<li>Data structure is the actual representation of the data during the implementation and the algorithms to manipulate the data elements.</li>
-<li>ADT is in the logical level and data structure is in the implementation level.</li>
-</ol>
-<h3 id="计算复杂度分析">计算复杂度分析</h3>
+<li><p>非监督学习是指，从原始数据中学习rich模式，以一种label free的方式。</p></li>
+<li><p>非监督学习又分为两类：生成模型和自监督学习。</p></li>
+<li><p>生成模型指的是, 学习原始数据的分布，例如基于高斯分布的异常检测</p></li>
+<li><p>自监督学习指的是, 学到关于原始输入的一些reprentation，可以做到语意理解，可能在未来的有一些任务中会有用，有点像做题训练（puzzle）。例如， Bert训练需要解决两个puzzle：遮挡词预测；下一个句子预测。再例如，对图像翻转90度/180度，喂给neural network，让nn来预测对应的操作（90/180），这个似乎在监督学习中用的很多</p></li>
+<li><p>非监督学习有哪些应用？</p>
 <ol type="1">
-<li><p>为了分析我们的数据结构的性能：执行该算法需要花费多少时间和占用多少内存？</p></li>
-<li><p>O(*)表示在worst case的情况下，一个算法复杂度上界是多少，当输入数据变得很大的时候，有助于评估性能, 一般来说有这么几种时间复杂度:</p>
-<ul>
-<li>常数时间: O(1)</li>
-<li>对数时间： O(log(n))</li>
-<li>线性时间： O(n)</li>
-<li>linearithmix时间: O(nlog(n))</li>
-<li>二次时间： O(n^2)</li>
-<li>三次时间: O(n^3)</li>
-<li>指数时间：O（b^n）</li>
-<li>因子时间: O(n!)</li>
-</ul>
-<p>n表示输入的大小复杂度从低到高。</p></li>
-<li><p>因为O（*）只关注当数据变得足够大的时候，算法的表现，所以算法的实际运行时间中的常数项，低阶项都可以省掉，系数都可以扔掉哦。 <span class="math inline">\(O(n + c) = O(n)\)</span> <span class="math inline">\(O(cn ) = O(n)\)</span> <span class="math inline">\(O(n^2 +2*n) = O(n^2)\)</span></p></li>
-<li><p>二分查找是用在一个有序数组上的查找算法，时间复杂度是对数</p></li>
-<li><p>找一个集合的所有子集-时间复杂度是指数O(2^n)</p></li>
-<li><p>找一个字符串的所有排列O(n!)</p></li>
-<li><p>使用合并排序算法来排序，时间复杂度是 O(nlogn)</p></li>
-</ol>
-<h2 id="数据结构有哪几种">数据结构有哪几种？</h2>
-<ol type="1">
-<li><p>数据结构分为线性数据结构和非线性数据结构</p></li>
-<li><p>线性数据结构包括数组（array），链表（linked list），栈（stack），队列（queue） <img src="b3728c27302a8548fe9e8a87e619ca83.png" alt="线性数据结构" /></p></li>
-<li><p>非线性数据结构包括树和图,树可以认为是有向图的special case <img src="e6d5a8d9a75587abe612dfef9abffc01.png" alt="非线性数据结构" /></p></li>
-<li><p>图分有向图和无向图 <img src="18c651092d22c7204021d10a5a79b0ff.png" alt="有向图vs无向图" /></p></li>
-<li><p>无向图的一个实例是fb的社交网络，边表示好友关系。 <img src="f3fc896014d62fb1ec1c96c93210f7ff.png" alt="社交网络" /></p></li>
-<li><p>基于社交网络这个数据结构有什么应用呢？好友推荐, 推荐朋友的朋友,网络社会科学的小世界</p>
+<li><p>生成正常数据，比如生成回测中的合成数据</p></li>
+<li><p>条件的合成技术,包括WaveNet和GAN-pix2pix，比如talktotranfomer.com</p></li>
+<li><p>数据压缩</p></li>
+<li><p>【最重要】在监督学习之前做自监督学习可以提升下游任务的准确率。</p>
 <blockquote>
-<p>小世界网络的重要性质：“流行病学”、“合作”、“知识”</p>
+<p>这个技术在工业界已经有应用了：谷歌搜索是由bert支持的</p>
 </blockquote></li>
-<li><p>有向图的一个实例是万维网： <img src="b9b97250ce6e998045dcbb0d5b379724.png" alt="www" /></p></li>
-<li><p>图还可以分有权图和无权图。无权图可认为是权图的special case，权重都为1。</p></li>
-<li><p>有权图的一个实例是高速公路网,边代表距离 <img src="5b81b50b2d2b048ed3188b71af85a02f.png" alt="公路网" /></p></li>
-<li><p>树的一个实例是家谱，树种，任意一对节点，有且只有一条通路（不存在loop嘛）</p></li>
-<li><p>因果图是一个有向有权图。</p></li>
+</ol></li>
+<li><p>What is true now,but not true ayear before?</p>
+<blockquote>
+<p>以前自监督的预训练比监督模型在检测和识别中效果更差，现在效果赶超有监督了</p>
+</blockquote></li>
+<li><p>目前已经成熟的技术：语言生成模型（GPT3），图像生成模型（VIT），预训练的语言模型（Bert），预训练的图像模型。</p></li>
+<li><p>目前还没有研究成熟的方向：自回归密度模型（AgressiveRgression Density Modelings），Flows，VAE，UnsupervisedLearning for RL。</p></li>
+</ol>
+<h2 id="生成模型0-summary">生成模型0-summary</h2>
+<ol type="1">
+<li><p>简单的生成模型比如直方图/高斯分布。复杂的生成模型比如自回归模型（Autoregressive Models）</p></li>
+<li><p>自回归模型的技术关键词有参数化分布（Parameterized distributions） 和最大似然（maximum likelihood）。</p></li>
+<li><p>常见的两个自回归模型有循环神经网络（Recurrent Neural Nets）和遮挡模型（Masking-based Models）</p></li>
+<li><p>基于likelihood的模型要解决的任务是什么？</p></li>
+<li><p>生成数据：合成的图像，合成的语音，合成的文本，合成的视频</p></li>
+<li><p>数据压缩：对原始文件高效编码，原始数据的entropy越大，压缩比例就越低，怎么知道当前数据的entropy有多大从而使用合适的压缩比例呢？需要去学习一个模型，这个模型可以输出当前数据的信息含量。</p></li>
+<li><p>异常检测：比如在自动驾驶的场景中，如果遇到了一个训练样本中未见过的样本，就不一样让机器强行决策，正确的方法是，使用异常检测--将该场景先和训练样本先对比一下--如果该场景是异常的，就让人来接手。</p></li>
+</ol>
+<pre><code>&gt; Good!!!可以用在回测中</code></pre>
+<ol start="5" type="1">
+<li><p>基于likelihood的模型怎么实现？从样本数据中估计出样本分布的参数。</p></li>
+<li><p>The field of deep generative models is concerned with jointly designing these ingredients to train <em>flexible and powerful</em> models <span class="math display">\[p_\theta\]</span> capable of approximating distributions over high-dimensional data <span class="math display">\[\mathbf{x}\]</span>.</p></li>
+<li><p>怎么设计分布函数？effectively represent complex joint distributions over x,并且yet remain easy to train</p></li>
+<li><p>设计好分布函数族后（一般假设是高斯分布），使用相应的训练方法hand-in-hand去估计参数，损失函数=真实分布和拟合分布的距离：</p></li>
+<li><p>MLE的损失函数为样本的对数概率的相反数，记为：</p></li>
+</ol>
+<p>​ <span class="math display">\[\arg \min _{\theta} \operatorname{loss}\left(\theta, \mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(n)}\right)=\frac{1}{n} \sum_{i=1}^{n}-\log p_{\theta}\left(\mathbf{x}^{(i)}\right)\]</span></p>
+<p>等价于 <span class="math display">\[
+  \arg \min _{\theta} \mathbb{E}_{\mathbf{x} \sim \hat{p}_{\text {data }}}\left[-\log p_{\theta}(\mathbf{x})\right]
+  \]</span> 可以用神经网络对<span class="math inline">\(p_{\theta}\)</span>建模，并使用SGD求解.</p>
+<ol start="13" type="1">
+<li>如何设计一个神经网络来代替<span class="math inline">\(p_{\theta}\)</span>,主要想法是这样的：先把生成数据的过程中，变量间的关系表达为一个贝叶斯网络（ <strong>Bayes net</strong>），并且使用神经网络来对条件概率分布建模（边）。</li>
+<li>于是将最小化logO**转换为，学习一个可以输出条件概率的nn，输入条件变量（一个变量就是一个节点）的值输，输出另外一个变量的概率分布。就是构建一个nn去拟合边的属性---即在条件变量取不同的值时，相应的变量的概率分布是如何变化的。</li>
+</ol>
+<figure>
+<img src="./K1rwN9LAHJs509x8IvCcix_7CkI6u8c5YsPUT0R1eoxuP2WvACnAQTVQQVAuqoWMtO5JIflxLnrNl_eFPnF1F3XBT658a6wyLfOSaynjAjyyWf5nFBwSww-TDvy7oYpwNCD3bRHo3Rc.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<ol start="11" type="1">
+<li><p>跟最大似然等价的问题为最小KL--经验分布和拟合分布的距离</p>
+<p>经验分布假设样本来自iid，则每个观测值的分布都为1（就是直方图）</p>
+<p><span class="math display">\[\hat{p}_{\text {data }}(\mathbf{x})=\frac{1}{n} \sum_{i=1}^{n} \mathbf{1}\left[\mathbf{x}=\mathbf{x}^{(i)}\right]\]</span></p>
+<p>那么经验分布和猜想分布<span class="math inline">\(p_{\theta}\)</span>之间的kl divergence为：</p>
+<p><span class="math display">\[\mathrm{KL}\left(\hat{p}_{\mathrm{data}} \| p_{\theta}\right)=\mathbb{E}_{\mathbf{x} \sim \hat{p}_{\mathrm{data}}}\left[-\log p_{\theta}(\mathbf{x})\right]-H\left(\hat{p}_{\mathrm{data}}\right)\]</span></p></li>
+</ol>
+<h2 id="生成模型1--自回归模型">生成模型1- 自回归模型</h2>
+<ol type="1">
+<li>给定贝叶斯网络，将条件概率分布设置为nn, 会得到一个可处理的对数likelihood和梯度，很好训练,</li>
+</ol>
+<p><span class="math display">\[\log p_\theta(\mathbf{x}) = \sum_{i} \log p_\theta(x_i \,|\, \mathrm{parents}(x_i))\]</span></p>
+<ol start="2" type="1">
+<li><p>但是用nn建模出来的条件概率的表达能力够强吗？任何联合概率分布都可以表达为条件概率的乘积。</p></li>
+<li><p>自回归模型(<strong>autoregressive model</strong>): <span class="math display">\[
+\log p(\mathbf{x})=\sum_{i=1}^{d} \log p\left(x_{i} \mid \mathbf{x}_{1: i-1}\right)
+\]</span> 一个使用nn预测条件概率的表达充分的贝叶斯网络，可以对p(x)构建一个表达充分的模型，同时也很好训练</p></li>
+<li><p>一个简单的自回归模型：</p>
+<p>两个随机变量: x1, x2</p>
+<p>对联合分布建模：Model: p(x1, x2) = p(x1) p(x2|x1)</p>
+<p>边际概率分布分布p(x1)是一个直方图</p>
+<p>条件概率分布p(x2|x1)是一个mlp，输入是<span class="math inline">\(x_1\)</span>, 输出是<span class="math inline">\(x_2\)</span>的logits</p></li>
+<li><p>如何让不同的边--即不同的标间概率之间共享信息？RNN和masking方法</p></li>
+<li><p>[Karpathy, 2015]提出char-rnn方法</p>
+<figure>
+<img src="./image-20210710152800599.png" alt="image-20210710152800599" /><figcaption aria-hidden="true">image-20210710152800599</figcaption>
+</figure></li>
+</ol>
+<h2 id="生成模型2-隐变量模型">生成模型2-隐变量模型</h2>
+<ol type="1">
+<li><p>为什么需要latent variable模型?对比下自回归模型：采样的计算量太大了，采样只能按照顺序进行。</p></li>
+<li><p>latent varible只依赖latent varible，采样效率更高，相对于ar模型。</p></li>
+<li><p>如果知道生成数据的因果过程，就可以设计一个latent varible了。</p></li>
+<li><p>一般来说，我们不知道隐变量是什么，以及这些latent variables是怎么跟observation进行互动的。 确定隐变量的最好的方法，仍未有定论。</p></li>
+<li><p>latent variable模型更像是一种更抽象的层次更高的认知。</p></li>
+<li><p>隐变量模型的一个例子：如下，Z是一个K维度的随机向量，X是一个L维的随机变量</p>
+<p>对Z抽样得到一个K维的0/1向量z，通过一个函数（DNN）映射为一个参数<span class="math inline">\(\theta\)</span>, X的分布变为一个参数为<span class="math inline">\(\theta\)</span>的bernoulli分布，从该分布中采样得到一个L维的0/1向量x。举例子，z代表股市是牛市/熊市，X代表股票上涨/下跌，牛市时X的分布的均值要高于熊市时X的分布均值</p>
+<figure>
+<img src="./image-20210709233421079.png" alt="image-20210709233421079" /><figcaption aria-hidden="true">image-20210709233421079</figcaption>
+</figure></li>
+<li><p>如何训练上面的DNN？最大似然估计，再往前可以追朔到亚里士多德的三段论，大前提，小前提==&gt; 结论。</p>
+<p>大前提：我们观测到的一系列<span class="math inline">\(x^{(i)}\)</span>, 是客观存在的，不是伪造的</p>
+<p>小前提：有一个隐变量X，服从某个bernouli分布，有一个可观测的随机变量X服从某个bernouli分布，并且该bernouli分布的参数跟X有关</p>
+<p>结论: 一系列<span class="math inline">\(x^{(i)}\)</span>的概率很大</p>
+<p>为了使得三段论成立，我们希望找到一个最优的DNN，使得<span class="math inline">\(x^{(i)}\)</span>的likelihood尽可能大。</p>
+<p>其实，即使likelihood很大，也不能一定保证小前提成立，这里只是折中罢了。</p>
+<figure>
+<img src="./image-20210709234327994.png" alt="image-20210709234327994" /><figcaption aria-hidden="true">image-20210709234327994</figcaption>
+</figure></li>
+<li><p>求最大似然的时候，z的维度太多了怎么办？采样。</p></li>
+<li><p>如果z的分布p很难采样怎么办？分布变换：将分布p转换为一个简单的分布q（q中也有待估计的参数，经常把q设计成一个高斯分布），然后在q中采样，这就是变分法,。「变分」强行理解成「改变分布」。</p>
+<figure>
+<img src="./image-20210710154905312.png" alt="image-20210710154905312" /><figcaption aria-hidden="true">image-20210710154905312</figcaption>
+</figure></li>
+<li><p>求解Inference问题,相当于积分掉无关变量，求边际分布。如果变量维度过高，积分非常困难。一般来说，有两种方法，一种是蒙特卡洛模拟，一种是变分推断。前者是unbiased &amp;&amp;high variance，后者是biased-low&amp;&amp; variance。举个例子，求P(z|x)时，使用贝叶斯公式，可以转换为联合分布除以P(x), 求P(x)涉及到对z求多重积分，特别困难。</p>
+<blockquote>
+<p>还有一些技术如（mean field）可将复杂的多元积分变成简单的多个一元积分的乘积，从而使得求多重积分变得可行。</p>
+</blockquote>
+<p>下面看一下有偏差的低方差的方法---变分推断。。</p></li>
+</ol>
+<h3 id="变分推断">变分推断</h3>
+<blockquote>
+<p>Any procedure which uses optimization to approximate a density can be termed ``variational inference''.---Jordan (2008) 对 Variational Inference 的定义</p>
+</blockquote>
+<ol type="1">
+<li>简单来说，变分就是用简单的分布q去近似复杂的分布p。</li>
+</ol>
+<figure>
+<img src="./image-20210710155220160.png" alt="image-20210710155220160" /><figcaption aria-hidden="true">image-20210710155220160</figcaption>
+</figure>
+<ol start="2" type="1">
+<li>如何找到满意的<span class="math inline">\(q_{\phi}\)</span>？对于每个样本<span class="math inline">\(x^{(i)}\)</span>, q测量的z的分布都跟p测量的z的后验分布很接近。也就是说，希望找到一个q使得，n个KL之和最小。</li>
+</ol>
+<figure>
+<img src="./image-20210710171726674.png" alt="image-20210710171726674" /><figcaption aria-hidden="true">image-20210710171726674</figcaption>
+</figure>
+<ol start="3" type="1">
+<li><p>由于KL(q, p) + 变分下界(VLB) =logP(x) , 不管q如何变化，KL+ELBP是固定的，所以最小化KL等价于最大化$ ELBO<span class="math inline">\(。KL因为含有后验分布\)</span>p_{z|x}$不好优化所以转为优化ELBO。</p>
+<blockquote>
+<p>为什么要叫lower bound，因为KL&gt;=0, 所以VLB&lt;=logP(x), 所以VLB是logP(x)的一个下界，所以叫Lower bound</p>
+</blockquote></li>
+<li><p>至此，vae的损失函数(ELBO)等价于两部分=重构误差+正则项，</p></li>
+</ol>
+<p><span class="math display">\[E L B O=\mathbb{E}_q\left[\log p\left(x \mid z\right)\right]-\mathbb{K} \mathbb{L}\left(q\left(z \mid x\right) \| p(z)\right)\]</span></p>
+<p><img src="https://miro.medium.com/max/1400/1*Q5dogodt3wzKKktE0v3dMQ@2x.png" alt="img" /> 5. 其中正则项(regularity)是为了保证 latent space 更regular，即，希望生成模型实现连续性（<strong>continuity</strong>）和完备性（completness，不能胡说八道）。如果没有正则项，就跟auto-encoder一样专注于最小化重构误差，很有可能过拟合，没有泛化性。 <img src="https://miro.medium.com/max/2000/1*83S0T8IEJyudR_I5rI9now@2x.png" alt="img" /></p>
+<ol start="6" type="1">
+<li><p>auto-encoder和variational autoencoders的区别：注意decoder，vae的decoder将z映射为x，是确定性的，不是随机的。随机性之存在于对encoder的结果（u, sigma）中采样出z。</p>
+<figure>
+<img src="https://miro.medium.com/max/2000/1*ejNnusxYrn1NRDZf4Kg2lw@2x.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure></li>
+<li><p>训练好了VAE后，单独拿decoder出来做生成模型。</p>
+<blockquote>
+<p>KL衡量的是p相对于q的距离，是一种非对称的local 距离。</p>
+</blockquote></li>
+<li><p>将pathwise derivative应用到变分推断，得到VAE</p>
+<figure>
+<img src="./image-20210710180433539.png" alt="image-20210710180433539" /><figcaption aria-hidden="true">image-20210710180433539</figcaption>
+</figure>
+<figure>
+<img src="./I0yVIbKz1a-74JbNr5P31z5ePUf1g7NBzEtvk5K3chlmwzySQPyvzqx1umTDG_1ynr1IiYA9t1cwI38vSvmLda_EeQA8Q5gbjZ9J_Ej1NCwkIDSnMo8HJAhoVBA5Mjliy4V_185bk5Y.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure></li>
 </ol>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://github.com/williamfiset/Algorithms">algorithm-github</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gXgEDyodOJU">youtube</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=V_TulH374hw">Graph-theoretic Models</a></li>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/13965757/what-is-the-difference-between-an-abstract-data-typeadt-and-a-data-structure">the difference-between-ADT和DS</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.csie.ntu.edu.tw/~htlin/course/dsa21spring/">数据结构和算法</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=RBSGKlAvoiM&amp;t=102s">Data Structures Easy to Advanced Course</a></li>
+<li>https://sites.google.com/view/berkeley-cs294-158-sp20/home</li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=V9Roouqfu-M">L1 Introduction--CS294-158-SP20-youtube</a></li>
+<li><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1zWvkB5BNFs1IzyXarsf6ItXpfEc2OfZc/view">L1 Introduction--CS294-158-SP20-slide</a></li>
+<li>https://www.youtube.com/watch?v=V9Roouqfu-M</li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=iyEOk8KCRUw">L2 Autoregressive Models -- CS294-158-SP20-youtube</a></li>
+<li>https://www.zhihu.com/question/41765860</li>
+<li>https://www.youtube.com/watch?v=uaaqyVS9-rM</li>
 </ol>
 
       
@@ -477,7 +500,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -543,14 +566,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">201</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

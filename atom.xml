@@ -6,7 +6,7 @@
   <link href="https://chiechie.github.io/atom.xml" rel="self"/>
   
   <link href="https://chiechie.github.io/"/>
-  <updated>2021-07-15T12:52:45.282Z</updated>
+  <updated>2021-07-20T13:29:23.328Z</updated>
   <id>https://chiechie.github.io/</id>
   
   <author>
@@ -15,6 +15,59 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>机器学习基础</title>
+    <link href="https://chiechie.github.io/2021/07/20/AI/machine-learning_1-basic/"/>
+    <id>https://chiechie.github.io/2021/07/20/AI/machine-learning_1-basic/</id>
+    <published>2021-07-20T08:00:28.000Z</published>
+    <updated>2021-07-20T13:29:23.328Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="机器学习的基本概念">机器学习的基本概念</h2><ol type="1"><li><p>机器学习是一个多领域交叉的学科，但是总结起来，关注的核心点都在于：如何从历史经验（数据）中获取知识或者规律（模型），并将知识应用到新的类似的场景中。</p></li><li><p>机器学习的三个要素：假设函数空间；学习策略or目标函数；优化算法。</p></li><li><p>机器学习的流程一般要经历几个阶段：收集样本（大部分场景都要人工标注），特征提取，定义预测函数（也叫假设函数空间，线性的还是非线性的），定义损失函数/目标函数，选择优化算法。</p><blockquote><p>使用sklearn的时候，后面三步骤写一行命令就完成了。</p></blockquote><ul><li>定义损失函数：给定预测模型之后，让他去预测训练数据中的每一个输入样本，为了让预测模型学的越来越准，我们需要设置一个奖惩机制：当模型预测对了，就给一个高分，预测错了就给一个低分。负责对预测函数打分的组建就是这个损失函数，当然，他只会惩罚错误的预测结果，即，预测错了就跟一个很严重的惩罚分数，这样我们的目的就变成，希望找到一个惩罚分数最低的预测函数。怎么找呢？这个就涉及到最优化的知识，当损失函数是个连续可导的函数，更甚至是一个凸函数时，比如误差平方和交叉熵函数，我们就可以利用导数的方法来求最优的参数</li><li>选择优化方法：当有了损失函数和训练数据之后，我们就可以定义一个优化问题--最小化所有训练数据的总体预测误差，通常也称之为经验风险，通过合适的优化方法去求解这个最优化问题，就可以得到最佳的预测函数。优化方法有很多，比如梯度下降，牛顿法等，能否找到全局最优解，取决于损失函数的复杂程度，如果损失函数是一个凸函数，很容易找到全局最优，否则，大部分情况都只能找到局部最优。</li></ul></li></ol><h2 id="机器学习的细分方向">机器学习的细分方向</h2><p>从预测函数的类别来看，可以分为回归，分类，排序，有结构的预测</p><p>从复杂度来看，可以分为线性和非线性；浅层和深度</p><ul><li>线性：线性回归/逻辑回归，线性支持向量机。</li><li>非线性：树模型，深度神经网络（全链接神经网络，卷积神经网络，循环神经网络）</li></ul><p>从模型功能，可以分为生成模型和判别模型</p><ul><li>生成模型的学习目标是mle，关注特征和标签的联合概率，它要学习的概率分布很复杂，但是适用场景多，eg分类，概率密度估计，样本生成。</li><li>判别模型的学习目标是最大化条件概率或者后验概率，不关注特征和标签的联合概率，直接对后验概率建模，学习效率高，不过只能做分类。</li></ul><h3 id="常用的机器学习模型">常用的机器学习模型</h3><h3 id="线性模型逻辑回归">线性模型/逻辑回归</h3><ol type="1"><li><p>线性模型是最简单的机器学习模型，这个模型假设预测结果是特征的线性组合。</p></li><li><p>线性模型可以预测连续变量，如果要预测离散变量呢？需要将特征的线性组合结果使用对数几率函数进行变换 ，因为其值域是0～1，所以一般用来对概率建模，基于概率的预测结果，配合对数似然损失或者交叉熵损失，可以定义训练目标。</p><p><span class="math display">\[g(x ; w)=\frac{1}{1+\exp \left(-w^{T} x\right)}\]</span></p></li><li><p>线性模型可解释性强，但是不能表达特征之间复杂的非线性组合关系。所以，一般在使用线性摸模型之前，会配合复杂的特征工程：比如单特征取指数，对数，多项式变换，以及特征之间交叉乘积，或者使用核方法，将原特征隐式映射到一个高维的非线性空间，然后在高维空间里面构建线性模型，eg 支持向量机。</p></li></ol><h3 id="支持向量机">支持向量机</h3><ol type="1"><li><p>核方法的基本思想，通过一个非线性变换，把输入数据映射到高维度的希尔伯特空间，在高维空间中，原先线性不可分的问题，变得很好解决。</p></li><li><p>使用核方法时，理论上，计算高维空间中两个向量的距离要分两步走：1.先将输入向量映射到高维空间，2. 然后再计算高维空间中向量之间的距离，但是，在已知<span class="math inline">\(\phi\)</span>的表达式时，是可以直接推导出低维空间中两个向量的距离函数<span class="math inline">\(k(x_1, x_2)\)</span></p></li></ol><p><span class="math inline">\(x_1\)</span>--&gt; <span class="math inline">\(\phi(x_1)\)</span></p><p><span class="math inline">\(x_2\)</span>--&gt; <span class="math inline">\(\phi(x_2)\)</span></p><p><span class="math inline">\(dist(\phi(x_1), \phi(x_2)) = k(x_1, x_2)\)</span></p><ol start="3" type="1"><li>举几个例子核函数的例子：</li></ol><ul><li>自由度为d的多项式核函数:<span class="math inline">\(k(x,y) = (x^\mathsf{T} y + c)^{d}\)</span></li></ul><blockquote><p>假设d=2对应的映射函数：$ (x) = x_n^2, , x_1^2,  x_n x_{n-1}, ,  x_n x_1,  x_{n-1} x_{n-2}, ,  x_{n-1} x_{1}, ,  x_{2} x_{1},  x_n, ,  x_1, c $</p></blockquote><ul><li><p>RBF核函数或者高斯核函数：<span class="math inline">\(k(\mathbf{x}, \mathbf{y})=e^{-\gamma\|\mathbf{x}-\mathbf{y}\|^{2}}, \gamma&gt;0\)</span></p></li><li><p>sigmoid核函数: <span class="math inline">\(\tanh \left(\gamma\left\langle x, x^{\prime}\right\rangle+r\right)\)</span></p></li></ul><blockquote><p>注意，核函数中的参数如<span class="math inline">\(\gamma\)</span>是需要人工设定的，所以最好做归一化</p></blockquote><ol start="4" type="1"><li><p>核方法的典型的应用之一就是支持向量机。支持向量机的基本思想是，通过核函数将原始输入映射为一个高维向量，在高维度空间里面寻找一个超平面，将正负样本分开，即寻找一个最大间隔的超平面。</p><p><span class="math display">\[\min \hat{l}_{n}(w)=\frac{1}{2}\left\|_{w}\right\|^{2}+\sum\limits_{i=1}^{n} \max \left\{0,1-y_{i}\left(w^{T} \phi\left(x_{i}\right)\right)\right\}\]</span></p><p>使用拉格朗日乘子法，转化为求其对偶问题：</p><p><span class="math display">\[\max _{\alpha} \sum_{i=1}^{n} \alpha_{i}-\frac{1}{2} \sum_{i=1}^{n} \sum_{j=1}^{n} \alpha_{i} \alpha_{j} y_{i} y_{j} \phi\left(x_{i}\right)^{T} \phi\left(x_{j}\right)\]</span></p><p>这是一个二次规划问题。</p></li><li><p>核函数的选择：需满足核矩阵(n*n)半正定，这样总能找到隐含的映射<span class="math inline">\(\phi\)</span></p><blockquote><p>一个核矩阵隐式定义了一个映射<span class="math inline">\(\phi\)</span>，称之为再生核希尔伯特空间（reproducing kernel hilvert space, RKHS）</p></blockquote></li></ol><h3 id="树模型">树模型</h3><ol type="1"><li>决策树也是一个常见的机器学习模型，基本思想是，根据特征构造出树结构的预测模型</li><li>一个决策树包含一个根节点，若干内部节点以及叶子节点。</li><li>叶子节点对应最终的决策结果，其他节点针对数据的某个属性进行判断和分支：在该节点中，会根据数据的某个特征的值进行判断，一局判断结果将样本划分到某个子树之中，</li><li>通过决策树，可以从根节点出发，把一个具体的样本最终分配到某个叶子节点上，实现预测的目的。</li><li>因为每个节点上的分支操作是非线性的，因此决策树可以实现比较复杂的非线性映射，</li><li>决策树算法的目的是，根据训练数据，学习处一颗泛化能力较强的树，能够很精准的把位置样本分到对应的叶子节点上。</li><li>树模型的优势在于可解释性，但是很难兼顾准确性和泛化性，</li><li>常见的决策树算法包括：分类回归树（CART），ID3算法，C4.5算法，决策树桩（Decision Stump）。总结起来，这些算法的流程都包括分支和剪枝两个步骤。</li><li>分支的目的是，找到一个划分条件（一般是某个特征满足某个条件），使得划分之后能够提升样本的纯度。</li><li>剪枝要解决的问题是减少过拟合，有两种剪枝的技术：预剪枝和后剪枝。<ol type="1"><li>预剪枝是指，在决策树生成过程中，对每个节点在划分前使用验证集来估计，该划分能否带来决策树泛化性能提升，如果没有提升则将当前节点标记为叶子结点；</li><li>后剪枝是指，从训练集中生成一颗完整的决策树，然后自下而上的考察去掉每个节点是否提升了泛化能力（将该节点及其子树合并成一个叶子节点），没有提升的话就进行剪枝。</li></ol></li><li>有些情况下数据中隐含的模式比较复杂，那么单个决策树的表达性能不够，通常会使用集成学习来提升树的表达能力。将多棵树进行组合，有不同的方式组合，如bagging/boosting等。</li><li>adaboosting的思路是，先训练出一个base estimator，根据预测结果的准确率，对样本的权重进行调整，预测不准的样本调高权重，预测准的样本调低权重，然后让下一个base estimmtor来学习。这样，原来base estimator搞不定的样本，在后续的学习中，得到更多的关注，最终的预测模型，是所有base estimator预测结果的线性组合，权重表示对应base estimator的预测准确率。</li><li>boosting在抵抗过拟合方面效果很好，随着训练的推进的，即使在训练机已经把误差降到0，更多的迭代还可以提高测试机上的准确率，可以用间隔定理（Margine Theory）来解释这个现象：随着迭代的推进，训练样本上的分类置信度（即每个样本点上的间隔）仍在不断变大。</li></ol><h3 id="神经网络">神经网络</h3><ol type="1"><li>神经网络是一类典型的非线性模型，它的结构设计受到生物神经网络的启发。对大脑生理机制研究发现，其基本单元是神经元，每个神经元通过树突从上游的神经元那里获取输入信号，经过自身加工处理，当能量达到一定强度，就会激活产生一个新的信号，并将这个信号通过轴突传递给下游神经元。</li><li>设计人工神经网络时，并没有参考生物系统的激活机制，因为生物系统的激活机制相当于是阶跃函数，这个函数不连续，因此不能使用基于梯度的方法来更新参数。取而代之的是更平滑的激活函数，比如sigmoid函数，双曲正切函数（tanh），relu。</li></ol><figure><img src="./dl0_basic.png" alt="dl0_basic" /><figcaption aria-hidden="true">dl0_basic</figcaption></figure><ol start="3" type="1"><li><p>全连接神经网络：</p></li><li><p>卷积神经网络：研究发现每个视觉细胞只对图像中的局部区域敏感，大量视觉细胞平铺开来，可以利用图像的空间局部上的相关性，受到生物系统的启发，卷积神经网络也引进了局部连接的概念，并且在空间上平铺多个卷积核/滤波器，这些卷积核之间有很大的重叠区域，相当有个滑动窗口，当窗口滑倒不同空间位置时，对窗口内的信息使用同样的滤波器进行分析。经过卷积操作之后，会得到一个和原图像类似大小的新图层，其中的每个点都是卷积核在局部区域的作用结果，对应于更加高级的语义信息，得到的新图层也叫特征映射（feature map），对于一副图，可以在一个卷积层里使用多个不同的卷积核，从而得到多维的feature map；也可以把多个卷积层stack起来，不断抽取越来越高级的语义信息。除了卷积，池化也是卷积神经网络的重要部分，池化的目的是，对特征映射进行压缩，体现平移不变性，并且有效扩大后续卷机操作的感受野。池化没有参数，只是对局部区域求一下汇总信息，如平均值/中位数/最大值/最小值。</p></li><li><p>实际中，设计cnn时，经常把卷积层和池化层交易级联，从而实现不断抽取高层语义特征的目的，最后一层可以加上一个全连接层，对高层的语义特征进行预测。</p><figure><img src="./image-20210720201740269.png" alt="image-20210720201740269" /><figcaption aria-hidden="true">image-20210720201740269</figcaption></figure></li><li><p>人们在imagenet数据集上不断通过增加网络深度刷新错误率，2015年来自微软的152层的Resnet网络，在Image数据机上取得了3.75%的top5的错误率。</p></li><li><p>随着卷积神经网络变得越来越深，梯度消失的问题越来越严重，给模型的训练带来了很大的难度，为了解决这个问题，提出了许多新的方法，比如残差学习，高密度网络，实验表明：这些方法可以有效把训练误差传递到靠近输入层的地方。<img src="./image-20210720204128001.png" alt="image-20210720204128001" /></p></li></ol><p>循环神经网络</p><ol type="1"><li><p>循环神经网络也有很强的仿生学基础，人类是如何阅读看报呢？每读到一个词，都会想一想刚刚读到的文字在脑袋中形成的记忆，记忆能够帮我们更好地理解当前看到的文字，当看下一个文字时，当前文字和历史记忆又会共同成为新的记忆，并对理解下一个文字提供帮助。</p></li><li><p>循环神经网络的设计也是参考了这个思想，用<span class="math inline">\(s_t\)</span>表示t时刻的记忆，是由t时刻看到的输入<span class="math inline">\(x_t\)</span>和t-1时刻的记忆<span class="math inline">\(s_{t-1}\)</span>共同作用产生的，这个过程可以表示为：</p><p><span class="math inline">\(s_t = \Psi(Ux_t + W s_{t-1})\)</span>,</p><p><span class="math inline">\(o_t = V s_t\)</span></p></li><li><p>这个式子蕴含着对于记忆单元<span class="math inline">\(s_t\)</span>的循环迭代，在实际应用中，无现场时间的循环迭代是没有意义的，比如我们阅读文字时，每个句子的平均长度可能只有十几个词，因此，可以把循环神经网络在时域上展开，然后在展开的网络上利用梯度下降来更新参数矩阵UVW，称之为时域反向传播（Back Propagation Through Time，BPTT）</p></li><li><p>和全连接神经网络，卷积神经网络类似，循环神经网络时间域展开后，也会遇到梯度消失的问题，为了解决这个问题，提出了一套依靠控制门来控制信息流通的方法。也就是说，在循环神经网络的两层之间，同时存在线性和非线性通路，哪个通路开/关，开多大程度？取决于一组控制们，这个控制门是带参数的，两种使用较多的方法是LSTM和GRU。GRU更简单些，，LSTM有3个控制门，GRU有两个控制们，二者在实际中的效果类似，但是GRU的训练速度要快些。</p></li><li><p>在使用基于循环神经网络的seq2seq模型做机器翻译时，实践中会遇到一个问题，输出端的翻译结果中，某个词是对于输入端每个词语依赖程度不一样，通过吧整个输入句子编码到一个向量来驱动输出的句子，会导致信息粒度太粗糙，或者长期的依赖关系被忽视。为了解决这个问题，在标准的seq2seq基础上，引入了“注意力机制”，输出端每次输出之前，都会重新回归一下输入的每个单词，并且会计算每个单词的重要性，从而具备更细粒度的表达能力。</p></li></ol><h2 id="常用的优化方法">常用的优化方法</h2><ol type="1"><li>远在机器学习之前，梯度下降就已经被提出，还有共轭梯度法，坐标下降法，牛顿法，拟牛顿法，Frank-Wolfe方法，Nesterov加速方法，内点法，对偶方法他确定性优化算法。</li><li>确定性优化算法从算法使用的信息的角度可以分为一阶和二阶方法，<ul><li>一阶：只用到了目标函数的一阶导数信息</li><li>二阶：用到了二阶导数，如嗨森矩阵</li></ul></li><li>随着大数据的兴起，确定性优化算法的效率成为瓶颈。为了减少优化过程中每次迭代的计算复杂度，开始关注随机优化算法，比如随机梯度下降，随机坐标下降等。这些算法的基本思想是，每次迭代不使用全部样本或者全部特征，而是随机抽样一个/或者一组样本，或者一个/一组特征，再利用这些抽象的信息来计算一阶或者二阶导数，对目标函数进行优化。很多情况下，随机优化可以看成是确定性算法的无偏估计，但是，有时候也会带来较大方差，需要使用新的技术手段去控制方差，比如SVRG。</li><li>上面的优化算法在求解凸优化问题时，理论性质是比较清楚的，但是深度神经网络引入了非凸优化问题，以上的算法在该问题域还存在很大的理论空白，例如：<ol type="1"><li>优化算法的收敛性在非凸问题能否保持</li><li>有没有什么加速的方法？</li></ol></li><li>专门针对深度神经网络的优化算法被发明，例如，带冲量的速记梯度下降，ada梯度，rmsprop，ada delta</li></ol><ul><li>带动量的随机梯度下降，对所有历史的梯度，按照时间衰减为权重，一起决定下一步的更新方向</li><li>ada梯度：在上面的基础上，还考虑了根据历史梯度大小调整了学习步长</li><li>rmsprop：带动量的sgd和ada的结合</li><li>ada delta：在rmsprop基础行，进一步对步长调整</li><li>adam：</li></ul><h3 id="机器学习理论">机器学习理论</h3><p>机器学习最关注的是泛化能力，反映了机器能否抓住问题本质，获得处理未知样本的能力</p><ol type="1"><li>机器学习算法的最终目标是最小化损失的期望，但是我们不知道真实分布，所以将目标转为，最小化经验风险，同时，会给函数空间添加适当的约束，比如只允许搜索那些范数小于c的函数子空间，成学习问题为正则经验风险最小化，我们希望学习到的模型的期望风险尽可能小，并将其定义为机器学习的泛化误差。</li><li>希望算法的泛化误差尽可能小，即，算法输出的模型和最优的模型对应的期望风险之差尽可能小，这个差距也称为泛化误差，可以分解为三部分：<ol type="1"><li>优化误差：迭代出来的算法与精确的最小经验风险的模型的差别，这个误差是由优化算法的局限性带来的，与选用的优化算法，数据量大小，迭代轮数，以及函数空间有关。</li><li>估计误差：最小经验风险模型和最小期望风险模型所对应的差别。</li><li>近似误差：与函数空间的表达能力有关</li></ol></li><li>基于容度的估计误差的上界：估计误差可以被函数集合中的所有函数的经验风险和期望风险的一致上界控制，通常被称为一致估计偏差。一致估计偏差，被函数集合G的容度控制住，容度描述了函数G在多个输入数据上所产生的输出的多样性，比如VC维告诉我们函数集合最多能打伞多少个样本点，。</li></ol><h2 id="附录">附录</h2><h2 id="基本概念">基本概念</h2><ul><li>信息增益: 衡量切分前后，样本纯度的提升or混乱度的下降。</li></ul><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IG = information before splitting (parent) — information after splitting (children)</span><br></pre></td></tr></table></figure><ul><li>具体的，有两个衡量纯度/混乱度的指标：Entropy 和 Gini Impurity<ul><li>基尼系数（<strong>gini index</strong>）: <span class="math display">\[I_{G}=1-\sum_{j=1}^{c} p_{j}^{2}\]</span><ul><li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li><li>如果所有样本都属于某一类c，gini系数最小，为0。</li></ul></li><li>熵（entropy）：<span class="math display">\[I_{H}=-\sum_{j=1}^{c} p_{j} \log _{2}\left(p_{j}\right)\]</span><ul><li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li><li>如果所有样本都属于某一类c，熵最小，为0。</li></ul></li></ul></li></ul><h2 id="参考">参考</h2><ol type="1"><li>分布式机器学习</li><li><a href="https://scikit-learn.org/stable/modules/svm.html#svm-kernels">sklearn-kernel</a></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;机器学习的基本概念&quot;&gt;机器学习的基本概念&lt;/h2&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;机器学习是一个多领域交叉的学科，但是总结起来，关注的核心点都在于：如何从历史经验（数据）中获取知识或者规律（模型），并将知识应用到新的类似的场景中。&lt;/p&gt;&lt;/li&gt;
+&lt;</summary>
+      
+    
+    
+    
+    <category term="机器学习" scheme="https://chiechie.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="机器学习" scheme="https://chiechie.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="人工智能" scheme="https://chiechie.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>金融基础</title>
+    <link href="https://chiechie.github.io/2021/07/15/finance-basi/"/>
+    <id>https://chiechie.github.io/2021/07/15/finance-basi/</id>
+    <published>2021-07-15T14:50:07.000Z</published>
+    <updated>2021-07-19T04:04:15.324Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="总结">总结</h2><ol type="1"><li><p>资产是什么？连续产生现金流。比如公司，股票债券，知识，名声。</p></li><li><p>如何对资产定价？未来所有现金流折现。</p></li><li><p>如何计算net PV？减去初始时刻的投资。</p></li><li><p>按什么折现？无风险利率。</p><blockquote><p>...公认的risk free rate是指美帝的treasury security rate,也就是美国国债的利率。通常而言，根据maturity长短不同，我们有主要三种treasury securities：T-Bill（一年以下），T-Note（两年到十年），和T-Bond（十年以上）。</p></blockquote></li><li><p>复利？不仅仅一年才计息，银行账户每天计利，抵押物每个月计利息，债券半年计利息。</p></li><li><p>有效年利率和年利率</p><ol type="1"><li>有效年利率（EAR effective annual interest rate）是指把各种不同的复利周期（如一年复利12次，或者一年复利4次）换算为以年为一个复利周期时，利率是多少。</li><li>年利率(annual interest rate)是指银行公布的利率，一般需要和公布的复利频率结合起来用，才能知道每一个复利期真正的利率，单独看用处不大。</li></ol></li><li><p>通胀（inflaction）：1美元购买力的变化。（对应物理世界）</p></li><li><p>计算资产的NPV时，实物现金流使用实际利率折现；名义现金流使用名义利率折现。</p></li><li><p>固定收益证券，未来现金流固定的资产。</p></li><li><p>固定收益市场的参与者：证券发行人/承销商/投资人。</p></li><li><p>债券的即期收益率，到期收益率，远期收益率有什么区别？</p><ol type="1"><li><p><strong>YTM主要用于quotation，spot rate主要用于pricing，而forward rate多用于modeling。</strong></p></li><li><p>即期利率与远期利率的区别在于某利率起作用的起点 即期利率通常在即期交易前1-2天报价 远期利率是某一未来时间到另一未来时间的利率.远期利率是用即期利率根据无套利原则推算的</p><figure><img src="https://pic2.zhimg.com/80/8c16de723d1089665bd6d38d94b66738_1440w.jpg?source=1940ef5c" alt="img" /><figcaption aria-hidden="true">img</figcaption></figure></li><li><p>YTM是一种内部收益率（Internal rate of return）， 是净现值NPV=0(即成本与收益现值相等)时的收益率。</p></li><li><p>yield curve也更多是作为市场的一个indicator，而不是分析工具。</p></li></ol></li><li><p>股票定价模型：</p><ol type="1"><li>分红折现模型v1--折现现金流模型（DCF）：假设分红是常数</li><li>分红折现模型v2--gorden增长模型：分红以g的增长率增长</li></ol></li><li><p>期货定价</p><figure><img src="/Users/shihuanzhao/research_space/chiechie.github.io/source/_posts/finance-basi/image-20210716000554865.png" alt="image-20210716000554865" /><figcaption aria-hidden="true">image-20210716000554865</figcaption></figure></li></ol><h2 id="参考">参考</h2><ol type="1"><li>https://ocw.mit.edu/courses/sloan-school-of-management/15-401-finance-theory-i-fall-2008/video-lectures-and-slides/MIT15_401F08_lec02.pdf</li><li>https://www.zhihu.com/question/22562103/answer/21833989</li><li>https://ocw.mit.edu/courses/sloan-school-of-management/15-401-finance-theory-i-fall-2008/video-lectures-and-slides/MIT15_401F08_lec04.pdf</li><li><a href="(https://www.zhihu.com/roundtable/money)">债券的即期收益率，到期收益率，远期收益率有什么区别？</a></li><li>https://ocw.mit.edu/courses/sloan-school-of-management/15-401-finance-theory-i-fall-2008/video-lectures-and-slides/MIT15_401F08_lec07.pdf</li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;&lt;p&gt;资产是什么？连续产生现金流。比如公司，股票债券，知识，名声。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如何对资产定价？未来所有现金流折现。&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;如何计算net PV？减去初始时刻</summary>
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>时间序列1</title>
@@ -43,9 +96,9 @@
     
     <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
     
-    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
-    
     <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
+    
+    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
     
   </entry>
   
@@ -85,8 +138,8 @@
   
   <entry>
     <title>SVD和compression</title>
-    <link href="https://chiechie.github.io/2021/07/10/AI/svd-and-coding/"/>
-    <id>https://chiechie.github.io/2021/07/10/AI/svd-and-coding/</id>
+    <link href="https://chiechie.github.io/2021/07/10/svd-and-coding/"/>
+    <id>https://chiechie.github.io/2021/07/10/svd-and-coding/</id>
     <published>2021-07-10T03:40:31.000Z</published>
     <updated>2021-07-12T04:10:47.367Z</updated>
     
@@ -116,8 +169,8 @@
   
   <entry>
     <title>深度学习10 非监督学习</title>
-    <link href="https://chiechie.github.io/2021/07/09/deeplearning/dl10_lvm/"/>
-    <id>https://chiechie.github.io/2021/07/09/deeplearning/dl10_lvm/</id>
+    <link href="https://chiechie.github.io/2021/07/09/AI/deeplearning/dl10_lvm/"/>
+    <id>https://chiechie.github.io/2021/07/09/AI/deeplearning/dl10_lvm/</id>
     <published>2021-07-09T10:20:08.000Z</published>
     <updated>2021-07-12T00:27:44.908Z</updated>
     
@@ -419,13 +472,13 @@
     <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
     
     
-    <category term="大数据" scheme="https://chiechie.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    <category term="计算机原理" scheme="https://chiechie.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"/>
     
     <category term="读书笔记" scheme="https://chiechie.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
-    <category term="计算机原理" scheme="https://chiechie.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"/>
-    
     <category term="分布式计算" scheme="https://chiechie.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%A1%E7%AE%97/"/>
+    
+    <category term="大数据" scheme="https://chiechie.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
     
   </entry>
   
@@ -552,8 +605,8 @@
   
   <entry>
     <title>一些聚类算法</title>
-    <link href="https://chiechie.github.io/2021/06/23/AI/machine_learning/clustering/"/>
-    <id>https://chiechie.github.io/2021/06/23/AI/machine_learning/clustering/</id>
+    <link href="https://chiechie.github.io/2021/06/23/AI/clustering/"/>
+    <id>https://chiechie.github.io/2021/06/23/AI/clustering/</id>
     <published>2021-06-23T03:20:42.000Z</published>
     <updated>2021-07-12T11:09:37.181Z</updated>
     
@@ -580,74 +633,6 @@
     <category term="聚类" scheme="https://chiechie.github.io/tags/%E8%81%9A%E7%B1%BB/"/>
     
     <category term="日志聚类" scheme="https://chiechie.github.io/tags/%E6%97%A5%E5%BF%97%E8%81%9A%E7%B1%BB/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>图数据基础</title>
-    <link href="https://chiechie.github.io/2021/06/22/data_structure/graph/graph-basic/"/>
-    <id>https://chiechie.github.io/2021/06/22/data_structure/graph/graph-basic/</id>
-    <published>2021-06-22T03:42:17.000Z</published>
-    <updated>2021-07-02T10:29:07.111Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="总结">总结</h2><ol type="1"><li>图不仅仅通过边存储静态的信息，还能基于边，inference更多的信息。</li></ol><h2 id="真实世界中的网络">真实世界中的网络</h2><ol type="1"><li>计算机网络：互联网</li><li>交通网络（铁路网，公路网）</li><li>金融网络</li><li>下水道网络</li><li>政治网络</li><li>犯罪网络</li></ol><h2 id="图的定义">图的定义</h2><p>传统的空间都是定义在欧几里得空间（Euclidean Space）的，在该空间定义的距离被称为欧式距离。 音频，图像，视频等都是定义在欧式空间下的欧几里得结构化数据，然而对于社交网络等数据，使用欧几里得空间进行定义并不合适，所以将这一类的数据所处的空间称为非欧几里得空间。</p><p>非欧空间下最有代表的结构就是图（Graph）结构， 每一个图都有对应的4个矩阵：incidence matrix,A/degree matrix/adjacency matrix/拉普拉斯矩阵（laplacian matrix， L）</p><p>incidence matrix:<span class="math inline">\(A \ in R^{m *n}\)</span>, m 是边的个数，n是节点的个数 每一行代表一条边的起点（也叫parent）和终点（也叫children）</p><figure><img src="img_2.png" alt="img_2.png" /><figcaption aria-hidden="true">img_2.png</figcaption></figure><h3 id="邻接矩阵adjacency-matrix">邻接矩阵（Adjacency matrix）</h3><p>邻接矩阵是一个NxN的矩阵，对于有权图，其值为权重或0，对于无权图，其值为0和1，该矩阵定义如下： <span class="math display">\[A \in R^{N \times N}, A_{i j}=\left\{\begin{array}{ll}a_{i j} \neq 0 &amp; e_{i j} \in E \\ 0 &amp; \text { othersize }\end{array}\right.\]</span></p><h3 id="度矩阵degree-matrix">度矩阵（Degree matrix）</h3><p>度矩阵D是一个对角矩阵，其定义为：</p><p><span class="math display">\[D \in R^{N \times N}, D_{i i}=\sum_{j} A_{i j}\]</span></p><h3 id="邻域neighborhood">邻域（Neighborhood）</h3><p>邻域表示与某个顶点有连接的点集，其定义为：<span class="math display">\[N\left(v_{i}\right)=\left\{v_{j} \mid e_{i j} \in E\right\}\]</span></p><h3 id="谱spectral">谱（Spectral）</h3><h3 id="拉普拉斯矩阵lapalcian-matrix">拉普拉斯矩阵（Lapalcian matrix）</h3><h4 id="谱分解spectral-factorization">谱分解(Spectral Factorization)</h4><p>什么是spectrum？ 矩阵的spectrum就是矩阵的特征根。 只有方阵才有谱概念，方阵作为线性算子，其所有特征值的集合称为方阵的谱。方阵的谱半径为其最大的特征值，谱分解就是特征分解。</p><p>谱分解(Spectral Factorization)又叫特征值分解，实际上就是对n维方阵做特征分解. 只有含有n个线性无关的特征向量的n维方阵才可以进行特征分解.</p><blockquote><p>spectral定理用公式表达：对于一个对称矩阵S，其特征根<span class="math inline">\(\Lambda\)</span>都是实数, 特征向量都正交<span class="math inline">\(Q\)</span></p><blockquote><p><span class="math display">\[S = Q\LambdaQ^T\]</span></p></blockquote></blockquote><p>graph laplacian 矩阵：connection of 线性代数和图论</p><p>拉普拉斯矩阵（laplacian matrix），<span class="math inline">\(L \ in R^{n *n}\)</span> <span class="math display">\[L = A^T A= D-B\]</span></p><p>degree matrix：<span class="math inline">\(D \ in R^{n*n}\)</span>，代表了每个节点有多少degree adjaceny matrix：<span class="math inline">\(B \ in R^{n*n}\)</span>，代表了任意两个点是否有link</p><p>拉普拉斯矩阵是半正定矩阵,其特征根从小到达排序 1. 第一个特征根为0，<span class="math inline">\(\lambda_1 = 0\)</span>, 即DIM(null space) = 1，对应的特种向量为常熟向量 2. 第二个特征根（最小的正的特征根）叫fiedler， 对应的特征向量叫fiedler vector</p><p>graph的laplacian矩阵和laplace方程（有限差分方法）的关系：</p><p>laplace方程也叫微分方程，其微分形式 跟一个网格图的laplacian矩阵（n*n）就是离散形式。</p><ol start="3" type="1"><li>实对称矩阵,有n个线性无关的特征向量;</li><li>其特征向量可以进行正交单位化;</li><li>所有的特征值非负;</li></ol><p><span class="math display">\[L=U\left(\begin{array}{ccc}\lambda_{1} &amp; &amp; \\ &amp; \ddots &amp; \\ &amp; &amp; \lambda_{n}\end{array}\right) U^{-1}=U\left(\begin{array}{ccc}\lambda_{1} &amp; &amp; \\ &amp; \ddots &amp; \\ &amp; &amp; \lambda_{n}\end{array}\right) U^{T}\]</span></p><p>有时，使用的都是正规拉普拉斯矩阵（Symmetric Normalized Laplacian matrix）: <span class="math display">\[L^{s y s}=D^{-1 / 2} L D^{-1 / 2}=I-D^{-1 / 2} A D^{-1 / 2}\]</span></p><h2 id="图的算法">图的算法</h2><p>基于这个网络，可以做一些什么分析呢？聚类分析，</p><p>即，找到一些cluster，内部的距离很小，之间的距离很大，这个可以抽象成求最大割或者最小流问题 通常还有一些其他的基于图的问题：</p><p>比如，给定一个图，任意两个元素之间是否存在一个link？如果存在，最快捷的路径是什么？</p><p>还有一个经典的问题--'图分割'（graph partition）</p><h3 id="s-t-cut">S-T Cut</h3><p>S-T Cut 就是把一个图切成了两个子图，S和T</p><figure><img src="img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption></figure><p>S-T cut的容量，就是链接S,C的变（图中红色的边）的权重求和，</p><figure><img src="img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption></figure><h3 id="最小割">最小割</h3><p>最小割（min -cut），就是容量最小的那个S-T cut</p><figure><img src="img_2.png" alt="img_2.png" /><figcaption aria-hidden="true">img_2.png</figcaption></figure><p>最小割是指去掉图中的一些边，在使得图从连通图变为不连通图，并且尽可能保证去除的边对应的权重很小。</p><p>最小割可能并不唯一</p><p>对于相似性图来说，最小割就是要去除一些很弱的相似性，把数据点从一个连通的大图切割成多个独立的连通小图。</p><h2 id="参考">参考</h2><ol type="1"><li>https://zhuanlan.zhihu.com/p/84271169</li><li><a href="https://www.youtube.com/watch?v=V_TulH374hw">Graph-theoretic Models</a></li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;图不仅仅通过边存储静态的信息，还能基于边，inference更多的信息。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;真实世界中的网络&quot;&gt;真实世界中的网络&lt;/h2&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;计算机网</summary>
-      
-    
-    
-    
-    <category term="数据结构" scheme="https://chiechie.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    
-    <category term="数据结构" scheme="https://chiechie.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    <category term="图算法" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E7%AE%97%E6%B3%95/"/>
-    
-    <category term="图" scheme="https://chiechie.github.io/tags/%E5%9B%BE/"/>
-    
-    <category term="拓扑数据" scheme="https://chiechie.github.io/tags/%E6%8B%93%E6%89%91%E6%95%B0%E6%8D%AE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>细说红楼梦</title>
-    <link href="https://chiechie.github.io/2021/06/21/reading_notes/zhexue/hongloumengxishuo/"/>
-    <id>https://chiechie.github.io/2021/06/21/reading_notes/zhexue/hongloumengxishuo/</id>
-    <published>2021-06-21T02:02:37.000Z</published>
-    <updated>2021-06-22T06:21:25.475Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="第一回">第一回</h2><p>空空道人有批注：“因空见色，由色生情，传情入色，自色悟空，遂易名为情僧……”</p><p>“因空见色”，是说本来就白茫茫一片，什么都没有，（六祖慧能：本来无一物），因为我们的幻觉，看到好多好多的现象，“由色生情”，情多了就会陷进去，陷进了更深的色的幻觉，“传情入色”，要经过多少彻悟之后，再从里面出来，“自色悟空”，再回到白茫茫一片真干净。</p><p>甄士隐经了这许多人生起伏，有一天突然又看见跛足道士来了，口里唱一首《好了歌》：</p><blockquote><p>世人都晓神仙好，惟有功名忘不了！古今将相在何方？荒冢一堆草没了。世人都晓神仙好，只有金银忘不了！终朝只恨聚无多，及到多时眼闭了。世人都晓神仙好，只有姣妻忘不了！君生日日说恩情，君死又随人去了。世人都晓神仙好，只有儿孙忘不了！痴心父母古来多，孝顺儿孙谁见了？</p></blockquote><p>甄士隐说：“你唱什么？我只听见‘好’‘了’、‘好’‘了’两个字。道人说：</p><blockquote><p>好便是了，了便是好。若不了，便不好；若要好，须是了。</p></blockquote><p>跛足道人讲的是道家的哲学，对儒家社会秩序，有很大的颠覆性。儒家修身齐家治国平天下这一套道理，要建立的是稳定的社会秩序（social order），鼓励人入世，求功名、利禄、妻子、儿女，儒家宗法社会下面，大概就是这些。</p><p>跛足道人给了很大的一个警告，好就是了，了就是好，等于给恋恋在红尘中的人临头棒喝、醍醐灌顶。</p><p>人大概都经过几个阶段：年轻的时候，大家都是入世哲学，儒家那一套，要求功名利禄。到了中年，大概受了些挫折，于是道家来了，点你一下，有所醒悟。到了最后，要超脱人生境界的时候，佛家就来了。</p><p>所以过去的中国人，从儒道释，大致都经过这么三个阶段，有意思的是这三个阶段不冲突。在同一个人身上，这三样哲学都有。所以中国人既出世又入世的态度，常常造成整个文化的一种紧张，也就是说，我们的人生态度在这之间常常有一种徘徊迟疑，我想，这就是文学的起因。</p><p>文学写什么呢？写一个人求道提升，讲他的目标求道，讲这一生多么地艰难，往往很多人没有求到，在半路已经失败。不管是爱情也好，理想也好，各种的失败，我想，文学写的就是这些。《红楼梦》写的也是这些。</p><p>甄士隐对《好了歌》的注解：</p><blockquote><p>陋室空堂，当年笏满床；衰草枯杨，曾为歌舞场。蛛丝儿结满雕梁，绿纱今又糊在蓬窗上。说什么脂正浓、粉正香，如何两鬓又成霜？昨日黄土陇头送白骨，今宵红灯帐底卧鸳鸯。金满箱，银满箱，展眼乞丐人皆谤。正叹他人命不长，那知自己归来丧！训有方，保不定日后作强梁。择膏粱，谁承望流落在烟花巷！因嫌纱帽小，致使锁枷扛；昨怜破袄寒，今嫌紫蟒长：乱烘烘你方唱罢我登场，反认他乡是故乡。甚荒唐，到头来都是为他人作嫁衣裳！</p></blockquote><p>人生不就是个大舞台，一个人唱完下来，第二个人上去唱，唱完又一鞠躬下台，又换个人上去唱，“乱烘烘你方唱罢我登场”，然后“反认他乡是故乡”。</p><p>佛家说，我们以为这是我们自己的故乡，其实也靠不住，一下子一把火就整个烧掉了。道家说，要醒悟这一点，才找到你真正理想的地方。甚荒唐！到头来都是为他人做嫁衣裳。讲起来，整个一生是白忙一场，都为他人做嫁衣裳，所有事情都是为他人做的。</p><p>甄士隐、贾雨村，一个代表出世，一个代表入世。后来甄士隐变成道士，贾雨村经过好多官宦历程的折腾，到了书结束的时候，这两人又碰到一起。甄士隐想要度化贾雨村，贾雨村还是迷恋红尘。各走各的路，两个分歧，自己去看，自己去选择。</p><h2 id="第二章">第二章</h2><p>贾政，自觉是遵从儒家理想的一个人。他非常正直，也想用儒家那一套思想道德来持家，但是太过守法，太过拘束了。中国社会能够生存下来，光靠儒家思想、书生之见是不够的，还需要别种哲学，譬如很要紧的法家，很实在的、很现实的顶在后边。儒家的很多理想不一定都能实现，碰到了现实问题，常常不能解决。不过儒家也很重要，它是一种道德力量（moral force），没有它也不行，但光是有它也不行，所以，还要配合别的东西。</p><p>贾雨村听冷子兴讲了半天贾宝玉这个怪人，也发表了一篇言论：</p><p>“天地生人，除大仁大恶两种，馀者皆无大异。若大仁者，则应运而生，大恶者，则应劫而生。运生世治，劫生世危。尧、舜、禹、汤、文、武、周、召、孔、孟、董、韩、周、程、张、朱，皆应运而生者。蚩尤、共工、桀、纣、始皇、王莽、曹操、桓温、安禄山、秦桧等，皆应劫而生者。大仁者，修治天下；大恶者，挠乱天下。清明灵秀，天地之正气，仁者之所秉也；残忍乖僻，天地之邪气，恶者之所秉也。今当运隆祚永之朝，太平无为之世，清明灵秀之气所秉者，上至朝廷，下及草野，比比皆是。所馀之秀气，漫无所归，遂为甘露、为和风，洽然溉及四海。彼残忍乖僻之邪气，不能荡溢于光天化日之中，遂凝结充塞于深沟大壑之内，偶因风荡，或被云摧，略有摇动感发之意，一丝半缕误而泄出者，偶值灵秀之气适过，正不容邪，邪复妒正，两不相下，亦如风水雷电，地中既遇，既不能消，又不能让，必至搏击掀发后始尽。故其气亦必赋人，发泄一尽始散。使男女偶秉此气而生者，在上则不能成仁人君子，下亦不能为大凶大恶。置之于万万人中，其聪俊灵秀之气，则在万万人之上；其乖僻邪谬不近人情之态，又在万万人之下。若生于公侯富贵之家，则为情痴情种；若生于诗书清贫之族，则为逸士高人；纵再偶生于薄祚寒门，断不能为走卒健仆，甘遭庸人驱制驾驭，必为奇优名娼。如前代之许由、陶潜、阮籍、嵇康、刘伶、王谢二族、顾虎头、陈后主、唐明皇、宋徽宗、刘庭芝、温飞卿、米南宫、石曼卿、柳耆卿、秦少游，近日之倪云林、唐伯虎、祝枝山，再如李龟年、黄幡绰、敬新磨、卓文君、红拂、薛涛、崔莺、朝云之流，此皆易地则同之人也。”</p><h2 id="第四章">第四章</h2><p>再看看贾雨村这个人，他也是有高度象征性的一个人，象征这个世界上每一个为求功名利禄不择手段往上爬的凡俗之人。</p><p>贾雨村刚刚做官，还不太清楚。葫芦僧就讲，贾、王、史、薛这四大家族是互相牵连、互相庇护的，你一动薛家，其他家族就暗中使力，根本没法去办他们。的确是！后来薛蟠又打死人，贾家去讲讲情也就过了。</p><p>为官为政的这些人，像贾雨村者也是很典型的，一旦发迹，若从前是贫贱出身，他不愿意人家知道他的过去，哪个不长心眼儿的去碰他的过去的话，砍掉！因为他要维持现在的形象，掩掉过去。后来贾家没落的时候，贾雨村果然对有恩的贾家加踹一脚，这正是官场反复无情的写照。</p><h2 id="第五章">第五章</h2><p>无常，我们看起来好像是个悲剧，在佛家看，人所有的一切就是如此。佛教很理性地看待人生，看待一切的事物，没有永远存在的东西，因为时间会破坏一切、会毁灭一切，有时间的转动，春夏秋冬的转动，就会有无常现象。人生无常，什么都无常。所以，“生关死劫谁能躲？闻说道，西方宝树唤婆娑，上结着长生果。”这是惜春的醒悟！佛教的传说，佛陀释迦牟尼圆寂的时候，是在两棵宝树中间，那两棵宝树叫作“娑罗”。佛教对“婆娑”两字另有所解，长生果，佛家讲修成正果，要悟道了以后，从而解脱。最后惜春出家了，她是找到解脱最彻底的一个人物。</p><p>王熙凤，机关算尽太聪明，她最精明，涉入红尘也最深，《好了歌》讲：“世人都晓神仙好，只有金银忘不了！”等到聚多之时缘尽了。凤姐放高利贷，到处攒钱，聚敛多时，一下子抄家抄得精光，一场空欢喜！她在贾府最得宠，掌大权，抄家的原因之一是她放高利贷给抄出来了，一世的颜面丢得精光。“反算了卿卿性命”，后来王熙凤的下场也很悲惨。</p><p>对照一下，惜春走一条路，王熙凤走另外一条路，一个出世，一个入世，两种不同的道路。甄士隐跟贾雨村，也是出世和入世的辩证。曹雪芹从未批判哪方，他只是写出各人选的道路。儒家的入世在《红楼梦》的结局也很重要，贾府衰败，王熙凤死了，也还有接班人，谁呢？薛宝钗，她把贾府重新扛起来，这就是人生。</p><p>中国人的人生，常常有三种哲学的循环。年轻的时候有所求，中年醒悟，晚年一切看开。有这三种哲学，才是完整的中国文化，三者相克相生，互用互补。 《红楼梦》曲最后收尾的曲子：</p><blockquote><p>为官的，家业凋零；富贵的，金银散尽；有恩的，死里逃生；无情的，分明报应。欠命的，命已还；欠泪的，泪已尽。冤冤相报实非轻，分离聚合皆前定。欲知命短问前生，老来富贵也真侥幸。看破的，遁入空门；痴迷的，枉送了性命。好一似食尽鸟投林，落了片白茫茫大地真干净！</p></blockquote><h2 id="第16回">第16回</h2><p>儒家跟道家人生观，宇宙、社会的看法，互相冲突。《红楼梦》的悲剧，并不是一个突发性的意外，而是人生必然的过程，</p><h2 id="第22回">第22回</h2><p>宝玉出的灯谜：南面而坐，北面而朝，“象忧亦忧，象喜亦喜”。 佛家有一句话说镜花水月，一切都是幻象。宝玉看到的一切，由色入空，一切都是幻象。</p><h2 id="参考">参考</h2><ol type="1"><li>https://weread.qq.com/web/reader/3c432fc05d0f283c488450e</li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;第一回&quot;&gt;第一回&lt;/h2&gt;
-&lt;p&gt;空空道人有批注：“因空见色，由色生情，传情入色，自色悟空，遂易名为情僧……”&lt;/p&gt;
-&lt;p&gt;“因空见色”，是说本来就白茫茫一片，什么都没有，（六祖慧能：本来无一物），因为我们的幻觉，看到好多好多的现象，“由色生情”，情多了就会陷进</summary>
-      
-    
-    
-    
-    <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
-    
-    
-    <category term="道家" scheme="https://chiechie.github.io/tags/%E9%81%93%E5%AE%B6/"/>
-    
-    <category term="佛家" scheme="https://chiechie.github.io/tags/%E4%BD%9B%E5%AE%B6/"/>
-    
-    <category term="人生哲学" scheme="https://chiechie.github.io/tags/%E4%BA%BA%E7%94%9F%E5%93%B2%E5%AD%A6/"/>
-    
-    <category term="儒家" scheme="https://chiechie.github.io/tags/%E5%84%92%E5%AE%B6/"/>
     
   </entry>
   

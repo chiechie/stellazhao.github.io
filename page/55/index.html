@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/16/tree_model/trees_2/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/18/reading_notes/reality/dl-framework/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/16/tree_model/trees_2/" class="post-title-link" itemprop="url">树模型2 决策树介绍</a>
+            <a href="/2021/04/18/reading_notes/reality/dl-framework/" class="post-title-link" itemprop="url">模型推断的框架</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-16 20:56:02" itemprop="dateCreated datePublished" datetime="2021-04-16T20:56:02+08:00">2021-04-16</time>
+              <time title="创建时间：2021-04-18 08:53:17" itemprop="dateCreated datePublished" datetime="2021-04-18T08:53:17+08:00">2021-04-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-07 11:42:36" itemprop="dateModified" datetime="2021-07-07T11:42:36+08:00">2021-07-07</time>
+                <time title="修改时间：2021-07-14 16:50:16" itemprop="dateModified" datetime="2021-07-14T16:50:16+08:00">2021-07-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
                 </span>
             </span>
 
@@ -219,129 +219,65 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="总结">总结</h1>
-<h2 id="决策树">决策树</h2>
-<ol type="1">
-<li>决策树是一个预测算法，是使用贪婪的递归的方法来找到最优的预测结构。</li>
-<li>构建一个决策树需要确定分支条件以及每个分支的预测值。构建分支条件即把特征空间划分为多个distinct and non-overlapping regions,<span class="math inline">\(R_1,\dots,R_J\)</span>；第二步，对每个region定义一个response variable，作为该region的值。</li>
-<li>构建好了一个决策树，想要使用决策树做预测，步骤也分为两步：第一步是按照分支条件将新样本路由到指定的叶子结点，第二步将叶子结点对应的responsible varible作为该样本的预测值。</li>
-<li>怎么得到分支条件呢？有三类构建决策树的算法：ID3，C4.5和cart。前两者可以构造多叉树，cart只能构造二叉树。 因为cart效果最好，现在通常就用它（例如sklean）。</li>
-<li>ID3，C4.5和cart三类算法的大致思路一样，分为两步：第一步是将feature space切成多个boxes。为什么不是切成多个球？因为球没法填充整个feature space.</li>
-<li>如何找到最优的切割boxes的方式，如果去遍历每一组partition of feature space，计算量太大了，通常采用greedy的方法。</li>
-<li>构建决策树的过程中需要确定的参数：分支的个数，条件分支的条件，终止条件，叶子结点的值。</li>
-</ol>
-<h2 id="决策树算法-cart">决策树算法-CART</h2>
-<ol type="1">
-<li>cart的特色是构建的一个binary tree，每次分支条件都是将一个空间以分为2，变成2个子空间，每个叶子结点的值，即response variable都是一个常数，是这么的到的：</li>
-</ol>
-<ul>
-<li>如果target var是一个连续变量，求落入该region的训练集的response均值，即<span class="math inline">\({y_n}\)</span>的均值，其实这个均值对应的是最小化suqared error。 构建一个决策树，主要是要确定partition，或者说分支条件，以及每个落入每个partition（或者说）中对应的预测值。</li>
-<li>如果target var是一个离散变量，求众数对应的那个类别。</li>
-</ul>
-<ol start="2" type="1">
-<li>怎么确定分支条件？找一个decision stump，使用纯度（purify）来衡量分支的质量，如果左边的data set 和右边的dataset 纯度 都很高，（其中的大部分样本的label很接近），就说切分的很好。对应到计算上面，就是找一个让平均不纯度最小的切分方式（decision stump）。</li>
-<li>如何确定分支/切割的不纯度？
-<ul>
-<li>如果target var是一个连续变量，使用squared loss来描述impurity，（跟样本子集的均值比），</li>
-<li>如果target var是一个离散变量，使用不一致样本比例来描述impurity，（跟样本子集的众数币），多分类的时候，不纯度常用giniindex</li>
-<li>如果是多分类，经常使用Gini index来刻画不纯度。</li>
-</ul></li>
-<li>什么时候会停下来？当满足下面的条件时，也叫fully grown tree：
-<ul>
-<li>落入某个分支的样本的target都一样，不纯度取到最小了，</li>
-<li>落入某个分支的样本的x都一样，没有decision stupms了。</li>
-</ul></li>
-<li>为何要剪枝(pruning)? a very bushy tree has got high variances,ie, over-fitting the data</li>
-</ol>
-<h1 id="附录">附录</h1>
-<h2 id="基本概念">基本概念</h2>
-<ul>
-<li>信息增益: 衡量切分前后，样本的秩序的提升or混乱程度的下降。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IG = information before splitting (parent) — information after splitting (children)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>具体的，有两个衡量混乱程度的指标：Entropy 和 Gini Impurity
-<ul>
-<li><strong>gini index</strong>: <span class="math display">\[I_{G}=1-\sum_{j=1}^{c} p_{j}^{2}\]</span>
-<ul>
-<li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li>
-<li>如果所有样本都属于某一类c，gini系数最小，为0。</li>
-</ul></li>
-<li>entropy（熵）：<span class="math display">\[I_{H}=-\sum_{j=1}^{c} p_{j} \log _{2}\left(p_{j}\right)\]</span>
-<ul>
-<li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li>
-<li>如果所有样本都属于某一类c，熵最小，为0。</li>
-</ul></li>
-</ul></li>
-</ul>
-<h2 id="决策树算法-id3">决策树算法-ID3</h2>
-<p>ID3, was the first of three Decision Tree implementations developed by Ross Quinlan</p>
-<p>It builds a decision tree for the given data in a top-down fashion. each node of the tree, one feature is tested based on 最大熵降, and the results are used to split the sample set. This process is recursively done until the set in a given sub-tree is homogeneous (i.e. it contains samples belonging to the same category). The ID3 algorithm uses a greedy search.</p>
-<p>Disadvantages:</p>
-<ul>
-<li>Data may be over-fitted or over-classified, if a small sample is tested.</li>
-<li>Only one attribute at a time is tested for making a decision.</li>
-<li>Does not handle numeric attributes and missing values.</li>
-</ul>
-<h2 id="决策树算法-c4.5">决策树算法-C4.5</h2>
-<p>Improved version on ID 3 . The new features (versus ID3) are:</p>
-<ul>
-<li><ol type="i">
-<li>accepts both continuous and discrete features;</li>
-</ol></li>
-<li><ol start="2" type="i">
-<li>handles incomplete data points;</li>
-</ol></li>
-<li><ol start="3" type="i">
-<li>solves over-fitting problem by (very clever) bottom-up technique usually known as "pruning"; and</li>
-</ol></li>
-<li><ol start="4" type="i">
-<li>different weights can be applied the features that comprise the training data.</li>
-</ol></li>
-</ul>
-<p>Disadvantages</p>
-<ul>
-<li>Over fitting happens when model picks up data with uncommon features value, especially when data is noisy.</li>
-</ul>
-<h2 id="决策树算法-cart-1">决策树算法-CART</h2>
-<p>ID3 和 C4.5是使用基于Entropy-最大信息增益的特征作为节点。</p>
-<p>CART代表分类树和回归树，使用基于entropy和ginix index计算信息增益。</p>
-<p>Disadvantages</p>
-<ul>
-<li>It can split on only one variable</li>
-<li>Trees formed may be unstable</li>
-</ul>
-<p>cart的原理就是，构造一颗大树<span class="math inline">\(T_0\)</span>，然后去剪枝（也叫做cost complexity pruning/the weakest link pruning）, 下面以regression tree 和 classification tree举例说明</p>
-<blockquote>
-<p>如果response var是imbalance, 全部预测为label占比更多的类，怎么办？</p>
+          <blockquote>
+<p>解答了一直以来，关于模型部署的疑惑</p>
 </blockquote>
-<h3 id="regression-tree">regression tree</h3>
-<p>regression tree的cost function 是RSS加上正则项</p>
-<p><span class="math display">\[\min\limits_{T\in T_0} \sum\limits_{m=1}^{|T|}\sum\limits_{x_i\in R_m}(y_i - \hat y_{R_m})^2+\alpha|T|\]</span></p>
+<h2 id="关于模型部署">关于模型部署</h2>
 <ul>
-<li><span class="math inline">\(|T|\)</span>是叶子节点的个数。</li>
-<li>m表示第m个叶子</li>
-<li><span class="math inline">\(R_m\)</span>表示第m个partition region</li>
-<li><span class="math inline">\(y_i\)</span>表示第i个样本的真实值</li>
-<li><span class="math inline">\(y_{R_m}\)</span>表示第m个partition region的预测值</li>
+<li>1 为什么说模型部署难？
+<ul>
+<li>因为部署的环境不一样，所以需要许多定制化的工作</li>
+</ul></li>
+<li><ol start="2" type="1">
+<li>tensorflow和pytorch这两个框架不能直接用于推理吗？</li>
+</ol>
+<ul>
+<li>可以，但是性能不佳。推理阶段相对训练阶段对模型服务的性能要求更高，比如模型稳定性，响应延迟等，。</li>
+<li>tensorflow和pytorch本身是训练框架，拿来兼做推理框架其实不可以。</li>
+<li>但是在推理阶段，如果业务要求模型服务 高可用，训练框架就显得过于臃肿了而不合时宜了，需要更轻量的框架，如pytorch，tensorRT等。 <img src="../../deeplearning/dl-framework/img.png" alt="img.png" /></li>
+</ul></li>
+<li><ol start="3" type="1">
+<li>DL框架产业现状？</li>
+</ol>
+<ul>
+<li>训练框架是标准品</li>
+<li>推理框架是定制品：这里提到了一点就是使用场景没有<strong>网络效应</strong>，我理解就是规模效应，客观环境决定了，“推理框架”相对于“训练框架” 而言，不是一个好摘的果子
+<ul>
+<li>客观环境（部署依赖整个生产链路的环境，包括硬件厂商，应用服务）导致了没有统一的条件</li>
+</ul></li>
+</ul></li>
 </ul>
-<p>可以使用一个递归的方法来构建一个决策树，主要是要确定partition，或者说分支条件，以及每个落入每个partition（或者说）中对应的预测值。</p>
-<figure>
-<img src="./img.png" alt="regression tree 构造流程" /><figcaption aria-hidden="true">regression tree 构造流程</figcaption>
-</figure>
-<h3 id="classification-tree">classification tree</h3>
-<p>classification tree切分节点时，参考信息增益，其他流程和构建回归树是一样的</p>
-<h1 id="参考">参考</h1>
+<h2 id="深度学习框架2大方向">深度学习框架2大方向</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=s9Um2O7N7YM">决策树算法-linxuantian</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.csie.ntu.edu.tw/~htlin/mooc/doc/209_present.pdf">决策树-linxuantian</a></li>
-<li><a target="_blank" rel="noopener" href="https://static1.squarespace.com/static/5ff2adbe3fe4fe33db902812/t/6062a083acbfe82c7195b27d/1617076404560/ISLR%2BSeventh%2BPrinting.pdf">An Introduction to Statistical Learning</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.quora.com/Why-is-entropy-used-instead-of-the-Gini-index">Why-is-entropy-used-instead-of-the-Gini-index</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/dozercodes/DecisionTree">github-id3的实现1</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/SebastianMantey/Decision-Tree-from-Scratch/blob/master/notebooks/decision_tree_functions.py">github-id3的实现2</a></li>
-<li><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Information_gain_in_decision_trees">wiki-Information_gain_in_decision_trees</a></li>
-<li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/tree/plot_unveil_tree_structure.html#sphx-glr-auto-examples-tree-plot-unveil-tree-structure-py">sklearn-decisiontree</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.quora.com/What-are-the-differences-between-ID3-C4-5-and-CART">quora-ID3-C4-5-and-CART的区别？</a></li>
+<li>深度学习框架有两个派别：一派是从分布式系统的人来做的，另外一派是从做算法的人来做的。tensorflow属于系统派，而pytorch属于算法派。</li>
+<li>不同的人的背景不同，所以做这个事情的角度也会不同，要解决的问题也不同，从而产生不同门派。</li>
+<li>系统派聚焦于解决大数据大模型的计算问题，扩展到任意大的深度模型的框架，所以往往会把系统设计的更具可扩展性，避免重构带来的巨大成本。
+<ol type="1">
+<li>系统框架的优点--适合很多领域的建模流程：系统派系统希望构建一个系统，能够把视觉，语音，语言等多种模型能够一同训练，这个就是tensorflow这样系统构造的时候的原始想法，把整个计算构成一个Tensor的Flow图。</li>
+<li>系统框架的优点--支持大规模模型训练：因为分布式本身就很复杂，需要处理各种节点交互的数据，以及执行中的各种依赖关系。这些事情由人来写代码，太繁琐且容易出错，所以自然地，就会想到让系统来负责这种依赖关系。这也就是为什么希望整个分布式执行的计划是一个静态图，然后系统再根据用户指定的或者系统智能的决定的placement进行分图，并在这些分图中添加合适的Send-Recv的Op从而构成一个分布式的执行计划。</li>
+<li>系统派框架的缺陷-控制流代码也要op化：同但是这样的设计理念也会带来一些困恼，在模型训练时候有些类似控制图的部分，必须要把这些控制流图的代码也op化，然后把这些op也整体串联在Tensor的Flow执行图中，这种方式会使得一些习惯单机开发的研究人员觉得比较晦涩。</li>
+<li>系统派框架的缺陷-不好debug：同时也是因为分布式的原因，做系统的很自然会把模型的开发过程分成构图和执行两个阶段。构图的时候只是生成一个逻辑执行计划，然后通过显式方式的提交（或者execute）过程进行执行。这种方式让研究人员觉得不能一边写代码一边就能够马上看到代码片段的结果，所以这也造成很多人诟病TensorFlow的模式不太容易debug自己的模型程序，其实这也是因为分布式带来负担。但是也是因为TensorFlow是静态图的方式，其可以做到训推一体，在训练出来的模型能够导出模型图，并且在这个图上进行系统化的推理优化从而能够非常方便部署到线上。这个系统性化的方法带来另外一个优势。</li>
+</ol></li>
+<li>算法派要解决的是一个小得多的任务：基于数据并行的可提供自动梯度的框架。
+<ol type="1">
+<li>因为感知类模型（图像，语音，语言类）训练，一般都是同步训练，然后“分布式训练”也不是那么复杂（tensorflow的设想是分布式执行图是异构的，即每个分布式节点的执行逻辑可以不同），然后 数据并行，这样我们就可以利用MPI的AllReduce的通讯源语来进行梯度的汇集计算。</li>
+<li>算法同学需要是一种丰富的，可扩展的，在GPU上能够很好运行的，能够很好进行自动梯度的算子库。因为面向是数据并行的场景，这样话在神经网络部分其实都是单机程序，从而可以利用任何python的语法糖去构建任何的动态的训练控制逻辑（大家也把这种称作动态图），对于算法研究人员来讲，这种方式写代码比较随性也方便debug，所以在研究界pytorch得到大量的关注和使用。</li>
+</ol></li>
+<li>TensorFlow从设计之初就在考虑可以超大模型分布式训练的场景，但是没有预想到硬件的发展也非常迅速，显存越来越大以及训练技术的发展，还有非常精细化优化显存的工作，比如DeepSpeed等把optimizer所需要的显存sharding化掉，使得除了超大规模稀疏模型训练外，感知类的SOTA模型一直可以利用数据并行的方式来进行训练。从而使得TensorFlow这种设计理念看上去有overdesign的嫌疑。</li>
+<li>随着transformer的出现，终于可以把多种数据（视觉的，文字的）合在一起训练多模态的模型，从而产生了大规模模训练的需求。所以支持模型并行的深度学习框架再度火热，比如OneFlow，MindSpore，PaddlePaddle，Mesh Tensorflow，GShard，以及阿里的Whale框架。</li>
+<li>从设计理念来看，模型并行是TensorFlow的设计初衷，只是当时模型并行的需求不够，没有必要提供比较好高层自动分布式的抽象，写模型的人可以自己精细化去构造每个计算节点的子图，整体上TensorFlow的框架只是负责把这些子图能够自动通过Send-Recv进行连接，并且在Runtime能够合法的进行计算。</li>
+<li>现在算法迭代需求增多，导致需要一种高层次的自动分布式框架，从而使得算法同学能够快速简单通过构造一个逻辑图的方式去构造神经网络，而由系统层来帮助他来进行复杂模型并行。TensorFlow的设计理念正好就是为这个考虑的，用户利用静态图以逻辑性去描述一个网络训练，然后在执行时，进行系统化的分图和分布式训练。</li>
+<li>系统派的框架和算法派的框架也在进行一定的融合：
+<ol type="1">
+<li>TensorFlow提出了Eager模式，通过TF.function在eager模式下可能单步执行计算，得到Tensor来提高可调式性；</li>
+<li>Pytorch通过Trace或者Parse的方式转化为TorchScript的图描述，从而能够更好支持训练到推理的工程化。但是这种动静结合其实只是在一定层次的，比如如果考虑分布式，Trace的方式去得到TorchScript就不足够。需要进一步去限制构图能够使用的API，这也是像NV的megatron以及微软DeepSpeed在Pytorch上去支持分布式所带来的一些约束。</li>
+</ol></li>
+</ol>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li>file:///Users/stellazhao/Desktop/深度学习框架-2020-0630-Qlearning分享-Turbo-PPT.pdf</li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/375634204">关于深度学习框架的一些自己见解-zhihu</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/IN281OPUEOI12ge3hOvvTw">GPT-3难以复现，为什么说PyTorch走上了一条“大弯路”？</a></li>
 </ol>
 
       
@@ -362,7 +298,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/15/tree_model/trees_1/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/17/AI/machine-learning_2-trees_2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -376,7 +312,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/15/tree_model/trees_1/" class="post-title-link" itemprop="url">树模型1 常用树模型介绍</a>
+            <a href="/2021/04/17/AI/machine-learning_2-trees_2/" class="post-title-link" itemprop="url">树模型2 RandomForest，Adaboost和GBDT</a>
         </h2>
 
         <div class="post-meta">
@@ -386,14 +322,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-15 14:59:29" itemprop="dateCreated datePublished" datetime="2021-04-15T14:59:29+08:00">2021-04-15</time>
+              <time title="创建时间：2021-04-17 10:39:45" itemprop="dateCreated datePublished" datetime="2021-04-17T10:39:45+08:00">2021-04-17</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-07 11:42:36" itemprop="dateModified" datetime="2021-07-07T11:42:36+08:00">2021-07-07</time>
+                <time title="修改时间：2021-07-20 18:42:10" itemprop="dateModified" datetime="2021-07-20T18:42:10+08:00">2021-07-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -401,7 +337,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+                  <a href="/categories/%E6%A0%91%E6%A8%A1%E5%9E%8B/" itemprop="url" rel="index"><span itemprop="name">树模型</span></a>
                 </span>
             </span>
 
@@ -416,17 +352,79 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="树模型">树模型</h2>
-<p>最基本的树模型是cart，优势在于可解释性，但是跟其他的监督学习方法相比，准确性并没有多大的优势。 但是，通过将多棵树以不同的方式组合，会得到很好的准确率，如bagging，random foreast和boosting等等方法。</p>
-<p>回一下机器学习的三个要素： 1. 假设函数的空间： 2. 学习策略or目标函数 3. 优化算法</p>
-<p>bootstrap是统计学中一种抽样的方法，为了获得样本方差或者均值，采取多次有放回的抽样，获得统计量。 针对单个决策树方差过大的问题。 bagging trees 利用bootstrap的思想，提取B份独立的样本集，分别估计出预测值<span class="math inline">\(\hat{f}^{1}(x), \hat{f}^{2}(x), \ldots, \hat{f}^{B}(x)\)</span> ，然后将结果取平均，就可以得到一个方差更小的预测模型，通过多次实验获得多个regression tree或者classification tree，对每一个input，会产生多个输出，regression tree的输出是K个树的输出取average。classification tree是采用投票的方法，大多数相同的那一类就是输出的那一类 。 bagging involves creating multiple copies of the original training data set using the bootstrap, fitting a separate decision tree to each copy, and then combining all of the trees in order to create a single predictive model.</p>
-<p>random forest是bagging tree的加强版本，因为他考虑到了tree之间的de correlates，使得组合后结果的variance更小。构造树过程如下：consider 每一个split的时候，会从p个predictors中<strong>随机</strong>的挑<span class="math inline">\(m = \sqrt p\)</span>）个作为split candidate，</p>
-<p>boosting是另外一种提升决策树效果的方法，Boosting works in a similar way,也是杨原始样本复制n份，然后构建n个模型，跟bagging tree不一样的地方在于，trees are grown sequentially: each tree is grown using information from previously grown trees. Boosting does not involve bootstrap sampling; instead each tree is fit on a modified version of the original data set.</p>
-<p><img src="trees_1/img.png" alt="img.png" /> xgboost是一种boosting tree的一种，其他的还是有gbdt，catboost</p>
+          <blockquote>
+<p>boosting tree的代表是gbdt，以及一系列变形xgboost,catboost,下面重点介绍一下xgboost</p>
+</blockquote>
+<h2 id="何为bagging和boosting">何为bagging和boosting？</h2>
+<ol type="1">
+<li>Bagging是一种数据采样的方法，Blending是一种模型混合的方法.</li>
+<li>Blending的方法有几个：投票/线性blending/stacking。
+<ul>
+<li>如果每个base estimator一样重要，就对他们采用uniform的aggregation方式。</li>
+<li>如果有的base estimator特别重要，可以将estimator当成特征转换器使用，然后将不同estimator的输出做一个线性映射，得到最终的结果，这个也叫线性blending。</li>
+<li>如果想让这个aggregation更加复杂，也就是说，想要这个模型实现，在不同的condition下，不同的estimator发挥的重要性不一样，这个时候就要基于不同estimator的输出构建一个非线性映射。这个也叫stacking</li>
+</ul>
+<ol start="3" type="1">
+<li>投票追求的是公平稳定，其他两种追求高效。</li>
+</ol></li>
+<li>也可以一边构建base estimator，一边决定模型blending的方法。
+<ul>
+<li>uniform aggregation的代表是Bagging Tree/随机森林</li>
+<li>AdaBoost通过改变样本权重的方式得到不一样的base estimator，一边根据他们的表现决定给每个estimator多少票。</li>
+<li>在不同条件下找到最优的base estimator的代表算法是决策树，回想一下，在决策树里面，不同的路径使用的是不同的叶子（在决策树的场景中，一个叶子就是一个base estimator）。</li>
+<li>gradient boost是一种线性blending的方法，只不过，构建新的base estimator时，不是像AdaBoost那样重新对样本赋予权重，而是，直接去最小化残差，然后根据学到的结果，赋予当前base estimator一个权重。</li>
+<li>boosting-like的算法最受到欢迎，即aAdaBoost和GradientBoost，还有xgboost和catboost</li>
+</ul>
+<img src="./img_2.png" title="fig:" alt="img_2.png" /></li>
+<li>为什么对模型做aggregation之后，效果变好了？相当于对特征做了非线性变换，整体表达能力更强；多个estimator求共识，相当于做了正则化，模型效果更稳定。</li>
+<li>不同的blending方法中，有的方法解决overfitting，有的适合解决underfitting。</li>
+<li>boosting是多个base estimtor进行aggregate的一种方法，并且每个estimator都有一个自己的权重，GBDT和AdaBoosting要解决的就是一个问题。 boosting相对于uniform的方式，多了n个待估参数，复杂度更高，如何求解这个高维的优化问题？衍生出了两种算法，第一种是像adaboost，使用一个reweighted的样本去构建一个新的estimator，并使用其预测准确率作为权重。 GBDT则是基于前面所有的estimator的学习成果，做增量学习。</li>
+</ol>
+<h2 id="随机森林adaboost和-gbdt">随机森林，Adaboost和 GBDT</h2>
+<h3 id="随机森林">随机森林</h3>
+<ol type="1">
+<li><p>bootstrap是什么？是一种抽样的方法，通过多次有放回的抽样，得到多份独立的样本集，获得统计量。</p></li>
+<li><p>Bagging是什么？通过bootstrap的方式抽样得到多份样本。Bagging的特点是，可以降低整体的模型预测的不稳定性，通过让多个base estimator投票或者取均值的方式。</p></li>
+<li><p>decision tree非常不稳定，训练数据稍微有一点变化，分支条件就会改变，从而整个树都长得不一样了。</p></li>
+<li><p>bagging trees 是什么？针对单个决策树方差过大的问题，bagging trees 利用bootstrap，提取B份独立的样本集，分别估计出预测值<span class="math inline">\(\hat{f}^{1}(x), \hat{f}^{2}(x), \ldots, \hat{f}^{B}(x)\)</span> ，然后将结果取平均，就可以得到一个方差更小的预测模型，通过多次实验获得多个regression tree或者classification tree，对每一个input，会产生多个输出，regression tree的输出是K个树的输出取average。classification tree是采用投票的方法，大多数相同的那一类就是输出的那一类 。</p></li>
+<li><p>Bagging + decision tree综合起来构建随机森林。 <img src="img_1.png" alt="img_1.png" /></p></li>
+<li><p>Bagging的部分可以并行化，从而可以更加有效地处理更大的训练数据。</p></li>
+<li><p>构建base estimator时，除了对样本采样，还可以对特征采样，随机森林的原始论文作者建议，在构建cart的每个分支条件时，都随机采样一个特征子空间，在这个子空间中找一个最优的分割点。</p></li>
+<li><p>随机森林论文的作者还建议，可个对特征作随机组合，即构建投影矩阵，将原始的训练数据映射到一个低维的特征空间。</p></li>
+<li><p>random forest是bagging tree的加强版本，因为他考虑到了tree之间的de correlates，使得组合后结果的variance更小。构造树过程如下：consider 每一个split的时候，会从p个predictors中<strong>随机</strong>的挑<span class="math inline">\(m = \sqrt p\)</span>）个作为split candidate，</p></li>
+<li><p>boosting跟bagging tree不一样的地方在于，trees are grown sequentially: each tree is grown using information from previously grown trees. Boosting不涉及每个bootstrap采样。</p></li>
+</ol>
+<h3 id="adaboost">Adaboost</h3>
+<figure>
+<img src="./img.png" alt="adaboost" /><figcaption aria-hidden="true">adaboost</figcaption>
+</figure>
+<ol type="1">
+<li><p>AdaBoost通过改变样本权重的方式得到不一样的base estimator，一边根据他们的表现决定给每个estimator多少票。</p></li>
+<li><p>adaboosting的思路是，先训练出一个base estimator，根据预测结果的准确率，对样本的权重进行调整，预测不准的样本调高权重，预测准的样本调低权重，然后让下一个base estimmtor来学习。这样，原来base estimator搞不定的样本，在后续的学习中，得到更多的关注，最终的预测模型，是所有base estimator预测结果的线性组合，权重表示对应base estimator的预测准确率。</p></li>
+</ol>
+<h3 id="gbdt">GBDT</h3>
+<ol type="1">
+<li><p>GBDT是将一个优化问题，拆解成一系列子优化问题，每个子优化问题要解决的问题是，在当前学习成果的基础上查漏补缺，从而更加逼近target variable。即当前的base estimator的优化目标是最小化target和截止当前的预测值之间的差，也叫residual。 <img src="img_4.png" alt="img_4.png" /> h是当前的base estimator，<span class="math inline">\(\eta\)</span>表示权重</p></li>
+<li><p>怎么求这个优化问题？先求里层的优化问题，再求外层的优化问题。里面的优化问题是将err对当前prediction做一阶泰勒展开，其中一阶项（h，待学习的目标）的系数就是error相对当前prediction的一偏导数，也就是梯度。这里有一个问题，如果我已经知道要做regression，也就是当前的目标函数是关于h的二次函数，我直接求最优解不就好了，即令损失函数关于h的导数为0？其实是可以的，但是GBDT的野心很大，想推导出，任意形式的err对应的最优解h，随意下面的一阶近似方法是更具备通用性的。（想象一下如果err是absolute loss或者像交叉熵这种非convex，就不适用了。btw，xgboost是使用err的二阶泰勒展开去作为err的近似）</p>
+<blockquote>
+<p>回忆一下一阶泰勒展开： <span class="math display">\[f(x + \Delta x) = f(x) + \Delta x \partial f_x \]</span></p>
+</blockquote>
+<figure>
+<img src="img_5.png" alt="img_5.png" /><figcaption aria-hidden="true">img_5.png</figcaption>
+</figure></li>
+<li><p>里层的优化问题求解方法类似拉格朗日乘子法，先将h的大小限制到一定的范围内。然后经过各种变形之后，发现直接拟合residual就好。 <img src="img_7.png" alt="img_7.png" /></p></li>
+<li><p>如何使用GBDT做回归？将上面的error 设置为squared loss。</p></li>
+<li><p>adaboost是要根据不同样本的权重来找一一个拟合的最好的小g; GBDT是找一个能拟合当前残差最好的小g。</p></li>
+</ol>
 <h2 id="参考资料">参考资料</h2>
 <ol type="1">
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=ATM3sH0D45s&amp;list=RDCMUC9Wi1Ias8t4u1OosYnHhi0Q&amp;index=9">Random Forest Algorithm-Hsuan-Tien Lin</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.csie.ntu.edu.tw/~htlin/mooc/doc/208_present.pdf">Adaptive Boosting linxuantian</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=2xudPOBz-vs">youtube-gbdt</a></li>
 <li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1603.02754.pdf">xgboost</a></li>
+<li><a target="_blank" rel="noopener" href="https://static1.squarespace.com/static/5ff2adbe3fe4fe33db902812/t/6062a083acbfe82c7195b27d/1617076404560/ISLR%2BSeventh%2BPrinting.pdf">An Introduction to Statistical Learning</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=F_EuNXhS9js&amp;list=RDCMUC9Wi1Ias8t4u1OosYnHhi0Q&amp;index=4">Gradient Boosted Decision Tree :: Gradient Boosting</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=3T1mdvzRAF0&amp;list=RDCMUC9Wi1Ias8t4u1OosYnHhi0Q&amp;index=6">Blending and Bagging :: Bagging (Bootstrap Aggregation)- Tien Lin</a></li>
 </ol>
 
       
@@ -446,7 +444,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/54/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/54/">54</a><span class="page-number current">55</span><a class="page-number" href="/page/56/">56</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/56/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/54/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/54/">54</a><span class="page-number current">55</span><a class="page-number" href="/page/56/">56</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/56/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -512,14 +510,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">201</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

@@ -165,6 +165,173 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/24/AI/automl/bayes-optimization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/24/AI/automl/bayes-optimization/" class="post-title-link" itemprop="url">自动调参之贝叶斯优化</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-24 10:30:05" itemprop="dateCreated datePublished" datetime="2021-03-24T10:30:05+08:00">2021-03-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-14 19:50:36" itemprop="dateModified" datetime="2021-07-14T19:50:36+08:00">2021-07-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>「贝叶斯优化」技术是求解黑盒最优化问题的一种方法，该技术可拓展到auto-ml的自动调参场景中。</p>
+<p>接下来介绍下「贝叶斯优化」的思路</p>
+<p>采集函数（acquisition function）下面有些地方也用效用函数代替</p>
+</blockquote>
+<h2 id="黑盒优化和自动调参">黑盒优化和自动调参</h2>
+<p>什么是「黑盒优化」？对一个黑盒函数求最优解。</p>
+<p>求解 $ _{x } f(x)$，但是f(x)是个黑盒函数，我们对f内部运行机制一无所知，只知道输入输出。</p>
+<p>调参的过程，少部分经验来自算法理论和工程实践，大部分来自试错。</p>
+<p>模型越复杂，单次训练的时间就越长；</p>
+<p>超参数越多，即x的维度就越高，搜索超参数的空间就越大，</p>
+<p>两者都导致调参工作随着模型的复杂度增加而大幅增加。</p>
+<p>那么有没有什么技术能将人力从跳参的工作中解放出来呢？即有没有「自动调参」的技术呢？</p>
+<p>有，可以将该问题建模为一个黑盒优化问题，然后使用相关技术求解。</p>
+<p>即将「自动调参」定义为这么一个优化问题：</p>
+<p>求最优的一组超参数，使得组超参训练出来的模型的准确率最高 <span class="math display">\[\max\limits_{x \in \mathcal{X}} f(x)\]</span></p>
+<ul>
+<li><p>x代表一组超参数的取值，是一个向量，每个元素代表一个超参的取值，向量长度等于超参的个数。</p></li>
+<li><p>f(x)代表某组超参对应的模型的准确率。</p></li>
+</ul>
+<p>求解黑盒优化问题比较常用的方法有贝叶斯优化算法（Bayes Optimization），随机搜索，网络搜索, 以及贝叶斯优化的变形（SMAC和TPE）</p>
+<h2 id="随机搜索网格搜索和贝叶斯优化">随机搜索，网格搜索和贝叶斯优化</h2>
+<p>先看两种最简单的方法，随机搜索 和 网格搜索</p>
+<figure>
+<img src="./grid_random_search.png" alt="随机搜索和网格搜索" /><figcaption aria-hidden="true">随机搜索和网格搜索</figcaption>
+</figure>
+<ul>
+<li><p>网格搜索：如左图，需要指定搜索范围和间隔， 优点：考虑到了搜索空间内所有的参数组，缺点：存在组合爆炸的问题.</p></li>
+<li><p>随机搜索：意思是，在超参空间进行随机采样，将采样得到的超参作为best guess。如右图，采用随机采样的方式得到新的超参。优点：容易理解。缺点：可能搜索不到最优的超参.</p></li>
+<li><p>贝叶斯优化: BayesOptimazation(r，p, m，n_iters，算法名称)，优点：不需要指定搜索范围，可自动调节搜索过程中的步长</p></li>
+<li><p>贝叶斯优化的变形-SMAC和TPE</p>
+<ul>
+<li>SMAC：代理函数变成了回归随机森林</li>
+<li>TPE：代理函数变成了高斯混合模型 <img src="./bianxing.png" alt="img.png" /></li>
+</ul></li>
+<li><p>实际中，随机搜索其实已经很有效了。</p></li>
+</ul>
+<h2 id="贝叶斯优化">贝叶斯优化</h2>
+<p>贝叶斯优化算法（Bayes Optimization）大概思路是这样的：</p>
+<p>为了求解该问题： <span class="math inline">\(x^{*}=\arg \max _{x \in \mathcal{X}} f(x)\)</span></p>
+<ol type="1">
+<li>收集样本<span class="math inline">\(&lt;x_i,f(x_i)&gt;\)</span>，x是一组超参，f(x)表示这组超参对应的模型准确率。</li>
+<li>使用样本<span class="math inline">\(&lt;x_i,f(x_i)&gt;\)</span>拟合一个高斯过程回归器（GaussianProgressRegressor）<span class="math inline">\(\hat G\)</span></li>
+<li>基于<span class="math inline">\(\hat G\)</span>构造一个效用函数。效用函数是用来衡量当前的超参数组成的空间中，探索每个区域的潜在收益或者效用（注意我们的目标是，找到<span class="math inline">\(x^\star\)</span>，使得f(x)取最大）。 最简单的acquisition function就是均值加上n倍方差（Upper condence bound算法）。</li>
+<li>搜索acquisition函数的最大值，即最值得探索的点（Next Best Guess）。</li>
+<li>将找到Best Guess（一组超参）带入原来算法，重新训练一遍，并记录下此时模型的准确率。</li>
+<li>将5得到的新样本数据加入样本集中，回到第二步，进行下一个迭代，循环往复，直到模型的准确率没有提升或者达到最大的迭代次数。</li>
+</ol>
+<h2 id="附录">附录</h2>
+<h2 id="贝叶斯优化和强化学习">贝叶斯优化和强化学习</h2>
+<p>贝叶斯优化跟强化学习有些许相似之处</p>
+<figure>
+<img src="./image-20210714194513883.png" alt="image-20210714194513883" /><figcaption aria-hidden="true">image-20210714194513883</figcaption>
+</figure>
+<h3 id="贝叶斯优化图">贝叶斯优化图</h3>
+<figure>
+<img src="./img.png" alt="贝叶斯优化" /><figcaption aria-hidden="true">贝叶斯优化</figcaption>
+</figure>
+<p>https://distill.pub/2020/bayesian-optimization/</p>
+<p>上图中</p>
+<ul>
+<li>横轴是超参，</li>
+<li>上面图的纵轴：超参数取不同值时，模型的准确率。
+<ul>
+<li>黑色的线代表拟合出来的均值线，灰色区域代表拟合出来的置信区间</li>
+<li>红色的线代表超参和准确率的真实关系 红点代表下一次要探索的点</li>
+</ul></li>
+<li>下面图的纵轴：超参数取不同值时，采集函数的值，取值越大，表示该区域越有可能存在最优超参。</li>
+</ul>
+<h3 id="代理函数">代理函数</h3>
+<p>代理函数，就是对黑盒模型性能的评估函数。 原始的贝叶斯优化算法，使用的是高斯过程，后面一些变形就变成了其他的算法。</p>
+<h3 id="采集函数">采集函数</h3>
+<p>怎么设计采集函数（acquisition function）？</p>
+<p>需考虑2个因素--期望和不确定性。期望和不确定性都很大的区域，值得对重点探索，所以采集函数给予这些区域更高的分支</p>
+<h3 id="难点离散变量">难点离散变量</h3>
+<p>贝叶斯优化本身只适用于连续变量，但是实际上很多模型地参数都是离散的，那么如何解决呢？ 直觉上来说，有两个思路:</p>
+<ol type="1">
+<li>混合搜索（贝叶斯+网格搜索）：整数类型的参数采用网格搜索或者随机搜索，然后连续型的超参求子参数空间的优化问题。</li>
+<li>贝叶斯模型：在连续空间搜多到best guess之后，截断成整数，加工成样本，然后送入下一次迭代</li>
+</ol>
+<h3 id="贝叶斯优化和梯度算法的区别是什么">贝叶斯优化和梯度算法的区别是什么？</h3>
+<p>贝叶斯优化和梯度算法是不是一类东西呀？感觉都是在求最优秀解。</p>
+<p>两者都是优化算法。但是贝叶斯优化的野心更大，他不需要目标函数的具体表达式, 只要知道这个目标函数的输入输出就好了。 梯度算法解决的问题更小，必须知道目标函数的表达式以及梯度。</p>
+<h2 id="参考资料">参考资料</h2>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/29779000">贝叶斯优化-通俗版-tobe-知乎</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/76269142">贝叶斯优化-技术版—Dai Zhongxiang-知乎</a></li>
+<li><a target="_blank" rel="noopener" href="https://distill.pub/2020/bayesian-optimization/">贝叶斯优化-可视化版-distill</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/tobegit3hub/advisor">开源工具-Advisor-github</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.google.com/ai-platform/optimizer/docs/overview">谷歌的调参工具</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xys430381_1/article/details/103871212">超参数优---贝叶斯优化及其改进（PBT优化）csdn</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3587b24f1a6d">微软新工具 NNI 使用指南之 Tuner 篇-jianshu</a></li>
+<li>https://docs.qq.com/flowchart/DVFVYeEZpd1NMTEtX</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/24/reading_notes/reality/podcast_maintain-relationship/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -253,124 +420,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/23/reading_notes/reality/ray-dalio_how-to-make-decisions/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Chiechie">
-      <meta itemprop="description" content="a reader & thinker">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chiechie's Mini World">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/23/reading_notes/reality/ray-dalio_how-to-make-decisions/" class="post-title-link" itemprop="url">《原则》读书笔记-怎么做决策？</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-23 09:05:11" itemprop="dateCreated datePublished" datetime="2021-03-23T09:05:11+08:00">2021-03-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-05 09:51:04" itemprop="dateModified" datetime="2021-06-05T09:51:04+08:00">2021-06-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>除非你意识到你的潜意识，否则潜意识将主导你的人生，而你将其称为命运. --卡尔.容格</p>
-</blockquote>
-<blockquote>
-<p>这篇文章是Ray Dalio关于如何做决策给出的行动指南</p>
-</blockquote>
-<h2 id="公理">公理</h2>
-<ol type="1">
-<li>最好的方案是，好处多于坏处的选择，没有毫无坏处的方案。</li>
-<li>根据预期的价值做决策。</li>
-<li>搜集更多信息再做决策？还是立马做决策？
-<ul>
-<li>先做"must"，再做"want"</li>
-<li>看重概率，而不是可能性：实干家看重概率，哲学家看重可能性，倾向于在可能性中迷路。</li>
-</ul></li>
-</ol>
-<h2 id="推论">推论</h2>
-<ol type="1">
-<li><p>提升押对概率。</p></li>
-<li><p>讨论问题的时候，不要因为对方发现一点问题，就反对整个方案，应该权衡利弊。</p></li>
-<li><p>学会简化：撇掉无关细节，让重要因素,相互关系呈现出来。</p></li>
-<li><p>「情景再现」原则：</p>
-<ul>
-<li>思维慢下来，注意到正在引用的决策标准</li>
-<li>把这个标准作为一项原则写下来</li>
-<li>当结果出现时，评估结果，思考标准，并且在下一个类似情景出现之前，改进标准</li>
-</ul></li>
-<li><p>识别每一件事情的类型，然后选择对其适用的原则。</p></li>
-<li><p>你可以用自己的原则，也可以用别人的，只需要吧能发现的最好原则用好</p></li>
-<li><p>世界上最好的决策者是这样的人：拥有理性、想象力和毅力，知道自己看重什么、想要什么，同时也利用计算机、算法和博弈论。</p></li>
-</ol>
-<h2 id="学会跟计算机合作">学会跟计算机合作</h2>
-<ol type="1">
-<li>和计算机中的另一个你形成合作关系，你们相互从对方身上学习，各展所长，决策效率会比你单打独斗时高得多。我可能不需要平庸的合作者？</li>
-<li>与人脑决策相比，让计算机辅助我们做决策，让我们更快地，更少情绪化做出更周全的决策。</li>
-<li>毅力是计算机最擅长的，计算机不会顾虑自己的结论会不会受欢迎，从来不惊慌失措。</li>
-</ol>
-<h2 id="参考">参考</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://weread.qq.com/web/reader/848324405e0fe08483ab6a4kc7432af0210c74d97b01b1c">原则-Ray Dalio-微信读书</a></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/71/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><span class="page-number current">72</span><a class="page-number" href="/page/73/">73</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/73/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/71/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><span class="page-number current">72</span><a class="page-number" href="/page/73/">73</a><span class="space">&hellip;</span><a class="page-number" href="/page/101/">101</a><a class="extend next" rel="next" href="/page/73/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -436,14 +489,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">201</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
