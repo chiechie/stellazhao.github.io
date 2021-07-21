@@ -20,24 +20,30 @@
     var CONFIG = {"hostname":"chiechie.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="DeepAR探索 以DeepAR为例，回忆下我们从探索到落地的过程：  Student： 网上找到了pytorch版本的deepAR版（发于2017年4月），训练过程很慢要7个小时，虽然paper里面也号称要7个小时，是优化效率还是直接上线呢？ Teacher： 生产环境，这种性能实在不能接受。既然amazon将DeepAR作为时序预测场景的主推算法方案，这种性能肯定拿不出手，后续肯定做了的优化，">
+  <meta name="description" content="总结  随机过程，由一系列按照时间排序的随机变量组成。 序列的随机行为，由概率密度函数定义，如果能穷举出所有finite时间索引集合的概率分布，就可以确定该随机过程。  随机过程的定义并没有提到平移不变性。  平移不变性是指，移动一个时间步之后，概率分布保持不变。 严格平稳性，表示一个随机过程的所有finite时间索引集合对应的概率分布，都满足平移不变性。  随机过程如果有了平移不变性，就可以用更">
 <meta property="og:type" content="article">
-<meta property="og:title" content="从DeepAR谈论paper到工程化的距离">
-<meta property="og:url" content="https://chiechie.github.io/2021/04/18/timeseries/DeepAR_2_practice/index.html">
+<meta property="og:title" content="时间序列2 经典时序分析">
+<meta property="og:url" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries2_prediction/index.html">
 <meta property="og:site_name" content="Chiechie&#39;s Mini World">
-<meta property="og:description" content="DeepAR探索 以DeepAR为例，回忆下我们从探索到落地的过程：  Student： 网上找到了pytorch版本的deepAR版（发于2017年4月），训练过程很慢要7个小时，虽然paper里面也号称要7个小时，是优化效率还是直接上线呢？ Teacher： 生产环境，这种性能实在不能接受。既然amazon将DeepAR作为时序预测场景的主推算法方案，这种性能肯定拿不出手，后续肯定做了的优化，">
+<meta property="og:description" content="总结  随机过程，由一系列按照时间排序的随机变量组成。 序列的随机行为，由概率密度函数定义，如果能穷举出所有finite时间索引集合的概率分布，就可以确定该随机过程。  随机过程的定义并没有提到平移不变性。  平移不变性是指，移动一个时间步之后，概率分布保持不变。 严格平稳性，表示一个随机过程的所有finite时间索引集合对应的概率分布，都满足平移不变性。  随机过程如果有了平移不变性，就可以用更">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-04-18T03:56:59.000Z">
-<meta property="article:modified_time" content="2021-07-21T03:48:26.778Z">
+<meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries2_prediction/image-20210715091517366.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries2_prediction/image-20210715101032432.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries2_prediction/image-20210715095528794.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries2_prediction/image-20210715140721430.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries2_prediction/image-20210715145052508.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries2_prediction/image-20210715153433604.png">
+<meta property="article:published_time" content="2021-07-15T00:25:11.000Z">
+<meta property="article:modified_time" content="2021-07-21T10:20:20.319Z">
 <meta property="article:author" content="Chiechie">
-<meta property="article:tag" content="AIOps">
-<meta property="article:tag" content="时间序列">
-<meta property="article:tag" content="DeepAR">
-<meta property="article:tag" content="知识分子">
-<meta property="article:tag" content="RNN">
+<meta property="article:tag" content="人工智能">
+<meta property="article:tag" content="最佳实践">
+<meta property="article:tag" content="时序预测">
+<meta property="article:tag" content="量化交易">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chiechie.github.io/2021/07/15/timeseries/timeseries2_prediction/image-20210715091517366.png">
 
-<link rel="canonical" href="https://chiechie.github.io/2021/04/18/timeseries/DeepAR_2_practice/">
+<link rel="canonical" href="https://chiechie.github.io/2021/07/15/timeseries/timeseries2_prediction/">
 
 
 <script id="page-configurations">
@@ -50,7 +56,7 @@
   };
 </script>
 
-  <title>从DeepAR谈论paper到工程化的距离 | Chiechie's Mini World</title>
+  <title>时间序列2 经典时序分析 | Chiechie's Mini World</title>
   
 
 
@@ -172,7 +178,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/18/timeseries/DeepAR_2_practice/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/15/timeseries/timeseries2_prediction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -185,7 +191,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          从DeepAR谈论paper到工程化的距离<a href="https://github.com/chiechie/chiechie.github.io/tree/master/source/_posts/timeseries/DeepAR_2_practice.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+          时间序列2 经典时序分析<a href="https://github.com/chiechie/chiechie.github.io/tree/master/source/_posts/timeseries/timeseries2_prediction.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
         </h1>
 
         <div class="post-meta">
@@ -195,14 +201,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-18 11:56:59" itemprop="dateCreated datePublished" datetime="2021-04-18T11:56:59+08:00">2021-04-18</time>
+              <time title="创建时间：2021-07-15 08:25:11" itemprop="dateCreated datePublished" datetime="2021-07-15T08:25:11+08:00">2021-07-15</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-21 11:48:26" itemprop="dateModified" datetime="2021-07-21T11:48:26+08:00">2021-07-21</time>
+                <time title="修改时间：2021-07-21 18:20:20" itemprop="dateModified" datetime="2021-07-21T18:20:20+08:00">2021-07-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -232,62 +238,96 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="deepar探索">DeepAR探索</h2>
-<p>以DeepAR为例，回忆下我们从探索到落地的过程：</p>
-<ul>
-<li>Student： 网上找到了pytorch版本的deepAR版（发于2017年4月），训练过程很慢要7个小时，虽然paper里面也号称要7个小时，是优化效率还是直接上线呢？</li>
-<li>Teacher： 生产环境，这种性能实在不能接受。既然amazon将DeepAR作为时序预测场景的主推算法方案，这种性能肯定拿不出手，后续肯定做了的优化，去查一下近3年的amazon关于DeepAR相关的资料，重点看看有没有更优秀的实现方案。</li>
-<li>Student：找到了--基于MXNET的gluon-ts（于2019年6月发表），mxnet在electricty上的训练和预测时间大概是10min左右。</li>
-<li>Teacher： nice！</li>
-</ul>
-<p>最开始把gluon-ts实现的DeepAR算法当黑盒用的时候，发现效果很神奇，不调参，换不同数据进去效果都还挺好，周期性和趋势性都还能学到。</p>
-<p>但是就觉得很奇怪，按照自己构建RNN的经验，调参就要反反复复好多次，最后效果还不一定好。使用gluon-TS的代码我没有调参的，并且默认的网络结构很简单 不太可能过拟合.</p>
-<p>看了源代码之后，有一个很大的感受就是，<strong>完成论文demo和完成一个业界可用方案，两者的工作量 ，可能是0到1再到100的距离。</strong></p>
-<p>按照paper所说，整个网络结构非常之简单，1层rnn + 1层 dense层（输出分布参数），构成2层rnn，大概十几行代码。 但是，<strong>真正大量的代码都在做预处理以及 模型训练的一些小trick。 这些小trick，对提升模型效果非常有帮助，但是paper里面是没有的，应该随是工程团队总结出的最佳实践</strong>。</p>
-<ul>
-<li>best practice1: 把每个样本（历史依赖）的scale 取对数，放入样本。 （因为所有的lags项在归一化之后已经丢失了scale信息，为了避免这个信息的丢失，还是把log scale 放入特征，用于区别不同的曲线的模式）</li>
-<li>best practice2: 在rnn中，每一层rnn后都接了一个residual和一个dropout。（原文没有提到）</li>
-<li>best practice3: 为了学习到数据的周期性模式，除了一定要有的context_length，代码还会跳着取lag , 类似空洞卷积。这些周期性的lag项，是被硬编码在代码里面的，比如年/月/日的周期性。</li>
-</ul>
-<p>（我甚至怀疑论文的作者都不知道，因为作者自己写了一个pytorch版本，没有见到相关的处理，并且训练时长是gluon-TS的100倍以上）</p>
-<h2 id="对于aiops建设的启发">对于AIOps建设的启发</h2>
-<p>对于根因分析，日志关联等大部分场景，业界没有可参考的工具，转而求助学术界，可参考论文以及kaggle比赛等。</p>
-<p>但是要注意，这些方案只是demo，没有在工业界的数据和真实需求上验证过，实际上真实业务环境会比做实验要复杂得多。</p>
-<p>从调研demo到完成一个业务上高可用的方案，有大量的优化工作。评估时间的时候，需要预留buffer，来验证和调优，可能需要迭代多轮，有不确定性。</p>
-<h2 id="从paper到工程落地的距离">从paper到工程落地的距离？</h2>
-<ul>
-<li>实验室方案不能直接搬到 真实业务的 几个原因：
-<ul>
-<li>样本数据不一致：
-<ul>
-<li>实验室的数据有一些 标记质量差，以及标记的标准不一致。</li>
-<li>实验室的数据模式单一，很多是模拟生成的，没法模拟出真实业务上复杂的模式</li>
-<li>真实环境中数据质量差：历史数据不够，缺失值多，有用特征缺失。</li>
-<li>实验室数据格式 千奇百怪，要适当预处理才能给 业务使用</li>
-</ul></li>
-<li>评估指标不一致
-<ul>
-<li>实验室只能基于已有的封闭数据集，业务上的指标是开放式的跟业务运营相关的</li>
-</ul></li>
-<li>效果不一致
-<ul>
-<li>实验 中效果好的方案 到真实环境中 效果不好</li>
-</ul></li>
-<li>性能要求不一致：
-<ul>
-<li>实验室方案运行效率到不到真实环境的标准</li>
-<li>eg，kaggle比赛常用模型ensenmble方案，在工业界就很少会用，计算效率的问题å</li>
-</ul></li>
-</ul></li>
-<li>正常的开发流程是：
-<ul>
-<li>理解论文原理</li>
-<li>复现论文：开发demo，</li>
-<li>工程优化（beta）：初步上线，demo性能优化，覆盖现实中可能的异常</li>
-<li>稳定上线（正式）： 在真实环境上测试一段时间。</li>
-<li>产品化：给其他无背景的人用</li>
-</ul></li>
-</ul>
+        <h2 id="总结">总结</h2>
+<ol type="1">
+<li><p>随机过程，由一系列按照时间排序的随机变量组成。</p></li>
+<li><p>序列的随机行为，由概率密度函数定义，如果能穷举出所有finite时间索引集合的概率分布，就可以确定该随机过程。</p>
+<blockquote>
+<p>随机过程的定义并没有提到平移不变性。</p>
+</blockquote></li>
+<li><p>平移不变性是指，移动一个时间步之后，概率分布保持不变。</p></li>
+<li><p>严格平稳性，表示一个随机过程的所有finite时间索引集合对应的概率分布，都满足平移不变性。</p>
+<blockquote>
+<p>随机过程如果有了平移不变性，就可以用更简洁的pdf来表达。</p>
+</blockquote></li>
+<li><p>弱平稳性，也叫协方差平稳性，表示一个随机过程的所有2维时间索引集合对应的概率分布, 都满足平移不变性。</p></li>
+<li><p>满足弱平稳性的随机过程比仅满足强平稳行的随机过程多的多。</p></li>
+<li><p>满足协方差平稳性的随机过程满足表示定理(wold representation):</p></li>
+<li><p>什么是好的模型？p尽可能小，或者ma中的q尽可能小。</p></li>
+<li><p>弱平稳随机过程<span class="math inline">\({X_t}\)</span>的脉冲响应函数（impulse response function）表示某个时刻的噪声（innovation）怎么影响后面的随机过程，即the impact of the innovation on the process。</p>
+<blockquote>
+<p>脉冲响应函数，有点像这个因子的能量衰减函数，总能量(long-run cumalative response)=1, 每过一段时间，这个因子释放一点能量，从而对观测值造成影响，释放能量随时间逐渐疲乏，趋近于0.</p>
+</blockquote></li>
+<li><p><span class="math inline">\(\psi\)</span>和<span class="math inline">\(\psi^{-1}\)</span>类似收集能量（或者innovation造成的影响）和消除能量（或者innovation造成的影响）。</p></li>
+<li><p>对<span class="math inline">\(X_t\)</span>进行消除能量操作（历史innovation的影响）之后，就只剩下当下时刻的innovation带来的影响了。</p>
+<p>如果<span class="math inline">\(\psi\)</span>的逆存在，那么原始的ma过程等价于ar过程。即一个随机过程，既可以表达为从历史innovation中收集能量的过程，也可以表达为，对历史观测值中剔除能量的过程，观测值的系数就是自回归系数。</p></li>
+<li><p>经典的时序分析模型ARMA(p, q) 表示，对观测变量的多项式滞后操作+对噪声的多项式滞后操作，噪声<span class="math inline">\(\eta_t\)</span>是一个维纳过程</p></li>
+<li><p>随机游走就是一个一阶自回归模型，但是非平稳.</p></li>
+<li><p>自回归模型如果满足，特征方程的p个根（复数），都在单位元外面，该随机过程是平稳的。本质上是对回归函数的逆函数施加的收敛性约束。</p></li>
+<li><p>如何对非平稳随机过程建模？先差分，那几个非平稳的例子验一验，比如随时间线性增长+白噪声，再比如</p></li>
+<li><p>金融数据大部分都是非平稳的，像随机游走，box和jenkins想出来了一种移除非平稳趋势的方法--差分</p></li>
+<li><p>平稳性测试：H0是平稳的，检验方法有KPSS测试</p>
+<p>非平稳性测试，H0假设是非平稳的，常用来检测非平稳性的方法单位根检验方法，例如Dickey-Fuller测试</p></li>
+<li><p>DF测试是一种单位根检测，它的流程是这样的，先假设随机过程服从AR（1）模型，拟合一个AR（1）的模型，然后定义一个根<span class="math inline">\(\phi\)</span>相关的统计量，</p>
+<ol type="1">
+<li>如果 <span class="math inline">\(\phi=1\)</span>, 那就应该观察到t服从一个DF分布，对应的随机过程就是是随机游走，是一个非平稳的随机过程。</li>
+<li>如果<span class="math inline">\(|\phi|=1\)</span>,那么估计量和真实<span class="math inline">\(\phi\)</span>的差值就近似一个正态分布，以真实<span class="math inline">\(\phi^2\)</span>为方差。</li>
+</ol></li>
+</ol>
+<h2 id="附录">附录</h2>
+<ol type="1">
+<li><p>相关系数：两个随机变量标准化到均值=0，方差=1之后的，求协方差。</p></li>
+<li><p>wold representation定理</p>
+<figure>
+<img src="./image-20210715091517366.png" alt="wold representation" /><figcaption aria-hidden="true">wold representation</figcaption>
+</figure></li>
+</ol>
+<h3 id="representation定理">representation定理</h3>
+<p>使用滞后算子表述representation定理</p>
+<figure>
+<img src="./image-20210715101032432.png" alt="image-20210715101032432" /><figcaption aria-hidden="true">image-20210715101032432</figcaption>
+</figure>
+<h3 id="representation定理的应用--估计时间序列背后的分布">representation定理的应用--估计时间序列背后的分布</h3>
+<p>表示定义的应用-给定一个时间序列，希望确定背后的分布：</p>
+<ol type="1">
+<li><p>假设：背后的随机过程由两部分构成，历史信息 + 白噪声，历史信息是过去p段时间的信息的线性变换，白噪声是的平稳的随机过程</p></li>
+<li><p>参数估计：使用最小二乘估计出线形变换</p></li>
+<li><p>模型诊断：基于假设+数据，推断出一些其他的统计量，将这些统计量带回假设，检验一致性。</p>
+<blockquote>
+<p>观测值减去历史信息，就是白噪声的观测值，接下来检测，这个白噪声是否如step1的 假设所描述</p>
+</blockquote>
+<ol type="1">
+<li>正交性检验：测试白噪声是否跟p个变量的相关性为0，不为0的话，就要将p的值变大，重新做实验。</li>
+<li>检验是否是白噪声 : 不是白噪声的话，要么调整ma模型，要么在线性变换中加入更多的lag项，或者其他的确定性变量</li>
+</ol></li>
+</ol>
+<figure>
+<img src="./image-20210715095528794.png" alt="image-20210715095528794" /><figcaption aria-hidden="true">image-20210715095528794</figcaption>
+</figure>
+<h3 id="arma模型">ARMA模型</h3>
+<figure>
+<img src="./image-20210715140721430.png" alt="image-20210715140721430" /><figcaption aria-hidden="true">image-20210715140721430</figcaption>
+</figure>
+<ol start="3" type="1">
+<li><p>AR（p）模型的平稳条件：</p>
+<figure>
+<img src="./image-20210715145052508.png" alt="image-20210715145052508" /><figcaption aria-hidden="true">image-20210715145052508</figcaption>
+</figure></li>
+<li><p>yuler walker方程：AR（P）的协方差<span class="math inline">\(\gamma\)</span>和<span class="math inline">\(\phi\)</span>满足的某个方程</p></li>
+<li><p>有了协方差矩阵的估计量，求yuler walker方程，就可以得出AR（p）的p个参数，再就可以算出波动率。</p></li>
+<li><figure>
+<img src="./image-20210715153433604.png" alt="image-20210715153433604" /><figcaption aria-hidden="true">image-20210715153433604</figcaption>
+</figure>
+<ol type="1">
+<li>使用原始的p阶自回归过程，</li>
+</ol></li>
+</ol>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=uBeM1FUk4Ps&amp;t=362s">Time Series Analysis I--youtube</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://ocw.mit.edu/courses/mathematics/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/">Time Series Analysis---slide</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://ocw.mit.edu/courses/mathematics/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/">Topics in Mathematics with Applications in Finance-open course</a></p></li>
+</ol>
 
     </div>
 
@@ -297,11 +337,10 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/AIOps/" rel="tag"># AIOps</a>
-              <a href="/tags/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/" rel="tag"># 时间序列</a>
-              <a href="/tags/DeepAR/" rel="tag"># DeepAR</a>
-              <a href="/tags/%E7%9F%A5%E8%AF%86%E5%88%86%E5%AD%90/" rel="tag"># 知识分子</a>
-              <a href="/tags/RNN/" rel="tag"># RNN</a>
+              <a href="/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/" rel="tag"># 人工智能</a>
+              <a href="/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/" rel="tag"># 最佳实践</a>
+              <a href="/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/" rel="tag"># 时序预测</a>
+              <a href="/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/" rel="tag"># 量化交易</a>
           </div>
 
         
@@ -310,12 +349,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/04/18/reading_notes/computer/information-theory/" rel="prev" title="信息论">
-      <i class="fa fa-chevron-left"></i> 信息论
+    <a href="/2021/07/11/data_structure/ds2-nonelinear-data-structure/" rel="prev" title="数据结构2 非线性数据结构">
+      <i class="fa fa-chevron-left"></i> 数据结构2 非线性数据结构
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/04/18/reading_notes/zhexue/taleb-blackswan/" rel="next" title="黑天鹅">
-      黑天鹅 <i class="fa fa-chevron-right"></i>
+    <a href="/2021/07/15/reading_notes/economics/finance-basic/" rel="next" title="金融基础">
+      金融基础 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -375,7 +414,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#deepar%E6%8E%A2%E7%B4%A2"><span class="nav-number">1.</span> <span class="nav-text">DeepAR探索</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8Eaiops%E5%BB%BA%E8%AE%BE%E7%9A%84%E5%90%AF%E5%8F%91"><span class="nav-number">2.</span> <span class="nav-text">对于AIOps建设的启发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%8Epaper%E5%88%B0%E5%B7%A5%E7%A8%8B%E8%90%BD%E5%9C%B0%E7%9A%84%E8%B7%9D%E7%A6%BB"><span class="nav-number">3.</span> <span class="nav-text">从paper到工程落地的距离？</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#representation%E5%AE%9A%E7%90%86"><span class="nav-number">2.1.</span> <span class="nav-text">representation定理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#representation%E5%AE%9A%E7%90%86%E7%9A%84%E5%BA%94%E7%94%A8--%E4%BC%B0%E8%AE%A1%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E8%83%8C%E5%90%8E%E7%9A%84%E5%88%86%E5%B8%83"><span class="nav-number">2.2.</span> <span class="nav-text">representation定理的应用--估计时间序列背后的分布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#arma%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.3.</span> <span class="nav-text">ARMA模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -389,7 +428,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">197</span>
+          <span class="site-state-item-count">195</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -402,7 +441,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">209</span>
+        <span class="site-state-item-count">208</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

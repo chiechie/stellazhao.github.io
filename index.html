@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/21/timeseries/ts-dl/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/21/timeseries/timeseries1_basic/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/07/21/timeseries/ts-dl/" class="post-title-link" itemprop="url">时间序列预测和深度学习技术</a>
+            <a href="/2021/07/21/timeseries/timeseries1_basic/" class="post-title-link" itemprop="url">时间序列预测和深度学习技术</a>
         </h2>
 
         <div class="post-meta">
@@ -190,7 +190,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2021-07-21 15:23:49 / 修改时间：16:51:10" itemprop="dateCreated datePublished" datetime="2021-07-21T15:23:49+08:00">2021-07-21</time>
+              <time title="创建时间：2021-07-21 15:23:49 / 修改时间：18:26:28" itemprop="dateCreated datePublished" datetime="2021-07-21T15:23:49+08:00">2021-07-21</time>
             </span>
 
           
@@ -213,10 +213,9 @@
 <p>arima/sarima可以看成残差网络 + 因果卷积的特例</p>
 </blockquote></li>
 <li><p>膨胀因果卷积：空洞卷积 + 因果卷机的结合</p></li>
-<li><p>wavenet是什么？可视化长什么样？输入输出和参数个数分别是什么？</p></li>
 <li><p>TCN网络的结果：多个 膨胀因果卷积层的堆叠，加上了pooling（扔掉后置窗口）+ activation + Dropout（卷完之后的非线性转换+裁剪） + Resnet（残差连接避免梯度消失）</p></li>
 <li><p>时序预测方法的分类：传统时间序列和深度神经网络。</p></li>
-<li><p>传统时间序列模型：arma，arima，sarima。平稳性检验。</p></li>
+<li><p>传统时间序列模型：arma/arima/sarima/ arima/state space/exponential smoothing。平稳性检验。</p></li>
 <li><p>深度神经网络模型：卷积神经网络/全连接神经网络/循环神经网络/基于Seq2Seq的模型，以及是否基于attention。</p>
 <ol type="1">
 <li>基于全连接网络的模型：MQ-DNN</li>
@@ -225,7 +224,19 @@
 <li>基于循环神经网络：SimpleRNN/LSTM/GRU，也可以加入attention层，变成基于重要性的神经网络。</li>
 <li>基于Seq2Seq的模型：DeepAR/Transformer/Bert/GPT，其中Transformer/Bert/GPT是基于attention的。</li>
 </ol></li>
+<li><p>传统时间序列模型只对单个曲线做预测，缺点是要一个个曲线去做模型选择，并且每个样本曲线需要积累大量的历史数据。基于深度学习或机器学习的时序预测技术可以对多个曲线一起建模。</p></li>
+<li><p>其他领域如文本，图像，语音领域的技术都可以应用到时间序列，但是要注意时序场景中有几个特殊的地方</p>
+<ol type="1">
+<li>实践序列的下游的决策一般依赖输出概率分布，比如要做异常检测，就需要输出上下界。</li>
+<li>预测target为整数时，不能使用常用的归一化方法。</li>
+</ol></li>
+<li><p>时序预测中的一些难点：</p></li>
 </ol>
+<ul>
+<li><p>现实中需要对多条曲线建模，但是单个曲线去建模，人工成本高</p></li>
+<li><p>不同曲线模式不一样（最显而易见的，scale不一样），而学习一个global model对nn来说挑战很大（nn擅长局部建模）</p></li>
+<li><p>预测概率分布</p></li>
+</ul>
 <h2 id="附录">附录</h2>
 <h3 id="标准卷积">标准卷积</h3>
 <figure>
@@ -248,6 +259,8 @@
 <ul>
 <li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fcfl7jS1Uqc.png?alt=media&amp;token=39859f26-511a-4d29-840f-8038bcaa824e" /></li>
 </ul>
+<h3 id="wavenet">wavenet</h3>
+<p>wavenet是什么？可视化长什么样？输入输出和参数个数分别是什么？</p>
 <h2 id="参考">参考</h2>
 <ol type="1">
 <li><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/54149221/answer/323880412">如何理解空洞卷积（dilated convolution）？ - 刘诗昆的回答 - 知乎</a></p></li>
@@ -330,7 +343,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/98/">98</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -396,7 +409,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">197</span>
+          <span class="site-state-item-count">195</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -409,7 +422,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">209</span>
+        <span class="site-state-item-count">208</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
