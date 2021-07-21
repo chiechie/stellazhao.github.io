@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/22/data_structure/graph/pagerank/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/22/data_structure/ds3-2_randomwalking/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/22/data_structure/graph/pagerank/" class="post-title-link" itemprop="url">PageRank算法</a>
+            <a href="/2021/05/22/data_structure/ds3-2_randomwalking/" class="post-title-link" itemprop="url">PageRank算法</a>
         </h2>
 
         <div class="post-meta">
@@ -196,7 +196,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-01 11:42:01" itemprop="dateModified" datetime="2021-07-01T11:42:01+08:00">2021-07-01</time>
+                <time title="修改时间：2021-07-21 14:39:43" itemprop="dateModified" datetime="2021-07-21T14:39:43+08:00">2021-07-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -236,12 +236,29 @@
 <p>用代码验证一下，理解没有问题</p>
 <p>https://github.com/chiechie/BasicAlgo/blob/main/pagerank.py</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ground truth</span><br><span class="line"> [[0.25419178], [0.13803151], [0.13803151], [0.20599017], [0.26375504]]</span><br><span class="line">result</span><br><span class="line"> [0.25419178 0.13803151 0.13803151 0.20599017 0.26375504]</span><br></pre></td></tr></table></figure>
-<h2 id="参考">参考</h2>
+<h2 id="介绍">介绍</h2>
+<p>已知因果图时，随机游走可以用来做因果推断。</p>
+<p>原理是，基于因果关系，构建概率转移矩阵，通过模拟故障传播路径，得到故障根因。</p>
+<h2 id="随机游走算法-详细">随机游走算法-详细</h2>
+<ul>
+<li>Step 1. 生成一个关系图G. <span class="math inline">\(e_{ij} = 1\)</span> 表示节点i是节点j的原因（之一）</li>
+<li>Step 2. 计算转移矩阵Q:
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/gamer_gyt/article/details/47443877">pagerank-csdn</a></li>
-<li><a target="_blank" rel="noopener" href="https://scikit-network.readthedocs.io/en/latest/tutorials/ranking/pagerank.html">scikit-network-pagerank</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/PageRank">wiki-PageRank</a></li>
-<li>https://blog.csdn.net/google19890102/article/details/48660239</li>
+<li>向前游走：从result节点到 the cause节点.理论上，跟异常节点越相关的节点，就越有可能是根因. 也就是说 <span class="math inline">\(Q_{ij} = R(v_{abnormal}, v_j)\)</span>, <span class="math inline">\(R(v_{abnormal}, v_j)\)</span>表示异常节点<span class="math inline">\(v_{abnormal}\)</span> 和 $ v_j$之间的相关系数, and <span class="math inline">\(e_{ji} = 1\)</span></li>
+<li>向后游走：从cause节点到result节点. 为了避免算法陷入跟异常不相关或者低相关的节点，随机游走允许从cause节点跳出到result节点。 如果 <span class="math inline">\(e_{j i} \in E\)</span>且 <span class="math inline">\(e_{ij} \notin E\)</span>, 那么 <span class="math display">\[Q_{ji} =\rho R\left(v_{abnormal}, v_{i}\right),\rho \in[0,1]\]</span>.</li>
+<li>维持原状：如果一个节点，它的邻居们都跟异常节点的相关性很低，这个节点很有可能就是根因了，所以游走者应该停留在这里， <span class="math display">\[Q_{i i}=\max \left[ 0, R\left(v_{abnormal}, v_{i}\right)- \max _{k: e_{k i} \in E} R\left(v_{abnormal}, v_{k}\right) \right]\]</span></li>
+</ol></li>
+<li>Step 3. 对行做归一化，得到转移概率矩阵 <span class="math display">\[\bar{Q}_{i j}=\frac{Q_{i j}}{\sum_{j} Q_{i j}}\]</span></li>
+<li>Step 4. 在G上面随机游走，使转移概率<span class="math inline">\(\bar{Q}\)</span></li>
+</ul>
+<p>采用类似pagerank的方法，得到每个节点的得分。</p>
+<h2 id="参考">参考</h2>
+<ol start="4" type="1">
+<li><p><a target="_blank" rel="noopener" href="https://netman.aiops.org/wp-content/uploads/2020/06/%E5%AD%9F%E5%AA%9B.pdf">Page3,4 -paper</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/gamer_gyt/article/details/47443877">pagerank-csdn</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://scikit-network.readthedocs.io/en/latest/tutorials/ranking/pagerank.html">scikit-network-pagerank</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/PageRank">wiki-PageRank</a></p></li>
+<li><p>https://blog.csdn.net/google19890102/article/details/48660239</p></li>
 </ol>
 
       
@@ -352,7 +369,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/23/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/25/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/23/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/25/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -418,14 +435,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">197</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

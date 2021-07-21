@@ -30,8 +30,10 @@
 <meta property="og:image" content="https://chiechie.github.io/2021/06/27/reading_notes/computer/thread-and-process/img_3.png">
 <meta property="og:image" content="https://chiechie.github.io/2021/06/27/reading_notes/computer/thread-and-process/img_2.png">
 <meta property="og:image" content="https://chiechie.github.io/2021/06/27/reading_notes/computer/thread-and-process/img_1.png">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F1zhFekYOBy.png?alt=media&amp;token=d50a85f3-9a2d-4960-b565-3f3be8b47a8e">
+<meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FgQV8HJaYUg.png?alt=media&amp;token=38be8f68-8bcc-4809-9d83-63806cab0c4a">
 <meta property="article:published_time" content="2021-06-27T04:16:07.000Z">
-<meta property="article:modified_time" content="2021-07-02T00:47:36.273Z">
+<meta property="article:modified_time" content="2021-07-21T06:52:57.029Z">
 <meta property="article:author" content="Chiechie">
 <meta property="article:tag" content="计算机原理">
 <meta property="article:tag" content="线程">
@@ -204,7 +206,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-02 08:47:36" itemprop="dateModified" datetime="2021-07-02T08:47:36+08:00">2021-07-02</time>
+                <time title="修改时间：2021-07-21 14:52:57" itemprop="dateModified" datetime="2021-07-21T14:52:57+08:00">2021-07-21</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -340,6 +342,29 @@
 <p>设计1个数据结构：</p>
 <p>1个是优先队列，存放候选任务，并且按照执行时间长短从小到到排序。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> heapq</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">tasks = [[<span class="number">1</span>,<span class="number">2</span>],[<span class="number">2</span>,<span class="number">4</span>],[<span class="number">3</span>,<span class="number">2</span>],[<span class="number">4</span>,<span class="number">1</span>]]</span><br><span class="line">n = <span class="built_in">len</span>(tasks)</span><br><span class="line">timestamp = <span class="number">1</span></span><br><span class="line">candidate_list = []</span><br><span class="line">new_task = []</span><br><span class="line">j = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">    <span class="keyword">while</span> (j &lt; n) <span class="keyword">and</span> (tasks[j][<span class="number">0</span>] &lt;= timestamp):</span><br><span class="line">        heapq.heappush(candidate_list, (tasks[j][<span class="number">1</span>], j))</span><br><span class="line">        j+=<span class="number">1</span></span><br><span class="line">        print(j, n)</span><br><span class="line">    print(candidate_list)</span><br><span class="line">    process, index = heapq.heappop(candidate_list)</span><br><span class="line">    print(candidate_list)</span><br><span class="line">    new_task.append(index)</span><br><span class="line">    timestamp += process</span><br><span class="line">new_task</span><br></pre></td></tr></table></figure>
+<h3 id="python-中yeild-from">python 中yeild from</h3>
+<ul>
+<li><ul>
+<li><strong>sending data to a generator</strong>：
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F1zhFekYOBy.png?alt=media&amp;token=d50a85f3-9a2d-4960-b565-3f3be8b47a8e" /></li>
+<li>http://dabeaz.com/coroutines/Coroutines.pdf</li>
+<li>p27-p33</li>
+</ul></li>
+</ul></li>
+<li>What yield from does is it <strong><strong>establishes a transparent bidirectional connection between the caller and the sub-generator</strong></strong>:
+<ul>
+<li>The connection is "transparent" in the sense that it will propagate everything correctly too, not just the elements being generated (e.g. exceptions are propagated).</li>
+<li>The connection is "bidirectional" in the sense that data can be both sent <strong>from</strong> and <strong>to</strong> a generator.</li>
+</ul></li>
+<li>类比TCP，yield from g 就是说暂时断掉我的客户端的socket连接，重连到另外一个服务器socket</li>
+<li>看的云里雾里，总结下
+<ul>
+<li>yield from 用于， 使用一个wrapper函数给一个协程 传值 itertivaly。</li>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FgQV8HJaYUg.png?alt=media&amp;token=38be8f68-8bcc-4809-9d83-63806cab0c4a" /></li>
+</ul></li>
+<li></li>
+</ul>
 <h2 id="参考">参考</h2>
 <ol type="1">
 <li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/25532384/answer/411179772">线程和进程的区别是什么？-zhihu</a></li>
@@ -350,6 +375,7 @@
 <li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/715758/coroutine-vs-continuation-vs-generator">生成器和协程</a></li>
 <li><a target="_blank" rel="noopener" href="https://buptjz.github.io/2014/04/23/processAndThreads">进程、线程及其内存模型</a></li>
 <li>深入理解操作系统</li>
+<li>https://stackoverflow.com/questions/9708902/in-practice-what-are-the-main-uses-for-the-new-yield-from-syntax-in-python-3</li>
 </ol>
 
     </div>
@@ -436,7 +462,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9A%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">基本定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8Bprocess"><span class="nav-number">1.1.</span> <span class="nav-text">进程（process）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%843%E7%A7%8D%E7%8A%B6%E6%80%81"><span class="nav-number">1.1.1.</span> <span class="nav-text">进程的3种状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AD%90%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">创建子进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="nav-number">1.1.3.</span> <span class="nav-text">进程的地址空间</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8Bthreads"><span class="nav-number">1.2.</span> <span class="nav-text">线程（threads）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8Bcoroutines"><span class="nav-number">1.3.</span> <span class="nav-text">协程（CoRoutines）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%99%A8generator"><span class="nav-number">1.4.</span> <span class="nav-text">生成器(generator)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8-vs-%E7%BA%BF%E7%A8%8B-vs-%E8%BF%9B%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">应用 vs 线程 vs 进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E5%A4%9A%E7%BA%BF%E7%A8%8Bvs%E8%BD%AF%E4%BB%B6%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">硬件多线程vs软件多线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B-or-%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">多进程 or 多线程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5"><span class="nav-number">5.</span> <span class="nav-text">实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%83%E4%B9%A01-%E6%A8%A1%E6%8B%9F%E5%8D%95%E7%BA%BF%E7%A8%8Bcpp%E7%9A%84%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="nav-number">5.1.</span> <span class="nav-text">练习1-模拟单线程CPP的进程管理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%AE%9A%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">基本定义</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8Bprocess"><span class="nav-number">1.1.</span> <span class="nav-text">进程（process）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%843%E7%A7%8D%E7%8A%B6%E6%80%81"><span class="nav-number">1.1.1.</span> <span class="nav-text">进程的3种状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AD%90%E8%BF%9B%E7%A8%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">创建子进程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%9C%B0%E5%9D%80%E7%A9%BA%E9%97%B4"><span class="nav-number">1.1.3.</span> <span class="nav-text">进程的地址空间</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8Bthreads"><span class="nav-number">1.2.</span> <span class="nav-text">线程（threads）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8Bcoroutines"><span class="nav-number">1.3.</span> <span class="nav-text">协程（CoRoutines）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%99%A8generator"><span class="nav-number">1.4.</span> <span class="nav-text">生成器(generator)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8-vs-%E7%BA%BF%E7%A8%8B-vs-%E8%BF%9B%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">应用 vs 线程 vs 进程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E5%A4%9A%E7%BA%BF%E7%A8%8Bvs%E8%BD%AF%E4%BB%B6%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">硬件多线程vs软件多线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E8%BF%9B%E7%A8%8B-or-%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">多进程 or 多线程？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5"><span class="nav-number">5.</span> <span class="nav-text">实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%83%E4%B9%A01-%E6%A8%A1%E6%8B%9F%E5%8D%95%E7%BA%BF%E7%A8%8Bcpp%E7%9A%84%E8%BF%9B%E7%A8%8B%E7%AE%A1%E7%90%86"><span class="nav-number">5.1.</span> <span class="nav-text">练习1-模拟单线程CPP的进程管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-%E4%B8%ADyeild-from"><span class="nav-number">5.2.</span> <span class="nav-text">python 中yeild from</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -450,14 +476,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">197</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

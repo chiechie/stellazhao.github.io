@@ -264,7 +264,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/24/AI/automl/bayes-optimization/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/24/reading_notes/reality/podcast_maintain-relationship/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -278,7 +278,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/03/24/AI/automl/bayes-optimization/" class="post-title-link" itemprop="url">自动调参之贝叶斯优化</a>
+            <a href="/2021/03/24/reading_notes/reality/podcast_maintain-relationship/" class="post-title-link" itemprop="url">得意忘形播客#26 人际关系中的三个公理</a>
         </h2>
 
         <div class="post-meta">
@@ -288,14 +288,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-03-24 10:30:05" itemprop="dateCreated datePublished" datetime="2021-03-24T10:30:05+08:00">2021-03-24</time>
+              <time title="创建时间：2021-03-24 09:16:04" itemprop="dateCreated datePublished" datetime="2021-03-24T09:16:04+08:00">2021-03-24</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-14 19:50:36" itemprop="dateModified" datetime="2021-07-14T19:50:36+08:00">2021-07-14</time>
+                <time title="修改时间：2021-04-08 15:37:21" itemprop="dateModified" datetime="2021-04-08T15:37:21+08:00">2021-04-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -303,7 +303,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
                 </span>
             </span>
 
@@ -318,99 +318,24 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>「贝叶斯优化」技术是求解黑盒最优化问题的一种方法，该技术可拓展到auto-ml的自动调参场景中。</p>
-<p>接下来介绍下「贝叶斯优化」的思路</p>
-<p>采集函数（acquisition function）下面有些地方也用效用函数代替</p>
-</blockquote>
-<h2 id="黑盒优化和自动调参">黑盒优化和自动调参</h2>
-<p>什么是「黑盒优化」？对一个黑盒函数求最优解。</p>
-<p>求解 $ _{x } f(x)$，但是f(x)是个黑盒函数，我们对f内部运行机制一无所知，只知道输入输出。</p>
-<p>调参的过程，少部分经验来自算法理论和工程实践，大部分来自试错。</p>
-<p>模型越复杂，单次训练的时间就越长；</p>
-<p>超参数越多，即x的维度就越高，搜索超参数的空间就越大，</p>
-<p>两者都导致调参工作随着模型的复杂度增加而大幅增加。</p>
-<p>那么有没有什么技术能将人力从跳参的工作中解放出来呢？即有没有「自动调参」的技术呢？</p>
-<p>有，可以将该问题建模为一个黑盒优化问题，然后使用相关技术求解。</p>
-<p>即将「自动调参」定义为这么一个优化问题：</p>
-<p>求最优的一组超参数，使得组超参训练出来的模型的准确率最高 <span class="math display">\[\max\limits_{x \in \mathcal{X}} f(x)\]</span></p>
-<ul>
-<li><p>x代表一组超参数的取值，是一个向量，每个元素代表一个超参的取值，向量长度等于超参的个数。</p></li>
-<li><p>f(x)代表某组超参对应的模型的准确率。</p></li>
-</ul>
-<p>求解黑盒优化问题比较常用的方法有贝叶斯优化算法（Bayes Optimization），随机搜索，网络搜索, 以及贝叶斯优化的变形（SMAC和TPE）</p>
-<h2 id="随机搜索网格搜索和贝叶斯优化">随机搜索，网格搜索和贝叶斯优化</h2>
-<p>先看两种最简单的方法，随机搜索 和 网格搜索</p>
-<figure>
-<img src="./grid_random_search.png" alt="随机搜索和网格搜索" /><figcaption aria-hidden="true">随机搜索和网格搜索</figcaption>
-</figure>
-<ul>
-<li><p>网格搜索：如左图，需要指定搜索范围和间隔， 优点：考虑到了搜索空间内所有的参数组，缺点：存在组合爆炸的问题.</p></li>
-<li><p>随机搜索：意思是，在超参空间进行随机采样，将采样得到的超参作为best guess。如右图，采用随机采样的方式得到新的超参。优点：容易理解。缺点：可能搜索不到最优的超参.</p></li>
-<li><p>贝叶斯优化: BayesOptimazation(r，p, m，n_iters，算法名称)，优点：不需要指定搜索范围，可自动调节搜索过程中的步长</p></li>
-<li><p>贝叶斯优化的变形-SMAC和TPE</p>
-<ul>
-<li>SMAC：代理函数变成了回归随机森林</li>
-<li>TPE：代理函数变成了高斯混合模型 <img src="./bianxing.png" alt="img.png" /></li>
-</ul></li>
-<li><p>实际中，随机搜索其实已经很有效了。</p></li>
-</ul>
-<h2 id="贝叶斯优化">贝叶斯优化</h2>
-<p>贝叶斯优化算法（Bayes Optimization）大概思路是这样的：</p>
-<p>为了求解该问题： <span class="math inline">\(x^{*}=\arg \max _{x \in \mathcal{X}} f(x)\)</span></p>
+          <h2 id="观点摘录">观点摘录</h2>
+<h3 id="个公理">3个公理</h3>
 <ol type="1">
-<li>收集样本<span class="math inline">\(&lt;x_i,f(x_i)&gt;\)</span>，x是一组超参，f(x)表示这组超参对应的模型准确率。</li>
-<li>使用样本<span class="math inline">\(&lt;x_i,f(x_i)&gt;\)</span>拟合一个高斯过程回归器（GaussianProgressRegressor）<span class="math inline">\(\hat G\)</span></li>
-<li>基于<span class="math inline">\(\hat G\)</span>构造一个效用函数。效用函数是用来衡量当前的超参数组成的空间中，探索每个区域的潜在收益或者效用（注意我们的目标是，找到<span class="math inline">\(x^\star\)</span>，使得f(x)取最大）。 最简单的acquisition function就是均值加上n倍方差（Upper condence bound算法）。</li>
-<li>搜索acquisition函数的最大值，即最值得探索的点（Next Best Guess）。</li>
-<li>将找到Best Guess（一组超参）带入原来算法，重新训练一遍，并记录下此时模型的准确率。</li>
-<li>将5得到的新样本数据加入样本集中，回到第二步，进行下一个迭代，循环往复，直到模型的准确率没有提升或者达到最大的迭代次数。</li>
+<li>一切人际关系都是在互动中行程的，而互动是双方或多方共同参与的过程。</li>
+<li>在人际互动中，你可以做任何事情，但无法控制这么做的结果。</li>
+<li>在人机互动中，你永远只能看到别人怎么做，而无法知道别人怎么想。</li>
 </ol>
-<h2 id="附录">附录</h2>
-<h2 id="贝叶斯优化和强化学习">贝叶斯优化和强化学习</h2>
-<p>贝叶斯优化跟强化学习有些许相似之处</p>
-<figure>
-<img src="./image-20210714194513883.png" alt="image-20210714194513883" /><figcaption aria-hidden="true">image-20210714194513883</figcaption>
-</figure>
-<h3 id="贝叶斯优化图">贝叶斯优化图</h3>
-<figure>
-<img src="./img.png" alt="贝叶斯优化" /><figcaption aria-hidden="true">贝叶斯优化</figcaption>
-</figure>
-<p>https://distill.pub/2020/bayesian-optimization/</p>
-<p>上图中</p>
-<ul>
-<li>横轴是超参，</li>
-<li>上面图的纵轴：超参数取不同值时，模型的准确率。
-<ul>
-<li>黑色的线代表拟合出来的均值线，灰色区域代表拟合出来的置信区间</li>
-<li>红色的线代表超参和准确率的真实关系 红点代表下一次要探索的点</li>
-</ul></li>
-<li>下面图的纵轴：超参数取不同值时，采集函数的值，取值越大，表示该区域越有可能存在最优超参。</li>
-</ul>
-<h3 id="代理函数">代理函数</h3>
-<p>代理函数，就是对黑盒模型性能的评估函数。 原始的贝叶斯优化算法，使用的是高斯过程，后面一些变形就变成了其他的算法。</p>
-<h3 id="采集函数">采集函数</h3>
-<p>怎么设计采集函数（acquisition function）？</p>
-<p>需考虑2个因素--期望和不确定性。期望和不确定性都很大的区域，值得对重点探索，所以采集函数给予这些区域更高的分支</p>
-<h3 id="难点离散变量">难点离散变量</h3>
-<p>贝叶斯优化本身只适用于连续变量，但是实际上很多模型地参数都是离散的，那么如何解决呢？ 直觉上来说，有两个思路:</p>
+<h3 id="一些推论">一些推论</h3>
 <ol type="1">
-<li>混合搜索（贝叶斯+网格搜索）：整数类型的参数采用网格搜索或者随机搜索，然后连续型的超参求子参数空间的优化问题。</li>
-<li>贝叶斯模型：在连续空间搜多到best guess之后，截断成整数，加工成样本，然后送入下一次迭代</li>
+<li>任何关系都不是一个人说了算的，你怎么做都行，但是别人怎么想你管不着。</li>
+<li>我们只能看到别人怎么做，别人不会告诉你他怎么想，告诉你了，你也不知道该不该信，或者选择相信了，也不知道理解的对不对</li>
+<li>人际关系中什么东西是确定的和真实的？自己的感受。</li>
 </ol>
-<h3 id="贝叶斯优化和梯度算法的区别是什么">贝叶斯优化和梯度算法的区别是什么？</h3>
-<p>贝叶斯优化和梯度算法是不是一类东西呀？感觉都是在求最优秀解。</p>
-<p>两者都是优化算法。但是贝叶斯优化的野心更大，他不需要目标函数的具体表达式, 只要知道这个目标函数的输入输出就好了。 梯度算法解决的问题更小，必须知道目标函数的表达式以及梯度。</p>
-<h2 id="参考资料">参考资料</h2>
+<h2 id="灵感来源">灵感来源</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/29779000">贝叶斯优化-通俗版-tobe-知乎</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/76269142">贝叶斯优化-技术版—Dai Zhongxiang-知乎</a></li>
-<li><a target="_blank" rel="noopener" href="https://distill.pub/2020/bayesian-optimization/">贝叶斯优化-可视化版-distill</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/tobegit3hub/advisor">开源工具-Advisor-github</a></li>
-<li><a target="_blank" rel="noopener" href="https://cloud.google.com/ai-platform/optimizer/docs/overview">谷歌的调参工具</a></li>
-<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xys430381_1/article/details/103871212">超参数优---贝叶斯优化及其改进（PBT优化）csdn</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3587b24f1a6d">微软新工具 NNI 使用指南之 Tuner 篇-jianshu</a></li>
-<li>https://docs.qq.com/flowchart/DVFVYeEZpd1NMTEtX</li>
+<li><a target="_blank" rel="noopener" href="https://podcasts.apple.com/cn/podcast/%E5%BE%97%E6%84%8F%E5%BF%98%E5%BD%A2%E6%92%AD%E5%AE%A2/id1200767928?i=1000390381517">得意忘形播客#26：人际关系中的三个永恒公理</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/22483566">影响力是一个虚妄的说法 by 李松蔚</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/22783831">每个人都只能为自己负责 by 李松蔚</a></li>
 </ol>
 
       
@@ -430,7 +355,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/70/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/70/">70</a><span class="page-number current">71</span><a class="page-number" href="/page/72/">72</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/72/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/70/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/70/">70</a><span class="page-number current">71</span><a class="page-number" href="/page/72/">72</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/72/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -496,14 +421,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">197</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

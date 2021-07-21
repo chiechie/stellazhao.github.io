@@ -165,157 +165,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/14/AI/deeplearning/dl7_bert/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Chiechie">
-      <meta itemprop="description" content="a reader & thinker">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chiechie's Mini World">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/14/AI/deeplearning/dl7_bert/" class="post-title-link" itemprop="url">深度学习7 Bert</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-14 11:50:30" itemprop="dateCreated datePublished" datetime="2021-03-14T11:50:30+08:00">2021-03-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-12 08:57:59" itemprop="dateModified" datetime="2021-07-12T08:57:59+08:00">2021-07-12</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">深度学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>为什么有了word2vec还不够？还需要bert干嘛？因为一词多义，同样的词在不同的上下文中表达的意思不一样，而word2vec的表示是静态的。 所以我们需要一个能对上下文编码的动态的embedding方法，bert就应运而生了。</p>
-<h1 id="总结">总结</h1>
-<ul>
-<li>Bert也是是一个对词语生成词语向量的方法。</li>
-<li>Bert可以认为是一个预训练Transformer的encoder部分</li>
-<li>Bert的全称是Bidirectional Encoder Representations from Transformers，双向encoder表示</li>
-<li>Bert的目的是预训练transformer模型的encoder网络，</li>
-<li>Bert的学习目标是怎么设定的呢？bert用以下两个任务来预训练transformer中的encoder网络
-<ul>
-<li>任务1-预测遮挡词（Predict Masked Words）： 随机遮挡上下文，让encoder根据上下文来预测被遮挡的单词，大概随机遮挡挡15%的单词</li>
-<li>任务2-预测下一个句子（Predict the Next Sentence）： 把两个句子放在一起，让encoder判断两句话是不是原文里面相邻的两句话，正样本摘自原文，负样本是随机选择50%。</li>
-</ul></li>
-<li>Bert学习的时候，把上面两个任务结合起来</li>
-<li>假如有两个词被遮挡，就要训练三个任务，2个预测遮挡词任务，1个预测是否邻近的任务。前面两个是一个multi-class分类；后面一个是一个二分类。前两个任务的损失函数是cross entropy，第三个任务的损失函数是binary-entropy。</li>
-<li>最终的目标函数，是上面三个损失函数的求和，把最终的目标函数关于模型参数求梯度，然后使用梯度下降来求参数。</li>
-<li>Bert的优点：不需要人工标注数据，训练数据可以从wiki/网页等，长度为2.5billion单词</li>
-<li>Bert可以利用海量数据训练一个超级大的模型</li>
-<li>Bert想法简单有效，计算大家大，bert有两个版本
-<ul>
-<li>base： 1.1yi参数, 16个tpu训练4days，不算调参数，该参数是公开的</li>
-<li>large：2.35yi参数，64个tpu训练4days，不算调参数，该参数是公开的</li>
-</ul></li>
-<li>想用transformer直接下载徐训练好的bert模型就好，拿到参数就可以对英文编码了</li>
-<li>RoBERTa建议只用masking，而且是动态masking,</li>
-</ul>
-<h1 id="附录">附录</h1>
-<h2 id="bert模型原理">bert模型原理</h2>
-<figure>
-<img src="https://images.prismic.io/peltarionv2/e69c6ec6-50d9-43e9-96f0-a09bb338199f_BERT_model.png?auto=compress%2Cformat&amp;rect=0%2C0%2C2668%2C3126&amp;w=1980&amp;h=2320" alt="bert模型可视化" /><figcaption aria-hidden="true">bert模型可视化</figcaption>
-</figure>
-<h3 id="任务一--预测遮挡词">任务一--预测遮挡词</h3>
-<p>任务可以描述为： 输入： “The _____ sat on the mat” 输出： What is the masked word?</p>
-<figure>
-<img src="./img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
-</figure>
-<p>如何学习？</p>
-<ul>
-<li>e：one-hot vector of the masked word “cat”.</li>
-<li>𝐩: output probability distribution at the masked position.</li>
-<li>损失函数Loss = CrossEntropy(𝐞, 𝐩 )</li>
-<li>• Performing one gradient descent to update the model parameters.</li>
-</ul>
-<h3 id="任务二---predict-the-next-sentence">任务二-- Predict the Next Sentence</h3>
-<p>任务可以描述为：</p>
-<p>• Given the sentence: “calculus is a branch of math”. • Is this the next sentence? “it was developed by newton and leibniz” 可以表述为一个而分类问题 • 输入: [CLS] “calculus is a branch of math” [SEP] “it was developed by newton and leibniz” • Target: true</p>
-<p>• [CLS] is a token for classification. • [SEP] is for separating sentences.</p>
-<p>学习过程</p>
-<figure>
-<img src="./img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption>
-</figure>
-<h3 id="结合两个任务">结合两个任务</h3>
-<p>• Input: “[CLS] calculus is a [MASK] of math [SEP] it [MASK] developed by newton and leibniz”.</p>
-<p>• Targets: true, “branch”, “was”.</p>
-<h2 id="bert实践todo">Bert实践【todo】</h2>
-<p>如何使用BERT做迁移学习（Transfer Learning）？</p>
-<ul>
-<li>(demo数据)[https://www.kaggle.com/c/fake-news-pair-classification-challenge/data]</li>
-<li>预训练的中文bert模型：hugging face</li>
-</ul>
-<h2 id="要不要冻结bert的部分参数">要不要冻结BERT的部分参数？</h2>
-<p>Why not to freeze BERT？</p>
-<p>That said, BERT is meant to be fine-tuned. The paper talks about the feature-based (i.e., frozen) vs fine-tuning approaches in more general terms, but the module doc spells it out clearly: "fine-tuning all parameters is the recommended practice." This gives the final parts of computing the pooled output a better shot at adapting to the features that matter most for the task at hand.</p>
-<p>when you fine-tune BERT, you can choose whether to freeze the BERT layers or not. Do you want BERT to learn to embed the words in a slightly different way, based on your new data, or do you just want to learn to classify the texts in a new way (with the standard BERT embedding of the words)?</p>
-<p>I wanted to use BertViz visualisation to see what effect the classification tuning had on the attention heads, so I did fine-tuning with the first 8 layers of BERT frozen and the remaining 4 layers unfrozen.</p>
-<p>Some people suggest doing gradual unfreezing of the BERT layers, ie finetuning with BERT frozen, then finetuning a bit more with just one layer unfrozen, etc.</p>
-<h1 id="参考">参考</h1>
-<ol type="1">
-<li>Bahdanau, Cho, &amp; Bengio. Neural machine translation by jointly learning to align and translate. In ICLR, 2015.</li>
-<li>Cheng, Dong, &amp; Lapata. Long Short-Term Memory-Networks for Machine Reading. In EMNLP, 2016.</li>
-<li>Vaswani et al. Attention Is All You Need. In NIPS, 2017.</li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=UlC6AjQWao8&amp;t=26s">BERT (预训练Transformer模型)</a></li>
-<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1907.11692v1.pdf">RoBERTa</a></li>
-<li>Devlin, Chang, Lee, and Toutanova. BERT: Pre-training of deep bidirectional transformers for language understanding. In ACL, 2019.</li>
-<li><a target="_blank" rel="noopener" href="https://leemeng.tw/attack_on_bert_transfer_learning_in_nlp.html">attack_on_bert_transfer_learning_in_nlp-blog</a></li>
-<li><a target="_blank" rel="noopener" href="https://pytorch.org/hub/pytorch_fairseq_roberta/">ROBERTA-pytorch</a></li>
-<li><a target="_blank" rel="noopener" href="https://discuss.huggingface.co/t/fine-tune-bert-models/1554/2">huggingface</a></li>
-<li>https://medium.com/swlh/painless-fine-tuning-of-bert-in-pytorch-b91c14912caa</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/13/reading_notes/economics/classical-economy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -417,10 +266,210 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/12/machine-learning/machine-learning_4-dl5_word2vec/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/03/12/machine-learning/machine-learning_4-dl5_word2vec/" class="post-title-link" itemprop="url">机器学习4.5 深度学习5 word2vec</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-03-12 22:23:20" itemprop="dateCreated datePublished" datetime="2021-03-12T22:23:20+08:00">2021-03-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-21 14:50:16" itemprop="dateModified" datetime="2021-07-21T14:50:16+08:00">2021-07-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>词嵌入（word embedding）是指把一个词映射为一个实数域的向量，这个向量也叫词向量。</p>
+<p>word2vec是一个词嵌入模型，有两个变形，跳字模型和连续词袋模型。跳字模型是基于中心词来生成背景词。连续词袋模型假设基于背景词来生成中心词。</p>
+<p>word2vec模型学习到了一个词的两个表示（背景词向量和中心词向量），下游节点用的是哪个呢？</p>
+</blockquote>
+<h2 id="why-word2vec">why word2vec？</h2>
+<p>实现词嵌入的方法有很多，最简单的就是one-hot，即，先构建一次词典，然后将该word映射为索引向量。</p>
+<p>那么为什么还要提出来word2vec方法？直接使用one-hot有什么问题吗？</p>
+<p>one-hot vector没有表达word在语义上的相似性。 举个例子，假如用余弦函数来描述word之间的相似度， 那么one-hot的表达方式，就会使所有word之间的相似度为0，这样就丢失了词语的语义上的信息。</p>
+<p>所以，需要一种词的表示方法，能表达语义上的相关性，word2vec就应运而生了。</p>
+<h2 id="what-word2vec">what word2vec？</h2>
+<p>wod2vec跟传统的线性降维方法如PCA一样，本质上都是在寻找对原始输入（词语）的一种更经济、高效的表达。</p>
+<p>PCA和Word2vec的区别在于，两者对于何为「最优表达」的定义不一样：</p>
+<ul>
+<li>PCA认为重构误差最小的表达，就是最好的表达。即经过编码-解码之后,重构回原来空间时丢失尽可能少。</li>
+<li>word2vec认为如果一个中心词的表达跟上下文表达关联最大，就是最好的表达。即经过编码-解码之后，中心词映射为背景词，或者，背景词映射为中心词。想预测另外一个东西。 其中，前者是（Skip-gram model，SG），后者是连续词袋模型（Continuous Bag-of-Words，CBOW）。</li>
+</ul>
+<figure>
+<img src="./img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
+</figure>
+<h2 id="how-word2vec">how word2vec?</h2>
+<p>先看跳字模型</p>
+<h3 id="跳字模型skip-gram--基于中心词来生成背景词">跳字模型（skip gram）--基于中心词来生成背景词</h3>
+<h4 id="high-level">high-level</h4>
+<p>跳字模型就是将一个中心词映射成多个背景词，大概思路，</p>
+<p><img src="./img1.png" /></p>
+<ol type="1">
+<li>对词典中每个词，构建2个向量表示，这个是待估参数。</li>
+<li>类似多分类问题，构造一个映射函数，输入中心词的one-hot（长度为<span class="math inline">\(\mathcal{V}\)</span>），输出背景词的概率分布（长度为<span class="math inline">\(\mathcal{V}\)</span>）</li>
+<li>类似逻辑回归的参数估计，使用交叉熵作为损失函数。</li>
+</ol>
+<p>总体来说，从low-level，跳字模型，就很像是一个多分类的逻辑回归，跳字模型保留的是参数，而逻辑回归需要用的是输出的概率。</p>
+<p>下面是一些细节可以跳过</p>
+<h4 id="细节">细节</h4>
+<ul>
+<li><p>词典索引集： <span class="math inline">\(\mathcal{V} =\{0,1, \ldots,|\mathcal{V}|-1\}\)</span></p></li>
+<li><p>假设某个词在词典中的索引为i，这个词被表示成2个d维向量:</p>
+<ul>
+<li>中心词向量：<span class="math inline">\(\boldsymbol{v}_{i} \in \mathbb{R}^{d}\)</span></li>
+<li>背景词向量：<span class="math inline">\(\boldsymbol{u}_{i} \in \mathbb{R}^{d}\)</span></li>
+</ul></li>
+<li><p>模型的输出是条件概率，假设中心词<span class="math inline">\(w_c\)</span>在词典中的索引为c，背景词<span class="math inline">\(w_o\)</span>在词典中的索引为o，那么给定中心词生成背景词的条件概率为</p>
+<p><span class="math display">\[P\left(w_{o} \mid w_{c}\right)=\frac{\exp \left(\boldsymbol{u}_{o}^{\top} \boldsymbol{v}_{c}\right)}{\sum\limits_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)}\]</span></p></li>
+<li><p>假设给定一个长度为 T 的文本序列，设时间步 t 的词为 w(t) 。假设给定中心词的情况下背景词的生成相互独立，当背景窗口大小为 m 时，跳字模型的似然函数即给定任一中心词生成所有背景词的概率 <span class="math display">\[P\left(w_{o} \mid w_{c}\right)=\frac{\exp \left(\boldsymbol{u}_{o}^{\top} \boldsymbol{v}_{c}\right)}{\sum_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)}\]</span> 这里小于1或大于 T 的时间步可以被忽略。</p></li>
+<li><p>参数估计方法：MLE, 即最大化如下对数似然函数来估计参数，等价于最小化交叉熵（用来计算两个函数或者概率之间的距离）</p>
+<p><span class="math display">\[  \prod\limits_{t=1}^{T} \prod\limits_{-m \leq j \leq m, j \neq 0} P\left(w^{(t+j)} \mid w^{(t)}\right)\]</span> 等价于最小化如下 损失函数 <span class="math display">\[ -\sum\limits_{i=1}^{T} \sum\limits_{-m \leq j \leq m, j \neq 0} \log P\left(w^{(t+j)} \mid w^{(t)}\right)\]</span> 根据定义 <span class="math display">\[\log P\left(w_{o} \mid w_{c}\right)=\boldsymbol{u}_{o}^{\top} \boldsymbol{v}_{c}-\log \left(\sum\limits_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)\right)\]</span></p>
+<p>按照梯度上升的思路，先求损失函数其中一项相对于<span class="math inline">\(v_c\)</span>的梯度 <span class="math display">\[\begin{aligned} \frac{\partial \log P\left(w_{o} \mid w_{c}\right)}{\partial \boldsymbol{v}_{c}} &amp;=\boldsymbol{u}_{o}-\frac{\sum_{j \in \mathcal{V}} \exp \left(\boldsymbol{u}_{j}^{\top} \boldsymbol{v}_{c}\right) \boldsymbol{u}_{j}}{\sum_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)} \\ &amp;=\boldsymbol{u}_{o}-\sum_{j \in \mathcal{V}}\left(\frac{\exp \left(\boldsymbol{u}_{j}^{\top} \boldsymbol{v}_{c}\right)}{\sum_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)}\right) \boldsymbol{u}_{j} \\ &amp;=\boldsymbol{u}_{o}-\sum_{j \in \mathcal{V}} P\left(w_{j} \mid w_{c}\right) \boldsymbol{u}_{j} \end{aligned}\]</span></p></li>
+</ul>
+<p>训练结束后，对于词典中的任一索引为i的词，我们均得到该词作为中心词和背景词的两组词向量 <span class="math inline">\(v_i\)</span> 和 <span class="math inline">\(u_i\)</span> 。在自然语言处理应用中，一般使用跳字模型的中心词向量作为词的表征向量。</p>
+<h4 id="使用tensorflow实现一个跳字模型">使用tensorflow实现一个跳字模型</h4>
+<h5 id="建模">建模</h5>
+<p>word2vec将每个词表示成一个定长的向量，并使得这些向量能较好地表达不同词之间的相似和类比关系</p>
+<ul>
+<li>第一步：获取训练样本
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FjpuHAmzTik.png?alt=media&amp;token=47e0004c-bc7c-4fc5-af22-d227532a7548" /></li>
+</ul></li>
+<li>第二步：构建1个神经网络
+<ul>
+<li>输入：上面的中心词的one-hot向量，形状为（词典大小，）</li>
+<li>输出：中心词周围出现的词的概率向量（相近词的概率），形状也是（词典大小）</li>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FsFuwRdSRxR.png?alt=media&amp;token=03f6ea4c-aee0-4e11-993f-468505022f8d" /></li>
+<li>模型参数（or权重向量）的形状和含义：
+<ul>
+<li>网络 第一层有300（词向量长度）个单元，权重向量的形状是 (词典大小，词向量长度)，表示 每个词的中心词向量</li>
+<li>网络 第二层有10000（词典大小）个单元，权重向量的形状是（词向量长度，词典大小），表示 每个词的背景词向量</li>
+</ul></li>
+</ul></li>
+</ul>
+<h5 id="评估">评估</h5>
+<ul>
+<li>影响词向量质量的三个因素：
+<ul>
+<li>训练数据的数量和质量</li>
+<li>词向量的大小</li>
+<li>训练算法</li>
+</ul></li>
+</ul>
+<p>google提供了 测试数据 和 测试脚本</p>
+<ul>
+<li>chiechie：先人工定义一些 近义词组，反义词组，不相关词组，计算这些词组的 余弦距离，看是否跟之前定义的语义距离 一致。</li>
+<li>提供2份 相关性测试集（relation test set）:
+<ul>
+<li>word relation test set :<strong>./demo-word-accuracy.sh</strong>,</li>
+<li>phrase relation test set:<strong>./demo-phrase-accuracy.sh</strong></li>
+</ul></li>
+<li>最好的结果：准确率 70% + 覆盖率 100%.</li>
+</ul>
+<h3 id="连续词袋模型continous-bag-of-words">连续词袋模型（continous bag of words）</h3>
+<p>连续词袋模型与跳字模型类似。与跳字模型最大的不同在于，连续词袋模型假设基于某中心词在文本序列前后的背景词来生成该中心词。在同样的文本序列“the”“man”“loves”“his”“son”里，以“loves”作为中心词，且背景窗口大小为2时，连续词袋模型关心的是，给定背景词“the”“man”“his”“son”生成中心词“loves”的条件概率（如图10.2所示），也就是</p>
+<p><img src="img2.png" /></p>
+<p>一般使用连续词袋模型的背景词向量作为词的表征向量。</p>
+<h2 id="优化版">优化版</h2>
+<p>梯度上式的复杂度为|V|, 为了提高计算效率，有两个近似训练方案：负采样 和 层次化softmax</p>
+<h3 id="近似的学习方法-负采样">近似的学习方法-负采样</h3>
+<p>负采样的想法是，最后一层不用softmax，而是sigmoid,损失函数交叉熵：观测到就是正样本，没观测到就是负样本（通过对词典采样K次得到） （类似异常检测）</p>
+<p><span class="math inline">\(P\left(w^{(t+j)} \mid w^{(t)}\right)=P\left(D=1 \mid w^{(t)}, w^{(t+j)}\right) \prod\limits_{k=1, w_{k} \sim P(w)}^{K} P\left(D=0 \mid w^{(t)}, w_{k}\right)\)</span></p>
+<p>取对数就是</p>
+<p><span class="math inline">\(\begin{aligned}-\log P\left(w^{(t+j)} \mid w^{(t)}\right) &amp;=-\log P\left(D=1 \mid w^{(t)}, w^{(t+j)}\right)-\sum_{k=1, w_{k} \sim P(w)}^{K} \log P\left(D=0 \mid w^{(t)}, w_{k}\right) \\ &amp;=-\log \sigma\left(\boldsymbol{u}_{i_{t+j}}^{\top} \boldsymbol{y}_{i_{t}}\right)-\sum_{k=1, w_{k} \sim P(w)}^{K} \log \left(1-\sigma\left(\boldsymbol{u}_{h_{k}}^{\top} \boldsymbol{v}_{i_{t}}\right)\right) \\ &amp;=-\log \sigma\left(\boldsymbol{u}_{i_{t+j}}^{\top} \boldsymbol{y}_{i_{t}}\right)-\sum_{k=1, w_{k} \sim P(w)}^{K} \log \sigma\left(-\boldsymbol{u}_{h_{k}}^{\top} \boldsymbol{v}_{i_{t}}\right) \end{aligned}\)</span></p>
+<p>好处是：计算 梯度的 复杂度 从N 减少到 K</p>
+<h2 id="点积or余弦">点积or余弦</h2>
+<blockquote>
+<p>word2vec中的优化目标是点积，但实际使用的却是使用向量夹角的余弦？</p>
+</blockquote>
+<ol type="1">
+<li>点积和余弦, 差了一个量岗，即向量模长。</li>
+<li>如果是在一个空间中找近义词，肯定是要用带归一化的距离函数--余弦；</li>
+<li>在训练的时候，为了迁就损失函数-sigmod，才将量岗还原。</li>
+</ol>
+<h2 id="detail">detail</h2>
+<ul>
+<li>训练时，优化的是input/output vector的点积，预测时使用的是夹角余弦.</li>
+<li>训练的时候之所以不用cos相似度，而用点积，是因为如果先做cos，会将神经网络的输出限制到[-1, 1]，使网络的表达能力（p=σ(w*c)）受限，performance下降很多。w, c来自不同的空间， w为input vector，c为output vector。</li>
+<li>如果效仿word2vec设计(user, item)这类点击率预估模型，二者的不同之处：
+<ul>
+<li>word2vec使用的是input vector，点击率预估模型使用的是最后参与点积运算的user vector, item vector；</li>
+<li>word2vec预测时是求word的knn word（word2vec的源码文件distance.c，用的是余弦距离），</li>
+<li>点击率预估模型求的是user的knn item</li>
+</ul></li>
+</ul>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><p>https://mk.woa.com/q/267975?strict=true&amp;ADTAG=daily</p></li>
+<li><p>Distributed Representations of Words and Phrases and their Compositionality, Section 2</p></li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/tmikolov/word2vec">word2vec开源实现</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_natural-language-processing/word2vec.html#%E8%BF%9E%E7%BB%AD%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B">dive into deep learning</a></p></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/79/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/79/">79</a><span class="page-number current">80</span><a class="page-number" href="/page/81/">81</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/81/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/79/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/79/">79</a><span class="page-number current">80</span><a class="page-number" href="/page/81/">81</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/81/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -486,14 +535,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">197</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
