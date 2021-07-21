@@ -1,21 +1,48 @@
 ---
-title: 自动调参之贝叶斯优化
+title: 可微的NAS方法
 author: chiechie
 mathjax: true
-date: 2021-03-24 10:30:05
+date: 2021-05-18 08:32:24
 tags:
 - auto ml
-- 贝叶斯
 - 人工智能
 categories:
 - AI
 ---
 
+## 总结
+
+联想到之前构建的通用异常检测模型，整体流程大概是这样：定义多个检测器，曲线特征，并用一个随机森林去做集成。希望随机森林可以将不同的曲线路由到适合的检测器上去。
+
+FBNet的思路跟上面的流程有点像，都是数据驱动去选择适配的组件。不同的地方在于，FBNet最终会减枝，即从9✖️20个可能的路径中，裁剪成一条路径。
+
+FBNet要解决的任务更简单，给一个小任务找到适配的解决方案；通用异常检测更难，要给n个小任务找解决方案，并且用一套复合的解决方案。
+
+NAS是auto-ml的一个子领域，相关的技术有随机搜索，强化学习，基于微分的方法，如DARTS 和 FBNet。
+
+DARTS 和 FBNet是目前做NAS的the state of arts方法
+
+下面简单介绍FBNet的思路
+
 > 「贝叶斯优化」技术是求解黑盒最优化问题的一种方法，该技术可拓展到auto-ml的自动调参场景中。
-> 
+>
 > 接下来介绍下「贝叶斯优化」的思路
 >
 > 采集函数（acquisition function）下面有些地方也用效用函数代替
+
+
+
+
+
+
+## FBNet的基本idea
+
+1. 定义候选block, eg10个
+2. 定义神经网络的层数,eg20，神经网络的每一层都是从9个候选block中选一个，搜索空间9^20
+3. 构建一个很大的神经网络--supernet，每一层由9个候选block并联而成。supernet的待估参数包括9个候选block✖️20层，以及长度为9的权重向量✖️20。
+	
+	> 人工调参，可以看成是，指定supernet中的一条路径，然后灌入数据，来估计路径上20个blcock的参数。使用FBNet就不用人为指定其中某条路径，而是这个大网络supernet从训练数据中，学习出9个block✖️20（层）个参数，以及9✖️20（层）个权重。训练完之后，选择每一层权重最大的block并且连成一条路径，就是机器选定的20层的网络结构。
+4. 模型要落地，还要考虑计算效率。具体的做法，事先算好候选block各自的latency(做一次推断平均耗时多久，block的权重随机给，跑多组数据求平均时延），然后将latency信息加入损失函数中，作为错误率之外的另外的一个惩罚项。
 
 
 
@@ -58,7 +85,7 @@ $$\max\limits_{x \in \mathcal{X}} f(x)$$
 
 先看两种最简单的方法，随机搜索 和 网格搜索
 
-![随机搜索和网格搜索](./grid_random_search.png)
+![随机搜索和网格搜索](/Users/stellazhao/research_space/chiechie.github.io/source/_posts/AI/grid_random_search.png)
 
 
 - 网格搜索：如左图，需要指定搜索范围和间隔， 优点：考虑到了搜索空间内所有的参数组，缺点：存在组合爆炸的问题.
@@ -68,10 +95,10 @@ $$\max\limits_{x \in \mathcal{X}} f(x)$$
 - 贝叶斯优化: BayesOptimazation(r，p, m，n_iters，算法名称)，优点：不需要指定搜索范围，可自动调节搜索过程中的步长
 
 - 贝叶斯优化的变形-SMAC和TPE
-  
-	- SMAC：代理函数变成了回归随机森林
-	- TPE：代理函数变成了高斯混合模型
-	![img.png](./bianxing.png)
+
+  - SMAC：代理函数变成了回归随机森林
+  - TPE：代理函数变成了高斯混合模型
+    ![img.png](/Users/stellazhao/research_space/chiechie.github.io/source/_posts/AI/bianxing.png)
 - 实际中，随机搜索其实已经很有效了。
 
 
@@ -95,13 +122,12 @@ $x^{*}=\arg \max _{x \in \mathcal{X}} f(x)$
 
 
 
-## 贝叶斯优化和强化学习
-
+### 贝叶斯优化和强化学习
 
 
 贝叶斯优化跟强化学习有些许相似之处
 
-![image-20210714194513883](./image-20210714194513883.png)
+![image-20210714194513883](/Users/stellazhao/research_space/chiechie.github.io/source/_posts/AI/image-20210714194513883.png)
 
 
 
@@ -109,7 +135,7 @@ $x^{*}=\arg \max _{x \in \mathcal{X}} f(x)$
 
 ### 贝叶斯优化图
 
-![贝叶斯优化](./img.png)
+![贝叶斯优化](/Users/stellazhao/research_space/chiechie.github.io/source/_posts/AI/img.png)
 
 https://distill.pub/2020/bayesian-optimization/
 
@@ -159,6 +185,9 @@ https://distill.pub/2020/bayesian-optimization/
 3. [贝叶斯优化-可视化版-distill](https://distill.pub/2020/bayesian-optimization/)
 4. [开源工具-Advisor-github](https://github.com/tobegit3hub/advisor)
 5. [谷歌的调参工具](https://cloud.google.com/ai-platform/optimizer/docs/overview)
-5. [超参数优---贝叶斯优化及其改进（PBT优化）csdn](https://blog.csdn.net/xys430381_1/article/details/103871212)
-6. [微软新工具 NNI 使用指南之 Tuner 篇-jianshu](https://www.jianshu.com/p/3587b24f1a6d)
+6. [超参数优---贝叶斯优化及其改进（PBT优化）csdn](https://blog.csdn.net/xys430381_1/article/details/103871212)
+7. [微软新工具 NNI 使用指南之 Tuner 篇-jianshu](https://www.jianshu.com/p/3587b24f1a6d)
 8. https://docs.qq.com/flowchart/DVFVYeEZpd1NMTEtX
+
+1. [wangshusen-slide-github](https://github.com/wangshusen/DeepLearning)
+2. [Differentiable Neural Architecture Search-youtube](https://www.youtube.com/watch?v=D9m9-CXw_HY)
