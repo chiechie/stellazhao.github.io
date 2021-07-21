@@ -1,5 +1,5 @@
 ---
-title: 可微的NAS方法
+title: 机器学习5 自动化机器学习技术
 author: chiechie
 mathjax: true
 date: 2021-05-18 08:32:24
@@ -7,7 +7,7 @@ tags:
 - auto ml
 - 人工智能
 categories:
-- AI
+- 机器学
 ---
 
 ## 总结

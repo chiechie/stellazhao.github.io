@@ -1,5 +1,5 @@
 ---
-title:  机器学习3 深度学习6 word2vec
+title: 机器学习4.5 深度学习5 word2vec
 author: chiechie
 mathjax: true
 date: 2021-03-12 22:23:20
