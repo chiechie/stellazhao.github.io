@@ -11,7 +11,7 @@ tags:
 - 因果推断
 - 根因分析
 categories: 
-- AI
+- 阅读
 ---
 
 > the book of why 的第7章 征服干预之峰

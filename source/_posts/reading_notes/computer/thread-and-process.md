@@ -206,6 +206,23 @@ new_task
 
 
 
+
+
+### python 中yeild from
+
+- - __sending data to a generator__：
+    - ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F1zhFekYOBy.png?alt=media&token=d50a85f3-9a2d-4960-b565-3f3be8b47a8e)
+    - http://dabeaz.com/coroutines/Coroutines.pdf
+    - p27-p33
+- What yield from does is it **__establishes a transparent bidirectional connection between the caller and the sub-generator__**:
+    - The connection is "transparent" in the sense that it will propagate everything correctly too, not just the elements being generated (e.g. exceptions are propagated).
+    - The connection is "bidirectional" in the sense that data can be both sent __from__ and __to__ a generator.
+- 类比TCP，yield from g 就是说暂时断掉我的客户端的socket连接，重连到另外一个服务器socket
+- 看的云里雾里，总结下
+    - yield from 用于，  使用一个wrapper函数给一个协程 传值 itertivaly。
+    - ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FgQV8HJaYUg.png?alt=media&token=38be8f68-8bcc-4809-9d83-63806cab0c4a)
+- 
+
 ## 参考
 1. [线程和进程的区别是什么？-zhihu](https://www.zhihu.com/question/25532384/answer/411179772)
 2. [Threading in Python - Advanced Python 16 - Programming Tutorial-youtube](https://www.youtube.com/watch?v=usyg5vbni34)
@@ -216,3 +233,5 @@ new_task
 )
 7. [进程、线程及其内存模型](https://buptjz.github.io/2014/04/23/processAndThreads)
 8. 深入理解操作系统
+9. https://stackoverflow.com/questions/9708902/in-practice-what-are-the-main-uses-for-the-new-yield-from-syntax-in-python-3
+
