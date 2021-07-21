@@ -66,7 +66,7 @@ def negative_normal_likelihood(self, F, y, mu, sigma):
 - Student：在获取数据阶段踩了一些坑，因为维度太多，全部数据维度都要 会导致拉数据接口快挂了
 - Teacher：找出其中最重要的维度（重要度 即记录的条数 或者 指标求和）
 - Student：从5w个维度过滤出来了100个维度，剩下的大部分维度怎么弄呢？
-- Teacher：先管好这个100个维度，跑一跑模型，剩下的数据质量差可以暂时不监控。
+- Teacher：先管好这个100个维度，剩下的数据质量差可以暂时不监控。
 - Student：这批数据有个特点--不同曲线形态模式很不一样，我怀疑1个模型很容易学混，接下来就证实了这一点（100个曲线上面的图，待补充）![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FHF_Qc1aO1g.png?alt=media&token=3591cf24-bfdf-44b7-894b-ba03652522f1)
 - Teacher：尝试加入feat_static_cat特征，来区分不同曲线。
 - Student：有些许变化，但是改进还不太明显。另外在做实验过程中，发现几个优化的方向
@@ -78,9 +78,8 @@ def negative_normal_likelihood(self, F, y, mu, sigma):
     - value 为边界点（0或者1）时，加入扰动项
     - 输出的概率分布设置为beta分布
     输出的上下界，非常符合比率型设定（上界不会超过1，下界不会低于0），但是就是准确率不高，一看就是学混了（移花接木，局部的模式 太弱了）
-- 出bug了，排查问题
-
-
+    
+    
 
 ## 参考
 
