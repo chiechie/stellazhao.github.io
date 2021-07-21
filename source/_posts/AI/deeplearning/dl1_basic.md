@@ -138,7 +138,8 @@ tensorflow中的损失函数:
 
 - sparse_categorical_crossentropy: target是interger list，形状n*1； 
 - categorical_crossentropy: target 是one-hot vector，target的shape跟模型输出一致，是n*k(类)。
-  - $$C E(x)=-\sum\limits_{i=1}^{C} y_{i} \log f_{i}(x)$$
+
+  $$C E(x)=-\sum\limits_{i=1}^{C} y_{i} \log f_{i}(x)$$
 - binary_crossentropy: target 是interger list。
   $$B C E(x)_{i}=-\left[y_{i} \log f_{i}(x)+\left(1-y_{i}\right) \log \left(1-f_{i}(x)\right)\right]$$
 - 如果输出标签维度为1，只能使用binary_crossentropy，否则程序会报错。不能直接使用categorical_crossentropy 或者sparse_categorical_crossentropy
