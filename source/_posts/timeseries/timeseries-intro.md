@@ -9,7 +9,7 @@ tags:
 - 时序预测
 - 量化交易
 categories: 
-- AI
+- 时间序列
 ---
 
 

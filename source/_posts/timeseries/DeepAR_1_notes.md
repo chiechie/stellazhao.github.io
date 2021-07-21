@@ -11,7 +11,7 @@ tags:
 - DeepAR
 - AIOps
 categories:
-- AI
+- 时间序列
 ---
 
 

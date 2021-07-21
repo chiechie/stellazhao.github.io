@@ -8,7 +8,7 @@ tags:
 - 时间序列
 - DeepAR
 categories:
-- AI
+- 时间序列
 ---
 
 > 看一下amazon官方对DeepAR的实现
@@ -48,7 +48,7 @@ def negative_normal_likelihood(self, F, y, mu, sigma):
 ```
 - 对不同曲线预测的时候，为什么有的曲线效果很， 好有的曲线效果很差？
     - deepAR会针对不同曲线，给loss 赋予不同的权重：loss_weights 是根据observed_values的min确定的---所以会忽略小量岗的曲线，学的不好的。
-  
+
 ## 算法前期调研中的一些小插曲
 
 网上找到了pytorch版本的deepAR版，但是很慢
