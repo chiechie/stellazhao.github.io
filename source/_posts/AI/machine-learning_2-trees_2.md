@@ -13,7 +13,7 @@ categories:
 
 > boosting tree的代表是gbdt，以及一系列变形xgboost,catboost,下面重点介绍一下xgboost
 
-## 何为bagging和boosting？
+# 何为bagging和boosting？
 
 1. Bagging是一种数据采样的方法，Blending是一种模型混合的方法.
 2. Blending的方法有几个：投票/线性blending/stacking。
@@ -35,9 +35,9 @@ categories:
   boosting相对于uniform的方式，多了n个待估参数，复杂度更高，如何求解这个高维的优化问题？衍生出了两种算法，第一种是像adaboost，使用一个reweighted的样本去构建一个新的estimator，并使用其预测准确率作为权重。
    GBDT则是基于前面所有的estimator的学习成果，做增量学习。
 
-## 随机森林，Adaboost和 GBDT
+# 随机森林，Adaboost和 GBDT
 
-### 随机森林
+## 随机森林
 
 1. bootstrap是什么？是一种抽样的方法，通过多次有放回的抽样，得到多份独立的样本集，获得统计量。
 2. Bagging是什么？通过bootstrap的方式抽样得到多份样本。Bagging的特点是，可以降低整体的模型预测的不稳定性，通过让多个base estimator投票或者取均值的方式。
@@ -55,7 +55,7 @@ categories:
 
 
 
-### Adaboost
+## Adaboost
 
 ![adaboost](./img.png)
 
@@ -64,9 +64,7 @@ categories:
 2. adaboosting的思路是，先训练出一个base estimator，根据预测结果的准确率，对样本的权重进行调整，预测不准的样本调高权重，预测准的样本调低权重，然后让下一个base estimmtor来学习。这样，原来base estimator搞不定的样本，在后续的学习中，得到更多的关注，最终的预测模型，是所有base estimator预测结果的线性组合，权重表示对应base estimator的预测准确率。
 
 
-
-
-### GBDT 
+## GBDT 
 
 1. GBDT是将一个优化问题，拆解成一系列子优化问题，每个子优化问题要解决的问题是，在当前学习成果的基础上查漏补缺，从而更加逼近target variable。即当前的base estimator的优化目标是最小化target和截止当前的预测值之间的差，也叫residual。
    ![img_4.png](img_4.png)
@@ -83,24 +81,20 @@ categories:
 6. AdaBoost是要根据不同样本的权重来找一一个拟合的最好的小g; GBDT是找一个能拟合当前残差最好的小g。
 
 
-
----
-title: 树模型3 xgboost介绍
-author: chiechie
-mathjax: true
-date: 2021-04-18 14:59:29
-tags:
-- 人工智能
-- 树模型
-categories:
-- 机器学习
----
-
 ## xgboost
 
-除了Adaboost，GradientBoost，Boosting tree的另外一个代表是xgboost,简称为XGB
+1. 除了Adaboost，GradientBoost，Boosting tree的另外一个代表是xgboost,简称为XGB
 
-相对GBDT用err的一阶泰勒展开做近似，XGB做了更逼近的近似--二阶近似，并且在err中加入了正则项，限制了base estimator的复杂度。
+2. 相对GBDT用err的一阶泰勒展开做近似，XGB做了更逼近的近似--二阶近似，并且在err中加入了正则项，限制了base estimator的复杂度。
+3. 为什么要使用二阶近似？
+   1. 先回答为什么要用近似（不管是一阶还是二阶）？为了简化优化目标：让各种稀奇古怪的loss function都统一表达为关于f的二次函数，然后就可以使用同样的优化算法求最优的f了，不管loss长什么样都可以用一招方法。
+   2. 再回答为什么是二阶而不是一阶？二阶更精确啊。
+
+
+
+# 附录
+
+## xgboost的公式推导
 
 ### 损失函数
 
@@ -145,23 +139,33 @@ $min \sum\limits_{i=1}^{n}\left[g_{i} f_{t}\left(\mathbf{x}_{i}\right)+\frac{1}{
 
 ### 基于样本集重新定义损失函数
 
-更进一步，将$I_{j}=\left\{i | q\left(\mathbf{x}_{i}\right)=j\right\}$定义为叶子j对应的特征子空间 那么优化目标可以更进一步formulate为：
+1. 更进一步，上面的优化目标可以转换为：
+   $$\min\limits_{\omega, q} \sum_{i=1}^{n}\left[g_{i} f_{t}\left(\mathbf{x}_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(\mathbf{x}_{i}\right)\right]+\gamma T+\frac{1}{2} \lambda \sum_{j=1}^{T} w_{j}^{2} $$
+   即：
+   $$\min\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right]+\gamma T $$
+   
+   - $I_{j}=\left\{i | q\left(\mathbf{x}_{i}\right)=j\right\}$为叶子j对应的特征子空间 
+   
+   
+   也就是说，在构造第t个base estimator时，需满找到一个使得上面函数取得最小值的的base estimator，即找到最优$w^{\star}$​和$q^{\star}$​​对应的决策树。
+   
+2. 如何找到满足以上优化目标的决策树？拆解成两层优化问题，内层的优化问题确定叶子的预测值w，外层的优化问题确定分支q。
 
-$$\min\limits_{\omega, q} \sum_{i=1}^{n}\left[g_{i} f_{t}\left(\mathbf{x}_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(\mathbf{x}_{i}\right)\right]+\gamma T+\frac{1}{2} \lambda \sum_{j=1}^{T} w_{j}^{2} $$
-$$=\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right]+\gamma T $$
+   $$\min_{q} （\min_{w}\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right] +  \gamma T） $$
 
-也就是说，在构造第t个base estimator时，只需满足该estimator是该优化问题的最优解即可。
+3. 最优化叶子预测值w：对于某个给定分支(q)的决策树, $I_{j}$​​​​​是确定，
 
-还是回到cart，确定一棵树，首先要确定分支，其次要确定每个叶子的预测值。
-假设已经确定好了第t颗树的分支，即$I_{j}$已经确定，那么最优的叶子预测值$\omega_i$即为
-$$w_{j}^{*}=-\frac{\sum\limits_{i \in I_{j}} g_{i}}{\sum\limits_{i \in I_{j}} h_{i}+\lambda}$$
+   $$\min_{w}\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right]$$
 
-将$w_{j}^{*}$带入上面的目标函数，得到等价的目标函数：
+   里面的优化问题是一个二次优化问题，直接令导数取0，即可得到最优解:
+   $$w_{j}^{*}=-(\sum_{i \in I_{j}} g_{i}) /(\sum_{i \in I_{j}} h_{i}+\lambda)$$​​​​​​​
 
-$\min\limits_q  -\frac{1}{2} \sum\limits_{j=1}^{T} \frac{\left(\sum_{i \in I_{j}} g_{i}\right)^{2}}{\sum_{i \in I_{j}} h_{i}+\lambda}+\gamma T$  （6）
+4. 最优化叶子分支q：将$w_{j}^{*}$​​带入上面的目标函数，优化问题转换为：
 
-公式（6）可以用来衡量树结构q的质量，类似决策树中的impurity得分。根构造决策树算法一样，使用贪婪方法迭代式构造分支，衡量splitting质量好坏用下面的表达式，即计算切分后纯度的提升 或者 不纯度的下降： 
-  $$\mathcal{L}_{s p l i t}=\frac{1}{2}\left[\frac{\left(\sum\limits_{i \in I_{L}} g_{i}\right)^{2}}{\sum\limits_{i \in I_{L}} h_{i}+\lambda}+\frac{\left(\sum\limits_{i \in I_{R}} g_{i}\right)^{2}}{\sum\limits_{i \in I_{R}} h_{i}+\lambda}-\frac{\left(\sum_{i \in I} g_{i}\right)^{2}}{\sum_{i \in I} h_{i}+\lambda}\right]-\gamma$$  
+   $\min\limits_q  -\frac{1}{2} \sum\limits_{j=1}^{T} \frac{\left(\sum_{i \in I_{j}} g_{i}\right)^{2}}{\sum_{i \in I_{j}} h_{i}+\lambda}+\gamma T$​  
+
+可以使用构造决策树的方式--递归构造子树，使用该指标的下降来评价splitting的质量（cart使用entropy或者gini index对应的信息增益来衡量），当前的「信息增益」可以表达
+  $$\mathcal{L}_{s p l i t}=\frac{1}{2}\left[\frac{\left(\sum_{i \in I_{L}} g_{i}\right)^{2}}{\sum_{i \in I_{L}} h_{i}+\lambda}+\frac{\left(\sum_{i \in I_{R}} g_{i}\right)^{2}}{\sum_{i \in I_{R}} h_{i}+\lambda}-\frac{\left(\sum_{i \in I} g_{i}\right)^{2}}{\sum_{i \in I} h_{i}+\lambda}\right]-\gamma$$​​​  
 
 其中，$I=I_{L} \cup I_{R}$
 
@@ -180,7 +184,7 @@ $\min\limits_q  -\frac{1}{2} \sum\limits_{j=1}^{T} \frac{\left(\sum_{i \in I_{j}
 - shrinkage parameter:迭代步长，通常取0.01或者0.001，较小的lambda会需要很大的B来取得较好的效果。
 - number of split d:通常d=1效果就比较好了。d表示的interation depth，就是交叉项的深度。
 
-## 参考资料
+# 参考资料
 1. [Random Forest Algorithm-Hsuan-Tien Lin](https://www.youtube.com/watch?v=ATM3sH0D45s&list=RDCMUC9Wi1Ias8t4u1OosYnHhi0Q&index=9)
 
 2. [Adaptive Boosting linxuantian](https://www.csie.ntu.edu.tw/~htlin/mooc/doc/208_present.pdf)
