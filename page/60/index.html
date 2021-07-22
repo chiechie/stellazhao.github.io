@@ -165,6 +165,206 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/14/timeseries/timeseries3_DeepAR/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/14/timeseries/timeseries3_DeepAR/" class="post-title-link" itemprop="url">时间序列3 深度学习模型DeepAR</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-14 17:21:19" itemprop="dateCreated datePublished" datetime="2021-04-14T17:21:19+08:00">2021-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-21 19:57:56" itemprop="dateModified" datetime="2021-07-21T19:57:56+08:00">2021-07-21</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">时间序列</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="总结">总结</h2>
+<ul>
+<li>DeepAR是一种时间序列预测算法，类似一个升级版的AR模型。</li>
+<li>DeepAR不做点估计，而是估计概率分布</li>
+<li>由于DeepAR输出的是概率分布，所以对未来一段时间的预测，需要采样递归生成，但是采样只是1个路径，如果希望得到期望，需要重复采样</li>
+<li>适用于噪声较大的数据：相较于点估计能提供更有用的信息，如方差，在金融领域这个值代表风险，价值的(比如var用于计算准备金)。</li>
+<li>在交易上的启发：构建基于波动率的策略，风险大的情况下不交易。</li>
+</ul>
+<h2 id="deepar原理">DeepAR原理</h2>
+<ul>
+<li>怎么得到条件概率分布，或后验概率，即p（z｜x），训练的时候分两步走</li>
+<li>第一步：先确定概率分布的函数族，比如高斯分布，或者二项分布，那么使用参数&lt; <span class="math inline">\(\mu, \sigma\)</span>&gt; 来定义这个分布。</li>
+<li>第二步：估计这个分布的参数&lt; <span class="math inline">\(\mu, \sigma\)</span>​&gt;, 使用一个神经网络来拟合这个概率分布，具体来说
+<ul>
+<li>构建一个神经网络，该神经网络的输入为x，输出为&lt; <span class="math inline">\(\mu, \sigma\)</span>​&gt;</li>
+<li>使用最大似然估计的方法来训练这个神经网络：<span class="math inline">\(\mathcal{L}=-\sum\limits_{i=1}^{N} \sum\limits_{t=t_{0}}^{T} \log \ell\left(z_{i, t} \mid \theta\left(\mathbf{h}_{i, t}\right)\right)\)</span>
+<ul>
+<li>模型输出的分布参数为&lt;<span class="math inline">\(\mu, \sigma\)</span>&gt; , ground truth为y，loss为likelihood取negtive log：<span class="math inline">\(-log Prob(\mu,\sigma,y)\)</span>​， -log Prob就是反馈信号，取值越大当前参数不好，还要调整</li>
+</ul></li>
+</ul></li>
+<li>做推断的时候，输入x，得到后验概率&lt;<span class="math inline">\(\mu, \sigma\)</span>&gt;，进行采样，得到预测值</li>
+<li>使用likelihood 和 y 来度量输出的&lt;<span class="math inline">\(\mu, \sigma\)</span>&gt; 质量好不好。有点像，有个人号称 他的理论知识渊博&lt;<span class="math inline">\(\mu, \sigma\)</span>​&gt; (覆盖了y空间中所有的案例），现在要检验他的方法论对不对，就拿实际数据验证下，看他的理论能否解释事实。</li>
+</ul>
+<h2 id="附录">附录</h2>
+<h3 id="deepar的模型结构">DeepAR的模型结构</h3>
+<ul>
+<li><p><span class="math inline">\(z_{i,t}\)</span>: 第i个时间序列在t时刻的值</p></li>
+<li><p><span class="math inline">\(P\left(\mathbf{z}_{i, t_{0}: T} \mid \mathbf{z}_{i, 1: t_{0}-1}, \mathbf{x}_{i, 1: T}\right)\)</span>: 模型输出</p></li>
+<li><p>condition range： <span class="math inline">\(t_0\)</span>表示历史依赖长度</p></li>
+<li><p>prediction range：预测区间</p></li>
+<li><p><span class="math inline">\(\mathbf{Z}_{i, t_{0}: T}\)</span>: 预测区间内，Z的取值</p>
+<figure>
+<img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FjTfoJccA7q.png?alt=media&amp;token=6850c357-b303-4053-81b8-2756678deb58" alt="DeepAR训练过程（左边）和 预测过程（右边）" /><figcaption aria-hidden="true">DeepAR训练过程（左边）和 预测过程（右边）</figcaption>
+</figure></li>
+</ul>
+<h3 id="deepar做预测">DeepAR做预测</h3>
+<ol type="1">
+<li>由于DeepAR输出的是概率分布，所以对未来一段时间的预测，需要采样+递归预测，但是一次采样只能得到1个路径，如果希望得到期望和分布，需要重复采样多次</li>
+</ol>
+<h3 id="对不同scale曲线怎么处理的">对不同scale曲线怎么处理的？</h3>
+<ol type="1">
+<li>不同曲线怎么做归一化和逆归一化？缺失值多&amp;方差变化大
+<ul>
+<li>context-length内的所有z求平均值，作为scale来归一化原始输入并且记下来，模型输出的u和sigma 再 使用这个scale来逆归一化回去。</li>
+<li>相当于在第一层做了layer Normalization</li>
+</ul></li>
+<li>不同曲线的长度和重要性不一样，如果是按照曲线id来均匀采样，会导致重要的曲线学的不够（underfit）
+<ul>
+<li>不做均匀采样，而是做加权采样--使用1里面计算得到的scale作为权重</li>
+</ul></li>
+</ol>
+<h3 id="在交易上的启发">在交易上的启发</h3>
+<ol type="1">
+<li>DeepAR输出的是概率分布，适用于噪声较大的数据：相较于点估计能提供更有用的信息，如方差，代表风险。</li>
+<li>进一步，基于预测风险，构建基于波动率的策略，风险大的情况下不交易。</li>
+</ol>
+<h3 id="关于deepar-的冷启动">关于DeepAR 的冷启动</h3>
+<p>DeepAR号称能解决冷启动的问题，然而在实验设置中，如果没有给出item 的特征数据，是不可能在冷启动item上得到靠谱结果的： 因为 压根没又数据可以 学item之间的相关性。 之前在想会不会因为不同曲线丢到1个模型训练，学习到混乱的模式，放到这里可以将问题进一步明确： 会不会导致 在曲线A上利用曲线B学到的模式进行预测？（然而A和B相差很大）</p>
+<p>为了避免这个现象，需要满足： - 目标1-训练阶段，模型能区别A和B两种模式 - 目标2-推断阶段，新样本匹配到它真正的模式（A或者B）</p>
+<p>有两种方法：</p>
+<ul>
+<li>方法1: 在训练阶段加入item的index信息（item元数据）</li>
+<li>方法2:在训练阶段加入item的特征信息（更general的item元数据）</li>
+</ul>
+<p>方法1和方法2都能达到目标1，但是对于目标2，方法2更接近一些： 方法1只能对 index出现在训练阶段的item 做预测 方法2可以对index没有出现在训练阶段的item做预测，真正 有可能 解决冷启动问题。（也是有边界的，比如item 元数据是某个类别变量，那么类别只有在训练阶段出现过的item才能被预测，eg 训练集中 包含 衣服 和 书籍两种 商品类型，推断阶段 就只能预测 这两种类型的 新商品，）</p>
+<h3 id="关于曲线的混乱模式">关于曲线的混乱模式</h3>
+<p>喂入不同曲线，会让模型学习到 或者 匹配到 混乱模式。想了一下，即使学到了 混合的模式，未必是件坏事，要分两个层面看：</p>
+<ol type="1">
+<li>混合是个好事：比如冷启动的商品或者缺失值过多的商品，如果能借鉴 模式相近（学出来的）的数据质量很好的其他商品 ，是比单独自己学 的效果好的。</li>
+<li>混合是个坏事：比如数据质量本身就很好，不用参考别人的学习资料（可能还会拖后腿） 所以，如果希望用一个global 模型一劳永逸对所有商品 建模，我觉得至少要考虑到 ，单个商品的 local模型 和 global 模型 要择优录取。</li>
+</ol>
+<h3 id="关于评估">关于评估</h3>
+<ol type="1">
+<li>输出的概率分布，怎么评估模型效果？</li>
+</ol>
+<h3 id="从paper-到-落地">从paper 到 落地</h3>
+<p>以DeepAR为例，探索从论文到demo再到落地的过程</p>
+<ul>
+<li>Student： 网上找到了pytorch版本的deepAR版（发于2017年4月），训练过程很慢要7个小时，虽然paper里面也号称要7个小时，是优化效率还是直接上线呢？</li>
+<li>Teacher： 生产环境，这种性能实在不能接受。既然amazon将DeepAR作为时序预测场景的主推算法方案，这种性能肯定拿不出手，后续肯定做了的优化，去查一下近3年的amazon关于DeepAR相关的资料，看看有没有更优秀的实现方案。</li>
+<li>Student：找到了一个开源项目--基于MXNET的gluon-ts（于2019年6月发表），mxnet在electricty上的训练和预测时间大概是10min左右。</li>
+<li>Teacher： nice！</li>
+</ul>
+<p>最开始把gluon-ts实现的DeepAR算法当黑盒用的时候，发现效果很神奇，不调参，换不同数据进去效果都还挺好，周期性和趋势性都还能学到。这就很奇怪，按照自己构建RNN的经验，调参要反反复复好多次，效果还不一定好。并且gluon-TS默认的网络结构很简单，不太可能过拟合.</p>
+<p>看了源代码之后发现，代码中包含了<strong>非常多的数据处理的小trick</strong>，论文中没有提及。</p>
+<p>按照paper所说，整个网络结构非常之简单，1层rnn + 1层 dense层（输出分布参数），构成2层rnn，大概十几行代码。 但是，<strong>真正大量的代码都在做预处理以及 模型训练的一些小trick。 这些小trick，对提升模型效果非常有帮助，但是paper里面是没有的，应该是工程团队总结出的最佳实践</strong>：</p>
+<ul>
+<li>最佳实践1: 把每个样本（历史依赖）的scale 取对数，放入样本。（因为所有的lags项在归一化之后已经丢失了scale信息，为了避免这个信息的丢失，还是要把log scale 放入特征，用于区别不同来源的曲线，原文没有提到）</li>
+<li>最佳实践2: 在rnn中，每一层rnn后都接了一个residual和一个dropout。（residual为了降低学习难度，dropout为了降低过拟合概率，原文没有提到）</li>
+<li>最佳实践3: 为了学习到数据的周期性模式，除了context，代码还会跳着取lag , 类似空洞卷积。这些lag项代表了时序的周期性，比如年/月/日的周期性，是硬编码在代码里的。（原文没有提到）</li>
+</ul>
+<p>（怀疑论文的作者不知道这些小trick，因为作者自己写的pytorch版本，没有见到相关的处理，并且训练时长是gluon-TS的100倍以上）</p>
+<h3 id="对于aiops建设的启发">对于AIOps建设的启发</h3>
+<p><strong>完成论文demo和完成一个业界可用方案，两者的工作量 ，可能是0到1再到100的距离。</strong></p>
+<p>对于根因分析，日志关联等大部分场景，业界没有可参考的工具，转而求助学术界，可参考论文以及比赛等。</p>
+<p>但是要注意，这些方案只是demo，没有在工业界的数据和真实需求上验证过，真实业务环境会比做实验要复杂得多。</p>
+<p>从调研demo到完成一个业务 可用的方案，有大量的优化工作。评估时间的时候，需要预留buffer，来验证和调优，甚至需要迭代多轮，有很大不确定性。</p>
+<h3 id="从paper到工程落地卡住的几个原因">从paper到工程落地卡住的几个原因</h3>
+<ul>
+<li>实验室方案不能直接搬到 真实业务的 几个原因：
+<ul>
+<li>样本数据不一致：
+<ul>
+<li>标记标准不一致：实验室的标记标准和业务上的标准不一致</li>
+<li>数据来源不一致：实验室的数据来源和真实业务可能不一致。</li>
+<li>真实环境中数据质量差：历史数据不够，缺失值多，特别是有用特征有缺失</li>
+</ul></li>
+<li>评估指标不一致
+<ul>
+<li>实验室只能基于已有的封闭数据集，业务上的指标是跟业务运营相关的</li>
+</ul></li>
+<li>性能要求不一致：
+<ul>
+<li>实验室方案运行效率到不到真实环境的标准，eg，kaggle比赛常用模型ensemble方案，在工业界就很少会用，因为计算效率的问题</li>
+</ul></li>
+</ul></li>
+<li>正常的开发流程是：
+<ul>
+<li>理解论文原理</li>
+<li>复现论文：开发demo，</li>
+<li>工程优化（beta）：初步上线，demo性能优化，覆盖现实中可能的异常</li>
+<li>稳定上线（正式）： 在真实环境上测试一段时间。</li>
+<li>产品化：给其他无背景的人用</li>
+</ul></li>
+</ul>
+<h2 id="参考资料">参考资料</h2>
+<p>段易通：概率自回归预测——DeepAR模型浅析 GluonTS - Probabilistic Time Series Modeling Probabilistic Demand Forecasting at Scale</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/13/reading_notes/reality/sam-altman-idea-generation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -252,90 +452,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/12/reading_notes/investment/trading-strategies/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Chiechie">
-      <meta itemprop="description" content="a reader & thinker">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chiechie's Mini World">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/12/reading_notes/investment/trading-strategies/" class="post-title-link" itemprop="url">交易策略</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-12 12:00:14" itemprop="dateCreated datePublished" datetime="2021-04-12T12:00:14+08:00">2021-04-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84/" itemprop="url" rel="index"><span itemprop="name">投资</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="一些概念">一些概念</h2>
-<ul>
-<li>均值回归（mean reversion）：赌市场会回归理性。 &gt; 由于波动率最主要的特性是均值回归，故波动率的均值回归交易成为专业期权交易员最常见的一种交易方式</li>
-<li>动量策略（momentum）：赌市场会越来越疯狂</li>
-<li>方差溢价：指隐含波动率总是等于或者大于历史波动率</li>
-</ul>
-<h2 id="chiechies-reflection">chiechie's reflection</h2>
-<p>均值回归，动量策略（也叫惯性策略），都是识别出历史的模式后，假设模式在未来保持不变，然后构建策略。</p>
-<p>有一个问题，谁说过去的模式在未来就一定会保持了？还需要其他信息。</p>
-<p>对历史进行模式识别，没有意义，因为不能保证未来发生。 换句话说，历史的模式跟未来的模式没有因果关系。</p>
-<p>那么，具备哪些信息的时候，在外部的什么信息具备的时候，能很确定存在这个模式呢？这个算专家知识。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -405,7 +521,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">193</span>
+          <span class="site-state-item-count">194</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -418,7 +534,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">206</span>
+        <span class="site-state-item-count">208</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
