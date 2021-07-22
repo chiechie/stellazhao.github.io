@@ -39,7 +39,7 @@ categories:
 
 k-way和n-shot
 
-![training set/support set/query sample](/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20200505125818526.png)
+![training set/support set/query sample](./image-20200505125818526.png)
 
 - support set有两个属性：k-way和n-shot
 - 𝑘-way:  support set中的类别数，图中为6，
@@ -48,18 +48,18 @@ k-way和n-shot
 
 ### k和n对预测准确率的影响
 
-![k和n对预测准确率的影响（](/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20200505130507134.png)
+![k和n对预测准确率的影响（](./image-20200505130507134.png)
 
 
 
 #### 基于Pairwise loss的孪生网络
 
-![基于Pairwise loss的孪生网络](/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20200505131406968.png)
+![基于Pairwise loss的孪生网络](./image-20200505131406968.png)
 
 
 #### 基于tripplet loss的孪生网络
 
-![基于tripplet loss的孪生网络](/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20200505132048021.png)
+![基于tripplet loss的孪生网络](./image-20200505132048021.png)
 
 
 ## 参考

@@ -1,5 +1,5 @@
 ---
-title:chapter 3 聚类算法
+title: chapter 3 聚类算法
 author: chiechie
 mathjax: true
 date: 2021-04-18 11:20:42

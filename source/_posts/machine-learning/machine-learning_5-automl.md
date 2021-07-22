@@ -1,5 +1,5 @@
 ---
-title:  chapter 5 自动化机器学习
+title:  chapter5 自动化机器学习
 author: chiechie
 mathjax: true
 date: 2021-04-29 08:32:24
