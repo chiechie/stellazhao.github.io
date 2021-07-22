@@ -1,5 +1,5 @@
 ---
-title: 时间序列预测和深度学习技术
+title: 时间序列1 时间序列技术概况
 author: chiechie
 mathjax: true
 date: 2021-07-21 15:23:49
@@ -9,7 +9,7 @@ categories:
 
 
 
-## 总结 
+## 概要 
 
 1. 神经网络中专门有一些算子来处理时间序列结构，比如卷积神经网络中的因果卷积（causal conv），空洞因果卷积（Dilated Causal Convolution），空洞卷积（dialted conv）。这些卷积原理上都大同小异，都假设相邻时间内，数据的相关性很强，卷起来可以得到更高层的语义信息。
 

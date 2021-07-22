@@ -1,10 +1,13 @@
 ---
-title: 机器学习6 元学习
+title:  chapter 6 元学习
 author: chiechie
 mathjax: true
-date: 2021-07-21 14:47:47
+date: 2021-04-30 14:47:47
 tags:
+- auto ml
+- 人工智能
 categories:
+- 机器学习
 ---
 
 

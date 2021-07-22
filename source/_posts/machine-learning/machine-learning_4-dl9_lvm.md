@@ -1,8 +1,8 @@
 ---
-title: 机器学习4.9 非监督学习
+title:  chapter 4.9 非监督学习
 author: chiechie
 mathjax: true
-date: 2021-07-09 18:20:08
+date: 2021-04-28 18:20:08
 tags: 
 - 人工智能
 - 深度学习

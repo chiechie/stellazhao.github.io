@@ -1,5 +1,5 @@
 ---
-title: 原则-如何协作？
+title: 《原则》读书笔记--如何协作？
 author: chiechie
 mathjax: true
 date: 2021-03-15 11:44:59

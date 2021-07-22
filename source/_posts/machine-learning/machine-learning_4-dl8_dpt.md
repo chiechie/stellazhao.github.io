@@ -1,8 +1,8 @@
 ---
-title: 机器学习4.8 深度学习8 GPT
+title:  chapter 4.8 深度学习8 GPT
 author: chiechie
 mathjax: true
-date: 2021-03-15 14:48:13
+date: 2021-04-27 14:48:13
 tags: 
 - NLP
 - 神经网络

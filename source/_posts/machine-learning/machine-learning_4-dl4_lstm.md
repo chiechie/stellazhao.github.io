@@ -2,7 +2,7 @@
 title: chapter 4.3 循环神经网络2-长短期记忆网络（LSTM）
 author: chiechie
 mathjax: true
-date: 2021-03-11 10:48:04
+date: 2021-04-22 10:48:04
 tags:
 - 神经网络
 - 深度学习

@@ -1,8 +1,8 @@
 ---
-title: 机器学习4.5 深度学习5 word2vec
+title:  chapter 4.5 深度学习5 word2vec
 author: chiechie
 mathjax: true
-date: 2021-03-12 22:23:20
+date: 2021-04-24 22:23:20
 tags:
 - NLP
 - word2vec

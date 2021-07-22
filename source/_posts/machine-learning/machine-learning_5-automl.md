@@ -1,8 +1,8 @@
 ---
-title: 机器学习5 自动化机器学习
+title:  chapter 5 自动化机器学习
 author: chiechie
 mathjax: true
-date: 2021-05-18 08:32:24
+date: 2021-04-29 08:32:24
 tags:
 - auto ml
 - 人工智能

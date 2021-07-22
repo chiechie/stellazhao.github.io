@@ -12,10 +12,7 @@ tags:
 > 转载自：http://cnwmw.blogspot.com/2018/06/naval.html
 
 
-硅谷投资人Naval Ravikant在twitter上发表的语录，关于如何不靠运气而致富，记录下。
-
-
-## 摘录几个有感触的观点
+## Keypoints
 1. 判断力需要经验，但它可以通过学习基本技能的方法更快速地建立起来。
    基本技能（foundational skills），我理解的是要学习经济学，心理学这些基础的哲学。
 2. 杠杆能够成倍地放大你的判断力（所产生的效能）。
@@ -25,13 +22,9 @@ tags:
    但是碰到这种好事的概率太小，实际上我的工作平淡寡味，但还是要work hard；
    work hard的过程中，会想通一些东西，作为以后的沉淀。
 
-## 如何不靠运气致富？-翻译
+## 如何不靠运气致富
 
-How to Get Rich (without getting lucky)
 
-作者：Naval Ravikant-硅谷投资人
-
-翻译&注释：和菜头
 
 
 1.Seek wealth, not money or status. Wealth is having assets that earn while you sleep. Money is how we transfer time and wealth. Status is your place in the social hierarchy.

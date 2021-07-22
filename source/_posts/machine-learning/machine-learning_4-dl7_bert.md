@@ -1,8 +1,8 @@
 ---
-title: 机器学习4.7  深度学习7 Bert
+title:  chapter 4.7  深度学习7 Bert
 author: chiechie
 mathjax: true
-date: 2021-03-14 11:50:30
+date: 2021-04-26 11:50:30
 tags: 
 - NLP
 - 神经网络

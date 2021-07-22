@@ -2,7 +2,7 @@
 title:  chapter 4.3 attention和self-attention是什么？
 author: chiechie
 mathjax: true
-date: 2021-03-09 15:43:10
+date: 2021-04-21 15:43:10
 tags:
 - 深度学习
 - 最佳实践

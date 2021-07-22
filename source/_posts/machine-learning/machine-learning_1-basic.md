@@ -1,5 +1,5 @@
 ---
-title: 机器学习1 基本概念
+title:  chapter 1 机器学习基本概念
 author: chiechie
 mathjax: true
 date: 2021-04-15 16:00:28

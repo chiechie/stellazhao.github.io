@@ -1,5 +1,5 @@
 ---
-title: 机器学习2.2 树模型2-随机森林,Adaboost和GBDT
+title: chapter 2.2 树模型2-随机森林,Adaboost和GBDT
 author: chiechie
 mathjax: true
 date: 2021-04-17 10:39:45

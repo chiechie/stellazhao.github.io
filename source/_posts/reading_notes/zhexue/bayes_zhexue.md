@@ -1,5 +1,5 @@
 ---
-title: 谈一谈概率哲学的贝叶斯模型
+title: 关于概率哲学
 date: 2021-04-24 09:03:28
 author: "chiechie"
 header-style: text
@@ -14,8 +14,16 @@ tags:
 ---
 
 
->  自然法则（a law of nature）：根据简单性（simplicity）和信息量（informativeness）的平衡，我们从众多不同的科学理论的系统中选出最好的一套系统；如果一个自然规律（regularity）是这套系统内的定律，那么这个规律就是自然法则。
-> 有些自然法则是确定性的（deterministic）--比如说牛顿定律，而有些则是概率的（probabilistic）--比如说量子力学中的玻恩定理（Born Rule）。
+>  自然法则（law of nature）：根据简单性（simplicity）和信息量（informativeness）的平衡，我们从众多科学理论中选出最好的一套。
+> 
+
+## law和regularities
+
+- 科学界曾被认为是自然定律（Laws of Nature）的原则（principle）: 牛顿的万有引力定律（law of gravitation），他的三大运动定律（three laws of motion），理想气体定律，孟德尔定律，供需定律（,the laws of supply and demand,），等等。
+- 规律（regularities）被科学家认为(或仍然被认为)需要更坚实的基础。其中包括海洋潮汐的规律，水星轨道的近日点，光电效应，宇宙正在膨胀等等。
+- 科学家使用定律（laws）而不是其他规律（regularities）来推断出更可能的结论: 宇宙学家根据与爱因斯坦引力定律的一致性认识到我们的宇宙可能是封闭的，也可能是开放的(Maudlin，2007,7-8)。
+- 在统计力学中，基本物理理论的定律（laws）被用来确定系统状态空间中可能的动态轨迹。
+
 
 
 ## 两种概率学派
@@ -32,3 +40,6 @@ tags:
 
 1. [概率（Probability）的本质是什么？-知乎](https://www.zhihu.com/question/26895086/answer/175050065)
 2. [因果关系是否存在？](https://www.zhihu.com/question/20318246/answer/22309277)
+
+3. https://plato.stanford.edu/entries/laws-of-nature/
+

@@ -2,7 +2,7 @@
 title:  chapter 4.4 循环神经网络1-simple RNN
 author: chiechie
 mathjax: true
-date: 2021-03-10 10:47:27
+date: 2021-04-23 10:47:27
 tags:
 - 神经网络
 - 深度学习

@@ -2,7 +2,7 @@
 title: chapter 4.1 深度学习基础
 author: chiechie
 mathjax: true
-date: 2021-03-07 16:35:36
+date: 2021-04-19 16:35:36
 tags:
 - 深度学习
 - low level
