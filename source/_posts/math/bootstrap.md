@@ -6,7 +6,7 @@ date: 2021-05-15 16:29:28
 tags:
 - 统计学
 categories: 
-- AI
+- 数学
 ---
 
 ## bootstrap的假设

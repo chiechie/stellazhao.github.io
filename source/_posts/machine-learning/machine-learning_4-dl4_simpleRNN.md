@@ -1,5 +1,5 @@
 ---
-title:  机器学习3 深度学习4 循环神经网络1-simple RNN
+title:  chapter 4.4 循环神经网络1-simple RNN
 author: chiechie
 mathjax: true
 date: 2021-03-10 10:47:27

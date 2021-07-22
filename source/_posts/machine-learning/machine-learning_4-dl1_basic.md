@@ -1,5 +1,5 @@
 ---
-title: 机器学习3 深度学习基础1 数据表示和神经网络基础
+title: chapter 4.1 深度学习基础
 author: chiechie
 mathjax: true
 date: 2021-03-07 16:35:36

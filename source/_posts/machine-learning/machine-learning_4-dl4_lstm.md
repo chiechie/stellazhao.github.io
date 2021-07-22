@@ -1,5 +1,5 @@
 ---
-title: 机器学习3 深度学习5 循环神经网络2-长短期记忆网络（LSTM）
+title: chapter 4.3 循环神经网络2-长短期记忆网络（LSTM）
 author: chiechie
 mathjax: true
 date: 2021-03-11 10:48:04

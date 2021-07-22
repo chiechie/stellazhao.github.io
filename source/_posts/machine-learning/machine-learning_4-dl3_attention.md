@@ -1,5 +1,5 @@
 ---
-title:  机器学习3 深度学习基础3 attention和self-attention是什么？
+title:  chapter 4.3 attention和self-attention是什么？
 author: chiechie
 mathjax: true
 date: 2021-03-09 15:43:10
