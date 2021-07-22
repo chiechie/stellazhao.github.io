@@ -6,7 +6,7 @@
   <link href="https://chiechie.github.io/atom.xml" rel="self"/>
   
   <link href="https://chiechie.github.io/"/>
-  <updated>2021-07-21T10:26:28.603Z</updated>
+  <updated>2021-07-22T03:10:34.075Z</updated>
   <id>https://chiechie.github.io/</id>
   
   <author>
@@ -17,41 +17,20 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>时间序列预测和深度学习技术</title>
+    <title>时间序列1 时间序列技术概况</title>
     <link href="https://chiechie.github.io/2021/07/21/timeseries/timeseries1_basic/"/>
     <id>https://chiechie.github.io/2021/07/21/timeseries/timeseries1_basic/</id>
     <published>2021-07-21T07:23:49.000Z</published>
-    <updated>2021-07-21T10:26:28.603Z</updated>
+    <updated>2021-07-22T03:10:34.075Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="总结">总结</h2><ol type="1"><li><p>神经网络中专门有一些算子来处理时间序列结构，比如卷积神经网络中的因果卷积（causal conv），空洞因果卷积（Dilated Causal Convolution），空洞卷积（dialted conv）。这些卷积原理上都大同小异，都假设相邻时间内，数据的相关性很强，卷起来可以得到更高层的语义信息。</p></li><li><p>空洞卷积本来是图像领域的概念，希望扩大接受域（ reception field）而不增加计算量。</p></li><li><p>因果卷积类似于自回归算子，对前置窗口中的数据做线性组合。可以说自回归模型是因果卷积的退化版。</p><blockquote><p>arima/sarima可以看成残差网络 + 因果卷积的特例</p></blockquote></li><li><p>膨胀因果卷积：空洞卷积 + 因果卷机的结合</p></li><li><p>TCN网络的结果：多个 膨胀因果卷积层的堆叠，加上了pooling（扔掉后置窗口）+ activation + Dropout（卷完之后的非线性转换+裁剪） + Resnet（残差连接避免梯度消失）</p></li><li><p>时序预测方法的分类：传统时间序列和深度神经网络。</p></li><li><p>传统时间序列模型：arma/arima/sarima/ arima/state space/exponential smoothing。平稳性检验。</p></li><li><p>深度神经网络模型：卷积神经网络/全连接神经网络/循环神经网络/基于Seq2Seq的模型，以及是否基于attention。</p><ol type="1"><li>基于全连接网络的模型：MQ-DNN</li><li>基于卷积的神经网络：TCN/CNN-QR/</li><li>基于隐藏状态的模型：DeepFactor/DeepStateSpaceModel</li><li>基于循环神经网络：SimpleRNN/LSTM/GRU，也可以加入attention层，变成基于重要性的神经网络。</li><li>基于Seq2Seq的模型：DeepAR/Transformer/Bert/GPT，其中Transformer/Bert/GPT是基于attention的。</li></ol></li><li><p>传统时间序列模型只对单个曲线做预测，缺点是要一个个曲线去做模型选择，并且每个样本曲线需要积累大量的历史数据。基于深度学习或机器学习的时序预测技术可以对多个曲线一起建模。</p></li><li><p>其他领域如文本，图像，语音领域的技术都可以应用到时间序列，但是要注意时序场景中有几个特殊的地方</p><ol type="1"><li>实践序列的下游的决策一般依赖输出概率分布，比如要做异常检测，就需要输出上下界。</li><li>预测target为整数时，不能使用常用的归一化方法。</li></ol></li><li><p>时序预测中的一些难点：</p></li></ol><ul><li><p>现实中需要对多条曲线建模，但是单个曲线去建模，人工成本高</p></li><li><p>不同曲线模式不一样（最显而易见的，scale不一样），而学习一个global model对nn来说挑战很大（nn擅长局部建模）</p></li><li><p>预测概率分布</p></li></ul><h2 id="附录">附录</h2><h3 id="标准卷积">标准卷积</h3><figure><img src="https://pic3.zhimg.com/v2-d552433faa8363df84c53b905443a556_b.webp" alt="Standard Convolution with a 3 x 3 kernel (and padding" /><figcaption aria-hidden="true">Standard Convolution with a 3 x 3 kernel (and padding</figcaption></figure><h3 id="空洞卷积">空洞卷积</h3><figure><img src="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/dilation.gif?raw=true" alt="dilation" /><figcaption aria-hidden="true">dilation</figcaption></figure><h3 id="膨胀因果卷积">膨胀因果卷积</h3><figure><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FzEwTvSz-ee.png?alt=media&amp;token=c46507da-4eca-4d43-970d-fd1180495d82" alt="膨胀因果卷积" /><figcaption aria-hidden="true">膨胀因果卷积</figcaption></figure><ul><li></li></ul><h3 id="cnnrnn基于attention的模型对于时间序列建模">CNN，RNN，基于attention的模型，对于时间序列建模</h3><p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F_n2z_XQqI2.png?alt=media&amp;token=facfccac-e8ac-4895-a84c-7add43cd165a" /></p><h3 id="多步预测-迭代法和直接法">多步预测-迭代法和直接法</h3><ul><li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fcfl7jS1Uqc.png?alt=media&amp;token=39859f26-511a-4d29-840f-8038bcaa824e" /></li></ul><h3 id="wavenet">wavenet</h3><p>wavenet是什么？可视化长什么样？输入输出和参数个数分别是什么？</p><h2 id="参考">参考</h2><ol type="1"><li><p><a href="https://www.zhihu.com/question/54149221/answer/323880412">如何理解空洞卷积（dilated convolution）？ - 刘诗昆的回答 - 知乎</a></p></li><li><p>https://github.com/vdumoulin/conv_arithmetic</p></li></ol>]]></content>
+    <content type="html"><![CDATA[<h2 id="概要">概要</h2><ol type="1"><li><p>神经网络中专门有一些算子来处理时间序列结构，比如卷积神经网络中的因果卷积（causal conv），空洞因果卷积（Dilated Causal Convolution），空洞卷积（dialted conv）。这些卷积原理上都大同小异，都假设相邻时间内，数据的相关性很强，卷起来可以得到更高层的语义信息。</p></li><li><p>空洞卷积本来是图像领域的概念，希望扩大接受域（ reception field）而不增加计算量。</p></li><li><p>因果卷积类似于自回归算子，对前置窗口中的数据做线性组合。可以说自回归模型是因果卷积的退化版。</p><blockquote><p>arima/sarima可以看成残差网络 + 因果卷积的特例</p></blockquote></li><li><p>膨胀因果卷积：空洞卷积 + 因果卷机的结合</p></li><li><p>TCN网络的结果：多个 膨胀因果卷积层的堆叠，加上了pooling（扔掉后置窗口）+ activation + Dropout（卷完之后的非线性转换+裁剪） + Resnet（残差连接避免梯度消失）</p></li><li><p>时序预测方法的分类：传统时间序列和深度神经网络。</p></li><li><p>传统时间序列模型：arma/arima/sarima/ arima/state space/exponential smoothing。平稳性检验。</p></li><li><p>深度神经网络模型：卷积神经网络/全连接神经网络/循环神经网络/基于Seq2Seq的模型，以及是否基于attention。</p><ol type="1"><li>基于全连接网络的模型：MQ-DNN</li><li>基于卷积的神经网络：TCN/CNN-QR/</li><li>基于隐藏状态的模型：DeepFactor/DeepStateSpaceModel</li><li>基于循环神经网络：SimpleRNN/LSTM/GRU，也可以加入attention层，变成基于重要性的神经网络。</li><li>基于Seq2Seq的模型：DeepAR/Transformer/Bert/GPT，其中Transformer/Bert/GPT是基于attention的。</li></ol></li><li><p>传统时间序列模型只对单个曲线做预测，缺点是要一个个曲线去做模型选择，并且每个样本曲线需要积累大量的历史数据。基于深度学习或机器学习的时序预测技术可以对多个曲线一起建模。</p></li><li><p>其他领域如文本，图像，语音领域的技术都可以应用到时间序列，但是要注意时序场景中有几个特殊的地方</p><ol type="1"><li>实践序列的下游的决策一般依赖输出概率分布，比如要做异常检测，就需要输出上下界。</li><li>预测target为整数时，不能使用常用的归一化方法。</li></ol></li><li><p>时序预测中的一些难点：</p></li></ol><ul><li><p>现实中需要对多条曲线建模，但是单个曲线去建模，人工成本高</p></li><li><p>不同曲线模式不一样（最显而易见的，scale不一样），而学习一个global model对nn来说挑战很大（nn擅长局部建模）</p></li><li><p>预测概率分布</p></li></ul><h2 id="附录">附录</h2><h3 id="标准卷积">标准卷积</h3><figure><img src="https://pic3.zhimg.com/v2-d552433faa8363df84c53b905443a556_b.webp" alt="Standard Convolution with a 3 x 3 kernel (and padding" /><figcaption aria-hidden="true">Standard Convolution with a 3 x 3 kernel (and padding</figcaption></figure><h3 id="空洞卷积">空洞卷积</h3><figure><img src="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/dilation.gif?raw=true" alt="dilation" /><figcaption aria-hidden="true">dilation</figcaption></figure><h3 id="膨胀因果卷积">膨胀因果卷积</h3><figure><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FzEwTvSz-ee.png?alt=media&amp;token=c46507da-4eca-4d43-970d-fd1180495d82" alt="膨胀因果卷积" /><figcaption aria-hidden="true">膨胀因果卷积</figcaption></figure><ul><li></li></ul><h3 id="cnnrnn基于attention的模型对于时间序列建模">CNN，RNN，基于attention的模型，对于时间序列建模</h3><p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F_n2z_XQqI2.png?alt=media&amp;token=facfccac-e8ac-4895-a84c-7add43cd165a" /></p><h3 id="多步预测-迭代法和直接法">多步预测-迭代法和直接法</h3><ul><li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fcfl7jS1Uqc.png?alt=media&amp;token=39859f26-511a-4d29-840f-8038bcaa824e" /></li></ul><h3 id="wavenet">wavenet</h3><p>wavenet是什么？可视化长什么样？输入输出和参数个数分别是什么？</p><h2 id="参考">参考</h2><ol type="1"><li><p><a href="https://www.zhihu.com/question/54149221/answer/323880412">如何理解空洞卷积（dilated convolution）？ - 刘诗昆的回答 - 知乎</a></p></li><li><p>https://github.com/vdumoulin/conv_arithmetic</p></li></ol>]]></content>
     
     
       
       
-    <summary type="html">&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
+    <summary type="html">&lt;h2 id=&quot;概要&quot;&gt;概要&lt;/h2&gt;
 &lt;ol type=&quot;1&quot;&gt;
 &lt;li&gt;&lt;p&gt;神经网络中专门有一些算子来处理时间序列结构，比如卷积神经网络中的因果卷积（causal conv），空洞因果卷积（Dilated Causal Convolution），空洞卷积（dialted c</summary>
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习6 元学习</title>
-    <link href="https://chiechie.github.io/2021/07/21/machine-learning/machine-learning_6-meta-learning/"/>
-    <id>https://chiechie.github.io/2021/07/21/machine-learning/machine-learning_6-meta-learning/</id>
-    <published>2021-07-21T06:47:47.000Z</published>
-    <updated>2021-07-21T06:50:54.996Z</updated>
-    
-    <content type="html"><![CDATA[]]></content>
-    
-    
-      
-      
-    <summary type="html">
-</summary>
       
     
     
@@ -85,8 +64,8 @@
   
   <entry>
     <title>时间序列2 经典时序分析</title>
-    <link href="https://chiechie.github.io/2021/07/15/timeseries/timeseries2_prediction/"/>
-    <id>https://chiechie.github.io/2021/07/15/timeseries/timeseries2_prediction/</id>
+    <link href="https://chiechie.github.io/2021/07/15/timeseries/timeseries2_classic-prediction/"/>
+    <id>https://chiechie.github.io/2021/07/15/timeseries/timeseries2_classic-prediction/</id>
     <published>2021-07-15T00:25:11.000Z</published>
     <updated>2021-07-21T10:20:20.319Z</updated>
     
@@ -110,9 +89,9 @@
     
     <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
     
-    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
-    
     <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
+    
+    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
     
   </entry>
   
@@ -155,7 +134,7 @@
     <link href="https://chiechie.github.io/2021/07/10/math/svd-and-coding/"/>
     <id>https://chiechie.github.io/2021/07/10/math/svd-and-coding/</id>
     <published>2021-07-10T03:40:31.000Z</published>
-    <updated>2021-07-12T04:10:47.367Z</updated>
+    <updated>2021-07-22T00:53:04.020Z</updated>
     
     <content type="html"><![CDATA[<blockquote><p>大矩阵怎么存？最简单的方式就是矩阵分块, 然后分chunk存/读/算，下一个chunk覆盖上一个chunk，始终占用一个chunk的内存。</p><p>如果还想去噪，可以用svd，下面推演一下用svd可以节省多少空间</p></blockquote><p>SVD技术可以应用于信号压缩</p><p>SVD是这样的, 随意一个矩阵A可以做如下分解</p><p><span class="math display">\[A = U\Lambda V^T\]</span>==&gt;<span class="math display">\[U^T A = \Lambda V^T  \]</span></p><p>可以把<span class="math inline">\(U^T\)</span>看成是encoding, <span class="math inline">\(U\)</span>看成是decoding, 压缩之后的信号是<span class="math inline">\(\Lambda V^T\)</span></p><figure><img src="./奇异值分解.png" alt="奇异值分解" /><figcaption aria-hidden="true">奇异值分解</figcaption></figure><p>detail</p><p>假设<span class="math inline">\(A \in R^{n*m}, U\in R^{n*n}, \Lambda \in R^{n*m}, V \in R^{m*m}\)</span></p><p><span class="math inline">\(\Lambda\)</span>中的元素从大到小排列，前面k个元素绝对值大于0</p><p>对三个矩阵分块，图中的阴影部分是我们要存储的部分</p><p><span class="math display">\[\Lambda = [\Lambda_k, \mathbf{0_{m-k}}], \Lambda_k \in R^{n * k}, \Lambda_{(m-k)} \in R^{n * (m-k)}\]</span></p><p><span class="math display">\[V = [ \mathbf{v_k},  \mathbf{v_{m-k}}],  \mathbf{v_k} \in R^{m*k},  \mathbf{v_k} \in R^{m*(m-k)} \]</span></p><p><span class="math display">\[\Lambda V^T = [\Lambda_k, \mathbf{0_{m-k}}].[v_k, v_{m-k}]^T = \Lambda_k.v_k^T \]</span></p><p>经过U做encoding之后的信息仅有 <span class="math inline">\(\Lambda_k\)</span>和<span class="math inline">\(v_k\)</span></p><p>其中<span class="math inline">\(\Lambda_k\)</span>可以存为稀疏矩阵，含k个非零元素</p><p><span class="math inline">\(v_k \in R^{m*k}\)</span>占用空间m*k</p><p>U做类似的分解占用空间n*k</p><p>一起需要存储的元素个数为<span class="math inline">\(k + m*k + n*k\)</span></p><p>不做encoding的话，需要存储m * n 个元素</p><p>总结一下:用了压缩算法之后，空间复杂度从O(n*m)降低到O(m)或O(n)</p><p>当m,n很大，又很容冗余信息（k很小），svd分解能大量降低矩阵存储空间</p>]]></content>
     
@@ -170,7 +149,7 @@
     
     
     
-    <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
+    <category term="数学" scheme="https://chiechie.github.io/categories/%E6%95%B0%E5%AD%A6/"/>
     
     
     <category term="SVD" scheme="https://chiechie.github.io/tags/SVD/"/>
@@ -178,38 +157,6 @@
     <category term="信息论" scheme="https://chiechie.github.io/tags/%E4%BF%A1%E6%81%AF%E8%AE%BA/"/>
     
     <category term="效率" scheme="https://chiechie.github.io/tags/%E6%95%88%E7%8E%87/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>机器学习4.9 非监督学习</title>
-    <link href="https://chiechie.github.io/2021/07/09/machine-learning/machine-learning_4-dl9_lvm/"/>
-    <id>https://chiechie.github.io/2021/07/09/machine-learning/machine-learning_4-dl9_lvm/</id>
-    <published>2021-07-09T10:20:08.000Z</published>
-    <updated>2021-07-21T06:49:27.255Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="非监督学习">非监督学习</h2><ol type="1"><li><p>非监督学习是指，从原始数据中学习rich模式，以一种label free的方式。</p></li><li><p>非监督学习又分为两类：生成模型和自监督学习。</p></li><li><p>生成模型指的是, 学习原始数据的分布，例如基于高斯分布的异常检测</p></li><li><p>自监督学习指的是, 学到关于原始输入的一些reprentation，可以做到语意理解，可能在未来的有一些任务中会有用，有点像做题训练（puzzle）。例如， Bert训练需要解决两个puzzle：遮挡词预测；下一个句子预测。再例如，对图像翻转90度/180度，喂给neural network，让nn来预测对应的操作（90/180），这个似乎在监督学习中用的很多</p></li><li><p>非监督学习有哪些应用？</p><ol type="1"><li><p>生成正常数据，比如生成回测中的合成数据</p></li><li><p>条件的合成技术,包括WaveNet和GAN-pix2pix，比如talktotranfomer.com</p></li><li><p>数据压缩</p></li><li><p>【最重要】在监督学习之前做自监督学习可以提升下游任务的准确率。</p><blockquote><p>这个技术在工业界已经有应用了：谷歌搜索是由bert支持的</p></blockquote></li></ol></li><li><p>What is true now,but not true ayear before?</p><blockquote><p>以前自监督的预训练比监督模型在检测和识别中效果更差，现在效果赶超有监督了</p></blockquote></li><li><p>目前已经成熟的技术：语言生成模型（GPT3），图像生成模型（VIT），预训练的语言模型（Bert），预训练的图像模型。</p></li><li><p>目前还没有研究成熟的方向：自回归密度模型（AgressiveRgression Density Modelings），Flows，VAE，UnsupervisedLearning for RL。</p></li></ol><h2 id="生成模型0-summary">生成模型0-summary</h2><ol type="1"><li><p>简单的生成模型比如直方图/高斯分布。复杂的生成模型比如自回归模型（Autoregressive Models）</p></li><li><p>自回归模型的技术关键词有参数化分布（Parameterized distributions） 和最大似然（maximum likelihood）。</p></li><li><p>常见的两个自回归模型有循环神经网络（Recurrent Neural Nets）和遮挡模型（Masking-based Models）</p></li><li><p>基于likelihood的模型要解决的任务是什么？</p></li><li><p>生成数据：合成的图像，合成的语音，合成的文本，合成的视频</p></li><li><p>数据压缩：对原始文件高效编码，原始数据的entropy越大，压缩比例就越低，怎么知道当前数据的entropy有多大从而使用合适的压缩比例呢？需要去学习一个模型，这个模型可以输出当前数据的信息含量。</p></li><li><p>异常检测：比如在自动驾驶的场景中，如果遇到了一个训练样本中未见过的样本，就不一样让机器强行决策，正确的方法是，使用异常检测--将该场景先和训练样本先对比一下--如果该场景是异常的，就让人来接手。</p></li></ol><pre><code>&gt; Good!!!可以用在回测中</code></pre><ol start="5" type="1"><li><p>基于likelihood的模型怎么实现？从样本数据中估计出样本分布的参数。</p></li><li><p>The field of deep generative models is concerned with jointly designing these ingredients to train <em>flexible and powerful</em> models <span class="math display">\[p_\theta\]</span> capable of approximating distributions over high-dimensional data <span class="math display">\[\mathbf{x}\]</span>.</p></li><li><p>怎么设计分布函数？effectively represent complex joint distributions over x,并且yet remain easy to train</p></li><li><p>设计好分布函数族后（一般假设是高斯分布），使用相应的训练方法hand-in-hand去估计参数，损失函数=真实分布和拟合分布的距离：</p></li><li><p>MLE的损失函数为样本的对数概率的相反数，记为：</p></li></ol><p>​ <span class="math display">\[\arg \min _{\theta} \operatorname{loss}\left(\theta, \mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(n)}\right)=\frac{1}{n} \sum_{i=1}^{n}-\log p_{\theta}\left(\mathbf{x}^{(i)}\right)\]</span></p><p>等价于 <span class="math display">\[  \arg \min _{\theta} \mathbb{E}_{\mathbf{x} \sim \hat{p}_{\text {data }}}\left[-\log p_{\theta}(\mathbf{x})\right]  \]</span> 可以用神经网络对<span class="math inline">\(p_{\theta}\)</span>建模，并使用SGD求解.</p><ol start="13" type="1"><li>如何设计一个神经网络来代替<span class="math inline">\(p_{\theta}\)</span>,主要想法是这样的：先把生成数据的过程中，变量间的关系表达为一个贝叶斯网络（ <strong>Bayes net</strong>），并且使用神经网络来对条件概率分布建模（边）。</li><li>于是将最小化logO**转换为，学习一个可以输出条件概率的nn，输入条件变量（一个变量就是一个节点）的值输，输出另外一个变量的概率分布。就是构建一个nn去拟合边的属性---即在条件变量取不同的值时，相应的变量的概率分布是如何变化的。</li></ol><figure><img src="./K1rwN9LAHJs509x8IvCcix_7CkI6u8c5YsPUT0R1eoxuP2WvACnAQTVQQVAuqoWMtO5JIflxLnrNl_eFPnF1F3XBT658a6wyLfOSaynjAjyyWf5nFBwSww-TDvy7oYpwNCD3bRHo3Rc.png" alt="img" /><figcaption aria-hidden="true">img</figcaption></figure><ol start="11" type="1"><li><p>跟最大似然等价的问题为最小KL--经验分布和拟合分布的距离</p><p>经验分布假设样本来自iid，则每个观测值的分布都为1（就是直方图）</p><p><span class="math display">\[\hat{p}_{\text {data }}(\mathbf{x})=\frac{1}{n} \sum_{i=1}^{n} \mathbf{1}\left[\mathbf{x}=\mathbf{x}^{(i)}\right]\]</span></p><p>那么经验分布和猜想分布<span class="math inline">\(p_{\theta}\)</span>之间的kl divergence为：</p><p><span class="math display">\[\mathrm{KL}\left(\hat{p}_{\mathrm{data}} \| p_{\theta}\right)=\mathbb{E}_{\mathbf{x} \sim \hat{p}_{\mathrm{data}}}\left[-\log p_{\theta}(\mathbf{x})\right]-H\left(\hat{p}_{\mathrm{data}}\right)\]</span></p></li></ol><h2 id="生成模型1--自回归模型">生成模型1- 自回归模型</h2><ol type="1"><li>给定贝叶斯网络，将条件概率分布设置为nn, 会得到一个可处理的对数likelihood和梯度，很好训练,</li></ol><p><span class="math display">\[\log p_\theta(\mathbf{x}) = \sum_{i} \log p_\theta(x_i \,|\, \mathrm{parents}(x_i))\]</span></p><ol start="2" type="1"><li><p>但是用nn建模出来的条件概率的表达能力够强吗？任何联合概率分布都可以表达为条件概率的乘积。</p></li><li><p>自回归模型(<strong>autoregressive model</strong>): <span class="math display">\[\log p(\mathbf{x})=\sum_{i=1}^{d} \log p\left(x_{i} \mid \mathbf{x}_{1: i-1}\right)\]</span> 一个使用nn预测条件概率的表达充分的贝叶斯网络，可以对p(x)构建一个表达充分的模型，同时也很好训练</p></li><li><p>一个简单的自回归模型：</p><p>两个随机变量: x1, x2</p><p>对联合分布建模：Model: p(x1, x2) = p(x1) p(x2|x1)</p><p>边际概率分布分布p(x1)是一个直方图</p><p>条件概率分布p(x2|x1)是一个mlp，输入是<span class="math inline">\(x_1\)</span>, 输出是<span class="math inline">\(x_2\)</span>的logits</p></li><li><p>如何让不同的边--即不同的标间概率之间共享信息？RNN和masking方法</p></li><li><p>[Karpathy, 2015]提出char-rnn方法</p><figure><img src="./image-20210710152800599.png" alt="image-20210710152800599" /><figcaption aria-hidden="true">image-20210710152800599</figcaption></figure></li></ol><h2 id="生成模型2-隐变量模型">生成模型2-隐变量模型</h2><ol type="1"><li><p>为什么需要latent variable模型?对比下自回归模型：采样的计算量太大了，采样只能按照顺序进行。</p></li><li><p>latent varible只依赖latent varible，采样效率更高，相对于ar模型。</p></li><li><p>如果知道生成数据的因果过程，就可以设计一个latent varible了。</p></li><li><p>一般来说，我们不知道隐变量是什么，以及这些latent variables是怎么跟observation进行互动的。 确定隐变量的最好的方法，仍未有定论。</p></li><li><p>latent variable模型更像是一种更抽象的层次更高的认知。</p></li><li><p>隐变量模型的一个例子：如下，Z是一个K维度的随机向量，X是一个L维的随机变量</p><p>对Z抽样得到一个K维的0/1向量z，通过一个函数（DNN）映射为一个参数<span class="math inline">\(\theta\)</span>, X的分布变为一个参数为<span class="math inline">\(\theta\)</span>的bernoulli分布，从该分布中采样得到一个L维的0/1向量x。举例子，z代表股市是牛市/熊市，X代表股票上涨/下跌，牛市时X的分布的均值要高于熊市时X的分布均值</p><figure><img src="./image-20210709233421079.png" alt="image-20210709233421079" /><figcaption aria-hidden="true">image-20210709233421079</figcaption></figure></li><li><p>如何训练上面的DNN？最大似然估计，再往前可以追朔到亚里士多德的三段论，大前提，小前提==&gt; 结论。</p><p>大前提：我们观测到的一系列<span class="math inline">\(x^{(i)}\)</span>, 是客观存在的，不是伪造的</p><p>小前提：有一个隐变量X，服从某个bernouli分布，有一个可观测的随机变量X服从某个bernouli分布，并且该bernouli分布的参数跟X有关</p><p>结论: 一系列<span class="math inline">\(x^{(i)}\)</span>的概率很大</p><p>为了使得三段论成立，我们希望找到一个最优的DNN，使得<span class="math inline">\(x^{(i)}\)</span>的likelihood尽可能大。</p><p>其实，即使likelihood很大，也不能一定保证小前提成立，这里只是折中罢了。</p><figure><img src="./image-20210709234327994.png" alt="image-20210709234327994" /><figcaption aria-hidden="true">image-20210709234327994</figcaption></figure></li><li><p>求最大似然的时候，z的维度太多了怎么办？采样。</p></li><li><p>如果z的分布p很难采样怎么办？分布变换：将分布p转换为一个简单的分布q（q中也有待估计的参数，经常把q设计成一个高斯分布），然后在q中采样，这就是变分法,。「变分」强行理解成「改变分布」。</p><figure><img src="./image-20210710154905312.png" alt="image-20210710154905312" /><figcaption aria-hidden="true">image-20210710154905312</figcaption></figure></li><li><p>求解Inference问题,相当于积分掉无关变量，求边际分布。如果变量维度过高，积分非常困难。一般来说，有两种方法，一种是蒙特卡洛模拟，一种是变分推断。前者是unbiased &amp;&amp;high variance，后者是biased-low&amp;&amp; variance。举个例子，求P(z|x)时，使用贝叶斯公式，可以转换为联合分布除以P(x), 求P(x)涉及到对z求多重积分，特别困难。</p><blockquote><p>还有一些技术如（mean field）可将复杂的多元积分变成简单的多个一元积分的乘积，从而使得求多重积分变得可行。</p></blockquote><p>下面看一下有偏差的低方差的方法---变分推断。。</p></li></ol><h3 id="变分推断">变分推断</h3><blockquote><p>Any procedure which uses optimization to approximate a density can be termed ``variational inference''.---Jordan (2008) 对 Variational Inference 的定义</p></blockquote><ol type="1"><li>简单来说，变分就是用简单的分布q去近似复杂的分布p。</li></ol><figure><img src="./image-20210710155220160.png" alt="image-20210710155220160" /><figcaption aria-hidden="true">image-20210710155220160</figcaption></figure><ol start="2" type="1"><li>如何找到满意的<span class="math inline">\(q_{\phi}\)</span>？对于每个样本<span class="math inline">\(x^{(i)}\)</span>, q测量的z的分布都跟p测量的z的后验分布很接近。也就是说，希望找到一个q使得，n个KL之和最小。</li></ol><figure><img src="./image-20210710171726674.png" alt="image-20210710171726674" /><figcaption aria-hidden="true">image-20210710171726674</figcaption></figure><ol start="3" type="1"><li><p>由于KL(q, p) + 变分下界(VLB) =logP(x) , 不管q如何变化，KL+ELBP是固定的，所以最小化KL等价于最大化$ ELBO<span class="math inline">\(。KL因为含有后验分布\)</span>p_{z|x}$不好优化所以转为优化ELBO。</p><blockquote><p>为什么要叫lower bound，因为KL&gt;=0, 所以VLB&lt;=logP(x), 所以VLB是logP(x)的一个下界，所以叫Lower bound</p></blockquote></li><li><p>至此，vae的损失函数(ELBO)等价于两部分=重构误差+正则项，</p></li></ol><p><span class="math display">\[E L B O=\mathbb{E}_q\left[\log p\left(x \mid z\right)\right]-\mathbb{K} \mathbb{L}\left(q\left(z \mid x\right) \| p(z)\right)\]</span></p><p><img src="https://miro.medium.com/max/1400/1*Q5dogodt3wzKKktE0v3dMQ@2x.png" alt="img" /> 5. 其中正则项(regularity)是为了保证 latent space 更regular，即，希望生成模型实现连续性（<strong>continuity</strong>）和完备性（completness，不能胡说八道）。如果没有正则项，就跟auto-encoder一样专注于最小化重构误差，很有可能过拟合，没有泛化性。 <img src="https://miro.medium.com/max/2000/1*83S0T8IEJyudR_I5rI9now@2x.png" alt="img" /></p><ol start="6" type="1"><li><p>auto-encoder和variational autoencoders的区别：注意decoder，vae的decoder将z映射为x，是确定性的，不是随机的。随机性之存在于对encoder的结果（u, sigma）中采样出z。</p><figure><img src="https://miro.medium.com/max/2000/1*ejNnusxYrn1NRDZf4Kg2lw@2x.png" alt="img" /><figcaption aria-hidden="true">img</figcaption></figure></li><li><p>训练好了VAE后，单独拿decoder出来做生成模型。</p><blockquote><p>KL衡量的是p相对于q的距离，是一种非对称的local 距离。</p></blockquote></li><li><p>将pathwise derivative应用到变分推断，得到VAE</p><figure><img src="./image-20210710180433539.png" alt="image-20210710180433539" /><figcaption aria-hidden="true">image-20210710180433539</figcaption></figure><figure><img src="./I0yVIbKz1a-74JbNr5P31z5ePUf1g7NBzEtvk5K3chlmwzySQPyvzqx1umTDG_1ynr1IiYA9t1cwI38vSvmLda_EeQA8Q5gbjZ9J_Ej1NCwkIDSnMo8HJAhoVBA5Mjliy4V_185bk5Y.png" alt="img" /><figcaption aria-hidden="true">img</figcaption></figure></li></ol><h2 id="参考">参考</h2><ol type="1"><li>https://sites.google.com/view/berkeley-cs294-158-sp20/home</li><li><a href="https://www.youtube.com/watch?v=V9Roouqfu-M">L1 Introduction--CS294-158-SP20-youtube</a></li><li><a href="https://drive.google.com/file/d/1zWvkB5BNFs1IzyXarsf6ItXpfEc2OfZc/view">L1 Introduction--CS294-158-SP20-slide</a></li><li>https://www.youtube.com/watch?v=V9Roouqfu-M</li><li><a href="https://www.youtube.com/watch?v=iyEOk8KCRUw">L2 Autoregressive Models -- CS294-158-SP20-youtube</a></li><li>https://www.zhihu.com/question/41765860</li><li>https://www.youtube.com/watch?v=uaaqyVS9-rM</li></ol>]]></content>
-    
-    
-      
-      
-    <summary type="html">&lt;h2 id=&quot;非监督学习&quot;&gt;非监督学习&lt;/h2&gt;
-&lt;ol type=&quot;1&quot;&gt;
-&lt;li&gt;&lt;p&gt;非监督学习是指，从原始数据中学习rich模式，以一种label free的方式。&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;非监督学习又分为两类：生成模型和自监督学习。&lt;/p&gt;&lt;/li&gt;
-&lt;li&gt;</summary>
-      
-    
-    
-    
-    <category term="机器学习" scheme="https://chiechie.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-    <category term="人工智能" scheme="https://chiechie.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
-    
-    <category term="深度学习" scheme="https://chiechie.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="backtesting" scheme="https://chiechie.github.io/tags/backtesting/"/>
     
   </entry>
   
@@ -486,13 +433,13 @@
     <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
     
     
-    <category term="大数据" scheme="https://chiechie.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    <category term="计算机原理" scheme="https://chiechie.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"/>
     
     <category term="读书笔记" scheme="https://chiechie.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
-    <category term="计算机原理" scheme="https://chiechie.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"/>
-    
     <category term="分布式计算" scheme="https://chiechie.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%A1%E7%AE%97/"/>
+    
+    <category term="大数据" scheme="https://chiechie.github.io/tags/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
     
   </entry>
   
@@ -614,6 +561,72 @@
     <category term="缓存" scheme="https://chiechie.github.io/tags/%E7%BC%93%E5%AD%98/"/>
     
     <category term="寄存器" scheme="https://chiechie.github.io/tags/%E5%AF%84%E5%AD%98%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>图数据基础</title>
+    <link href="https://chiechie.github.io/2021/06/22/data_structure/ds3-1_graph-basic/"/>
+    <id>https://chiechie.github.io/2021/06/22/data_structure/ds3-1_graph-basic/</id>
+    <published>2021-06-22T03:42:17.000Z</published>
+    <updated>2021-07-22T07:11:30.923Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="总结">总结</h2><ol type="1"><li>图不仅仅通过边存储静态的信息，还能基于边，inference更多的信息。</li><li>图数据是一种数据结构，对于图数据有一些常见的任务，比如单源最短路径，等。</li><li>当图数据的点和边具备一定的含义，如边代表概率，这个时候就是一个概率图模型。通常用于对多个变量之间的因果关系或者相关关系进行建模。</li><li>概率图模型可以细分为有向图和无向图。有向图比如贝叶斯网络，无向图比条件随机场（CRF）。</li><li>有向图又可进一步细分，如果边的方向代表因果关系，就是一个因果图。通常因果图都是需要专家构建的。</li></ol><h2 id="真实世界中的网络">真实世界中的网络</h2><ol type="1"><li>计算机网络：互联网</li><li>交通网络（铁路网，公路网）</li><li>金融网络</li><li>下水道网络</li><li>政治网络</li><li>犯罪网络</li></ol><h2 id="图的定义">图的定义</h2><p>传统的空间都是定义在欧几里得空间（Euclidean Space）的，在该空间定义的距离被称为欧式距离。 音频，图像，视频等都是定义在欧式空间下的欧几里得结构化数据，然而对于社交网络等数据，使用欧几里得空间进行定义并不合适，所以将这一类的数据所处的空间称为非欧几里得空间。</p><p>非欧空间下最有代表的结构就是图（Graph）结构， 每一个图都有对应的4个矩阵：incidence matrix,A/degree matrix/adjacency matrix/拉普拉斯矩阵（laplacian matrix， L）</p><p>incidence matrix:<span class="math inline">\(A \ in R^{m *n}\)</span>, m 是边的个数，n是节点的个数 每一行代表一条边的起点（也叫parent）和终点（也叫children）</p><figure><img src="img_2.png" alt="img_2.png" /><figcaption aria-hidden="true">img_2.png</figcaption></figure><h3 id="邻接矩阵adjacency-matrix">邻接矩阵（Adjacency matrix）</h3><p>邻接矩阵是一个NxN的矩阵，对于有权图，其值为权重或0，对于无权图，其值为0和1，该矩阵定义如下： <span class="math display">\[A \in R^{N \times N}, A_{i j}=\left\{\begin{array}{ll}a_{i j} \neq 0 &amp; e_{i j} \in E \\ 0 &amp; \text { othersize }\end{array}\right.\]</span></p><h3 id="度矩阵degree-matrix">度矩阵（Degree matrix）</h3><p>度矩阵D是一个对角矩阵，其定义为：</p><p><span class="math display">\[D \in R^{N \times N}, D_{i i}=\sum_{j} A_{i j}\]</span></p><h3 id="邻域neighborhood">邻域（Neighborhood）</h3><p>邻域表示与某个顶点有连接的点集，其定义为：<span class="math display">\[N\left(v_{i}\right)=\left\{v_{j} \mid e_{i j} \in E\right\}\]</span></p><h3 id="谱spectral">谱（Spectral）</h3><h3 id="拉普拉斯矩阵lapalcian-matrix">拉普拉斯矩阵（Lapalcian matrix）</h3><h4 id="谱分解spectral-factorization">谱分解(Spectral Factorization)</h4><p>什么是spectrum？ 矩阵的spectrum就是矩阵的特征根。 只有方阵才有谱概念，方阵作为线性算子，其所有特征值的集合称为方阵的谱。方阵的谱半径为其最大的特征值，谱分解就是特征分解。</p><p>谱分解(Spectral Factorization)又叫特征值分解，实际上就是对n维方阵做特征分解. 只有含有n个线性无关的特征向量的n维方阵才可以进行特征分解.</p><blockquote><p>spectral定理用公式表达：对于一个对称矩阵S，其特征根<span class="math inline">\(\Lambda\)</span>都是实数, 特征向量都正交<span class="math inline">\(Q\)</span></p><blockquote><p><span class="math display">\[S = Q\LambdaQ^T\]</span></p></blockquote></blockquote><p>graph laplacian 矩阵：connection of 线性代数和图论</p><p>拉普拉斯矩阵（laplacian matrix），<span class="math inline">\(L \ in R^{n *n}\)</span> <span class="math display">\[L = A^T A= D-B\]</span></p><p>degree matrix：<span class="math inline">\(D \ in R^{n*n}\)</span>，代表了每个节点有多少degree adjaceny matrix：<span class="math inline">\(B \ in R^{n*n}\)</span>，代表了任意两个点是否有link</p><p>拉普拉斯矩阵是半正定矩阵,其特征根从小到达排序 1. 第一个特征根为0，<span class="math inline">\(\lambda_1 = 0\)</span>, 即DIM(null space) = 1，对应的特种向量为常熟向量 2. 第二个特征根（最小的正的特征根）叫fiedler， 对应的特征向量叫fiedler vector</p><p>graph的laplacian矩阵和laplace方程（有限差分方法）的关系：</p><p>laplace方程也叫微分方程，其微分形式 跟一个网格图的laplacian矩阵（n*n）就是离散形式。</p><ol start="3" type="1"><li>实对称矩阵,有n个线性无关的特征向量;</li><li>其特征向量可以进行正交单位化;</li><li>所有的特征值非负;</li></ol><p><span class="math display">\[L=U\left(\begin{array}{ccc}\lambda_{1} &amp; &amp; \\ &amp; \ddots &amp; \\ &amp; &amp; \lambda_{n}\end{array}\right) U^{-1}=U\left(\begin{array}{ccc}\lambda_{1} &amp; &amp; \\ &amp; \ddots &amp; \\ &amp; &amp; \lambda_{n}\end{array}\right) U^{T}\]</span></p><p>有时，使用的都是正规拉普拉斯矩阵（Symmetric Normalized Laplacian matrix）: <span class="math display">\[L^{s y s}=D^{-1 / 2} L D^{-1 / 2}=I-D^{-1 / 2} A D^{-1 / 2}\]</span></p><h2 id="图的算法">图的算法</h2><p>基于这个网络，可以做一些什么分析呢？聚类分析，</p><p>即，找到一些cluster，内部的距离很小，之间的距离很大，这个可以抽象成求最大割或者最小流问题 通常还有一些其他的基于图的问题：</p><p>比如，给定一个图，任意两个元素之间是否存在一个link？如果存在，最快捷的路径是什么？</p><p>还有一个经典的问题--'图分割'（graph partition）</p><h3 id="s-t-cut">S-T Cut</h3><p>S-T Cut 就是把一个图切成了两个子图，S和T</p><figure><img src="img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption></figure><p>S-T cut的容量，就是链接S,C的变（图中红色的边）的权重求和，</p><figure><img src="img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption></figure><h3 id="最小割">最小割</h3><p>最小割（min -cut），就是容量最小的那个S-T cut</p><figure><img src="img_2.png" alt="img_2.png" /><figcaption aria-hidden="true">img_2.png</figcaption></figure><p>最小割是指去掉图中的一些边，在使得图从连通图变为不连通图，并且尽可能保证去除的边对应的权重很小。</p><p>最小割可能并不唯一</p><p>对于相似性图来说，最小割就是要去除一些很弱的相似性，把数据点从一个连通的大图切割成多个独立的连通小图。</p><h2 id="参考">参考</h2><ol type="1"><li>https://zhuanlan.zhihu.com/p/84271169</li><li><a href="https://www.youtube.com/watch?v=V_TulH374hw">Graph-theoretic Models</a></li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;总结&quot;&gt;总结&lt;/h2&gt;
+&lt;ol type=&quot;1&quot;&gt;
+&lt;li&gt;图不仅仅通过边存储静态的信息，还能基于边，inference更多的信息。&lt;/li&gt;
+&lt;li&gt;图数据是一种数据结构，对于图数据有一些常见的任务，比如单源最短路径，等。&lt;/li&gt;
+&lt;li&gt;当图数据的点和边具备</summary>
+      
+    
+    
+    
+    <category term="数据结构" scheme="https://chiechie.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    
+    <category term="数据结构" scheme="https://chiechie.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="图算法" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E7%AE%97%E6%B3%95/"/>
+    
+    <category term="图" scheme="https://chiechie.github.io/tags/%E5%9B%BE/"/>
+    
+    <category term="拓扑数据" scheme="https://chiechie.github.io/tags/%E6%8B%93%E6%89%91%E6%95%B0%E6%8D%AE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>细说红楼梦</title>
+    <link href="https://chiechie.github.io/2021/06/21/reading_notes/zhexue/hongloumengxishuo/"/>
+    <id>https://chiechie.github.io/2021/06/21/reading_notes/zhexue/hongloumengxishuo/</id>
+    <published>2021-06-21T02:02:37.000Z</published>
+    <updated>2021-06-22T06:21:25.475Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="第一回">第一回</h2><p>空空道人有批注：“因空见色，由色生情，传情入色，自色悟空，遂易名为情僧……”</p><p>“因空见色”，是说本来就白茫茫一片，什么都没有，（六祖慧能：本来无一物），因为我们的幻觉，看到好多好多的现象，“由色生情”，情多了就会陷进去，陷进了更深的色的幻觉，“传情入色”，要经过多少彻悟之后，再从里面出来，“自色悟空”，再回到白茫茫一片真干净。</p><p>甄士隐经了这许多人生起伏，有一天突然又看见跛足道士来了，口里唱一首《好了歌》：</p><blockquote><p>世人都晓神仙好，惟有功名忘不了！古今将相在何方？荒冢一堆草没了。世人都晓神仙好，只有金银忘不了！终朝只恨聚无多，及到多时眼闭了。世人都晓神仙好，只有姣妻忘不了！君生日日说恩情，君死又随人去了。世人都晓神仙好，只有儿孙忘不了！痴心父母古来多，孝顺儿孙谁见了？</p></blockquote><p>甄士隐说：“你唱什么？我只听见‘好’‘了’、‘好’‘了’两个字。道人说：</p><blockquote><p>好便是了，了便是好。若不了，便不好；若要好，须是了。</p></blockquote><p>跛足道人讲的是道家的哲学，对儒家社会秩序，有很大的颠覆性。儒家修身齐家治国平天下这一套道理，要建立的是稳定的社会秩序（social order），鼓励人入世，求功名、利禄、妻子、儿女，儒家宗法社会下面，大概就是这些。</p><p>跛足道人给了很大的一个警告，好就是了，了就是好，等于给恋恋在红尘中的人临头棒喝、醍醐灌顶。</p><p>人大概都经过几个阶段：年轻的时候，大家都是入世哲学，儒家那一套，要求功名利禄。到了中年，大概受了些挫折，于是道家来了，点你一下，有所醒悟。到了最后，要超脱人生境界的时候，佛家就来了。</p><p>所以过去的中国人，从儒道释，大致都经过这么三个阶段，有意思的是这三个阶段不冲突。在同一个人身上，这三样哲学都有。所以中国人既出世又入世的态度，常常造成整个文化的一种紧张，也就是说，我们的人生态度在这之间常常有一种徘徊迟疑，我想，这就是文学的起因。</p><p>文学写什么呢？写一个人求道提升，讲他的目标求道，讲这一生多么地艰难，往往很多人没有求到，在半路已经失败。不管是爱情也好，理想也好，各种的失败，我想，文学写的就是这些。《红楼梦》写的也是这些。</p><p>甄士隐对《好了歌》的注解：</p><blockquote><p>陋室空堂，当年笏满床；衰草枯杨，曾为歌舞场。蛛丝儿结满雕梁，绿纱今又糊在蓬窗上。说什么脂正浓、粉正香，如何两鬓又成霜？昨日黄土陇头送白骨，今宵红灯帐底卧鸳鸯。金满箱，银满箱，展眼乞丐人皆谤。正叹他人命不长，那知自己归来丧！训有方，保不定日后作强梁。择膏粱，谁承望流落在烟花巷！因嫌纱帽小，致使锁枷扛；昨怜破袄寒，今嫌紫蟒长：乱烘烘你方唱罢我登场，反认他乡是故乡。甚荒唐，到头来都是为他人作嫁衣裳！</p></blockquote><p>人生不就是个大舞台，一个人唱完下来，第二个人上去唱，唱完又一鞠躬下台，又换个人上去唱，“乱烘烘你方唱罢我登场”，然后“反认他乡是故乡”。</p><p>佛家说，我们以为这是我们自己的故乡，其实也靠不住，一下子一把火就整个烧掉了。道家说，要醒悟这一点，才找到你真正理想的地方。甚荒唐！到头来都是为他人做嫁衣裳。讲起来，整个一生是白忙一场，都为他人做嫁衣裳，所有事情都是为他人做的。</p><p>甄士隐、贾雨村，一个代表出世，一个代表入世。后来甄士隐变成道士，贾雨村经过好多官宦历程的折腾，到了书结束的时候，这两人又碰到一起。甄士隐想要度化贾雨村，贾雨村还是迷恋红尘。各走各的路，两个分歧，自己去看，自己去选择。</p><h2 id="第二章">第二章</h2><p>贾政，自觉是遵从儒家理想的一个人。他非常正直，也想用儒家那一套思想道德来持家，但是太过守法，太过拘束了。中国社会能够生存下来，光靠儒家思想、书生之见是不够的，还需要别种哲学，譬如很要紧的法家，很实在的、很现实的顶在后边。儒家的很多理想不一定都能实现，碰到了现实问题，常常不能解决。不过儒家也很重要，它是一种道德力量（moral force），没有它也不行，但光是有它也不行，所以，还要配合别的东西。</p><p>贾雨村听冷子兴讲了半天贾宝玉这个怪人，也发表了一篇言论：</p><p>“天地生人，除大仁大恶两种，馀者皆无大异。若大仁者，则应运而生，大恶者，则应劫而生。运生世治，劫生世危。尧、舜、禹、汤、文、武、周、召、孔、孟、董、韩、周、程、张、朱，皆应运而生者。蚩尤、共工、桀、纣、始皇、王莽、曹操、桓温、安禄山、秦桧等，皆应劫而生者。大仁者，修治天下；大恶者，挠乱天下。清明灵秀，天地之正气，仁者之所秉也；残忍乖僻，天地之邪气，恶者之所秉也。今当运隆祚永之朝，太平无为之世，清明灵秀之气所秉者，上至朝廷，下及草野，比比皆是。所馀之秀气，漫无所归，遂为甘露、为和风，洽然溉及四海。彼残忍乖僻之邪气，不能荡溢于光天化日之中，遂凝结充塞于深沟大壑之内，偶因风荡，或被云摧，略有摇动感发之意，一丝半缕误而泄出者，偶值灵秀之气适过，正不容邪，邪复妒正，两不相下，亦如风水雷电，地中既遇，既不能消，又不能让，必至搏击掀发后始尽。故其气亦必赋人，发泄一尽始散。使男女偶秉此气而生者，在上则不能成仁人君子，下亦不能为大凶大恶。置之于万万人中，其聪俊灵秀之气，则在万万人之上；其乖僻邪谬不近人情之态，又在万万人之下。若生于公侯富贵之家，则为情痴情种；若生于诗书清贫之族，则为逸士高人；纵再偶生于薄祚寒门，断不能为走卒健仆，甘遭庸人驱制驾驭，必为奇优名娼。如前代之许由、陶潜、阮籍、嵇康、刘伶、王谢二族、顾虎头、陈后主、唐明皇、宋徽宗、刘庭芝、温飞卿、米南宫、石曼卿、柳耆卿、秦少游，近日之倪云林、唐伯虎、祝枝山，再如李龟年、黄幡绰、敬新磨、卓文君、红拂、薛涛、崔莺、朝云之流，此皆易地则同之人也。”</p><h2 id="第四章">第四章</h2><p>再看看贾雨村这个人，他也是有高度象征性的一个人，象征这个世界上每一个为求功名利禄不择手段往上爬的凡俗之人。</p><p>贾雨村刚刚做官，还不太清楚。葫芦僧就讲，贾、王、史、薛这四大家族是互相牵连、互相庇护的，你一动薛家，其他家族就暗中使力，根本没法去办他们。的确是！后来薛蟠又打死人，贾家去讲讲情也就过了。</p><p>为官为政的这些人，像贾雨村者也是很典型的，一旦发迹，若从前是贫贱出身，他不愿意人家知道他的过去，哪个不长心眼儿的去碰他的过去的话，砍掉！因为他要维持现在的形象，掩掉过去。后来贾家没落的时候，贾雨村果然对有恩的贾家加踹一脚，这正是官场反复无情的写照。</p><h2 id="第五章">第五章</h2><p>无常，我们看起来好像是个悲剧，在佛家看，人所有的一切就是如此。佛教很理性地看待人生，看待一切的事物，没有永远存在的东西，因为时间会破坏一切、会毁灭一切，有时间的转动，春夏秋冬的转动，就会有无常现象。人生无常，什么都无常。所以，“生关死劫谁能躲？闻说道，西方宝树唤婆娑，上结着长生果。”这是惜春的醒悟！佛教的传说，佛陀释迦牟尼圆寂的时候，是在两棵宝树中间，那两棵宝树叫作“娑罗”。佛教对“婆娑”两字另有所解，长生果，佛家讲修成正果，要悟道了以后，从而解脱。最后惜春出家了，她是找到解脱最彻底的一个人物。</p><p>王熙凤，机关算尽太聪明，她最精明，涉入红尘也最深，《好了歌》讲：“世人都晓神仙好，只有金银忘不了！”等到聚多之时缘尽了。凤姐放高利贷，到处攒钱，聚敛多时，一下子抄家抄得精光，一场空欢喜！她在贾府最得宠，掌大权，抄家的原因之一是她放高利贷给抄出来了，一世的颜面丢得精光。“反算了卿卿性命”，后来王熙凤的下场也很悲惨。</p><p>对照一下，惜春走一条路，王熙凤走另外一条路，一个出世，一个入世，两种不同的道路。甄士隐跟贾雨村，也是出世和入世的辩证。曹雪芹从未批判哪方，他只是写出各人选的道路。儒家的入世在《红楼梦》的结局也很重要，贾府衰败，王熙凤死了，也还有接班人，谁呢？薛宝钗，她把贾府重新扛起来，这就是人生。</p><p>中国人的人生，常常有三种哲学的循环。年轻的时候有所求，中年醒悟，晚年一切看开。有这三种哲学，才是完整的中国文化，三者相克相生，互用互补。 《红楼梦》曲最后收尾的曲子：</p><blockquote><p>为官的，家业凋零；富贵的，金银散尽；有恩的，死里逃生；无情的，分明报应。欠命的，命已还；欠泪的，泪已尽。冤冤相报实非轻，分离聚合皆前定。欲知命短问前生，老来富贵也真侥幸。看破的，遁入空门；痴迷的，枉送了性命。好一似食尽鸟投林，落了片白茫茫大地真干净！</p></blockquote><h2 id="第16回">第16回</h2><p>儒家跟道家人生观，宇宙、社会的看法，互相冲突。《红楼梦》的悲剧，并不是一个突发性的意外，而是人生必然的过程，</p><h2 id="第22回">第22回</h2><p>宝玉出的灯谜：南面而坐，北面而朝，“象忧亦忧，象喜亦喜”。 佛家有一句话说镜花水月，一切都是幻象。宝玉看到的一切，由色入空，一切都是幻象。</p><h2 id="参考">参考</h2><ol type="1"><li>https://weread.qq.com/web/reader/3c432fc05d0f283c488450e</li></ol>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;h2 id=&quot;第一回&quot;&gt;第一回&lt;/h2&gt;
+&lt;p&gt;空空道人有批注：“因空见色，由色生情，传情入色，自色悟空，遂易名为情僧……”&lt;/p&gt;
+&lt;p&gt;“因空见色”，是说本来就白茫茫一片，什么都没有，（六祖慧能：本来无一物），因为我们的幻觉，看到好多好多的现象，“由色生情”，情多了就会陷进</summary>
+      
+    
+    
+    
+    <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
+    
+    
+    <category term="道家" scheme="https://chiechie.github.io/tags/%E9%81%93%E5%AE%B6/"/>
+    
+    <category term="佛家" scheme="https://chiechie.github.io/tags/%E4%BD%9B%E5%AE%B6/"/>
+    
+    <category term="人生哲学" scheme="https://chiechie.github.io/tags/%E4%BA%BA%E7%94%9F%E5%93%B2%E5%AD%A6/"/>
+    
+    <category term="儒家" scheme="https://chiechie.github.io/tags/%E5%84%92%E5%AE%B6/"/>
     
   </entry>
   

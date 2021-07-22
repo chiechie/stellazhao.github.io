@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/28/reading_notes/reality/robert-infuence/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/01/timeseries/timeseries5_anomalydetection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/03/28/reading_notes/reality/robert-infuence/" class="post-title-link" itemprop="url">《影响力》读书笔记</a>
+            <a href="/2021/04/01/timeseries/timeseries5_anomalydetection/" class="post-title-link" itemprop="url">时间序列5 时序异常检测</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-03-28 15:01:11" itemprop="dateCreated datePublished" datetime="2021-03-28T15:01:11+08:00">2021-03-28</time>
+              <time title="创建时间：2021-04-01 23:12:28" itemprop="dateCreated datePublished" datetime="2021-04-01T23:12:28+08:00">2021-04-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-12 08:27:44" itemprop="dateModified" datetime="2021-07-12T08:27:44+08:00">2021-07-12</time>
+                <time title="修改时间：2021-07-22 15:34:25" itemprop="dateModified" datetime="2021-07-22T15:34:25+08:00">2021-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                  <a href="/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">时间序列</span></a>
                 </span>
             </span>
 
@@ -219,50 +219,66 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="chapter-1">chapter 1</h2>
-<ol type="1">
-<li><p>雌火鸡对"唧唧"声（火鸡幼崽发出）极度依赖。</p>
-<blockquote>
-<p>雌火鸡是很合格的母亲——充满关爱，警惕性高，全心保护小宝宝。它们会花很多时间照料小火鸡，做好保暖和清洁工作，又把孩子们收拢在身子底下。可这里有个很奇怪的地方，上述一切母爱行为几乎都是靠一样东西触发的：小火鸡的“叽叽”声。在照料过程中，鸡宝宝的其他特点，比如气味、感觉和相貌等，却扮演着极其次要的角色。要是一只小鸡发出“叽叽”声，火鸡妈妈就会照料它，要是不出声，火鸡妈妈就根本注意不到它，有时甚至会误杀了它。</p>
-</blockquote></li>
-<li><p>大量物种和雌火鸡一样，都有某种盲目而且机械的「固定行为模式」，这个pattern可能是一个非常复杂的workflow，但是固定的，只要触发条件不变，每次都会被调用。</p></li>
-<li><p>有意思的是，触发条件只是来犯者身上某个微不足道的小方面，比如颜色，雄性知更鸟只要看到红色的雄鱼，就会触发敌人侵犯领地的反应；蓝喉鸟只要看到看到蓝色胸羽也会触发他捍卫领地行为。</p></li>
-<li><p>这些自动化的固化的workflow大部分时间都运作良好，少部分情况下可能会愚弄我们。</p></li>
-<li><p>这种自动化的固化的workflow也存在人类身上，比如“因为”这个词会触发人的自动顺从反应，还有人的潜意识会认为"质量==价格"，因此，想买好东西，直接买质量贵的，但是价格是可以被商家操控的，因此买家就上当了。</p></li>
-<li><p>长期而言，把赌注压在超捷径上，可能代表着最为理性的做法。</p></li>
-<li><p>「优惠券」的双重使命：不光希望它省钱，还希望它帮我们节省思考如何去做的时间和精力。</p></li>
-<li><p>有些逐利的商家模仿触发特征，激发我们的自动响应机制。</p></li>
-<li><p>对比原理：两样东西一前一后地展示出来，我们感受到的两者的区别会比实际更大。换句话说，基于先前所发生事件的性质，相同的东西（也即常温的水）会显得极为不同。</p>
-<blockquote>
-<p>如果我们先搬一种轻的东西，再拿一件重的东西，我们会觉得第二件东西比实际上更沉；而要是我们一开始直接就搬这件重东西，反倒不会觉得有这么沉。</p>
-</blockquote></li>
-<li><p>生活常识 和 理性分析经验都很重要。每件事情都靠理性分析，脑子不够用，并且有些情况下时不待人。理性可能出错。培养理性本身就是跟人的天性（动物性）相违背的，大部分人大部分时候做不到，这个是人的局限性决定，而生活常识的获得成本很低。所以很多人，没有学过很多知识，没有思考过人生和世界，却依然能够度过安稳的一生。</p></li>
-<li><p>正确的方式是积累meta - knowledge，知道什么场合，依赖常识，什么场合，人的常识不可靠，甚至容易被愚弄，从而依赖理性。</p></li>
-<li><p>买家 的 逻辑是 "贵==好==&gt; 值得买！",商家就通过操纵价格，打通了这个逻辑链，顺便达到洗脑的目的。这个逻辑中的漏洞在于，人的大脑错误地把贵和好地相关关系，错误解读为因果关系。需要质疑，「价格贵」这个事实，是否合理？还有一个漏洞是，单维思想，买家觉得，质量只跟一个因素有关--价格，原因可能是懒，想走捷径。</p></li>
-<li><p>对于不会分析和独立思考的的人，随大流是他们的最优解。但是，有一定自我要求的人，不能这样。至少在人生重大问题上，比如求职，买房，创业，大笔投资，不可以抄捷径，捷径只能作为一个最差的备选方案</p></li>
-</ol>
-<h2 id="chapter3-承诺和言行一致">Chapter3 承诺和言行一致</h2>
-<ol type="1">
-<li>言行一致原则：人们倾向于遵守自己的承诺，有时候甚至不假思索，盲目遵守，不考虑这么做是有益的还是有害的。</li>
-<li>言行一致原则还有一个关联的现象：如果一个人一旦做出了某个选择，他会大大提升对这个选择看好的概率。注意，不是反过来，因为很看好才做选择，而是做了选择，大脑会暗示自己，我做的选择无比正确。举个例子，赛马场上，人们一旦对某一匹马下注了，对这匹马能获胜的信息就大大提升。</li>
-<li>大部分情况下，言行一致给混乱复杂的现代生活提供指引，少部分情况下，盲从自己过往的公开申明会带来宅男性后果。那么，言行一致的适用范围或者不适用范围是什么呢？有一个方法是replay，假设带着更多的信息回到承诺时间点，问自己，我还会做出这个承诺吗？还有一个方法是，搞清楚向你提出请求的人，他想要达到什么样的目的（比如希望你购买更多的商品）.还有一种方法是，尽量避免公开承诺，或者轻易答应陌生人不紧急的要求（没有人会无缘无故的做一个事情）。</li>
-<li>言行一致还有一个关联的现象：在接受微不足道的请求时，人一旦轻易答应了，自我认知可能发生潜移默化的变化，从而更有可能接受更过分的请求，还会让我们更乐意去做一些跟该类请求无关的其他请求。</li>
-</ol>
-<blockquote>
-<p>​ 常见的营销手段/政治手段：让人们先做出一个小小的承诺，然后让人们自动去遵守“虚构出来的人物形象”的行为标准</p>
+          <blockquote>
+<p>I'm not an outlier; I just haven't found my distribution yet!</p>
 </blockquote>
-<ol start="5" type="1">
-<li>奇妙的行为：人做过的事情，说过的话，会重塑自我认知。因为人每时每刻都在重新认识自己，其中调整认知的很重要的信息来源就是自己做过的事，说过的话，还有一部分原因是他人对我们的感知。</li>
+<h2 id="总结">总结</h2>
+<ol type="1">
+<li>何为异常？正常的反面即异常。如果我们可以定义正常，那么异常就是其反面，很容易判断。</li>
+<li>如何定义正常？很多时间序列模型都可以，如arima/garch等，生成模型也可以。</li>
+<li>众多模式如何的选择？用拟合程度来判断，即找到一个最佳视角，能够解释当前的观测值。</li>
+</ol>
+<h2 id="附录">附录</h2>
+<ol type="1">
+<li>如果群体本身就是一个mess，还有必要跟它对比吗？如果这个群体就是一个五花八门的, 很难说哪个异常，因为都很有个性。eg美国的拉美裔，女权团体。</li>
+<li>如果这个群体mostly有秩序，只有少部分个体表现的不符合这个秩序，这些人就是异常。</li>
+<li>可以通过预测群体的正常行为来做异常检测，换言之时序预测是一种做异常检测的方法。</li>
+<li>异常检测比预测更简单。异常检测只需自圆其说即可，时序预测需要拿现实数据来验证。</li>
+<li>异常检测分两步，先做模式识别，也就是找规律，然后判断当前数据是否符合规律，符合即正常，反之则为异常。</li>
+<li>不是所有的序列都可以预测，比如股票数据就不可预测，因为历史数据里面包含的信息有限。 但是天气很好预测，因为很有规律。但是「能不能由预测」这些元知识都是人类总结出来的，通过很短的历史数据很难挖掘出这样的认识。</li>
+<li>狭义的预测，即，上面的预测 是想要 排除掉 异常的场景的，比如 出现经融危机的时候，希望预测出来正常值，所以，上面的预测 跟 一般的时序预测 不一样，上面的 预测 是希望 观测数据（训练数据） 或者 说 评分指标 能过滤掉哪些 极端异常的情况。
+<ul>
+<li>但是 实际情况是，我们很难给到 最单纯的 观测数据，现实中由于设备或者 采集环境 的原因，得到的观测值 往往是 含有噪声的，那么进一步的，这个噪声也分为两种，一种是正常的噪声，一种是极端异常值（比如金融危机，或者整个系统瘫痪）。</li>
+<li>对于正常的噪声，我们希望能够捕捉它的范围，然后在 推断阶段，依葫芦画瓢，也认为观测值是模式 + 正常噪声的结果。</li>
+<li>对于极端异常值，我们希望在训练阶段屏蔽掉 该值的影响，然后在 推断阶段，能识别出 它是远离 正常噪声范围的。进而告警。 8.又引申出新的问题，如何 分离出 一个观测值中的 趋势 + 噪声模式 + 极端值这三个分量？</li>
+<li>最直觉的方法 就是用stl的方法，基本原理 就是 待定系数法， 假设有3个函数组成（参数待估），然后用真实样本拟合（loss 应该是l2吧）。</li>
+<li>这种方法有一个问题，就是 拟合出来的趋势 经常是0，拟合出来的噪声经常是带有周期性的，并且也没法干预吼？</li>
+</ul></li>
+<li>异常检测只需要告知自己理解是啥；预测需要更进一步，考虑现实中的所有可能发生的情况。异常检测可以大胆地做，理论上没法证伪。预测是企业家的事情，需要一比高下。做异常检测是学术界的事情，选定一个视角，自己得出结论，不用跟别人一比高下。</li>
+<li>异常检测的原理是历史外延，没法证伪。如果预测和现实有偏差，碰巧能找到故障。如果找不到，也有可能是隐患，或者我们的视角有局限。没法证明是误判。</li>
+<li>一种异常检测器是一种视角，应该允许存在多个视角，并且可自由切换。</li>
+<li>什么样的告警结果用户可接受？符合他们认知模式的，比如同环比，上下界。</li>
+<li>时间序列相对于iid样本，生成机制不一样。时间序列比如人在不同时刻的行为序列，是有延续的。iid的数据比如，体育彩票，每一期中奖号码跟上一期没有关系。</li>
+<li>iid的样本满足中心极限定理（CLT），时间序列数据就没有这么简单，样本之间的关系还粘粘乎乎的。</li>
+<li>简单粗暴地将中心极限定义套到时间序列上面行不行？即，如果新来的样本点不满足历史正态分布，就是异常。 不行，看两个反例：</li>
+</ol>
+<ul>
+<li>反例1-周期性凸起：新来的样本不满足正态分布，但是正常</li>
+<li>反例2-局部拐点：新来的样本满足正态分布，但是异常</li>
+</ul>
+<ol start="15" type="1">
+<li>还是想补救一下，能不能认为，排除掉了周期性凸起和局部拐点之后，就满足中心极限定理了？或者切换到一个更简单清晰的视角，不用中心极限定理，而用常见的时间序列模式描述？例如arima/stl模型等，也不能很理想地解决这两个问题。</li>
 </ol>
 <blockquote>
-<p>​ 周围的人认为我们怎么样，对于我们认知自己起着重要的作用。</p>
+<p>stl模型假设时间序列是由周期性 + 趋势性 + 高斯噪声 三部分组成，相关的参数可以从历史数据中估计出来。估计出来参数后，假设新的正常数据中，趋势性保持，周期性往复，高斯噪声依旧无规律，于是可以生成一个预测的分布，然后看新来的数据是否落入这个区间 stl模型能否表达周期性凸起和抹掉局部拐点呢？不行，因为周期性凸起一般波动非常大，算法很难精准拟合，毕竟要照顾其他大部分平庸之辈的拟合程度，一般给的预测的置信区间太都很大，所以局部拐点告不出来。</p>
 </blockquote>
-<ol start="6" type="1">
-<li>费尽周折得到某样东西的人，比轻轻松松得到某样东西的人，更加珍惜这个东西。</li>
-</ol>
-<h2 id="参考">参考</h2>
+<ol start="16" type="1">
+<li>周期性凸起和局部拐点对与很多算法来说，是两个不相容的问题，解决了一个就忽略了另外一个。通常针对不相容的问题，可采用blending的思路，即构建一个复合的策略，多个子策略投票，或者取并集。blending的策略本来也是可以通过数据学习出来的（AdaBoosting和GradientBoosting就是）</li>
+<li>以周期性凸起和局部拐点为例，可以构建2个子策略：一个基于环比的子策略用来检测突升/突降，一个基于同比的子策略检测用来屏蔽周期性告警。然后对这个两个子策略构建路由：
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://weread.qq.com/web/reader/f5e32d805c9082f5e041522">影响力-第一章-微信读书</a></li>
+<li>if 突升/突降 &amp; 周期性，不告警</li>
+<li>if 突升/突降 &amp; 非 周期性，告警【特殊】</li>
+<li>if 非 突升/突降 &amp; 周期性，不告警</li>
+<li>if 非 突升/突降 &amp; 非 周期性，告警</li>
+</ol></li>
+<li>为什么要用ewma去检测局部平稳性，而不用ma呢？ewma比ma更适合表达趋势。</li>
+<li>需求还是方案？怎么给一个合适的阈值？怎么给一个合适的窗口？这个是一个需求？（用户定）还是一个解决方案？（给最佳实践）</li>
+<li>如果训练集代表的群体只是总体的子集，我们就只能找到疑似异常。这种情况下，单纯的数据挖掘是获取不到可信的知识的，还需要交给人来确定。就像做图像分类，训练集是动物世界中的动物，测试的时候，给了一个孙悟空，模型就不认识了。这种任务就不应该交给算法，应该转交给更高级的人类去处理，他有样本外的知识，有动画和真实世界这两个概念。</li>
+<li>用预测的方法，去做曲线模式判断，用拟合程度来判断符合哪个模式，即找到最佳视角能够解释这个现象，然后采用历史外推的方式，估算出正常区间</li>
+<li>更进一步的，正常区间之外，想要找出某个类型的异常，就再次配置出异常类型。</li>
+<li>使用邻近窗口的高斯检测器，要注意，这个方法忽略了时间序列的趋势性。</li>
+<li>使用ewma，或者曲线拟合出趋势，可以弥补1的问题。</li>
+<li>经过验证，ewma局部 + 屏蔽周期告警 的组合策略可以搞定大部分时序场景。</li>
 </ol>
 
       
@@ -283,7 +299,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/27/reading_notes/computer/ABtest/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/31/reading_notes/computer/zhihu-ml-prediction-and-decision/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -297,7 +313,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/03/27/reading_notes/computer/ABtest/" class="post-title-link" itemprop="url">ABtest</a>
+            <a href="/2021/03/31/reading_notes/computer/zhihu-ml-prediction-and-decision/" class="post-title-link" itemprop="url">机器学习在预测和决策场景中的应用</a>
         </h2>
 
         <div class="post-meta">
@@ -307,14 +323,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-03-27 23:43:55" itemprop="dateCreated datePublished" datetime="2021-03-27T23:43:55+08:00">2021-03-27</time>
+              <time title="创建时间：2021-03-31 08:52:16" itemprop="dateCreated datePublished" datetime="2021-03-31T08:52:16+08:00">2021-03-31</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-07 08:17:56" itemprop="dateModified" datetime="2021-06-07T08:17:56+08:00">2021-06-07</time>
+                <time title="修改时间：2021-04-08 15:37:21" itemprop="dateModified" datetime="2021-04-08T15:37:21+08:00">2021-04-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -337,42 +353,18 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>现在有很多平台都在做AB test，甚至还做成了一个变形金刚--实验平台，对于不同的推荐对象，给出不同的推荐方案</p>
-<p>正好目前在调研模型在线更新的流程和方案，似乎像是同一类需求。</p>
-<p>到底是不是同一类需求？是的话，实验平台的解决方案是什么？我们是否可以借鉴？</p>
-<p>下面来探讨一下</p>
-</blockquote>
-<h2 id="为什么要做ab测试">为什么要做A/B测试？</h2>
-<p>A/B测试很好的避免了由于时间不同而引起的访客样本属性变化的问题，它能让两个版本面对属性相同或近似的访客群体，基于这种情况对所获得的数据才有可比性，分析结果才更加准确、可靠。</p>
-<p>A一般指实验组, B一般指 对照组，对照组一般指基线，一般都会有模型。</p>
+          <h2 id="一些reflection">一些reflection</h2>
 <ol type="1">
-<li><p>treatment A 一般是重点考察对象，可以是最新版本的模型；treatment B是用来比对A的效果的，可以是上一个版本的模型/基线策略，</p></li>
-<li><p>为了排除用户群1和用户群2的群体差异，一般也会做BAtest。</p>
-<p>ABtest： treatment A 在用户群1测试，treatment B 在用户群2测试。</p>
-<p>BAtest：treatment B 在用户群1测试，treatment A 在用户群2测试。</p></li>
-<li><p>实际痛点：多数情况下流量不够，发现实验上线达不到预期（基线策略）直接下线。</p></li>
+<li>机器学习的预测能力，实际上是一种归纳能力。也就是说当带预测数据完全来自已有训练样本的分布中时，才具备应用的可能性。</li>
+<li>强化学习中，决策的基础是基于对未来的长期的局势的预测。</li>
+<li>机器学习做预测，不适合的典型场景--股票预测，就是拿过去的股票数据去预测未来的股票数据。</li>
+<li>做预测是企业家的事情，是跟概率相关的，先不管它决策的对不对，多重空间的客观存在，推导出人是不可能给出一种确定的结果的。</li>
+<li>同时，在未来到来时，人的行为又可以改变后续的演化路径。人在未来的行与未来以及更未来的结局是纠缠态的。</li>
 </ol>
-<h2 id="来自推荐一线的工程师">来自推荐一线的工程师</h2>
-<p>zhouwei: 做AB实验我总结需要重点考虑三个点：</p>
+<h2 id="参考">参考</h2>
 <ol type="1">
-<li>置信度. 分配多少流量才能保证实验数据可信。</li>
-<li>流量分布. 如何保证实验流量和大盘流量的分布一致性。</li>
-<li>观察周期. 实验流量需要观察多久结论正确。</li>
+<li>https://www.zhihu.com/question/437563654/answer/1729894854</li>
 </ol>
-<h2 id="来自chiechie-其他场景的算法工程师">来自chiechie-其他场景的算法工程师</h2>
-<p>推荐和一般场景的区别是，前者的流量是稀缺的。除此之外，两者本质都是在做线上模型对比</p>
-<ol type="1">
-<li>推荐：用户群1在一个时间点只能接受1个treatment，要么是A要么是B, 测试次数是有限的资源。</li>
-<li>其他场景：比如异常检测，测试数据集1在一个时间点可接受多个treatment。可以无线测，反正是一个莫得感情的信息流。</li>
-</ol>
-<h2 id="总结下">总结下</h2>
-<p>大家要解决的问题是相同的</p>
-<ol type="1">
-<li>有不同的模型（解决方案）</li>
-<li>模型有持续更新的版本</li>
-</ol>
-<p>需要根据线上情况选择性能最好的模型</p>
 
       
     </div>
@@ -391,7 +383,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/67/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/67/">67</a><span class="page-number current">68</span><a class="page-number" href="/page/69/">69</a><span class="space">&hellip;</span><a class="page-number" href="/page/98/">98</a><a class="extend next" rel="next" href="/page/69/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/67/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/67/">67</a><span class="page-number current">68</span><a class="page-number" href="/page/69/">69</a><span class="space">&hellip;</span><a class="page-number" href="/page/97/">97</a><a class="extend next" rel="next" href="/page/69/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -457,20 +449,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">195</span>
+          <span class="site-state-item-count">193</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">208</span>
+        <span class="site-state-item-count">206</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

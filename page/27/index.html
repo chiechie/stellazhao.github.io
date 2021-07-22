@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/20/reading_notes/qukuailian/intro-to-ether/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/18/AIOps/AIOps-2_1-topo-rca/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/20/reading_notes/qukuailian/intro-to-ether/" class="post-title-link" itemprop="url">以太坊介绍-Patrick访谈</a>
+            <a href="/2021/05/18/AIOps/AIOps-2_1-topo-rca/" class="post-title-link" itemprop="url">chapter2.1 对IT系统进行根因定位</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-05-20 10:14:40" itemprop="dateCreated datePublished" datetime="2021-05-20T10:14:40+08:00">2021-05-20</time>
+              <time title="创建时间：2021-05-18 16:05:13" itemprop="dateCreated datePublished" datetime="2021-05-18T16:05:13+08:00">2021-05-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-24 09:56:27" itemprop="dateModified" datetime="2021-05-24T09:56:27+08:00">2021-05-24</time>
+                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                  <a href="/categories/AIOps/" itemprop="url" rel="index"><span itemprop="name">AIOps</span></a>
                 </span>
             </span>
 
@@ -219,45 +219,118 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>有空再翻吧</p>
-</blockquote>
-<p>Patrick访谈以太坊组织的研究人员--Justin，内容包括：</p>
+          <h1 id="总结">总结</h1>
+<ol type="1">
+<li>对于一个微服务系统进行根因分析，主要要解决两个问题，导致故障的根因微服务是哪个？以及导致微服务异常的根因指标是哪个？</li>
+<li>对于第一个问题-导致故障的根因是哪个微服务。还可进一步细分为两种情况：有微服务调用关系和没有服务间的调用关系
+<ol type="1">
+<li>有微服务调用关系，这个关系可能是通过系统工具获取比如causeinfer，也可以是手动配置比如cmdb，使用随机游走的方法推断根因。</li>
+<li>没有微服务调用关系，需要通过基于分析的方法去学习关联关系，比如PC算法，PCTS算法，基于时间滞后的关联分析方法，然后使用随机游走方法推断根因。</li>
+</ol></li>
+<li>对于第二个问题-导致微服务异常的根因指标，实际上跟问题1.2是同一个问题，只是加载元数据的时候（关联指标），需要提供上下游组件的指标，以及部署的机器的信息，也可以使用同一套方案。</li>
+<li>总的来说，做故障定位是从粗力度到细力度，先定位根因的微服务，然后再定位导致微服务异常的指标（可能是上下游，也可能是其所在的机器）</li>
+</ol>
+<h1 id="问题分析-和-方案设计">问题分析 和 方案设计</h1>
+<p>一个IT系统包括机器，网络，应用。一个系统中任何一个组成部分都有可能出现故障，从而导致系统瘫痪。 为了减少故障带来的损失，我们需要提前制定预案，即哪些表象对应这哪些故障，从而在故障发生时候，能快速地根据表现识别出故症结所在，进而进行故障处理。</p>
+<p>下面对这个解决方案进行说明。</p>
+<h2 id="因果图-故障传播图">因果图-故障传播图</h2>
+<p>从表象推断出故障症结，可以表达为一个因果推断的需求，即「由果推因」。</p>
+<p>从众多的监控指标，日志信息，事件信息，归纳出导致这些现象出现的原因。</p>
+<p>先分别看故障出现在这三层会出现什么表现（演绎），以及用什么方法去根据表象推断根因（归纳）</p>
 <ul>
-<li>以太坊和比特币的区别</li>
-<li>以太坊平台孵化的项目数量日益增长</li>
-<li>共识算法从工作量证明到权益证明的转变，对以太坊的意义</li>
+<li>应用之间在逻辑上存在调用关系，应用可能存在一台机器上，也可能是跨机器甚至跨网络。</li>
+<li>应用是部署在机器上的，应用之间的调用关系，实际上会映射为机器之间的网络连接关系。</li>
+<li>应用层故障：如果某个服务异常了，那么所有依赖它的服务的响应时长都会变长。举个例子，如果某个服务b 调用服务a，现在服务a异常了（比如某个操作系统死机了，或者mysql的请求堵塞了）， 就会表现出
+<ul>
+<li>b服务的响应时间变长；a服务的响应时间变长</li>
+<li>b服务的响应时间进行下钻分析，可以发现b服务依赖的其他服务的响应时间没有异常，只有依赖a服务的响应变长了。</li>
+<li>对a服务的响应进行下钻分析，发现a服务依赖的所有的服务响应时常都是正常的。</li>
+<li>如果服务c 要 调用服务b，然后这个调用并没有用到服务a，服务b的反应就是正常的。 总结一下，每一个服务的健康度是一个量化指标，被调用的成功率，如果成功率低，说明这个服务自身可能异常，也有是依赖服务异常导致。</li>
+</ul></li>
+<li>主机故障：如果某台机器故障，那么部署在这台机器上的所有应用都危险了，进而间接影响到，调用这些应用的调用方，即导致应用的点异常，以及间接导致边异常。</li>
+<li>网络故障：网络故障比如网络设备（网线，机房，交换机，路由器）故障，会导致数据在传输过程中丢失，进而影响到两个跨机器的应用之间的调用，即导致 边异常。</li>
 </ul>
-<h2 id="key-concepts-of-btc">Key Concepts of BTC</h2>
+<p>画一个图表示一下</p>
+<figure>
+<img src="./shougap.png" alt="图1-应用/主机/网络三种故障导致的结果" /><figcaption aria-hidden="true">图1-应用/主机/网络三种故障导致的结果</figcaption>
+</figure>
+<h2 id="根因定位方案工作流图">根因定位方案&amp;工作流图</h2>
+<figure>
+<img src="./workflow.png" alt="image-20210316150746837" /><figcaption aria-hidden="true">image-20210316150746837</figcaption>
+</figure>
+<p><a target="_blank" rel="noopener" href="https://docs.qq.com/flowchart/DVGJiQ0NXc2Z3dGVq">流程图-腾讯文档</a></p>
+<h2 id="关于事件的定义">关于事件的定义</h2>
+<p>事件的定义确定了rca的定位能力的颗粒度。 事件定义的粒度越粗糙，定位到的根因就越粗糙，起到的作用就越少。</p>
+<p>粗糙的事件描述只能定位到粗糙的根因。 事件详细到指标的描述，件可以定位到机器的指标根因。 事件详细到指标的描述，件可以定位到细粒度的根因，</p>
+<p>怎么定义一个事件？ 使用 [机器ip, 服务名称, 事件类型/指标名称]</p>
+<h2 id="要用到那些数据">要用到那些数据？</h2>
+<p>要用到的数据包括：日志，指标，事件以及拓扑数据</p>
+<p>但是每条日志/指标/事件，一定是跟一个实体绑定的（某个主机或者某个主机的某个应用）。</p>
+<p>先定位到有问题的实体，然后下钻分析，该实体的哪个指标为根因。</p>
+<p>如何确定一个实体是健康还是异常？两个思路：</p>
+<ul>
+<li>定义应用/中间件的通用的SLO指标，比如调用成功率，调用耗时。</li>
+<li>定义每个应用/中间件最适合的SLO指标，如db最关心锁个数，是否关闭监听。</li>
+</ul>
+<p>此外，还需要用到调用拓扑数据，即服务之间的相互调用关系，或者服务所部署的机器之间的关系，最终得到一个精确的方案。</p>
+<h2 id="构造因果图">构造因果图</h2>
+<p>先要确定这个因果图的skeleton，有哪些节点，什么方向。 构建因果图的思路。基于服务调用关系以及其他的先验，加上基于数据驱动的因果关系方法，提取最大子图。</p>
+<p>因果图长什么样子：</p>
+<figure>
+<img src="AIOps-21-topo-rca/yinguotu.png" alt="因果图.png" /><figcaption aria-hidden="true">因果图.png</figcaption>
+</figure>
+<p>构建因果图（causality graph）是一个核心技术点。</p>
+<ul>
+<li><p>因果图是一个两层分层的图（two layered hierarchical causality graph）</p>
+<ul>
+<li>较高的层是粗粒度的信息，表示每台机器上每个服务间的依赖关系，也叫服务依赖图（Service Dependency Graph），用于定位到服务级别的根因。</li>
+<li>较低的层是细粒度的信息，表示系统指标组成的细粒度因果关系，也叫指标因果图（Metric Causality Graph），用于定位到指标级别的根因。</li>
+</ul></li>
+<li><p>构造「服务依赖图」分为两步（就是调用关系）：</p>
+<ul>
+<li>第一步通过采集器获取边是否存在；</li>
+<li>第二步通过分析两个服务间的通信延迟相关性（traffic lag correlation）来进一步确定边的方向。</li>
+</ul></li>
+<li><p>构造「指标因果图」：使用人工经验+PC算法。</p>
+<blockquote>
+<p>pc算法是一种发现因果关系的算法，在满足一定的假设前提下，使用的基于统计的方法，推导出因果关系。</p>
+</blockquote></li>
+</ul>
+<h2 id="使用因果图进行推断">使用因果图进行推断</h2>
+<p>当前端的服务可用性指标（SLO）出现异常，就会触发根因分析</p>
+<p>根因分析的流程：一边定位调用链中的异常微服务，一边下钻分析，细到指标级别</p>
 <ol type="1">
-<li>以太坊（Ethereum）诞生于2015年，是一个去中心化的区块链（blockchain），类似的概念是Bitcoin。</li>
-<li>以太坊的平台原生加密货币是以太（Ether），类似的概念是BTC。</li>
-<li>以太坊网络的交易费用每天达到1500w美元，需求日益增长。</li>
-<li>区块链是一个协作平台（coordination platform），让互联网上的人们即使不认识不信任彼此，也可以协作。</li>
-<li>互联网是区块链的第一个阶段，它的使命是冲破地域限制，让世界各地的人可以commmuniction。区块链是对这一能力的拓展，它可以让彼此不信任对方的现状下，人跟人仍然能协作。它的信任来自代码，数学，技术，而不是人。</li>
-<li>货币的本质，一个账本，这个账本记录每个人有多少购买力。比特币本质也是账本，记录每个人有多少比特币。</li>
-<li>关于安全性有哪些必备条件，可参考最安全的东西--时间。时间有3个属性，过去的不可篡改。第二个属性是，当下，对所有人，是一个共享的体验（shared experience）。第三个属性是，未来是确定的，一定会发生，没有任何人能够阻止。</li>
-<li>回到货币上，过去的交易不可篡改，每个人都能信任比特币的状态，不用第三方。绕开审查（Censorship resistance），如果比特币是一个计算器，以太坊就是一个计算机。</li>
-<li>矿工让彼此不信任的人达成共识，理应获得报酬--BTC。</li>
+<li>通过异常KPI找到对应的异常微服务</li>
+<li>找到微服务所在的机器，搜集性能指标，对指标因果图进行深度优先搜索，推断哪个指标导致服务性能问题。有两种方法: pagerank, 深度优先遍历</li>
+<li>如果当前微服务异常是别的微服务异常（上游或者下游）造成的，举个例子，根因指标是依赖服务的SLO（注意，这里用到了调用链关系），这个推断就会传播到依赖的远程服务。 ）</li>
+<li>一直追本溯源，一直到最底层的被调用方。</li>
 </ol>
-<h2 id="以太坊">以太坊</h2>
+<h1 id="根因参考资料">根因参考资料</h1>
+<h2 id="比赛">比赛</h2>
 <ol type="1">
-<li>what was the original impetus（动力） in early history here?</li>
-<li>Why was Ethereum created?</li>
-<li>What shortcomings of Bitcoin did it seek to address in the early days?</li>
-<li>比特币的编程能力有限，以太坊扩展了变成能力。</li>
-<li>说一说以太坊创始人Vitalik的想法？</li>
-<li>权益证明比工作量证明，更便宜，因为货币的机会成本更低？？啥意思</li>
-<li>The rewards that you get as a validator are, number one, issuance but also these tips that don't get burnt.</li>
-<li>The way that we do ownership really in the crypto world is using public keys. It's basically cryptography that allows you to prove that you're the owner of something. What it means to go buy an NFT is, at the end of the day, to basically change this ledger entry to add your public key as the owner of this hash.</li>
-<li>We have, right now, 130,000 validators that are securing the proof-of-stake in Ethereum. This is going to grow to half a million or even close to a million validators. Another thing that is important is to understand that the proof-of-stake is best-in-class in terms of security. Just to give you one compelling reason for that is that when we have this scarce resource securing your consensus engine being money placed as collateral, you have the option to destroy it fully. If an attacker is in a position to be able to attack Ethereum, meaning that it has amassed all these economic resources, well, as soon as they make an attack, we can penalize them and remove them from the system so the system is self-healing. Actually, because there's only a finite number of ETH out there, we can actually put an upper bound on the number of times that an attacker can successfully make an attack. It's on the order of 10 times</li>
-<li>Be intellectually curious, be intellectually honest in the sense that participating in things that you understand and whenever there's something you don't understand, don't be shy to ask questions. There's a lot of information out there. Actually, on that point a lot of information out there, there's also a lot of bad information out there. This is a very organic, decentralized, and chaotic space.</li>
+<li><a target="_blank" rel="noopener" href="http://iops.ai/competition_detail/?competition_id=15&amp;flag=1">AIOps挑战赛2020-微服务系统根因分析</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/93USWr2evhRTQvS_NgB56A">AIOps挑战赛2020-微服务系统根因分析-数据</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/hYiXUMveSprkIiOy8mCmCg">AIOps挑战赛2020-微服务系统根因分析-方案分享</a></li>
+<li><a target="_blank" rel="noopener" href="http://iops.ai/competition_detail/?competition_id=17&amp;flag=1">AIOps挑战赛2021-微服务系统根因分析</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnsoftbei.com/plus/view.php?aid=479">CN-Softbei2020-根因分析-比赛</a></li>
 </ol>
-<h2 id="参考">参考</h2>
+<h2 id="代码">代码</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.joincolossus.com/episodes/14242194/drake-ethereum-into-the-ether?tab=blocks">Justin Drake - Ethereum: Into the Ether</a></li>
-<li><a target="_blank" rel="noopener" href="https://steemit.com/cryptocurrency/@danielzhuang/6uohm9">A Letterto Jamie Dimo-中文</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.ceresaig.com/wp-content/uploads/2017/11/A-Letter-to-JP-Morgan-Jamie-Dimon-%E2%80%93-Block-Chain-Crypto-FX.pdf">A Letterto Jamie Dimo-英文</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/chiechie/Insighter">根因分析代码-Insigter</a></li>
+</ol>
+<h2 id="论文">论文</h2>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://wemp.app/posts/6013f2da-c11a-4f6f-b393-2b631c45172a">清华阿里AIOps新作：基于因果分析的微服务内根因定位</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jmlr.org/papers/volume8/kalisch07a/kalisch07a.pdf">2007-The Journal of MachineLearning Research-pc算法</a></li>
+<li><a target="_blank" rel="noopener" href="https://saruagithub.github.io/2020/04/13/20200413CauseInfer%E8%AE%BA%E6%96%871/">对陈鹏飞教授CauseInfer论文的解读</a></li>
+</ol>
+<h2 id="其他">其他</h2>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://netman.aiops.org/~peidan/ANM2016/RootCauseAnalysis/ReadingLists/2014INFOCOM_CauseInfer.pdf">2014-INFOCOM_CauseInfer</a></li>
+<li><a href="https://chiechie.github.io/2021/03/09/technology/PC-algo/">chiechie对PC算法的总结</a></li>
+<li><a target="_blank" rel="noopener" href="https://netman.aiops.org/wp-content/uploads/2020/06/%E5%AD%9F%E5%AA%9B.pdf">causeinfer--paper</a></li>
+<li>J. Pearl, Causality: models, reasoning and inference. Cambridge Univ Press, 2000, vol. 29.</li>
+<li>D. Barry, “A bayesian analysis for change point problems,” Journal of the American Statistical Association, vol. 88, no. 421, pp. 309–319, 1993.</li>
 </ol>
 
       
@@ -278,7 +351,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/20/reading_notes/reality/about-future/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/17/AIOps/AIOps-2-event-analysis/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -292,7 +365,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/20/reading_notes/reality/about-future/" class="post-title-link" itemprop="url">关于未来的一点模糊的认知?</a>
+            <a href="/2021/05/17/AIOps/AIOps-2-event-analysis/" class="post-title-link" itemprop="url">chapter2 故障定位</a>
         </h2>
 
         <div class="post-meta">
@@ -302,7 +375,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-05-20 07:13:07" itemprop="dateCreated datePublished" datetime="2021-05-20T07:13:07+08:00">2021-05-20</time>
+              <time title="创建时间：2021-05-17 16:04:20" itemprop="dateCreated datePublished" datetime="2021-05-17T16:04:20+08:00">2021-05-17</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -317,7 +390,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                  <a href="/categories/AIOps/" itemprop="url" rel="index"><span itemprop="name">AIOps</span></a>
                 </span>
             </span>
 
@@ -332,29 +405,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="未来趋势">未来趋势</h2>
-<blockquote>
-<p>大部分是别人说的，只是比较接近我的认知，有待观察验证</p>
-</blockquote>
-<ol type="1">
-<li><p>虚拟世界vs物理世界，前者将吞噬掉人类更多的注意力和时间, 终极形态类似「元宇宙」。</p></li>
-<li><p>强AI技术首先在游戏领域突破，然后拓展到整个虚拟世界。目前最promising的技术方向是强化学习。</p></li>
-<li><p>人对精神层次追求的提升，相关产业包括心理咨询，冥想，正念，哲学教育等</p></li>
-<li><p>智能合约孵化的应用普及：去中心化金融，NFT。</p></li>
-<li><p>医疗健康产业未来10年有很大市场，包括健康饮食，制药，医疗器械。</p></li>
-<li><p>理财教育低龄化，终身化。</p></li>
-<li><p>老龄化已成为现实</p></li>
-<li><p>量子计算机.</p></li>
-<li><p>创造者经济</p></li>
-<li><p>权利从机构释放到个体。</p>
-<blockquote>
-<p>The Creator Economy and NFTs are massive human potential unlocks. Even if certain assets are in a short-term bubble, we are on an inexorable march towards individuals mattering more than institutions.</p>
-</blockquote></li>
-</ol>
-<h2 id="参考">参考</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://notboring.mirror.xyz/SPV_-bchriVn_ncDj8OgnLccSb5qAsU0sXNpg9y_UTk">Power to the Person</a></li>
-</ol>
+          <p>故障定位阶段，需要对众多生成的告警事件进行综合分析，找出事件之间的关联，并且定位出根因。 主要的细分场景包括：</p>
+<ul>
+<li>基于拓扑的故障定位</li>
+<li>多维指标下钻分析</li>
+<li>调用链根因定位</li>
+<li>指标和事件的关联关系</li>
+</ul>
 
       
     </div>
@@ -373,7 +430,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/26/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><span class="page-number current">27</span><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/98/">98</a><a class="extend next" rel="next" href="/page/28/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/26/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><span class="page-number current">27</span><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/97/">97</a><a class="extend next" rel="next" href="/page/28/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -439,20 +496,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">195</span>
+          <span class="site-state-item-count">193</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">208</span>
+        <span class="site-state-item-count">206</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

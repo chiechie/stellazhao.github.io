@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/15/machine-learning/machine-learning_1-basic/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/19/machine-learning/machine-learning_4-dl1_basic/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/15/machine-learning/machine-learning_1-basic/" class="post-title-link" itemprop="url">机器学习1 基本概念</a>
+            <a href="/2021/04/19/machine-learning/machine-learning_4-dl1_basic/" class="post-title-link" itemprop="url">chapter 4.1 深度学习基础</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-15 16:00:28" itemprop="dateCreated datePublished" datetime="2021-04-15T16:00:28+08:00">2021-04-15</time>
+              <time title="创建时间：2021-04-19 16:35:36" itemprop="dateCreated datePublished" datetime="2021-04-19T16:35:36+08:00">2021-04-19</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-21 11:53:44" itemprop="dateModified" datetime="2021-07-21T11:53:44+08:00">2021-07-21</time>
+                <time title="修改时间：2021-07-22 15:56:11" itemprop="dateModified" datetime="2021-07-22T15:56:11+08:00">2021-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -219,182 +219,155 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="机器学习的基本概念">机器学习的基本概念</h2>
-<ol type="1">
-<li><p>机器学习是一个多领域交叉的学科，但是总结起来，关注的核心点都在于：如何从历史经验（数据）中获取知识或者规律（模型），并将知识应用到新的类似的场景中。</p></li>
-<li><p>机器学习的三个要素：假设函数空间；学习策略or目标函数；优化算法。</p></li>
-<li><p>机器学习的流程一般要经历几个阶段：收集样本（大部分场景都要人工标注），特征提取，定义预测函数（也叫假设函数空间，线性的还是非线性的），定义损失函数/目标函数，选择优化算法。</p>
-<blockquote>
-<p>使用sklearn的时候，后面三步骤写一行命令就完成了。</p>
-</blockquote>
+          <h1 id="数据表示">数据表示</h1>
+<p>在深度学习中如何表示现实中的事物？</p>
+<p>The data you’ll manipulate will almost always fall into one of the following categories:</p>
 <ul>
-<li>定义损失函数：给定预测模型之后，让他去预测训练数据中的每一个输入样本，为了让预测模型学的越来越准，我们需要设置一个奖惩机制：当模型预测对了，就给一个高分，预测错了就给一个低分。负责对预测函数打分的组建就是这个损失函数，当然，他只会惩罚错误的预测结果，即，预测错了就跟一个很严重的惩罚分数，这样我们的目的就变成，希望找到一个惩罚分数最低的预测函数。怎么找呢？这个就涉及到最优化的知识，当损失函数是个连续可导的函数，更甚至是一个凸函数时，比如误差平方和交叉熵函数，我们就可以利用导数的方法来求最优的参数</li>
-<li>选择优化方法：当有了损失函数和训练数据之后，我们就可以定义一个优化问题--最小化所有训练数据的总体预测误差，通常也称之为经验风险，通过合适的优化方法去求解这个最优化问题，就可以得到最佳的预测函数。优化方法有很多，比如梯度下降，牛顿法等，能否找到全局最优解，取决于损失函数的复杂程度，如果损失函数是一个凸函数，很容易找到全局最优，否则，大部分情况都只能找到局部最优。</li>
+<li>Vector data:2D tensors of shape(samples, features)</li>
+<li>Timeseries data or sequence data:3D tensors of shape (samples, timesteps, features)</li>
+<li>Images:4D tensors of shape(samples,height,width,channels) or (samples,channels, height, width)</li>
+<li>Video:5D tensors of shape (samples, frames, height, width, channels) or (samples, frames, channels, height, width)</li>
+</ul>
+<h2 id="表数据">表数据</h2>
+<ul>
+<li>两个轴：samples axis 和 features axis.</li>
+<li>文本数据, 假设词典长度为2k，每一个doc可以表示为1个2k维的向量，位置的值代表词在文本中出现的次数。</li>
+<li>500个文件可以存储为(500, 20000).</li>
+</ul>
+<h2 id="时间序列数据文本数据">时间序列数据/文本数据</h2>
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F_vMGBboznU.png?alt=media&amp;token=73c12f97-acdb-4680-b4eb-79a9a07581f9" /></li>
+</ul>
+<p>时间序列数据一般表示成3-d的张亮，tf中使用3d张量存储，(samples, timestamp, features) 每一个sample可以被编码成一个2d张量， 具体的两个例子</p>
+<ol type="1">
+<li>股票数据：每年有250个交易日，每个交易日的交易时长有390分钟，每分钟可以抽取3个重要特征：当前价格，上一分钟最高成交价格，上一分钟最低价格
+<ul>
+<li>以每一天的交易数据为1个样本，构建的样本的shape为(250,390,3)</li>
 </ul></li>
+<li>TWEET数据：一条twitter长度不超过256，每个位置的字符来自128个assical码中的一个。每一条twitter的shape为（256， 128），1 百万 tweets 的shape为(1000000, 256, 128)</li>
 </ol>
-<h2 id="机器学习的细分方向">机器学习的细分方向</h2>
-<p>从预测函数的类别来看，可以分为回归，分类，排序，有结构的预测</p>
-<p>从复杂度来看，可以分为线性和非线性；浅层和深度</p>
+<h2 id="图像数据">图像数据</h2>
+<p>图像数据一般表示成4维tensor，一个图像数据就是一个3d张量</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FD24ghIvE2L.png?alt=media&amp;token=4a68bc5a-7b95-46d2-8418-deed053d4301" /></p>
 <ul>
-<li>线性：线性回归/逻辑回归，线性支持向量机。</li>
-<li>非线性：树模型，深度神经网络（全链接神经网络，卷积神经网络，循环神经网络）</li>
+<li>tensorflow： (samples, height, width, color_depth)</li>
+<li>theano：(samples, color_depth, height, width).</li>
+<li>keras两者都支持</li>
 </ul>
-<p>从模型功能，可以分为生成模型和判别模型</p>
+<h2 id="视频数据的表示">视频数据的表示</h2>
+<p>视频数据表示成5维张量：(samples, frames, height, width, color_depth).</p>
+<h1 id="模型超参">模型超参</h1>
+<h2 id="结构超参数">结构超参数</h2>
+<p>结构超参数包括层数、层的类别、层的大小等数值。以一个卷积层为例，其中的超参数包括卷积核 (filter) 的大小，卷积核的数量，步长 (stride) 的大小，unit：单元，hidden_layers: 隐藏层，cell：单元 ，dropout_rate丢弃率。这些超参数决定了神经网络的结构。</p>
+<h3 id="layers的基本类型">layers的基本类型</h3>
+<p>keras中layer的基本类型：</p>
 <ul>
-<li>生成模型的学习目标是mle，关注特征和标签的联合概率，它要学习的概率分布很复杂，但是适用场景多，eg分类，概率密度估计，样本生成。</li>
-<li>判别模型的学习目标是最大化条件概率或者后验概率，不关注特征和标签的联合概率，直接对后验概率建模，学习效率高，不过只能做分类。</li>
+<li>卷积(Conv1D)</li>
+<li>池化(MaxPooling1D/GlobalAveragePooling1D)</li>
+<li>dropout(Dropout)</li>
+<li>线性全连接层(Dense)</li>
+<li>high-level层(LSTM) ### 卷积层</li>
 </ul>
-<h3 id="常用的机器学习模型">常用的机器学习模型</h3>
-<h3 id="线性模型逻辑回归">线性模型/逻辑回归</h3>
 <ol type="1">
-<li><p>线性模型是最简单的机器学习模型，这个模型假设预测结果是特征的线性组合。</p></li>
-<li><p>线性模型可以预测连续变量，如果要预测离散变量呢？需要将特征的线性组合结果使用对数几率函数进行变换 ，因为其值域是0～1，所以一般用来对概率建模，基于概率的预测结果，配合对数似然损失或者交叉熵损失，可以定义训练目标。</p>
-<p><span class="math display">\[g(x ; w)=\frac{1}{1+\exp \left(-w^{T} x\right)}\]</span></p></li>
-<li><p>线性模型可解释性强，但是不能表达特征之间复杂的非线性组合关系。所以，一般在使用线性摸模型之前，会配合复杂的特征工程：比如单特征取指数，对数，多项式变换，以及特征之间交叉乘积，或者使用核方法，将原特征隐式映射到一个高维的非线性空间，然后在高维空间里面构建线性模型，eg 支持向量机。</p></li>
+<li>卷积的维度有1Ｄ，2Ｄ，3D, 区别在于?</li>
 </ol>
-<h3 id="支持向量机">支持向量机</h3>
-<ol type="1">
-<li><p>核方法的基本思想，通过一个非线性变换，把输入数据映射到高维度的希尔伯特空间，在高维空间中，原先线性不可分的问题，变得很好解决。</p></li>
-<li><p>使用核方法时，理论上，计算高维空间中两个向量的距离要分两步走：1.先将输入向量映射到高维空间，2. 然后再计算高维空间中向量之间的距离，但是，在已知<span class="math inline">\(\phi\)</span>的表达式时，可以直接推导出两个低维向量在高维空间的距离函数<span class="math inline">\(k(x_1, x_2)\)</span></p></li>
-</ol>
-<p><span class="math inline">\(x_1\)</span>--&gt; <span class="math inline">\(\phi(x_1)\)</span></p>
-<p><span class="math inline">\(x_2\)</span>--&gt; <span class="math inline">\(\phi(x_2)\)</span></p>
-<p><span class="math inline">\(dist(\phi(x_1), \phi(x_2)) = k(x_1, x_2)\)</span></p>
-<ol start="3" type="1">
-<li>举几个例子核函数的例子：</li>
-</ol>
+<p>输入数据的shape以及卷积核如何滑动</p>
 <ul>
-<li>自由度为d的多项式核函数:<span class="math inline">\(k(x,y) = (x^\mathsf{T} y + c)^{d}\)</span></li>
+<li><img src="https://miro.medium.com/max/1621/1*aBN2Ir7y2E-t2AbekOtEIw.png" title="fig:" alt="I１维卷积和２维卷积的区别" /></li>
+<li>1维卷积（Conv1D）：只有1个维度可以滑动，但是另一维度也是有待估参数的</li>
+<li>2维卷积（Conv2D）：有两个维度可以滑动，</li>
+<li>相同点：从参数视角都是2维的，每一个卷积kernel，参数个数是 height × width +１　（off_ set）</li>
 </ul>
-<blockquote>
-<p>假设d=2对应的映射函数：$ (x) = x_n^2, , x_1^2,  x_n x_{n-1}, ,  x_n x_1,  x_{n-1} x_{n-2}, ,  x_{n-1} x_{1}, ,  x_{2} x_{1},  x_n, ,  x_1, c $</p>
-</blockquote>
+<ol start="2" type="1">
+<li>什么情况下，1d比2d好用呢？其中2个维度上，做卷积没有意义(high,close,open,close)</li>
+</ol>
+<h3 id="关于dropout">关于dropout</h3>
+<p>keras中对dropout的处理，因为训练阶段需要dropout ，但是inference阶段不需要dropout，keras中如何设置？</p>
+<p>Keras does this by default.</p>
+<p>keras中，在test模式下，dropouts是不可以设置的，代码在<a target="_blank" rel="noopener" href="https://github.com/keras-team/keras/blob/dc95ceca57cbfada596a10a72f0cb30e1f2ed53b/keras/layers/core.py#L109">这里</a> and see that they use the dropped input in training and the actual input while testing.</p>
+<h2 id="算法超参数">算法超参数</h2>
+<p>算法超参数包括学习率 (learning rate),批量大小 (batch size)、epoch数量(迭代周期个数)、正则，损失，激活函数等。由于神经网络的非凸性，用不同的算法超参数会得到不同的解。</p>
+<h3 id="归一化">归一化</h3>
+<p>归一化层，目前主要有这几个方法：</p>
 <ul>
-<li><p>RBF核函数或者高斯核函数：<span class="math inline">\(k(\mathbf{x}, \mathbf{y})=e^{-\gamma\|\mathbf{x}-\mathbf{y}\|^{2}}, \gamma&gt;0\)</span></p></li>
-<li><p>sigmoid核函数: <span class="math inline">\(\tanh \left(\gamma\left\langle x, x^{\prime}\right\rangle+r\right)\)</span></p></li>
+<li>Batch Normalization（BN， 2015年）</li>
+<li>Layer Normalization（LN， 2016年）</li>
+<li>Instance Normalization（IN， 2017年）</li>
+<li>Group Normalization（GN， 2018年）</li>
+<li>Switchable Normalization（SN， 2018年）；</li>
 </ul>
-<blockquote>
-<p>注意，核函数中的参数如<span class="math inline">\(\gamma\)</span>是需要人工设定的，所以最好做归一化</p>
-</blockquote>
-<ol start="4" type="1">
-<li><p>核方法的典型的应用之一就是支持向量机。支持向量机的基本思想是，通过核函数将原始输入映射为一个高维向量，在高维度空间里面寻找一个超平面，将正负样本分开，即寻找一个最大间隔的超平面。</p>
-<p><span class="math display">\[\min \hat{l}_{n}(w)=\frac{1}{2}\left\|_{w}\right\|^{2}+\sum\limits_{i=1}^{n} \max \left\{0,1-y_{i}\left(w^{T} \phi\left(x_{i}\right)\right)\right\}\]</span></p>
-<p>使用拉格朗日乘子法，转化为求其对偶问题：</p>
-<p><span class="math display">\[\max _{\alpha} \sum_{i=1}^{n} \alpha_{i}-\frac{1}{2} \sum_{i=1}^{n} \sum_{j=1}^{n} \alpha_{i} \alpha_{j} y_{i} y_{j} \phi\left(x_{i}\right)^{T} \phi\left(x_{j}\right)\]</span></p>
-<p>这是一个二次规划问题。</p></li>
-<li><p>核函数的选择：需满足核矩阵(n*n)半正定，这样总能找到隐含的映射<span class="math inline">\(\phi\)</span></p>
-<blockquote>
-<p>一个核矩阵隐式定义了一个映射<span class="math inline">\(\phi\)</span>，称之为再生核希尔伯特空间（reproducing kernel hilvert space, RKHS）</p>
-</blockquote></li>
-</ol>
-<h3 id="树模型">树模型</h3>
-<ol type="1">
-<li>决策树也是一个常见的机器学习模型，基本思想是，根据特征构造出树结构的预测模型</li>
-<li>一个决策树包含一个根节点，若干内部节点以及叶子节点。</li>
-<li>叶子节点对应最终的决策结果，其他节点针对数据的某个属性进行判断和分支：在该节点中，会根据数据的某个特征的值进行判断，一局判断结果将样本划分到某个子树之中，</li>
-<li>通过决策树，可以从根节点出发，把一个具体的样本最终分配到某个叶子节点上，实现预测的目的。</li>
-<li>因为每个节点上的分支操作是非线性的，因此决策树可以实现比较复杂的非线性映射，</li>
-<li>决策树算法的目的是，根据训练数据，学习处一颗泛化能力较强的树，能够很精准的把位置样本分到对应的叶子节点上。</li>
-<li>树模型的优势在于可解释性，但是很难兼顾准确性和泛化性，</li>
-<li>常见的决策树算法包括：分类回归树（CART），ID3算法，C4.5算法，决策树桩（Decision Stump）。总结起来，这些算法的流程都包括分支和剪枝两个步骤。</li>
-<li>分支的目的是，找到一个划分条件（一般是某个特征满足某个条件），使得划分之后能够提升样本的纯度。</li>
-<li>剪枝要解决的问题是减少过拟合，有两种剪枝的技术：预剪枝和后剪枝。
-<ol type="1">
-<li>预剪枝是指，在决策树生成过程中，对每个节点在划分前使用验证集来估计，该划分能否带来决策树泛化性能提升，如果没有提升则将当前节点标记为叶子结点；</li>
-<li>后剪枝是指，从训练集中生成一颗完整的决策树，然后自下而上的考察去掉每个节点是否提升了泛化能力（将该节点及其子树合并成一个叶子节点），没有提升的话就进行剪枝。</li>
-</ol></li>
-<li>有些情况下数据中隐含的模式比较复杂，那么单个决策树的表达性能不够，通常会使用集成学习来提升树的表达能力。将多棵树进行组合，有不同的方式组合，如bagging/boosting等。</li>
-<li>adaboosting的思路是，先训练出一个base estimator，根据预测结果的准确率，对样本的权重进行调整，预测不准的样本调高权重，预测准的样本调低权重，然后让下一个base estimmtor来学习。这样，原来base estimator搞不定的样本，在后续的学习中，得到更多的关注，最终的预测模型，是所有base estimator预测结果的线性组合，权重表示对应base estimator的预测准确率。</li>
-<li>boosting在抵抗过拟合方面效果很好，随着训练的推进的，即使在训练机已经把误差降到0，更多的迭代还可以提高测试机上的准确率，可以用间隔定理（Margine Theory）来解释这个现象：随着迭代的推进，训练样本上的分类置信度（即每个样本点上的间隔）仍在不断变大。</li>
-</ol>
-<h3 id="神经网络">神经网络</h3>
-<ol type="1">
-<li>神经网络是一类典型的非线性模型，它的结构设计受到生物神经网络的启发。对大脑生理机制研究发现，其基本单元是神经元，每个神经元通过树突从上游的神经元那里获取输入信号，经过自身加工处理，当能量达到一定强度，就会激活产生一个新的信号，并将这个信号通过轴突传递给下游神经元。</li>
-<li>设计人工神经网络时，并没有参考生物系统的激活机制，因为生物系统的激活机制相当于是阶跃函数，这个函数不连续，因此不能使用基于梯度的方法来更新参数。取而代之的是更平滑的激活函数，比如sigmoid函数，双曲正切函数（tanh），relu。</li>
-</ol>
+<h4 id="问题1-transformer-为什么要使用ln而不是-bn">问题1 transformer 为什么要使用LN而不是 BN？</h4>
+<p>在<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2003.07845.pdf">paper: Rethinking Batch Normalization in Transformers</a>中, 作者对比了cv和nlp的BN, 得出的结论是在nlp数据上基于batch的统计信息不稳定性过大(相比cv的数据)，导致bn在nlp上效果差。相比之下layer norm能够带来更稳定的统计信息，有利于模型学习</p>
+<p>Batch Normalization主要的问题是计算归一化统计量时计算的样本数太少，在RNN等动态模型中不能很好的反映全局统计分布信息，而Layer Normalization根据样本的特征数做归一化，是batch size无关的，只取决于隐层节点的数量，较多的隐层节点数量能保证Layer Normalization归一化统计分布信息的代表性。</p>
+<h4 id="问题2.-in直观上怎么理解">问题2. IN直观上怎么理解？</h4>
+<p>在计算机视觉中，IN本质上是一种Style Normalization，它的作用相当于把不同的图片统一成一种风格。另外，既然IN和BN都会统一图片的风格，那么在Generator里加IN或BN应该是不利于生成风格多样的图片的，论文中也进行了展示：</p>
+<p><img src="https://pic2.zhimg.com/v2-235433127838fca762ebd10511de9ca7_b.jpg" /></p>
+<p>图e是在generator中加了BN的结果，图f是在generator中加了IN的结果。果然崩了，IN崩得尤其厉害。</p>
+<h3 id="激活函数">激活函数</h3>
+<p>设计神经网络的时候，通常采用连续的非线性函数作为激活函数，比如sigmoid函数/双曲正切函数（tanh）/relu,</p>
 <figure>
-<img src="./dl0_basic.png" alt="dl0_basic" /><figcaption aria-hidden="true">dl0_basic</figcaption>
+<img src="./dl0_basic.png" alt="image-20210719145122887" /><figcaption aria-hidden="true">image-20210719145122887</figcaption>
 </figure>
-<ol start="3" type="1">
-<li><p>全连接神经网络：</p></li>
-<li><p>卷积神经网络：研究发现每个视觉细胞只对图像中的局部区域敏感，大量视觉细胞平铺开来，可以利用图像的空间局部上的相关性，受到生物系统的启发，卷积神经网络也引进了局部连接的概念，并且在空间上平铺多个卷积核/滤波器，这些卷积核之间有很大的重叠区域，相当有个滑动窗口，当窗口滑倒不同空间位置时，对窗口内的信息使用同样的滤波器进行分析。经过卷积操作之后，会得到一个和原图像类似大小的新图层，其中的每个点都是卷积核在局部区域的作用结果，对应于更加高级的语义信息，得到的新图层也叫特征映射（feature map），对于一副图，可以在一个卷积层里使用多个不同的卷积核，从而得到多维的feature map；也可以把多个卷积层stack起来，不断抽取越来越高级的语义信息。除了卷积，池化也是卷积神经网络的重要部分，池化的目的是，对特征映射进行压缩，体现平移不变性，并且有效扩大后续卷机操作的感受野。池化没有参数，只是对局部区域求一下汇总信息，如平均值/中位数/最大值/最小值。</p></li>
-<li><p>实际中，设计cnn时，经常把卷积层和池化层交易级联，从而实现不断抽取高层语义特征的目的，最后一层可以加上一个全连接层，对高层的语义特征进行预测。</p>
+<h3 id="损失函数">损失函数</h3>
+<ul>
+<li>在target为离散变量时，损失函数有：hinge/指数损失/交叉熵</li>
+<li>在target为连续变量时，损失函数有：平方误差</li>
+</ul>
+<p>tensorflow中的损失函数:</p>
+<ul>
+<li><p>sparse_categorical_crossentropy: target是interger list，形状n*1；</p></li>
+<li><p>categorical_crossentropy: target 是one-hot vector，target的shape跟模型输出一致，是n*k(类)。</p>
+<p><span class="math display">\[C E(x)=-\sum\limits_{i=1}^{C} y_{i} \log f_{i}(x)\]</span></p></li>
+<li><p>binary_crossentropy: target 是interger list。 <span class="math display">\[B C E(x)_{i}=-\left[y_{i} \log f_{i}(x)+\left(1-y_{i}\right) \log \left(1-f_{i}(x)\right)\right]\]</span></p></li>
+<li><p>如果输出标签维度为1，只能使用binary_crossentropy，否则程序会报错。不能直接使用categorical_crossentropy 或者sparse_categorical_crossentropy</p></li>
+<li><p>如果输出标签维度为K：使用categorical_crossentropy 或者sparse_categorical_crossentropy</p></li>
+<li><p>单标签多分类（multi-class）：softmax + CE</p></li>
+<li><p>二分类：sigmoid + BCE</p></li>
+<li><p>多标签多分类（multi-label）的情况：sigmoid + BCE</p></li>
+<li><p>最小化交叉熵损失函数等价于最大化训练数据集所有标签类别的联合预测概率。</p></li>
+</ul>
+<h3 id="优化算法">优化算法</h3>
 <figure>
-<img src="./image-20210720201740269.png" alt="image-20210720201740269" /><figcaption aria-hidden="true">image-20210720201740269</figcaption>
-</figure></li>
-<li><p>人们在imagenet数据集上不断通过增加网络深度刷新错误率，2015年来自微软的152层的Resnet网络，在Image数据机上取得了3.75%的top5的错误率。</p></li>
-<li><p>随着卷积神经网络变得越来越深，梯度消失的问题越来越严重，给模型的训练带来了很大的难度，为了解决这个问题，提出了许多新的方法，比如残差学习，高密度网络，实验表明：这些方法可以有效把训练误差传递到靠近输入层的地方。<img src="./image-20210720204128001.png" alt="image-20210720204128001" /></p></li>
-</ol>
-<p>循环神经网络</p>
+<img src="./image-20210719145307261.png" alt="image-20210719145307261" /><figcaption aria-hidden="true">image-20210719145307261</figcaption>
+</figure>
 <ol type="1">
-<li><p>循环神经网络也有很强的仿生学基础，人类是如何阅读看报呢？每读到一个词，都会想一想刚刚读到的文字在脑袋中形成的记忆，记忆能够帮我们更好地理解当前看到的文字，当看下一个文字时，当前文字和历史记忆又会共同成为新的记忆，并对理解下一个文字提供帮助。</p></li>
-<li><p>循环神经网络的设计也是参考了这个思想，用<span class="math inline">\(s_t\)</span>表示t时刻的记忆，是由t时刻看到的输入<span class="math inline">\(x_t\)</span>和t-1时刻的记忆<span class="math inline">\(s_{t-1}\)</span>共同作用产生的，这个过程可以表示为：</p>
-<p><span class="math inline">\(s_t = \Psi(Ux_t + W s_{t-1})\)</span>,</p>
-<p><span class="math inline">\(o_t = V s_t\)</span></p></li>
-<li><p>这个式子蕴含着对于记忆单元<span class="math inline">\(s_t\)</span>的循环迭代，在实际应用中，无现场时间的循环迭代是没有意义的，比如我们阅读文字时，每个句子的平均长度可能只有十几个词，因此，可以把循环神经网络在时域上展开，然后在展开的网络上利用梯度下降来更新参数矩阵UVW，称之为时域反向传播（Back Propagation Through Time，BPTT）</p></li>
-<li><p>和全连接神经网络，卷积神经网络类似，循环神经网络时间域展开后，也会遇到梯度消失的问题，为了解决这个问题，提出了一套依靠控制门来控制信息流通的方法。也就是说，在循环神经网络的两层之间，同时存在线性和非线性通路，哪个通路开/关，开多大程度？取决于一组控制们，这个控制门是带参数的，两种使用较多的方法是LSTM和GRU。GRU更简单些，，LSTM有3个控制门，GRU有两个控制们，二者在实际中的效果类似，但是GRU的训练速度要快些。</p></li>
-<li><p>在使用基于循环神经网络的seq2seq模型做机器翻译时，实践中会遇到一个问题，输出端的翻译结果中，某个词是对于输入端每个词语依赖程度不一样，通过吧整个输入句子编码到一个向量来驱动输出的句子，会导致信息粒度太粗糙，或者长期的依赖关系被忽视。为了解决这个问题，在标准的seq2seq基础上，引入了“注意力机制”，输出端每次输出之前，都会重新回归一下输入的每个单词，并且会计算每个单词的重要性，从而具备更细粒度的表达能力。</p></li>
-</ol>
-<h2 id="常用的优化方法">常用的优化方法</h2>
-<ol type="1">
-<li>远在机器学习之前，梯度下降就已经被提出，还有共轭梯度法，坐标下降法，牛顿法，拟牛顿法，Frank-Wolfe方法，Nesterov加速方法，内点法，对偶方法他确定性优化算法。</li>
-<li>确定性优化算法从算法使用的信息的角度可以分为一阶和二阶方法，
+<li><p>远在机器学习之前，梯度下降就已经被提出，还有共轭梯度法，坐标下降法，牛顿法，拟牛顿法，Frank-Wolfe方法，Nesterov加速方法，内点法，对偶方法他确定性优化算法。</p></li>
+<li><p>确定性优化算法从算法使用的信息的角度可以分为一阶和二阶方法，</p>
 <ul>
 <li>一阶：只用到了目标函数的一阶导数信息</li>
 <li>二阶：用到了二阶导数，如嗨森矩阵</li>
 </ul></li>
-<li>随着大数据的兴起，确定性优化算法的效率成为瓶颈。为了减少优化过程中每次迭代的计算复杂度，开始关注随机优化算法，比如随机梯度下降，随机坐标下降等。这些算法的基本思想是，每次迭代不使用全部样本或者全部特征，而是随机抽样一个/或者一组样本，或者一个/一组特征，再利用这些抽象的信息来计算一阶或者二阶导数，对目标函数进行优化。很多情况下，随机优化可以看成是确定性算法的无偏估计，但是，有时候也会带来较大方差，需要使用新的技术手段去控制方差，比如SVRG。</li>
-<li>上面的优化算法在求解凸优化问题时，理论性质是比较清楚的，但是深度神经网络引入了非凸优化问题，以上的算法在该问题域还存在很大的理论空白，例如：
+<li><p>随着大数据的兴起，确定性优化算法的效率成为瓶颈。为了减少优化过程中每次迭代的计算复杂度，开始关注随机优化算法，比如随机梯度下降，随机坐标下降等。这些算法的基本思想是，每次迭代不使用全部样本或者全部特征，而是随机抽样一个/或者一组样本，或者一个/一组特征，再利用这些抽象的信息来计算一阶或者二阶导数，对目标函数进行优化。很多情况下，随机优化可以看成是确定性算法的无偏估计，但是，有时候也会带来较大方差，需要使用新的技术手段去控制方差，比如SVRG。</p></li>
+<li><p>上面的优化算法在求解凸优化问题时，理论性质是比较清楚的，但是深度神经网络引入了非凸优化问题，以上的算法在该问题域还存在很大的理论空白，例如：</p>
 <ol type="1">
 <li>优化算法的收敛性在非凸问题能否保持</li>
 <li>有没有什么加速的方法？</li>
 </ol></li>
-<li>专门针对深度神经网络的优化算法被发明，例如，带冲量的速记梯度下降，ada梯度，rmsprop，ada delta</li>
-</ol>
+<li><p>专门针对深度神经网络的优化算法被发明，例如，带冲量的速记梯度下降，ada梯度，rmsprop，ada delta</p>
 <ul>
 <li>带动量的随机梯度下降，对所有历史的梯度，按照时间衰减为权重，一起决定下一步的更新方向</li>
 <li>ada梯度：在上面的基础上，还考虑了根据历史梯度大小调整了学习步长</li>
 <li>rmsprop：带动量的sgd和ada的结合</li>
 <li>ada delta：在rmsprop基础行，进一步对步长调整</li>
 <li>adam：</li>
-</ul>
-<h3 id="机器学习理论">机器学习理论</h3>
-<p>机器学习最关注的是泛化能力，反映了机器能否抓住问题本质，获得处理未知样本的能力</p>
-<ol type="1">
-<li>机器学习算法的最终目标是最小化损失的期望，但是我们不知道真实分布，所以将目标转为，最小化经验风险，同时，会给函数空间添加适当的约束，比如只允许搜索那些范数小于c的函数子空间，成学习问题为正则经验风险最小化，我们希望学习到的模型的期望风险尽可能小，并将其定义为机器学习的泛化误差。</li>
-<li>希望算法的泛化误差尽可能小，即，算法输出的模型和最优的模型对应的期望风险之差尽可能小，这个差距也称为泛化误差，可以分解为三部分：
-<ol type="1">
-<li>优化误差：迭代出来的算法与精确的最小经验风险的模型的差别，这个误差是由优化算法的局限性带来的，与选用的优化算法，数据量大小，迭代轮数，以及函数空间有关。</li>
-<li>估计误差：最小经验风险模型和最小期望风险模型所对应的差别。</li>
-<li>近似误差：与函数空间的表达能力有关</li>
-</ol></li>
-<li>基于容度的估计误差的上界：估计误差可以被函数集合中的所有函数的经验风险和期望风险的一致上界控制，通常被称为一致估计偏差。一致估计偏差，被函数集合G的容度控制住，容度描述了函数G在多个输入数据上所产生的输出的多样性，比如VC维告诉我们函数集合最多能打伞多少个样本点，。</li>
+</ul></li>
 </ol>
-<h2 id="附录">附录</h2>
-<h2 id="基本概念">基本概念</h2>
-<ul>
-<li>信息增益: 衡量切分前后，样本纯度的提升or混乱度的下降。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IG = information before splitting (parent) — information after splitting (children)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>具体的，有两个衡量纯度/混乱度的指标：Entropy 和 Gini Impurity
-<ul>
-<li>基尼系数（<strong>gini index</strong>）: <span class="math display">\[I_{G}=1-\sum_{j=1}^{c} p_{j}^{2}\]</span>
-<ul>
-<li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li>
-<li>如果所有样本都属于某一类c，gini系数最小，为0。</li>
-</ul></li>
-<li>熵（entropy）：<span class="math display">\[I_{H}=-\sum_{j=1}^{c} p_{j} \log _{2}\left(p_{j}\right)\]</span>
-<ul>
-<li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li>
-<li>如果所有样本都属于某一类c，熵最小，为0。</li>
-</ul></li>
-</ul></li>
-</ul>
-<h2 id="参考">参考</h2>
+<h1 id="参考资料">参考资料</h1>
 <ol type="1">
-<li>分布式机器学习</li>
-<li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/svm.html#svm-kernels">sklearn-kernel</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1502.03167.pdf">Batch Normalization</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1607.06450v1.pdf">Layer Normalizaiton</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1607.08022.pdf">Instance Normalization</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/DmitryUlyanov/texture_nets">code</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1803.08494.pdf">Group Normalization</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1806.10779.pdf">Switchable Normalization</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/switchablenorms/Switchable-Normalization">code</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/liuxiao214/article/details/81037416">有公式推导，写的很棒</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/05de1f989790">用书比喻图像很好理解</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/61248211">Conditional Batch Normalization 详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/57875010">从Style的角度理解Instance Normalization</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.goodaudience.com/introduction-to-1d-convolutional-neural-networks-in-keras-for-time-sequences-3a7ff801a2cf">在时序数据上应用conv1D</a></li>
+<li>https://zhuanlan.zhihu.com/p/57875010</li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47787011/how-to-disable-dropout-while-prediction-in-keras">How to disable dropout while prediction in keras?</a></li>
 </ol>
 
       
@@ -415,7 +388,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/14/reading_notes/reality/nava-joerogan-show/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/18/reinforcement_learning/rl0_summary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -429,7 +402,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/14/reading_notes/reality/nava-joerogan-show/" class="post-title-link" itemprop="url">joerogan访谈nava</a>
+            <a href="/2021/04/18/reinforcement_learning/rl0_summary/" class="post-title-link" itemprop="url">强化学习1 学习大纲</a>
         </h2>
 
         <div class="post-meta">
@@ -439,14 +412,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-14 18:27:20" itemprop="dateCreated datePublished" datetime="2021-04-14T18:27:20+08:00">2021-04-14</time>
+              <time title="创建时间：2021-04-18 20:16:31" itemprop="dateCreated datePublished" datetime="2021-04-18T20:16:31+08:00">2021-04-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 09:40:45" itemprop="dateModified" datetime="2021-05-06T09:40:45+08:00">2021-05-06</time>
+                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -454,7 +427,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
                 </span>
             </span>
 
@@ -470,38 +443,86 @@
 
       
           <blockquote>
-<p>人生只有一次，尽最大可能让他精彩。</p>
+<p>相对监督学习，强化学习的神奇之处在于，可能可以超越人类。而监督学习只能模仿，不能超越</p>
 </blockquote>
-<h2 id="摘要">摘要</h2>
+<h2 id="强化学习的内容大纲">强化学习的内容大纲</h2>
+<ol type="1">
+<li>强化学习的基本概念</li>
+<li>基于价值的强化学习-DQN 和 TD 算法 <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FSSywH-1RRf.png?alt=media&amp;token=6b811aba-b275-47f0-a6d3-2945b6fff817" /></li>
+<li>基于策略的强化学习</li>
+<li>actor-critic 方法</li>
+<li>价值学习高级技巧:对TD算法的改进;对神经网络结构的改进.</li>
+<li>策略梯度中的baseline:Policy gradient (策略梯度) 方法中常用 baseline 来降低方差，加速收敛。Baseline还可应用于REINFORCE 和 A2C 方法中。</li>
+<li>连续控制问题：使用随机策略做连续控制。</li>
+</ol>
+<h2 id="强化学习的应用">强化学习的应用</h2>
 <ul>
-<li><p>what you do, who you do with, how you do it, weight more important than how hard you work</p></li>
-<li><p>outputs are nonlinear based on the quality of the work that you put in</p></li>
-<li><p>the right way that work is like a lion, you and i are not like cows, we are not meant to graze all day right.</p></li>
-<li><p>一个公司的规模，取决于内部和外部的交易成本（transaction costs）对比。信息时代带来的最大的便利就是，让外部交易变得更便捷；现在的趋势是公司的最优规模在锐减。</p>
-<blockquote>
-<p>chiechie：会有越来越多的敏捷和有创意的小公司</p>
-<p>大公司的问题：每个小模块有自己的KPI，生产链路长。多任务并发的时候，经常会遇到性能瓶颈。</p>
-<p>根本原因可能是大公司的官僚式管理制度问题？每个模块只用对生产链路中，自己这一环的kpi负责，而不是对整个业务的最终效果负责，根本就违背了「风险共担」。</p>
-</blockquote></li>
-<li><p>现阶段ai是什么阶段？low ai，即模式识别。</p></li>
-<li><p>为什么短时间内通用ai不可能？人连大脑的运行机制都不懂。根据摩尔定律，我们要再花50年，算力才能赶上一个cell内部的计算速度.</p></li>
-<li><p>bankers是不是洗劫了社会的财富？其实他们也冒了很大的风险，赌输了也会破产。</p></li>
+<li>神经网络结构搜索</li>
+<li>自动生成SQL语句</li>
+<li>推荐系统</li>
+<li>网约车调度</li>
 </ul>
-<h2 id="关于资本主义-和-社会主义">关于资本主义 和 社会主义</h2>
+<h2 id="附录--qa">附录--Q&amp;A</h2>
+<p>不知道放哪里，暂时先放这里吧</p>
+<h3 id="价值学习策略学习动作裁判学习-这三种方法-存在的必要">价值学习，策略学习，动作裁判学习 这三种方法 存在的必要？</h3>
 <ul>
-<li><p>“资本主义”其实大部分时候说的是“自由市场”。</p></li>
-<li><p>“社会主义”强调结果公平，伴随的一定有violence--暴力重分配</p></li>
-<li><p>许多人年轻的时候是社会主义（heart），长大后是资本主义（head）</p></li>
-<li><p>taleb说，对我的家人，我是一个communist；对我最亲密的朋友来说，我是一个社会主义者；在我的state-level的政治中，我是一个democrat；higher levels的政治中我是一个republican；在federal level政治中，我是一个libertarian</p></li>
-<li><p>一个组织或者群体的规模越大，群体内利益差异就越大，相互之间的信任的可能就越少，会产生更多的cheating，为了让这个系统运作的越好 就需要 匹配的 激励机制，将激励机制发挥到极致的例子就是资本主义。</p>
+<li>既然有了policy Function 或者 Q, 都可以告诉agent怎么操作。那有什么必要去做 actor-critic 算法呢？单独学两个神经网络不就可以了？</li>
+<li>问题就是不容易学呀！所以才会有Actor-Critic这种复杂的方法。</li>
+</ul>
+<h3 id="强化学习-适合哪些应用场景图像分类-适合用吗为什么-auto-ml适合用">强化学习 适合哪些应用场景？图像分类 适合用吗？为什么 auto-ml适合用？</h3>
+<ul>
+<li>适合 序列决策 问题， 图像分类没必要 用</li>
+<li>训练一个大的神经网络类似玩一局游戏 耗时很久，每一个迭代 类似 游戏里面的 一小步，可以拿到即时reward，这样就可以使用TD算法来学习 value-function。</li>
+</ul>
+<h3 id="在线学习-和-强化学习的-区别">在线学习 和 强化学习的 区别？</h3>
+<ul>
+<li>online learning 不假定模型输出会影响未来输入，只看单步损失</li>
+<li>reinforcement learning 中模型输出会影响未来输入，必须考虑输出的后果</li>
+</ul>
+<h3 id="on-policy-和-off-policy-的-区别">on-policy 和 off-policy 的 区别？</h3>
+<ul>
+<li>相同点：都是用来更新价值网络的学习算法</li>
+<li>不同点是：on-policy是按照当前的policy来估计q-value；off-policy是按照最优的policy来估计q-value</li>
+</ul>
+<h3 id="监督学习-和-强化学习的区别">监督学习 和 强化学习的区别</h3>
+<ul>
+<li>监督学习
+<ul>
+<li>要求数据 是独立同分布的</li>
+<li>学习过程有老师手把手教，标准答案（label）是什么</li>
+</ul></li>
+<li>强化学习
+<ul>
+<li>数据不用iid</li>
+<li>没有导师（supervisor），不会被告知正确的action是什么，只有一个奖励信号，并且有延迟的。需要自己去试错，找到具长期reward最大的action</li>
+</ul></li>
+</ul>
+<h3 id="强化学习的特点">强化学习的特点</h3>
+<ul>
+<li><p>强化学习中随机性的两个来源：action可以是随机的，状态转移可以是随机的</p></li>
+<li><p>试错机制</p></li>
+<li><p>延迟reward</p></li>
+<li><p>时间会产生影响</p></li>
+<li><p>agent的行为会影响后续收到的数据（agent的action改变了环境）</p>
 <blockquote>
-<p>管理小团队，like family；管理大团队，要奖惩机制。</p>
+<p>类似我们的模型自动更新，担心时间会对模型造成影响。比如模型推荐了商品a，我们也只能收到关于商品a的反馈。</p>
 </blockquote></li>
-<li><p>群体的规模越小，比如对待家人，成为一个社会主义，会让你更幸福，但是对陌生人不行。</p></li>
 </ul>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=3qHkcs3kG44">Joe Rogan Experience #1309 - Naval Ravikants</a></li>
+<li><a target="_blank" rel="noopener" href="https://stats.stackexchange.com/questions/184657/what-is-the-difference-between-off-policy-and-on-policy-learning">on-policy和off-policy的区别-stackoverflow</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/290530992">深度强化学习 在实际应用中少吗？难点在那里？</a></li>
+<li><a target="_blank" rel="noopener" href="https://weibo.com/titaniumviii?refer_flag=0000015010_&amp;from=feed&amp;loc=nickname">宋一松SYS</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/64526936">强化学习和在线学习的区别-zhihu</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/zhoubolei/introRL">zhoubolei-github-课程资料</a> ｜<a target="_blank" rel="noopener" href="https://github.com/zhoubolei/introRL/blob/master/lecture1.pdf">slide</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1LE411G7Xj">zhoubolei视频</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wangshusen/DRL/blob/master/Notes_CN/DRL.pdf">wangshusen-强化学习中文教材</a></li>
+<li><a target="_blank" rel="noopener" href="https://youtu.be/vmkRMvhCW5c">wangshusen-视频</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wangshusen/DeepLearning">深度学习课件</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wangshusen/DRL">深度强化学习-notes</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wangshub/RL-Stock">使用强化学习炒股</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/267998242">强化学习应用于金融问题的文章</a></li>
+<li><a target="_blank" rel="noopener" href="https://gym.openai.com/">Gym-强化学习开发框架</a>：开发强化学习算法的工具箱，有很多第三方环境</li>
 </ol>
 
       
@@ -521,7 +542,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/54/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/54/">54</a><span class="page-number current">55</span><a class="page-number" href="/page/56/">56</a><span class="space">&hellip;</span><a class="page-number" href="/page/98/">98</a><a class="extend next" rel="next" href="/page/56/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/54/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/54/">54</a><span class="page-number current">55</span><a class="page-number" href="/page/56/">56</a><span class="space">&hellip;</span><a class="page-number" href="/page/97/">97</a><a class="extend next" rel="next" href="/page/56/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -587,20 +608,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">195</span>
+          <span class="site-state-item-count">193</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">208</span>
+        <span class="site-state-item-count">206</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

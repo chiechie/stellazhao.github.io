@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/18/reading_notes/computer/information-theory/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/21/reading_notes/investment/didi/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/18/reading_notes/computer/information-theory/" class="post-title-link" itemprop="url">信息论</a>
+            <a href="/2021/04/21/reading_notes/investment/didi/" class="post-title-link" itemprop="url">对滴滴的分析</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-18 11:19:24" itemprop="dateCreated datePublished" datetime="2021-04-18T11:19:24+08:00">2021-04-18</time>
+              <time title="创建时间：2021-04-21 10:00:14" itemprop="dateCreated datePublished" datetime="2021-04-21T10:00:14+08:00">2021-04-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-12 08:27:44" itemprop="dateModified" datetime="2021-07-12T08:27:44+08:00">2021-07-12</time>
+                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                  <a href="/categories/%E6%8A%95%E8%B5%84/" itemprop="url" rel="index"><span itemprop="name">投资</span></a>
                 </span>
             </span>
 
@@ -219,28 +219,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="熵">熵</h1>
-<h2 id="信息">信息</h2>
-<p>信息即information,衡量的是一个event发生了，带给我们的惊奇程度</p>
-<p>I = -logP(x)</p>
-<p>比如今天播报一条新闻，深圳7月下雪，那么我们说这个信息I很大，因为其跟常识偏差很大，可以用概率代表常识，跟常识偏离很远即概率很小。 比如今天新闻说，深圳7月下雨，那么这个信息I很小，因为根据常识也能知道会发生这个事情。</p>
-<h2 id="熵-1">熵</h2>
-<p>熵即entropy, 衡量的是一个随机变量取不同的值的平均信息量，</p>
-<p><span class="math display">\[Entropy = - \sum PlogP\]</span></p>
-<p>均匀分布的随机变量， 其平均信息很小，熵很小，这是一个平庸的随机变量；</p>
-<p>极端分布的随机变量，其平均信息很大，熵很大，这是一个不甘平庸的随机变量。</p>
-<h2 id="交叉熵">交叉熵</h2>
-<p>交叉熵表示，拥有信念Q的人，在观察到真实分布P后，他的惊讶程度。</p>
-<p>这个绝对惊讶程度 可以拆解为 一个baseline（真实分布P的熵） + 一个相对差距（P和Q的距离）</p>
-<figure>
-<img src="./img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption>
-</figure>
-<h2 id="kl">KL</h2>
-<p>KL（q||p）衡量的是分布p相对于分布q的距离，是一种非对称的local 距离。</p>
+          <h2 id="reflection">reflection</h2>
+<ol type="1">
+<li><p>网约车行业到底挣钱不挣钱？终归是拼价格，要降价抢市场就亏钱；要涨价谋利润，等于将市场拱手让给竞争对手。</p>
+<blockquote>
+<p>Lyft作为全球首家上市的网约车公司，上市第二天就跌破发行价，截至7月22日，Lyft市值仅为93亿美元，较最高市值跌去60%。</p>
+<p>Uber上市后同样遭遇血洗，首日破发报收42美元，如今市值只有568亿美元，远低于Uber最后一轮私募融资时的760亿美元，这意味着解禁后，投资人将血本无归。</p>
+</blockquote></li>
+<li><p>滴滴现在挣钱不挣钱？滴滴的主营业务是快车，但是主要盈利的业务是顺风车，专车，但是盘子太小，总的来说是亏钱。</p></li>
+<li><p>滴滴未来有没有可能做大做强？不可能，因为没有护城河, 用户没有忠诚度。同时，竞争对手很强，其他平台方具备资金优势，地方政府关系过硬，在合规上更胜一筹。</p></li>
+<li><p>网约车是一门社会价值大于商业价值的生意，还是政府来主导比较好。</p></li>
+</ol>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://d2l.ai/chapter_appendix-mathematics-for-deep-learning/information-theory.html#cross-entropy">交叉熵</a></li>
-<li>https://www.youtube.com/watch?v=ErfnhcEV1O8&amp;list=WL&amp;index=17&amp;t=85s</li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/t-ISF-ptH7tP4TFygqDyig">王川：Uber 上市会引爆硅谷的泡沫破灭吗?</a></li>
+<li><a target="_blank" rel="noopener" href="https://weread.qq.com/web/reader/62e321a071a486b862ee729kb6d32b90216b6d767d2f0dc">商业的本质和互联网</a></li>
+<li><a target="_blank" rel="noopener" href="https://tech.qq.com/a/20200722/014719.htm">等不到IPO这一天，投资人正在抛弃滴滴？</a></li>
 </ol>
 
       
@@ -261,7 +255,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/18/reading_notes/reality/dl-framework/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/20/reinforcement_learning/rl2_markovprocess/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -275,7 +269,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/18/reading_notes/reality/dl-framework/" class="post-title-link" itemprop="url">模型推断的框架</a>
+            <a href="/2021/04/20/reinforcement_learning/rl2_markovprocess/" class="post-title-link" itemprop="url">强化学习2 马尔可夫过程</a>
         </h2>
 
         <div class="post-meta">
@@ -285,14 +279,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-18 08:53:17" itemprop="dateCreated datePublished" datetime="2021-04-18T08:53:17+08:00">2021-04-18</time>
+              <time title="创建时间：2021-04-20 20:18:20" itemprop="dateCreated datePublished" datetime="2021-04-20T20:18:20+08:00">2021-04-20</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-14 16:50:16" itemprop="dateModified" datetime="2021-07-14T16:50:16+08:00">2021-07-14</time>
+                <time title="修改时间：2021-07-13 17:55:14" itemprop="dateModified" datetime="2021-07-13T17:55:14+08:00">2021-07-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -300,7 +294,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
                 </span>
             </span>
 
@@ -316,64 +310,136 @@
 
       
           <blockquote>
-<p>解答了一直以来，关于模型部署的疑惑</p>
+<p>强化学习就是一系列的决策过程，他试图找到一个长期收益最大的策略，马尔可夫决策过程可以看成是一个浓缩版的强化学习</p>
 </blockquote>
-<h2 id="关于模型部署">关于模型部署</h2>
+<h1 id="马尔可夫过程马尔可夫奖励过程马尔可夫决策过程">马尔可夫过程/马尔可夫奖励过程/马尔可夫决策过程</h1>
+<h2 id="基本概念">基本概念</h2>
 <ul>
-<li>1 为什么说模型部署难？
+<li><p>状态转移矩阵(P)：<span class="math inline">\(p\left(s_{t+1}=s^{\prime} \mid s_{t}=s\right)\)</span></p>
 <ul>
-<li>因为部署的环境不一样，所以需要许多定制化的工作</li>
+<li><span class="math inline">\(P=\left[\begin{array}{cccc}P\left(s_{1} \mid s_{1}\right) &amp; P\left(s_{2} \mid s_{1}\right) &amp; \ldots &amp; P\left(s_{N} \mid s_{1}\right) \\ P\left(s_{1} \mid s_{2}\right) &amp; P\left(s_{2} \mid s_{2}\right) &amp; \ldots &amp; P\left(s_{N} \mid s_{2}\right) \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ P\left(s_{1} \mid s_{N}\right) &amp; P\left(s_{2} \mid s_{N}\right) &amp; \ldots &amp; P\left(s_{N} \mid s_{N}\right)\end{array}\right]\)</span></li>
 </ul></li>
-<li><ol start="2" type="1">
-<li>tensorflow和pytorch这两个框架不能直接用于推理吗？</li>
-</ol>
+<li><p>horizon：在每个episode中，最大时间步数</p></li>
+<li><p>轨迹(episode)：从这个马尔可夫链中采样得到的，每采样一轮就得到叫一个轨迹，例如一局游戏</p></li>
+<li><p>马尔可夫性质： future is independent of the past given the present， <span class="math inline">\(s_t\)</span>是符合马尔可夫性质的：</p>
 <ul>
-<li>可以，但是性能不佳。推理阶段相对训练阶段对模型服务的性能要求更高，比如模型稳定性，响应延迟等，。</li>
-<li>tensorflow和pytorch本身是训练框架，拿来兼做推理框架其实不可以。</li>
-<li>但是在推理阶段，如果业务要求模型服务 高可用，训练框架就显得过于臃肿了而不合时宜了，需要更轻量的框架，如pytorch，tensorRT等。 <img src="../../deeplearning/dl-framework/img.png" alt="img.png" /></li>
-</ul></li>
-<li><ol start="3" type="1">
-<li>DL框架产业现状？</li>
-</ol>
-<ul>
-<li>训练框架是标准品</li>
-<li>推理框架是定制品：这里提到了一点就是使用场景没有<strong>网络效应</strong>，我理解就是规模效应，客观环境决定了，“推理框架”相对于“训练框架” 而言，不是一个好摘的果子
-<ul>
-<li>客观环境（部署依赖整个生产链路的环境，包括硬件厂商，应用服务）导致了没有统一的条件</li>
-</ul></li>
+<li><p>给定历史状态： <span class="math inline">\(h_{t}=\left\{s_{1}, s_{2}, s_{3}, \ldots, s_{t}\right\}\)</span></p>
+<p><span class="math display">\[\begin{aligned} p\left(s_{t+1} \mid s_{t}\right) &amp;=p\left(s_{t+1} \mid h_{t}\right) \\ p\left(s_{t+1} \mid s_{t}, a_{t}\right) &amp;=p\left(s_{t+1} \mid h_{t}, a_{t}\right) \end{aligned}\]</span></p></li>
 </ul></li>
 </ul>
-<h2 id="深度学习框架2大方向">深度学习框架2大方向</h2>
+<h2 id="马尔可夫过程mp">马尔可夫过程（MP）</h2>
+<p>马尔可夫链 （MP， Markov Process）：<span class="math inline">\(\left(S, P^{\pi}\right)\)</span></p>
+<ul>
+<li>一个状态转移如果符合马尔可夫，即一个状态的下一个状态只取决于当前状态，而跟他当前状态之前的状态都没有关系</li>
+<li><span class="math inline">\(P=\left[\begin{array}{cccc}P\left(s_{1} \mid s_{1}\right) &amp; P\left(s_{2} \mid s_{1}\right) &amp; \ldots &amp; P\left(s_{N} \mid s_{1}\right) \\ P\left(s_{1} \mid s_{2}\right) &amp; P\left(s_{2} \mid s_{2}\right) &amp; \ldots &amp; P\left(s_{N} \mid s_{2}\right) \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ P\left(s_{1} \mid s_{N}\right) &amp; P\left(s_{2} \mid s_{N}\right) &amp; \ldots &amp; P\left(s_{N} \mid s_{N}\right)\end{array}\right]\)</span></li>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fsby0HtEUFa.png?alt=media&amp;token=1f6bf364-4cca-4535-9191-4b77bda51131" /></li>
+<li>从这个马尔可夫链 中采样，得到轨迹，每一轮叫一个episode
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FvZ2dIl6a_W.png?alt=media&amp;token=03dda99b-181a-4b48-aec2-03f0679ab1de" /></li>
+</ul></li>
+</ul>
+<h2 id="马尔可夫奖励过程mrp">马尔可夫奖励过程（MRP）</h2>
+<p>马尔可夫奖励过程（MRP， Markov Reward Process）：<span class="math inline">\(\left(S, P, R, \gamma\right)\)</span></p>
+<ul>
+<li>MRP = MP + reward</li>
+<li>R是奖励函数：<span class="math inline">\(R\left(s_{t}=s\right)=\mathbb{E}\left[r_{t} \mid s_{t}=s\right]\)</span>
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fo3iwF_-fJr.png?alt=media&amp;token=0fd15a10-a6f0-4588-a019-1a258b22dc8d" />horizon：在每个episode中，最大时间步数</li>
+<li>Horion可以是无穷大，此外MRP又叫有限马尔可夫奖励过程</li>
+</ul></li>
+<li>状态价值函数（state value function）：代表当前state下，未来所有rewards的折现
+<ul>
+<li><span class="math inline">\(\begin{aligned} V_{t}(s) &amp;=\mathbb{E}\left[G_{t} \mid s_{t}=s\right] \\ &amp;=\mathbb{E}\left[R_{t+1}+\gamma R_{t+2}+\gamma^{2} R_{t+3}+\ldots+\gamma^{T-t-1} R_{T} \mid s_{t}=s\right] \end{aligned}\)</span></li>
+<li>折现因子是强化学习的一个超参，用来约束模型对长期收益的看重程度</li>
+</ul></li>
+<li>马尔可夫奖励过程的 bellman等式:<span class="math inline">\(V(s)=\underbrace{R(s)}_{\text {Immediate reward }}+\underbrace{\gamma \sum_{s^{\prime} \in S} P\left(s^{\prime} \mid s\right) V\left(s^{\prime}\right)}_{\text {Discounted sum of future reward }}\)</span></li>
+<li>马尔可夫奖励过程的bellman等式的矩阵形式：
+<ul>
+<li><span class="math inline">\(V=R+\gamma P V\)</span>
+<ul>
+<li><span class="math inline">\(\left[\begin{array}{c}V\left(s_{1}\right) \\ V\left(s_{2}\right) \\ \vdots \\ V\left(s_{N}\right)\end{array}\right]=\left[\begin{array}{c}R\left(s_{1}\right) \\ R\left(s_{2}\right) \\ \vdots \\ R\left(s_{N}\right)\end{array}\right]+\gamma\left[\begin{array}{cccc}P\left(s_{1} \mid s_{1}\right) &amp; P\left(s_{2} \mid s_{1}\right) &amp; \ldots &amp; P\left(s_{N} \mid s_{1}\right) \\ P\left(s_{1} \mid s_{2}\right) &amp; P\left(s_{2} \mid s_{2}\right) &amp; \ldots &amp; P\left(s_{N} \mid s_{2}\right) \\ \vdots &amp; \vdots &amp; \ddots &amp; \vdots \\ P\left(s_{1} \mid s_{N}\right) &amp; P\left(s_{2} \mid s_{N}\right) &amp; \ldots &amp; P\left(s_{N} \mid s_{N}\right)\end{array}\right]\left[\begin{array}{c}V\left(s_{1}\right) \\ V\left(s_{2}\right) \\ \vdots \\ V\left(s_{N}\right)\end{array}\right]\)</span></li>
+</ul></li>
+</ul></li>
+<li>马尔可夫奖励过程的 状态价值函数（上面的矩阵V） 求解可采用2个方法
 <ol type="1">
-<li>深度学习框架有两个派别：一派是从分布式系统的人来做的，另外一派是从做算法的人来做的。tensorflow属于系统派，而pytorch属于算法派。</li>
-<li>不同的人的背景不同，所以做这个事情的角度也会不同，要解决的问题也不同，从而产生不同门派。</li>
-<li>系统派聚焦于解决大数据大模型的计算问题，扩展到任意大的深度模型的框架，所以往往会把系统设计的更具可扩展性，避免重构带来的巨大成本。
-<ol type="1">
-<li>系统框架的优点--适合很多领域的建模流程：系统派系统希望构建一个系统，能够把视觉，语音，语言等多种模型能够一同训练，这个就是tensorflow这样系统构造的时候的原始想法，把整个计算构成一个Tensor的Flow图。</li>
-<li>系统框架的优点--支持大规模模型训练：因为分布式本身就很复杂，需要处理各种节点交互的数据，以及执行中的各种依赖关系。这些事情由人来写代码，太繁琐且容易出错，所以自然地，就会想到让系统来负责这种依赖关系。这也就是为什么希望整个分布式执行的计划是一个静态图，然后系统再根据用户指定的或者系统智能的决定的placement进行分图，并在这些分图中添加合适的Send-Recv的Op从而构成一个分布式的执行计划。</li>
-<li>系统派框架的缺陷-控制流代码也要op化：同但是这样的设计理念也会带来一些困恼，在模型训练时候有些类似控制图的部分，必须要把这些控制流图的代码也op化，然后把这些op也整体串联在Tensor的Flow执行图中，这种方式会使得一些习惯单机开发的研究人员觉得比较晦涩。</li>
-<li>系统派框架的缺陷-不好debug：同时也是因为分布式的原因，做系统的很自然会把模型的开发过程分成构图和执行两个阶段。构图的时候只是生成一个逻辑执行计划，然后通过显式方式的提交（或者execute）过程进行执行。这种方式让研究人员觉得不能一边写代码一边就能够马上看到代码片段的结果，所以这也造成很多人诟病TensorFlow的模式不太容易debug自己的模型程序，其实这也是因为分布式带来负担。但是也是因为TensorFlow是静态图的方式，其可以做到训推一体，在训练出来的模型能够导出模型图，并且在这个图上进行系统化的推理优化从而能够非常方便部署到线上。这个系统性化的方法带来另外一个优势。</li>
+<li>解Bellman方程，根据算出来的解析解，硬算逆矩阵，和矩阵乘法
+<ul>
+<li><span class="math inline">\(V=(I-\gamma P)^{-1} R\)</span></li>
+<li>求解的复杂度n3，n表示state个数</li>
+</ul></li>
+<li>使用迭代的算法：对state个数较多的情况可行
+<ul>
+<li>动态规划<img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FMSB3EJXzsN.png?alt=media&amp;token=19f9a683-eec0-48f5-8296-2ac88a4ea3c1" /></li>
+<li>蒙特卡洛估计（采样）：需要完成一次<img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F6s5BEi2xsO.png?alt=media&amp;token=1bc3ed8d-81f3-4439-b895-845770f1f651" /></li>
+<li>时间序列差分学习时间差分（TD）算法:TD（Temporal Difference）算法：</li>
+</ul></li>
 </ol></li>
-<li>算法派要解决的是一个小得多的任务：基于数据并行的可提供自动梯度的框架。
+<li>bellman期望方程：
+<ul>
+<li><span class="math inline">\(v^{\pi}(s)=E_{\pi}\left[R_{t+1}+\gamma v^{\pi}\left(s_{t+1}\right) \mid s_{t}=s\right]\)</span></li>
+<li>【参考】<span class="math inline">\(V(s)=\underbrace{R(s)}_{\text {Immediate reward }}+\underbrace{\gamma \sum_{s^{\prime} \in S} P\left(s^{\prime} \mid s\right) V\left(s^{\prime}\right)}_{\text {Discounted sum of future reward }}\)</span></li>
+<li><span class="math inline">\(q^{\pi}(s, a)=E_{\pi}\left[R_{t+1}+\gamma q^{\pi}\left(s_{t+1}, A_{t+1}\right) \mid s_{t}=s, A_{t}=a\right]\)</span></li>
+</ul></li>
+<li>推导过程如下：
+<ul>
+<li><span class="math inline">\(\begin{aligned} v^{\pi}(s) &amp;=\sum_{a \in A} \pi(a \mid s) q^{\pi}(s, a) \\ q^{\pi}(s, a) &amp;=R_{s}^{a}+\gamma \sum_{s^{\prime} \in S} P\left(s^{\prime} \mid s, a\right) v^{\pi}\left(s^{\prime}\right) \end{aligned}\)</span></li>
+<li>相互替换得到
+<ul>
+<li><span class="math inline">\(v^{\pi}(s)=\sum_{a \in A} \pi(a \mid s)\left(R(s, a)+\gamma \sum_{s^{\prime} \in S} P\left(s^{\prime} \mid s, a\right) v^{\pi}\left(s^{\prime}\right)\right)\)</span></li>
+<li><span class="math inline">\(q^{\pi}(s, a)=R(s, a)+\gamma \sum_{s^{\prime} \in S} P\left(s^{\prime} \mid s, a\right) \sum_{a^{\prime} \in A} \pi\left(a^{\prime} \mid s^{\prime}\right) q^{\pi}\left(s^{\prime}, a^{\prime}\right)\)</span></li>
+</ul></li>
+</ul></li>
+<li>计算图
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FDt61DqVl6N.png?alt=media&amp;token=9736af0f-e3ef-457b-86d6-abae268af1a3" /><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FB2u5I82qnF.png?alt=media&amp;token=02a1de1d-4a08-4f43-983b-65eb815df328" /> ## 马尔可夫决策过程（ MDP）</li>
+</ul></li>
+</ul>
+<p>马尔可夫决策过程（MDP， Markov Decision Process）： <span class="math inline">\(\operatorname{MDP}(S, A, P, R, \gamma)\)</span></p>
+<ul>
+<li>MDP能够对现实世界中很多问题建模，是研究强化学习的基础框架</li>
+<li>一个马尔可夫决策过程由状态空间，决策空间，状态转移，奖励函数组成。</li>
+<li>MDP要求环境变量是完全可观测，但是现实中部分可观测问题也可转化为MDP问题</li>
+<li>「马尔可夫决策过程」相对于「马尔可夫奖励过程」多了决策，所以需要建模的对象多了两个要素：action 和 概率转移<span class="math inline">\(P\left(s_{t+1}=s^{\prime} \mid s_{t}=s, a_{t}=a\right)\)</span>。 <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FbPx8H2l13W.png?alt=media&amp;token=6e62ffdf-8434-40b4-b312-5037d805f911" /></li>
+<li>马尔可夫决策过程中的策略函数（policy evaluation）</li>
+<li>马尔可夫决策过程中的控制：策略迭代和价值迭代</li>
+</ul>
+<p>什么是MDP中的预测和控制？</p>
+<ul>
+<li>预测问题：给定策略时，求某个状态的价值函数。（先知）</li>
+<li>控制问题：最优的策略，和对应的状态价值函数。（军师）</li>
+</ul>
+<h2 id="马尔可夫过程马尔可夫奖励过程马尔可夫决策过程三者的关系">马尔可夫过程/马尔可夫奖励过程/马尔可夫决策过程三者的关系</h2>
+<ul>
+<li>马尔可夫过程和马尔可夫奖励过程是马尔可夫决策过程的简化版</li>
+<li>马尔可夫过程(MP)只有一个概率转移</li>
+<li>马尔可夫奖励过程(MRP) = 马尔可夫过程(MP) + Reward，但是没有自由意志，还是随波逐流</li>
+<li>马尔可夫决策过程(MDP) = 马尔可夫奖励过程 （MRP）+ action，多了自由意志</li>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FIuFRm5JvB6.png?alt=media&amp;token=1ad94ce8-0886-4329-8902-dbf859b8ef22" /></li>
+</ul>
+<h1 id="附录自问自答">附录（自问自答）</h1>
 <ol type="1">
-<li>因为感知类模型（图像，语音，语言类）训练，一般都是同步训练，然后“分布式训练”也不是那么复杂（tensorflow的设想是分布式执行图是异构的，即每个分布式节点的执行逻辑可以不同），然后 数据并行，这样我们就可以利用MPI的AllReduce的通讯源语来进行梯度的汇集计算。</li>
-<li>算法同学需要是一种丰富的，可扩展的，在GPU上能够很好运行的，能够很好进行自动梯度的算子库。因为面向是数据并行的场景，这样话在神经网络部分其实都是单机程序，从而可以利用任何python的语法糖去构建任何的动态的训练控制逻辑（大家也把这种称作动态图），对于算法研究人员来讲，这种方式写代码比较随性也方便debug，所以在研究界pytorch得到大量的关注和使用。</li>
-</ol></li>
-<li>TensorFlow从设计之初就在考虑可以超大模型分布式训练的场景，但是没有预想到硬件的发展也非常迅速，显存越来越大以及训练技术的发展，还有非常精细化优化显存的工作，比如DeepSpeed等把optimizer所需要的显存sharding化掉，使得除了超大规模稀疏模型训练外，感知类的SOTA模型一直可以利用数据并行的方式来进行训练。从而使得TensorFlow这种设计理念看上去有overdesign的嫌疑。</li>
-<li>随着transformer的出现，终于可以把多种数据（视觉的，文字的）合在一起训练多模态的模型，从而产生了大规模模训练的需求。所以支持模型并行的深度学习框架再度火热，比如OneFlow，MindSpore，PaddlePaddle，Mesh Tensorflow，GShard，以及阿里的Whale框架。</li>
-<li>从设计理念来看，模型并行是TensorFlow的设计初衷，只是当时模型并行的需求不够，没有必要提供比较好高层自动分布式的抽象，写模型的人可以自己精细化去构造每个计算节点的子图，整体上TensorFlow的框架只是负责把这些子图能够自动通过Send-Recv进行连接，并且在Runtime能够合法的进行计算。</li>
-<li>现在算法迭代需求增多，导致需要一种高层次的自动分布式框架，从而使得算法同学能够快速简单通过构造一个逻辑图的方式去构造神经网络，而由系统层来帮助他来进行复杂模型并行。TensorFlow的设计理念正好就是为这个考虑的，用户利用静态图以逻辑性去描述一个网络训练，然后在执行时，进行系统化的分图和分布式训练。</li>
-<li>系统派的框架和算法派的框架也在进行一定的融合：
-<ol type="1">
-<li>TensorFlow提出了Eager模式，通过TF.function在eager模式下可能单步执行计算，得到Tensor来提高可调式性；</li>
-<li>Pytorch通过Trace或者Parse的方式转化为TorchScript的图描述，从而能够更好支持训练到推理的工程化。但是这种动静结合其实只是在一定层次的，比如如果考虑分布式，Trace的方式去得到TorchScript就不足够。需要进一步去限制构图能够使用的API，这也是像NV的megatron以及微软DeepSpeed在Pytorch上去支持分布式所带来的一些约束。</li>
-</ol></li>
+<li><p>model-based 是什么？对环境建模是什么意思？</p>
+<p>model-based是强化学习中一种技术，核心思想就是对环境建模，使用计算机构建仿真环境。比如构建一个模拟环境，更新状态和reward。</p></li>
+<li><p>提出model-based是为了解决什么问题？有哪些应用场景？</p>
+<p>model-based是为了解决样本获取成本高的问题。例如，无人驾驶/无人机，如果让机器在真实交通环境中行驶，并且通过于真实环境互动来获取数据，那必然以发生多次严重车祸作为获取样本的巨大代价。在机器人场景中应用较多。</p></li>
+<li><p>类似model-based的流派或者同级别的不同的流派 还有什么？</p>
+<p>跟model-based相对的概念是无模型（model-free）方法，它直接通过跟环境交互来获取样本，假设现实中获取样本的成本几乎为0。但是现在的强化学习论文大部分都采用model-free的方法，可见离落地还有一段距离。</p></li>
+<li><p>model-based方法是怎么实现的？</p>
+<p>对环境建模：输入&lt;state,action&gt;，输出下一个&lt;state,reward&gt; 。</p></li>
+<li><p>在多大程度上能解决背景中的问题。有没有引发新的问题？</p></li>
+<li><p>Model-based不能做什么？</p></li>
+<li><p>有没有相关理论支撑？理论上能证明解决不了什么问题？</p></li>
+<li><p>工程或者落地时的难点？</p></li>
+<li><p>基于股票预测结果构造策略 可以reformulate 成强化学习中的 什么方法？</p>
+<p>model-free的方法就可以，但是样本很少，因为历史不会重演。</p>
+<p>理论上是可以使用model-based的方法，从观测数据中估计生成模型的参数，然后从该分布中采样路径，构造多份合成数据，然后在这个模拟环境中，学习策略vs回测效果。</p></li>
 </ol>
-<h2 id="参考">参考</h2>
+<h1 id="参考资料">参考资料</h1>
 <ol type="1">
-<li>file:///Users/stellazhao/Desktop/深度学习框架-2020-0630-Qlearning分享-Turbo-PPT.pdf</li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/375634204">关于深度学习框架的一些自己见解-zhihu</a></li>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/IN281OPUEOI12ge3hOvvTw">GPT-3难以复现，为什么说PyTorch走上了一条“大弯路”？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1hV411d7Sg">周博磊课程-bilibili</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/318703290/answer/751123263">知乎：model-based和model-free模型优缺点</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/72642285">知乎：model-based方法介绍</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/318703290/answer/751123263">知乎：model-based和model-free模型优缺点</a></li>
 </ol>
 
       
@@ -393,7 +459,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/52/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/52/">52</a><span class="page-number current">53</span><a class="page-number" href="/page/54/">54</a><span class="space">&hellip;</span><a class="page-number" href="/page/98/">98</a><a class="extend next" rel="next" href="/page/54/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/52/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/52/">52</a><span class="page-number current">53</span><a class="page-number" href="/page/54/">54</a><span class="space">&hellip;</span><a class="page-number" href="/page/97/">97</a><a class="extend next" rel="next" href="/page/54/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -459,20 +525,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">195</span>
+          <span class="site-state-item-count">193</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">208</span>
+        <span class="site-state-item-count">206</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

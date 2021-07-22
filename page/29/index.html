@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/18/AIOps/AIOps-2_1-topo-rca/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/15/reading_notes/zhexue/hanfeizi_shuolin/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/18/AIOps/AIOps-2_1-topo-rca/" class="post-title-link" itemprop="url">chapter2.1 对IT系统进行根因定位</a>
+            <a href="/2021/05/15/reading_notes/zhexue/hanfeizi_shuolin/" class="post-title-link" itemprop="url">《韩非子-说林》读书笔记</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-05-18 16:05:13" itemprop="dateCreated datePublished" datetime="2021-05-18T16:05:13+08:00">2021-05-18</time>
+              <time title="创建时间：2021-05-15 22:46:04" itemprop="dateCreated datePublished" datetime="2021-05-15T22:46:04+08:00">2021-05-15</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
+                <time title="修改时间：2021-06-10 17:29:43" itemprop="dateModified" datetime="2021-06-10T17:29:43+08:00">2021-06-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/AIOps/" itemprop="url" rel="index"><span itemprop="name">AIOps</span></a>
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
                 </span>
             </span>
 
@@ -219,118 +219,75 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="总结">总结</h1>
-<ol type="1">
-<li>对于一个微服务系统进行根因分析，主要要解决两个问题，导致故障的根因微服务是哪个？以及导致微服务异常的根因指标是哪个？</li>
-<li>对于第一个问题-导致故障的根因是哪个微服务。还可进一步细分为两种情况：有微服务调用关系和没有服务间的调用关系
-<ol type="1">
-<li>有微服务调用关系，这个关系可能是通过系统工具获取比如causeinfer，也可以是手动配置比如cmdb，使用随机游走的方法推断根因。</li>
-<li>没有微服务调用关系，需要通过基于分析的方法去学习关联关系，比如PC算法，PCTS算法，基于时间滞后的关联分析方法，然后使用随机游走方法推断根因。</li>
-</ol></li>
-<li>对于第二个问题-导致微服务异常的根因指标，实际上跟问题1.2是同一个问题，只是加载元数据的时候（关联指标），需要提供上下游组件的指标，以及部署的机器的信息，也可以使用同一套方案。</li>
-<li>总的来说，做故障定位是从粗力度到细力度，先定位根因的微服务，然后再定位导致微服务异常的指标（可能是上下游，也可能是其所在的机器）</li>
-</ol>
-<h1 id="问题分析-和-方案设计">问题分析 和 方案设计</h1>
-<p>一个IT系统包括机器，网络，应用。一个系统中任何一个组成部分都有可能出现故障，从而导致系统瘫痪。 为了减少故障带来的损失，我们需要提前制定预案，即哪些表象对应这哪些故障，从而在故障发生时候，能快速地根据表现识别出故症结所在，进而进行故障处理。</p>
-<p>下面对这个解决方案进行说明。</p>
-<h2 id="因果图-故障传播图">因果图-故障传播图</h2>
-<p>从表象推断出故障症结，可以表达为一个因果推断的需求，即「由果推因」。</p>
-<p>从众多的监控指标，日志信息，事件信息，归纳出导致这些现象出现的原因。</p>
-<p>先分别看故障出现在这三层会出现什么表现（演绎），以及用什么方法去根据表象推断根因（归纳）</p>
-<ul>
-<li>应用之间在逻辑上存在调用关系，应用可能存在一台机器上，也可能是跨机器甚至跨网络。</li>
-<li>应用是部署在机器上的，应用之间的调用关系，实际上会映射为机器之间的网络连接关系。</li>
-<li>应用层故障：如果某个服务异常了，那么所有依赖它的服务的响应时长都会变长。举个例子，如果某个服务b 调用服务a，现在服务a异常了（比如某个操作系统死机了，或者mysql的请求堵塞了）， 就会表现出
-<ul>
-<li>b服务的响应时间变长；a服务的响应时间变长</li>
-<li>b服务的响应时间进行下钻分析，可以发现b服务依赖的其他服务的响应时间没有异常，只有依赖a服务的响应变长了。</li>
-<li>对a服务的响应进行下钻分析，发现a服务依赖的所有的服务响应时常都是正常的。</li>
-<li>如果服务c 要 调用服务b，然后这个调用并没有用到服务a，服务b的反应就是正常的。 总结一下，每一个服务的健康度是一个量化指标，被调用的成功率，如果成功率低，说明这个服务自身可能异常，也有是依赖服务异常导致。</li>
-</ul></li>
-<li>主机故障：如果某台机器故障，那么部署在这台机器上的所有应用都危险了，进而间接影响到，调用这些应用的调用方，即导致应用的点异常，以及间接导致边异常。</li>
-<li>网络故障：网络故障比如网络设备（网线，机房，交换机，路由器）故障，会导致数据在传输过程中丢失，进而影响到两个跨机器的应用之间的调用，即导致 边异常。</li>
-</ul>
-<p>画一个图表示一下</p>
-<figure>
-<img src="./shougap.png" alt="图1-应用/主机/网络三种故障导致的结果" /><figcaption aria-hidden="true">图1-应用/主机/网络三种故障导致的结果</figcaption>
-</figure>
-<h2 id="根因定位方案工作流图">根因定位方案&amp;工作流图</h2>
-<figure>
-<img src="./workflow.png" alt="image-20210316150746837" /><figcaption aria-hidden="true">image-20210316150746837</figcaption>
-</figure>
-<p><a target="_blank" rel="noopener" href="https://docs.qq.com/flowchart/DVGJiQ0NXc2Z3dGVq">流程图-腾讯文档</a></p>
-<h2 id="关于事件的定义">关于事件的定义</h2>
-<p>事件的定义确定了rca的定位能力的颗粒度。 事件定义的粒度越粗糙，定位到的根因就越粗糙，起到的作用就越少。</p>
-<p>粗糙的事件描述只能定位到粗糙的根因。 事件详细到指标的描述，件可以定位到机器的指标根因。 事件详细到指标的描述，件可以定位到细粒度的根因，</p>
-<p>怎么定义一个事件？ 使用 [机器ip, 服务名称, 事件类型/指标名称]</p>
-<h2 id="要用到那些数据">要用到那些数据？</h2>
-<p>要用到的数据包括：日志，指标，事件以及拓扑数据</p>
-<p>但是每条日志/指标/事件，一定是跟一个实体绑定的（某个主机或者某个主机的某个应用）。</p>
-<p>先定位到有问题的实体，然后下钻分析，该实体的哪个指标为根因。</p>
-<p>如何确定一个实体是健康还是异常？两个思路：</p>
-<ul>
-<li>定义应用/中间件的通用的SLO指标，比如调用成功率，调用耗时。</li>
-<li>定义每个应用/中间件最适合的SLO指标，如db最关心锁个数，是否关闭监听。</li>
-</ul>
-<p>此外，还需要用到调用拓扑数据，即服务之间的相互调用关系，或者服务所部署的机器之间的关系，最终得到一个精确的方案。</p>
-<h2 id="构造因果图">构造因果图</h2>
-<p>先要确定这个因果图的skeleton，有哪些节点，什么方向。 构建因果图的思路。基于服务调用关系以及其他的先验，加上基于数据驱动的因果关系方法，提取最大子图。</p>
-<p>因果图长什么样子：</p>
-<figure>
-<img src="AIOps-21-topo-rca/yinguotu.png" alt="因果图.png" /><figcaption aria-hidden="true">因果图.png</figcaption>
-</figure>
-<p>构建因果图（causality graph）是一个核心技术点。</p>
-<ul>
-<li><p>因果图是一个两层分层的图（two layered hierarchical causality graph）</p>
-<ul>
-<li>较高的层是粗粒度的信息，表示每台机器上每个服务间的依赖关系，也叫服务依赖图（Service Dependency Graph），用于定位到服务级别的根因。</li>
-<li>较低的层是细粒度的信息，表示系统指标组成的细粒度因果关系，也叫指标因果图（Metric Causality Graph），用于定位到指标级别的根因。</li>
-</ul></li>
-<li><p>构造「服务依赖图」分为两步（就是调用关系）：</p>
-<ul>
-<li>第一步通过采集器获取边是否存在；</li>
-<li>第二步通过分析两个服务间的通信延迟相关性（traffic lag correlation）来进一步确定边的方向。</li>
-</ul></li>
-<li><p>构造「指标因果图」：使用人工经验+PC算法。</p>
+          <blockquote>
+<p>《说林》分上下两篇，共七十一则传说故事，这些故事应为韩非子为其论文写作而准备的材料。</p>
+</blockquote>
+<h1 id="上">上</h1>
+<h2 id="二">二</h2>
+<p>晋人伐邢，齐桓公将救之。鲍叔[1]曰：“太蚤。邢不亡，晋不敝；晋不敝，齐不重。且夫持危之功，不如存亡之德大。君不如晚救之以敝晋，齐实利。待邢亡而复存之，其名实美。”桓公乃弗救</p>
+<h2 id="三">三</h2>
+<p>智伯索地于魏宣子，魏宣子弗予。任章曰：“何故不予？”宣子曰：“无故请地，故弗予。”任章曰：“无故索地，邻国必恐。彼重欲无厌，天下必惧。君予之地，智伯必骄而轻敌，邻邦必惧而相亲。以相亲之兵待轻敌之国，则智伯之命不长矣。《周书》[1]曰：‘将欲败之，必姑辅之；将欲取之，必姑予之。’君不如予之以骄智伯。且君何释以天下图智氏，而独以吾国为智氏质乎？”君曰：“善。”乃与之万户之邑。智伯大悦，因索地于赵，弗与，因围晋阳。韩、魏反之外，赵氏应之内，智氏以亡。</p>
+<h1 id="下">下</h1>
+<h2 id="一">一</h2>
+<p>桓赫曰：“刻削[1]之道，鼻莫如大，目莫如小。鼻大可小，小不可大也；目小可大，大不可小也。”举事亦然。为其后可复者也，则事寡败矣。</p>
+<p>[1]刻削：雕刻。</p>
+<p>做事情跟雕刻一样要留有余地，就不容易失败。</p>
+<hr />
+<p>崇侯、恶来知不适纣之诛也，而不见武王之灭之也。比干、子胥知其君之必亡也，而不知身之死也。故曰：“崇候、恶来知心而不知事，比干、子胥知事而不知心。”圣人其备矣。</p>
+<p>最明智的人，眼观六路，耳听八方。</p>
 <blockquote>
-<p>pc算法是一种发现因果关系的算法，在满足一定的假设前提下，使用的基于统计的方法，推导出因果关系。</p>
-</blockquote></li>
-</ul>
-<h2 id="使用因果图进行推断">使用因果图进行推断</h2>
-<p>当前端的服务可用性指标（SLO）出现异常，就会触发根因分析</p>
-<p>根因分析的流程：一边定位调用链中的异常微服务，一边下钻分析，细到指标级别</p>
+<p>六路：指上、下、四方；八方：指东、南、西、北、东南、西南、西北、东北。形容人机智灵活，遇事能多方观察分析。</p>
+</blockquote>
+<hr />
+<p>宋太宰贵而主断。季子将见宋君，梁子闻之曰：“语必可与太宰三坐乎，不然，将不免。”季子因说以贵主而轻国。</p>
+<p>宋国太宰地位尊贵但处事独断。季子想求见宋国国君，梁子听到后说：“你和宋国国君说话时，一定要像与国君、太宰坐在一起时那样，否则，你可能难逃杀身之祸。”季子因此进言了一些尊重君主而少问国事的话。</p>
+<p>言论可被公开。</p>
+<h2 id="二-1">二</h2>
+<p>杨朱之弟杨布衣素衣而出。天雨，解素衣，衣缁衣[1]而反，其狗不知而吠之。杨布怒，将击之。杨朱曰：“子勿击也，子亦犹是。曩[2]者使女狗白而往，黑而来，子岂能毋怪哉？”</p>
+<p>[1]缁衣：黑衣服。</p>
+<p>[2]曩（nǎng）：以往，从前。</p>
+<hr />
+<p>惠子曰：“羿执决[3]持扞[4]，操弓关[5]机，越人争为持的。弱子扞弓，慈母入室闭户。”故曰：“可必，则越人不疑羿；不可必，则慈母逃弱子。”</p>
+<p>[3]决：古代射箭的人戴在右手大拇指上用以拉弦的工具。</p>
+<p>[4]扞（hàn）：古代射箭的人往左手臂上戴的一种袖套，多为皮制。[5]关：牵引。</p>
+<p>事关自身生存的时候，还是会考虑用能力胜任的人，而不是用关系亲近的人。</p>
+<hr />
+<p>桓公问管仲：“富有涯乎？”答曰：“水之以涯，其无水者也；富之以涯，其富已足者也。人不能自止于足，而亡其富之涯乎！”</p>
+<p>人的欲望是没有尽头的，什么时候都不会认为自己已经足够成功，或者足够富裕了。</p>
+<h2 id="三-1">三</h2>
+<p>宋之富贾有监止子者，与人争买百金之璞玉，因佯失而毁之，负其百金，而理其毁瑕，得千溢[1]焉。事有举之而有败，而贤其毋举之者，负之时也。</p>
+<p>[1]溢：同“镒”。一镒相当于二十两。一说为二十四两。</p>
+<p>就好像创业，创业肯定有一定概率成功或者失败，但是很多人因为害怕失败，就不去做这个事情，是因为只看到了负面的效应。</p>
+<hr />
+<p>有欲以御见荆王者，众驺[2]妒之。因曰：“臣能撽[3]鹿。”见王。王为御，不及鹿；自御，及之。王善其御也，乃言众驺妒之。</p>
+<p>[2]驺（zōu）：马夫。 [3]撽（qiào）：打，击。</p>
+<p>先得证明自己的实力？</p>
+<hr />
+<p>荆令公子将伐陈。丈人送之曰：“晋强，不可不慎也。”公子曰：“丈人奚忧？吾为丈人破晋。”丈人曰：“可。吾方庐陈南门之外。”公子曰：“是何也？”曰：“我笑勾践也。为人之如是其易也，己独何为密密十年难乎？”</p>
+<p>年轻人容易把问题看的太容易</p>
+<h2 id="四">四</h2>
+<p>公子纠将为乱，桓公使使者视之。使者报曰：“笑不乐，视不见，必为乱。”乃使鲁人杀之。</p>
+<hr />
+<p>公孔弘断发而为越王骑，公孔喜使人绝[1]之，曰：“吾不与子为昆弟矣。”公孙弘曰：“我断发，子断颈而为人用兵，我将谓子何？”周南之战，公孙喜死焉。</p>
+<p>[1]绝：断绝关系。</p>
+<hr />
+<p>有与悍者邻，欲卖宅而避之。人曰：“是其贯将满矣，子姑待之。”答曰：“吾恐其以我满贯也。”遂去之。故曰：“物之几者，非所靡也。”</p>
+<p>事情如果到了紧急关头，就不要再拖拖拉拉、磨磨蹭蹭、犹豫不决的了，需当机立断！</p>
+<hr />
+<p>孔子谓弟子曰：“孰能导子西之钓名也？”子贡曰：“赐也能。”乃导之，不复疑也。孔子曰：“宽哉，不被于利！洁哉，民性有恒！曲为曲，直为直。”孔子曰：“子西不免。”白公之难，子西死焉。故曰：“直于行者曲于欲。”</p>
+<h2 id="五">五</h2>
+<p>靖郭君将城薛，客多以谏者。靖郭君谓谒者曰：“毋为客通。”齐人有请见者曰：“臣请三言而已。过三言，臣请烹。”靖郭君因见之。客趋进曰：“海大鱼。”因反走。靖郭君曰：“请闻其说。”客曰：“臣不敢以死为戏。”靖郭君曰：“原为寡人言之。”答曰：“君闻大鱼乎？网不能止，缴[2]不能□[3]也，荡而失水，蝼蚁得意焉。今夫齐亦君之海也。君长有齐，奚以薛为？君失齐，虽隆薛城至于天，犹无益也。”靖郭君曰：“善。”乃辍，不城薛。</p>
+<h2 id="六">六</h2>
+<p>荆王弟在秦，秦不出也。中射之士[1]曰：“资臣百金，臣能出之。”因载百金之晋，见叔向，曰：“荆王弟在秦，秦不出也。请以百金委叔向。”叔向受金，而以见之晋平公曰：“可以城壶丘矣。”平公曰：“何也？”对曰：“荆王弟在秦，秦不出也，是秦恶荆也，必不敢禁我城壶丘。若禁之，我曰：‘为我出荆王之弟，吾不城也。’彼如出之，可以德荆；彼不出，是卒恶也，必不敢禁我城壶丘矣。”公曰：“善。”乃城壶丘。谓秦公曰：“为我出荆王之弟，吾不城也。”秦因出之。荆王大说，以链金百镒遗晋。</p>
+<p>叔向收了楚国臣子的金子，并没有告诉晋平公，而是顺着晋国的角度，帮君主分析如何在秦国和楚国之间周旋，获得利益，得到的结论 也跟自己的利益相符合。</p>
+<hr />
+<p>阖庐攻郢，战三胜，问子胥曰：“可以退乎？”子胥对曰：“溺人者一饮而止，则无遂者，以其休也。不如乘之以沈[2]之。”</p>
+<hr />
+<p>郑人有一子，将宦，谓其家曰：“必筑坏墙，是不善，人将窃。”其巷人亦云。不时筑，而人果窃之。以其子为智，以巷人告者为盗。</p>
+<p>人本能会甩锅给关系疏远的人，而把功劳归给关系亲近的人。</p>
+<h2 id="参考">参考</h2>
 <ol type="1">
-<li>通过异常KPI找到对应的异常微服务</li>
-<li>找到微服务所在的机器，搜集性能指标，对指标因果图进行深度优先搜索，推断哪个指标导致服务性能问题。有两种方法: pagerank, 深度优先遍历</li>
-<li>如果当前微服务异常是别的微服务异常（上游或者下游）造成的，举个例子，根因指标是依赖服务的SLO（注意，这里用到了调用链关系），这个推断就会传播到依赖的远程服务。 ）</li>
-<li>一直追本溯源，一直到最底层的被调用方。</li>
-</ol>
-<h1 id="根因参考资料">根因参考资料</h1>
-<h2 id="比赛">比赛</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="http://iops.ai/competition_detail/?competition_id=15&amp;flag=1">AIOps挑战赛2020-微服务系统根因分析</a></li>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/93USWr2evhRTQvS_NgB56A">AIOps挑战赛2020-微服务系统根因分析-数据</a></li>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/hYiXUMveSprkIiOy8mCmCg">AIOps挑战赛2020-微服务系统根因分析-方案分享</a></li>
-<li><a target="_blank" rel="noopener" href="http://iops.ai/competition_detail/?competition_id=17&amp;flag=1">AIOps挑战赛2021-微服务系统根因分析</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.cnsoftbei.com/plus/view.php?aid=479">CN-Softbei2020-根因分析-比赛</a></li>
-</ol>
-<h2 id="代码">代码</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://github.com/chiechie/Insighter">根因分析代码-Insigter</a></li>
-</ol>
-<h2 id="论文">论文</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://wemp.app/posts/6013f2da-c11a-4f6f-b393-2b631c45172a">清华阿里AIOps新作：基于因果分析的微服务内根因定位</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.jmlr.org/papers/volume8/kalisch07a/kalisch07a.pdf">2007-The Journal of MachineLearning Research-pc算法</a></li>
-<li><a target="_blank" rel="noopener" href="https://saruagithub.github.io/2020/04/13/20200413CauseInfer%E8%AE%BA%E6%96%871/">对陈鹏飞教授CauseInfer论文的解读</a></li>
-</ol>
-<h2 id="其他">其他</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://netman.aiops.org/~peidan/ANM2016/RootCauseAnalysis/ReadingLists/2014INFOCOM_CauseInfer.pdf">2014-INFOCOM_CauseInfer</a></li>
-<li><a href="https://chiechie.github.io/2021/03/09/technology/PC-algo/">chiechie对PC算法的总结</a></li>
-<li><a target="_blank" rel="noopener" href="https://netman.aiops.org/wp-content/uploads/2020/06/%E5%AD%9F%E5%AA%9B.pdf">causeinfer--paper</a></li>
-<li>J. Pearl, Causality: models, reasoning and inference. Cambridge Univ Press, 2000, vol. 29.</li>
-<li>D. Barry, “A bayesian analysis for change point problems,” Journal of the American Statistical Association, vol. 88, no. 421, pp. 309–319, 1993.</li>
+<li><a target="_blank" rel="noopener" href="https://weread.qq.com/web/reader/0c332090718443e90c34969">韩非子-微信读书</a></li>
 </ol>
 
       
@@ -351,7 +308,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/18/machine-learning/machine-learning_5-automl/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/15/math/bootstrap/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -365,7 +322,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/18/machine-learning/machine-learning_5-automl/" class="post-title-link" itemprop="url">机器学习5 自动化机器学习技术</a>
+            <a href="/2021/05/15/math/bootstrap/" class="post-title-link" itemprop="url">一种重采样方法-resampling</a>
         </h2>
 
         <div class="post-meta">
@@ -375,14 +332,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-05-18 08:32:24" itemprop="dateCreated datePublished" datetime="2021-05-18T08:32:24+08:00">2021-05-18</time>
+              <time title="创建时间：2021-05-15 16:29:28" itemprop="dateCreated datePublished" datetime="2021-05-15T16:29:28+08:00">2021-05-15</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-21 14:50:35" itemprop="dateModified" datetime="2021-07-21T14:50:35+08:00">2021-07-21</time>
+                <time title="修改时间：2021-07-22 08:53:04" itemprop="dateModified" datetime="2021-07-22T08:53:04+08:00">2021-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -390,7 +347,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">机器学</span></a>
+                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
                 </span>
             </span>
 
@@ -405,118 +362,25 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="总结">总结</h2>
-<p>联想到之前构建的通用异常检测模型，整体流程大概是这样：定义多个检测器，曲线特征，并用一个随机森林去做集成。希望随机森林可以将不同的曲线路由到适合的检测器上去。</p>
-<p>FBNet的思路跟上面的流程有点像，都是数据驱动去选择适配的组件。不同的地方在于，FBNet最终会减枝，即从9✖️20个可能的路径中，裁剪成一条路径。</p>
-<p>FBNet要解决的任务更简单，给一个小任务找到适配的解决方案；通用异常检测更难，要给n个小任务找解决方案，并且用一套复合的解决方案。</p>
-<p>NAS是auto-ml的一个子领域，相关的技术有随机搜索，强化学习，基于微分的方法，如DARTS 和 FBNet。</p>
-<p>DARTS 和 FBNet是目前做NAS的the state of arts方法</p>
-<p>下面简单介绍FBNet的思路</p>
-<blockquote>
-<p>「贝叶斯优化」技术是求解黑盒最优化问题的一种方法，该技术可拓展到auto-ml的自动调参场景中。</p>
-<p>接下来介绍下「贝叶斯优化」的思路</p>
-<p>采集函数（acquisition function）下面有些地方也用效用函数代替</p>
-</blockquote>
-<h2 id="fbnet的基本idea">FBNet的基本idea</h2>
-<ol type="1">
-<li><p>定义候选block, eg10个</p></li>
-<li><p>定义神经网络的层数,eg20，神经网络的每一层都是从9个候选block中选一个，搜索空间9^20</p></li>
-<li><p>构建一个很大的神经网络--supernet，每一层由9个候选block并联而成。supernet的待估参数包括9个候选block✖️20层，以及长度为9的权重向量✖️20。</p>
-<blockquote>
-<p>人工调参，可以看成是，指定supernet中的一条路径，然后灌入数据，来估计路径上20个blcock的参数。使用FBNet就不用人为指定其中某条路径，而是这个大网络supernet从训练数据中，学习出9个block✖️20（层）个参数，以及9✖️20（层）个权重。训练完之后，选择每一层权重最大的block并且连成一条路径，就是机器选定的20层的网络结构。</p>
-</blockquote></li>
-<li><p>模型要落地，还要考虑计算效率。具体的做法，事先算好候选block各自的latency(做一次推断平均耗时多久，block的权重随机给，跑多组数据求平均时延），然后将latency信息加入损失函数中，作为错误率之外的另外的一个惩罚项。</p></li>
-</ol>
-<h2 id="黑盒优化和自动调参">黑盒优化和自动调参</h2>
-<p>什么是「黑盒优化」？对一个黑盒函数求最优解。</p>
-<p>求解 $ _{x } f(x)$，但是f(x)是个黑盒函数，我们对f内部运行机制一无所知，只知道输入输出。</p>
-<p>调参的过程，少部分经验来自算法理论和工程实践，大部分来自试错。</p>
-<p>模型越复杂，单次训练的时间就越长；</p>
-<p>超参数越多，即x的维度就越高，搜索超参数的空间就越大，</p>
-<p>两者都导致调参工作随着模型的复杂度增加而大幅增加。</p>
-<p>那么有没有什么技术能将人力从跳参的工作中解放出来呢？即有没有「自动调参」的技术呢？</p>
-<p>有，可以将该问题建模为一个黑盒优化问题，然后使用相关技术求解。</p>
-<p>即将「自动调参」定义为这么一个优化问题：</p>
-<p>求最优的一组超参数，使得组超参训练出来的模型的准确率最高 <span class="math display">\[\max\limits_{x \in \mathcal{X}} f(x)\]</span></p>
+          <h2 id="bootstrap的假设">bootstrap的假设</h2>
 <ul>
-<li><p>x代表一组超参数的取值，是一个向量，每个元素代表一个超参的取值，向量长度等于超参的个数。</p></li>
-<li><p>f(x)代表某组超参对应的模型的准确率。</p></li>
+<li>当前的数据资料是最能反映population信息的一批资料</li>
+<li>绝大部分样本跟population中的个体很相似</li>
 </ul>
-<p>求解黑盒优化问题比较常用的方法有贝叶斯优化算法（Bayes Optimization），随机搜索，网络搜索, 以及贝叶斯优化的变形（SMAC和TPE）</p>
-<h2 id="随机搜索网格搜索和贝叶斯优化">随机搜索，网格搜索和贝叶斯优化</h2>
-<p>先看两种最简单的方法，随机搜索 和 网格搜索</p>
 <figure>
-<img src="/Users/stellazhao/research_space/chiechie.github.io/source/_posts/AI/grid_random_search.png" alt="随机搜索和网格搜索" /><figcaption aria-hidden="true">随机搜索和网格搜索</figcaption>
+<img src="./img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
 </figure>
-<ul>
-<li><p>网格搜索：如左图，需要指定搜索范围和间隔， 优点：考虑到了搜索空间内所有的参数组，缺点：存在组合爆炸的问题.</p></li>
-<li><p>随机搜索：意思是，在超参空间进行随机采样，将采样得到的超参作为best guess。如右图，采用随机采样的方式得到新的超参。优点：容易理解。缺点：可能搜索不到最优的超参.</p></li>
-<li><p>贝叶斯优化: BayesOptimazation(r，p, m，n_iters，算法名称)，优点：不需要指定搜索范围，可自动调节搜索过程中的步长</p></li>
-<li><p>贝叶斯优化的变形-SMAC和TPE</p>
-<ul>
-<li>SMAC：代理函数变成了回归随机森林</li>
-<li>TPE：代理函数变成了高斯混合模型 <img src="/Users/stellazhao/research_space/chiechie.github.io/source/_posts/AI/bianxing.png" alt="img.png" /></li>
-</ul></li>
-<li><p>实际中，随机搜索其实已经很有效了。</p></li>
-</ul>
-<h2 id="贝叶斯优化">贝叶斯优化</h2>
-<p>贝叶斯优化算法（Bayes Optimization）大概思路是这样的：</p>
-<p>为了求解该问题： <span class="math inline">\(x^{*}=\arg \max _{x \in \mathcal{X}} f(x)\)</span></p>
-<ol type="1">
-<li>收集样本<span class="math inline">\(&lt;x_i,f(x_i)&gt;\)</span>，x是一组超参，f(x)表示这组超参对应的模型准确率。</li>
-<li>使用样本<span class="math inline">\(&lt;x_i,f(x_i)&gt;\)</span>拟合一个高斯过程回归器（GaussianProgressRegressor）<span class="math inline">\(\hat G\)</span></li>
-<li>基于<span class="math inline">\(\hat G\)</span>构造一个效用函数。效用函数是用来衡量当前的超参数组成的空间中，探索每个区域的潜在收益或者效用（注意我们的目标是，找到<span class="math inline">\(x^\star\)</span>，使得f(x)取最大）。 最简单的acquisition function就是均值加上n倍方差（Upper condence bound算法）。</li>
-<li>搜索acquisition函数的最大值，即最值得探索的点（Next Best Guess）。</li>
-<li>将找到Best Guess（一组超参）带入原来算法，重新训练一遍，并记录下此时模型的准确率。</li>
-<li>将5得到的新样本数据加入样本集中，回到第二步，进行下一个迭代，循环往复，直到模型的准确率没有提升或者达到最大的迭代次数。</li>
-</ol>
-<h2 id="附录">附录</h2>
-<h3 id="贝叶斯优化和强化学习">贝叶斯优化和强化学习</h3>
-<p>贝叶斯优化跟强化学习有些许相似之处</p>
+<h2 id="为什么bootstrap比一般的参数估计方法更有效">为什么bootstrap比一般的参数估计方法更有效？</h2>
 <figure>
-<img src="/Users/stellazhao/research_space/chiechie.github.io/source/_posts/AI/image-20210714194513883.png" alt="image-20210714194513883" /><figcaption aria-hidden="true">image-20210714194513883</figcaption>
+<img src="./img_1.png" alt="bootstrap比一般的参数估计方法更有效" /><figcaption aria-hidden="true">bootstrap比一般的参数估计方法更有效</figcaption>
 </figure>
-<h3 id="贝叶斯优化图">贝叶斯优化图</h3>
+<p>bootstrap本质上是一种外推法（extrapolating to the population），更有想象力，当让也更有出错的可能</p>
 <figure>
-<img src="/Users/stellazhao/research_space/chiechie.github.io/source/_posts/AI/img.png" alt="贝叶斯优化" /><figcaption aria-hidden="true">贝叶斯优化</figcaption>
+<img src="./img_2.png" alt="img_2.png" /><figcaption aria-hidden="true">img_2.png</figcaption>
 </figure>
-<p>https://distill.pub/2020/bayesian-optimization/</p>
-<p>上图中</p>
-<ul>
-<li>横轴是超参，</li>
-<li>上面图的纵轴：超参数取不同值时，模型的准确率。
-<ul>
-<li>黑色的线代表拟合出来的均值线，灰色区域代表拟合出来的置信区间</li>
-<li>红色的线代表超参和准确率的真实关系 红点代表下一次要探索的点</li>
-</ul></li>
-<li>下面图的纵轴：超参数取不同值时，采集函数的值，取值越大，表示该区域越有可能存在最优超参。</li>
-</ul>
-<h3 id="代理函数">代理函数</h3>
-<p>代理函数，就是对黑盒模型性能的评估函数。 原始的贝叶斯优化算法，使用的是高斯过程，后面一些变形就变成了其他的算法。</p>
-<h3 id="采集函数">采集函数</h3>
-<p>怎么设计采集函数（acquisition function）？</p>
-<p>需考虑2个因素--期望和不确定性。期望和不确定性都很大的区域，值得对重点探索，所以采集函数给予这些区域更高的分支</p>
-<h3 id="难点离散变量">难点离散变量</h3>
-<p>贝叶斯优化本身只适用于连续变量，但是实际上很多模型地参数都是离散的，那么如何解决呢？ 直觉上来说，有两个思路:</p>
+<h2 id="参考">参考</h2>
 <ol type="1">
-<li>混合搜索（贝叶斯+网格搜索）：整数类型的参数采用网格搜索或者随机搜索，然后连续型的超参求子参数空间的优化问题。</li>
-<li>贝叶斯模型：在连续空间搜多到best guess之后，截断成整数，加工成样本，然后送入下一次迭代</li>
-</ol>
-<h3 id="贝叶斯优化和梯度算法的区别是什么">贝叶斯优化和梯度算法的区别是什么？</h3>
-<p>贝叶斯优化和梯度算法是不是一类东西呀？感觉都是在求最优秀解。</p>
-<p>两者都是优化算法。但是贝叶斯优化的野心更大，他不需要目标函数的具体表达式, 只要知道这个目标函数的输入输出就好了。 梯度算法解决的问题更小，必须知道目标函数的表达式以及梯度。</p>
-<h2 id="参考资料">参考资料</h2>
-<ol type="1">
-<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/29779000">贝叶斯优化-通俗版-tobe-知乎</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/76269142">贝叶斯优化-技术版—Dai Zhongxiang-知乎</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://distill.pub/2020/bayesian-optimization/">贝叶斯优化-可视化版-distill</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/tobegit3hub/advisor">开源工具-Advisor-github</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://cloud.google.com/ai-platform/optimizer/docs/overview">谷歌的调参工具</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xys430381_1/article/details/103871212">超参数优---贝叶斯优化及其改进（PBT优化）csdn</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3587b24f1a6d">微软新工具 NNI 使用指南之 Tuner 篇-jianshu</a></p></li>
-<li><p>https://docs.qq.com/flowchart/DVFVYeEZpd1NMTEtX</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/wangshusen/DeepLearning">wangshusen-slide-github</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=D9m9-CXw_HY">Differentiable Neural Architecture Search-youtube</a></p></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gcPIyeqymOU">Resampling methods-bootstrapping--youtube</a></li>
 </ol>
 
       
@@ -536,7 +400,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/28/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><span class="space">&hellip;</span><a class="page-number" href="/page/98/">98</a><a class="extend next" rel="next" href="/page/30/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/28/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/28/">28</a><span class="page-number current">29</span><a class="page-number" href="/page/30/">30</a><span class="space">&hellip;</span><a class="page-number" href="/page/97/">97</a><a class="extend next" rel="next" href="/page/30/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -602,20 +466,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">195</span>
+          <span class="site-state-item-count">193</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">208</span>
+        <span class="site-state-item-count">206</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

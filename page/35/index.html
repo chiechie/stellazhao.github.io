@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/11/AIOps/AIOps-1_2-fault-prediction/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/07/AIOps/AIOps-1-event-generate/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/11/AIOps/AIOps-1_2-fault-prediction/" class="post-title-link" itemprop="url">chapter1.2 故障预测</a>
+            <a href="/2021/05/07/AIOps/AIOps-1-event-generate/" class="post-title-link" itemprop="url">chapter1 故障发现</a>
         </h2>
 
         <div class="post-meta">
@@ -189,7 +189,7 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-05-11 11:01:18" itemprop="dateCreated datePublished" datetime="2021-05-11T11:01:18+08:00">2021-05-11</time>
+              <time title="创建时间：2021-05-07 16:03:52" itemprop="dateCreated datePublished" datetime="2021-05-07T16:03:52+08:00">2021-05-07</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -219,33 +219,53 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="背景">背景</h1>
-<p>最近10年，随着服务器数量快速增长, 服务器老化的问题（商家超过5）日趋严重。越老的服务器发生故障的概率越高，这个会带了不小的负面影响，从而提高运营成本。</p>
-<p>服务器的所有故障中，占比最高的类型属于磁盘故障，达到70%。第二名是主板故障。 因为磁盘生命周期短，一般只有3到5年，而整个服务器使用和年限一般都会超过5年，所以一台服务器的生命周期中几乎必然会发生磁盘故障。</p>
-<p>如何降低磁盘故障带来的影响？业务的方案是，实施监控以及事后自动修复，修复不了就更换磁盘，并且做业务迁移。</p>
-<p>但是这个时候损失已经发生，如果能够在磁盘故障之前，就预测到即将到来的故障，并且提前做预案，是可以避免业务损失的。</p>
-<p>下面就介绍一下，如何预测磁盘故障，从而减少业务损失。</p>
-<h1 id="方案">方案</h1>
-<h2 id="搜集数据">搜集数据</h2>
-<p>范围：即将故障的硬盘以及其宿主的信息 根据经验可以提取如下指标：磁盘负载，磁盘I/O，具体来说</p>
-<ul>
-<li>每秒磁盘读写块数： 902-读，903-写</li>
-<li>每秒中用于I/O操作的CPU时间占的比例：即999，</li>
-</ul>
-<p>其中，I/O指标差分，简称为IO跳变跟故障相关度较高</p>
-<p>此外考虑了磁盘SMART（Self-Monitoring Analysis and Reporting Technology——自我检测、分析及报告技术）。之所以考虑用SMART作为核心数据，因其相关技术发展比较成熟，至今20年了，业界对其认可度较高。</p>
-<h2 id="预测模型">预测模型</h2>
-<p>使用一个分类器（SVM），搜集历史故障样本和非故障样本，</p>
-<h2 id="总结">总结</h2>
+          <h1 id="概览">概览</h1>
+<p>故障发现阶段，根据监控的对象不同，可以细分为以下场景：</p>
 <ol type="1">
-<li>现已完成希捷SATA硬盘预测，各型号预测正确率和故障覆盖率如表3所示。其中前六种型号达到运营要求，已进入推广，具体覆盖65%的SATA盘</li>
-<li>关于正样本数据的搜集：刚开始我们把预测单与实际故障单作对比时，得到的准确率很低。因为模型报出来的预故障单都是从SMART上看，属于“亚健康”甚至“病危”状态的硬盘。而实际故障单是以磁盘自检失败并且不可在线修复和系统dmesg信息中的错误关键字（主要包括SCSI设备掉线，ATA设备超时和设备故障）为准发起故障处理流程，并且结单故障类型为硬盘故障，也就是说一定要有实际换盘的，这个定义其实是相当严苛的，会漏掉很多情况。因为结单故障类型是现场去确认后填写的，如果没有换盘或者没有填写结单故障类型就会算是我们的误报。 并且，实际故障单更多的侧重于依赖OS层面的判断，一定程度漏掉了一些健康堪忧但并未报障的硬盘。我们把这部分「误报」的部分提供给厂商确认，的确被确诊为病态盘甚至于高危盘。所以是否故障的判断，不能仅依赖结单故障类型，还要关注单块硬盘自身的健康状态--如果它的SMART核心指标远离安全阈值，也应判断为故障。</li>
-<li>下一步工作-现在核心主要侧重于SATA盘的故障预测，后续二期我们会把SAS、SSD作为核心，希望能有更大的作为。</li>
+<li>单指标异常检测</li>
+<li>多指标异常检测</li>
+<li>故障预测</li>
+<li>指标异常关联</li>
+<li>日志聚类</li>
+<li>调用链异常检测： https://mp.weixin.qq.com/s/sqYIb6i9z6xF5nDr8fuVsA</li>
 </ol>
-<h1 id="参考">参考</h1>
+<h1 id="相关资料">相关资料</h1>
+<h2 id="论文">论文</h2>
+<ul>
+<li>半自动的标记工具Label-Less: A Semi-automatic Labelling Tool for KPI Anomalies</li>
+<li>非监督异常检测算法-对复杂kpi使用vae进行对抗训练Unsupervised Anomaly Detection for Intricate KPIs via Adversarial Training of VAE</li>
+<li>对非结构化日志数据进行异常检测-LogAnomaly: Unsupervised Detection of Sequential and Quantitative Anomalies in Unstructured Logs</li>
+<li>多指标时序异常检测Robust Anomaly Detection for Multivariate Time Series through Stochastic Recurrent Neural Network</li>
+<li>对周期性时间序列数据进行异常检测-Automatic and Generic Periodicity Adaptation for KPI Anomaly Detection:<a target="_blank" rel="noopener" href="https://netman.aiops.org/wp-content/uploads/2019/08/08723601.pdf">paper</a></li>
+<li>Robust and Rapid Adaption for Concept Drift in Software System Anomaly Detection</li>
+<li>无监督异常检测-基于聚类Robust and Rapid Clustering of KPIs for Large-Scale Anomaly Detection</li>
+<li>无监督异常检测-基于VAE：Unsupervised Anomaly Detection via Variational Auto-Encoder for Seasonal KPIs in Web Applications</li>
+<li>有监督异常检测-Opprentice: Towards Practical and Automatic Anomaly Detection Through Machine Learning:<a target="_blank" rel="noopener" href="http://netman.cs.tsinghua.edu.cn/wp-content/uploads/2015/11/liu_imc15_Opprentice.pdf">paper</a></li>
+<li>雅虎开源的时序预测和异常检测项目 EGAD:<a target="_blank" rel="noopener" href="http://www.infoq.com/cn/articles/automated-time-series-anomaly-detection">论文的中文翻译</a></li>
+<li>CMU 做多指标模式提取和异常检测的 SPIRIT 系统论文：<a target="_blank" rel="noopener" href="https://bitquill.net/pdf/spirit_vldb05.pdf">paper</a></li>
+</ul>
+<h2 id="代码">代码</h2>
+<ul>
+<li>阿里巴巴开源的Time2Graph(基于序列片段的图迁移路径做异常检测)：<a target="_blank" rel="noopener" href="https://github.com/petecheng/Time2Graph">code</a></li>
+<li>清华/阿里巴巴开源的 Donut(基于 VAE 算法)：<a target="_blank" rel="noopener" href="https://github.com/haowen-xu/donut">code</a></li>
+<li>清华开源的 Bagel(Donut改进型，基于 CVAE 算法)：<a target="_blank" rel="noopener" href="https://github.com/lizeyan/Bagel">code</a></li>
+<li>清华/百度的 opprentice 系统(14 个检测器，平均取参数值，随机森林)：<a target="_blank" rel="noopener" href="https://github.com/tencent/metis">code</a></li>
+<li>清华/建行做的指标批量标注 Label-less 项目(基于 iForest 异常检测和 DTW 相似度学习)：<a target="_blank" rel="noopener" href="https://netman.aiops.org/wp-content/uploads/2019/10/Label-less-v2.pdf%3E">code</a></li>
+<li>百度开源的指标异常标注工具：<a target="_blank" rel="noopener" href="https://github.com/baidu/Curve">code</a></li>
+<li>微软开源的指标异常工具：<a target="_blank" rel="noopener" href="https://github.com/Microsoft/TagAnomaly">code</a></li>
+<li>清华OmniAnomaly-多指标异常检测: <a target="_blank" rel="noopener" href="https://github.com/NetManAIOps/OmniAnomaly/tree/master/omni_anomaly">code</a></li>
+<li>清华/南开/腾讯的 ADS 系统(ROCKA+opprentice+CPLE)：<a target="_blank" rel="noopener" href="https://netman.aiops.org/wp-content/uploads/2018/12/bujiahao.pdf">paper</a>|<a target="_blank" rel="noopener" href="https://github.com/tmadl/semisup-learn">code</a></li>
+<li>开源的时序特征值提取库 tsfresh：<a target="_blank" rel="noopener" href="http://tsfresh.readthedocs.io/en/latest/">code</a></li>
+<li>twitter 的异常检测库，R 语言<a target="_blank" rel="noopener" href="https://github.com/twitter/anomalydetection">code</a></li>
+<li>numenta公司，HTM 算法：<a target="_blank" rel="noopener" href="https://github.com/numenta/nupic">code</a>|<a target="_blank" rel="noopener" href="https://github.com/numenta/NAB/blob/master/nab/scorer.py">code-评估</a>|<a target="_blank" rel="noopener" href="https://github.com/numenta/NAB/tree/master/data">data</a></li>
+<li>雅虎开源的时序预测和异常检测项目 EGADS:<a target="_blank" rel="noopener" href="https://github.com/yahoo/egads">code</a></li>
+<li>亿客行Expedia开源的异常检测项目 adaptive-alerting:<a target="_blank" rel="noopener" href="https://github.com/ExpediaDotCom/adaptive-alerting">code</a></li>
+<li>新加坡国立大学做传感器多变量指标异常检测的开源项目(基于 GAN 算法)：<a target="_blank" rel="noopener" href="https://github.com/LiDan456/MAD-GANs">code</a></li>
+</ul>
+<h2 id="比赛">比赛</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="http://km.oa.com/group/23255/articles/show/251071">部件故障预测初论</a></li>
-<li><a target="_blank" rel="noopener" href="https://km.woa.com/group/11783/articles/show/170959?sessionKey=Q3i7YOn2ZcLaDSNohaOIZgxO5ztyEuU8">磁盘IO与磁盘故障率研究</a></li>
+<li>清华裴丹团队举办的 KPI 异常检测比赛：<a target="_blank" rel="noopener" href="http://iops.ai/competition_detail/?competition_id=5&amp;flag=1">data</a></li>
+<li>清华裴丹团队举办的 KPI 异常检测比赛方案-分享：<a target="_blank" rel="noopener" href="http://workshop.aiops.org/">slide</a></li>
 </ol>
 
       
@@ -266,7 +286,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/10/AIOps/AIOps-1_1_2-feature/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/07/reading_notes/qukuailian/qukuailian2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -280,7 +300,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/10/AIOps/AIOps-1_1_2-feature/" class="post-title-link" itemprop="url">chapter1.1 单指标异常检测</a>
+            <a href="/2021/05/07/reading_notes/qukuailian/qukuailian2/" class="post-title-link" itemprop="url">《区块链实战：从技术创新到商业模式》读书笔记</a>
         </h2>
 
         <div class="post-meta">
@@ -290,14 +310,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-05-10 16:37:13" itemprop="dateCreated datePublished" datetime="2021-05-10T16:37:13+08:00">2021-05-10</time>
+              <time title="创建时间：2021-05-07 09:22:55" itemprop="dateCreated datePublished" datetime="2021-05-07T09:22:55+08:00">2021-05-07</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
+                <time title="修改时间：2021-06-11 09:03:18" itemprop="dateModified" datetime="2021-06-11T09:03:18+08:00">2021-06-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -305,7 +325,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/AIOps/" itemprop="url" rel="index"><span itemprop="name">AIOps</span></a>
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
                 </span>
             </span>
 
@@ -320,105 +340,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="概述">1. 概述</h2>
-<p>大型集群系统中，可能存在软件问题和硬件问题导致的系统故障，严重影响了系统的高可用性。这就要求7*24小时，对系统不间断监控。这就意味着需要不间断地监控大量时间序列数据，以便检测系统潜在的故障和异常现象。然而，实际当中的系统异常很多，且不容易发现；从而导致人工方式监控方式效率很低。</p>
-<p>异常场景本质上是一个或者多个数据点；数据点一般在系统运行过程中产生，且能反应系统的功能是否正常，多以日志形式呈现。当系统功能发生异常时，就会产生异常数据。快速高效地发现这些异常值，对于快速止损具有重要意义。对此，我们提出一种基于时间序列的异常识别模型，用来及时发现异常。</p>
-<p>对于多数系统，一般都有成功率、流量等指标，故障发生时，这些指标也会出现响应的异常。我们将系统成功率、流量统一称为特征值变量，并对其进行建模，从而方便后续其它特征变量的扩展。为了更好地感知这些特征变量的突变，需要对特征变量进行计算处理或者空间转换。那么异常识别问题就转换为以下两个问题：</p>
+          <h2 id="区块链如何分类">区块链如何分类</h2>
+<ol type="1">
+<li><p>按照参与者访问数据的资格，区块链分为：公链，私链，联盟链。</p></li>
+<li><p>按照发布新区块是否要permission，区块链分为：许可链和非许可链</p></li>
+<li><p>EOS采用委托权益证明共识机制、全网设置21个超级节点的公链，验证出块的许可门槛很高，或许应该称为“公开许可链”。</p></li>
+<li><p>联盟链/私链以其用户身份可验证、性能更高、更易扩展、更快达成共识、更易合规监管的特性适用于更多商业需求场景。</p></li>
+<li><p>跨链，是两个相对独立的区块链账本间进行资产互操作过程</p>
+<blockquote>
+<p>互操作：指两条区块链之间进行资产转移，支付或者信息交互。</p>
+</blockquote></li>
+<li><p>互联网是信息自由流通的网络，而区块链跨链形成的则是价值自由流通的网络。</p></li>
+<li><p>以太坊创始人--维塔利克·布特林设想的跨链技术的5个应用场景（大部分依然没有得以实现与普及）：</p>
 <ul>
-<li>特征变量的计算处理和转换</li>
-<li>突变的判断</li>
-</ul>
-<p>针对这两个关键问题，我们将在下文中进行建模和分析。</p>
-<h2 id="异常识别">2. 异常识别</h2>
-<p>如下图，通过计算器进行特征变量的计算处理和转换，通过异常检测器来判断数值的突变，从而解决上面的两个问题。其中，异常检测器由比较器和决策器组成。</p>
-<p><a target="_blank" rel="noopener" href="http://www.datadriven.top/images/image-20180815093422131.png"><img src="http://www.datadriven.top/images/image-20180815093422131.png" alt="image-20180815093422131" /></a>image-20180815093422131</p>
-<p>对于给定时间序列二维矩阵X={xmt∈R：∀t≥0,∀m≥0}X={xtm∈R：∀t≥0,∀m≥0} ，xmtxtm为tt时刻的第m个指标的真实数据，umtutm表示时间tt的xmtxtm的计算值，ymtytm为第m个指标的输出结果，ytyt为整体预测结果。</p>
-<p>xmtxtm通过计算器得到计算值umtutm，然后xmtxtm 和 umtutm分别作为比较器的输入，得到第m个指标的输出ymtytm。y1tyt1,y2tyt2…ymtytm作为决策器的输入得到ytyt。ytyt是一个二元值，可以用<code>TRUE</code>（表示输出数据正常），<code>FALSE</code>（表示输入数据异常）表示。下面对计算器和检测器进行说明。</p>
-<h3 id="计算器">2.1 计算器</h3>
-<p><strong>计算器</strong>用来对输入值xmtxtm 进行计算或者空间转换，从而得到特征变量的计算值umtutm。一般情况下，特征变量具有趋势性、周期性等特征。基于这些特征，计算值的获取，可以使用以下三种方式：累计窗口均值计算器、基于趋势性的环比计算器、基于周期性的同比计算器。</p>
-<h4 id="累积窗口均值计算器">2.1.1 累积窗口均值计算器</h4>
-<p>输入值为xtxt（为了方便省略指标参数<code>m</code>），如果直接只用单个点xtxt的抖动来判断，受噪声影响较大。因此，使用累积窗口均值的方式：</p>
-<figure>
-<img src="../_image/image-20191012164029688.png" alt="image-20191012164029688" /><figcaption aria-hidden="true">image-20191012164029688</figcaption>
-</figure>
-<p>其中，ww为累计窗口的大小。通过窗口平滑之后，会过滤掉尖刺等噪声。</p>
-<h4 id="基于趋势性的计算器">2.1.2 基于趋势性的计算器</h4>
-<p>为了描述数据的趋势性，引入环比类算法。对<span class="math inline">\(x_t\)</span>进行空间转换，得到环比，再使用检测器进行检测。</p>
-<figure>
-<img src="/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20191012163924379.png" alt="image-20191012163924379" /><figcaption aria-hidden="true">image-20191012163924379</figcaption>
-</figure>
-<p>其中，分子为当前窗口w内的数据，分母为上一窗口w内数据。通过窗口w对数据进行平滑。</p>
-<h4 id="基于周期性的计算器">2.1.3 基于周期性的计算器</h4>
-<p>为了描述数据的周期性，引入同比算法。当同比值过大或者过小时，认为发生故障。同比公式如下：</p>
-<figure>
-<img src="/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20191012164057696.png" alt="image-20191012164057696" /><figcaption aria-hidden="true">image-20191012164057696</figcaption>
-</figure>
-<p>其中TT为周期，kk表示第几个周期。一般选取kk为<code>1</code>、<code>7</code>、<code>30</code>，来表示昨天、上周、上个月。</p>
-<h4 id="其他类型计算器">2.1.4 其他类型计算器</h4>
-<p>计算器还可以使用其他算法，包括：</p>
+<li>数字资产跨链转移：锚定资产，现有A、B两条链，需要把资产X从A转到B，就需要A中一定数量的货币冻结或销毁），同时在B链解冻或产生相对应数量的货币</li>
+<li>跨链资产原子交换：两条链路的两个交易同时完成。</li>
+<li>跨链状态读取：侧链技术</li>
+<li>跨链资产抵押锁定：要求一些资产在A链上被“冻结”抵押，这样才能在B链上完成特定的动作</li>
+<li>跨链智能合约调用：难度最大，至今没有解决</li>
+</ul></li>
+<li><p>2019年8月，专注于跨链技术的Cosmos项目发布了IBC规范（V1.0.0-rc3),Cosmos希望像当年TCP/IP协议栈一样能构建一组标准化协议来统一解决跨链的问题。</p></li>
+<li><p>ArcBlock的链网和跨链采用了更为“实用主义”的简化设计策略。ArcBlock支持的跨链实际包以下两部分:</p>
 <ul>
-<li>统计类算法：包括同比、环比算法的改进，或者其他统计算法。此时，计算器的输出结果为预测值，预测值和输入值进行比较即可。</li>
-<li>时序型算法：包含ARIMA、Holter-Winter等时序型算法。计算器的输出结果为预测值。</li>
-<li>机器学习：根据有监督、无监督、深度学习(LSTM)等算法，训练出的模型即为计算器。此时，计算器的输出结果一般为归一化的值，根据归一化的值进行比较。</li>
-</ul>
-<p>这些算法，在这里不再做深入研究和阐述。</p>
-<h3 id="异常检测器">2.2 异常检测器</h3>
-<p>当数据出现异常时，计算值会出现较大偏差，该偏差由<strong>异常检测器</strong>来判断。<strong>异常检测器</strong>由比较器和决策器组成，计算值和真实值通过该模块后，得到最终预测结果。</p>
-<h4 id="比较器">2.2.1 比较器</h4>
-<p>比较器的本质是求解如下公式的过程：</p>
-<p>f(xmt,umt;hm) = boolean(4)(4)f(xtm,utm;hm) = boolean</p>
-<p>其中，xmtxtm为真实值，uu为计算值，hmhm为阈值参数，booleanboolean为结果<code>TRUE/FALSE</code>。真实值已知，计算值通过计算器得到；剩下的阈值参数hmhm，则需要根据故障发生时的实际值进行参数估计。</p>
-<p>很多场景下，该公式还可以简化为：f(umt;hm) = booleanf(utm;hm) = boolean ，即计算值直接和阈值比较即可。</p>
-<h5 id="比较器种类">2.2.1.1 比较器种类</h5>
-<p>比较器有两种：相对值比较器和绝对值比较器。给定计算值umtutm和输入值xmtxtm，得到绝对值比较器：</p>
-<p>f=xmt−umt opretor hm(5)(5)f=xtm−utm opretor hm</p>
-<p>其中，opretoropretor为比较操作符，比如<code>&gt; &lt; &gt;= &lt;=</code>。由于utut由xtxt得到，所以很多情况下公式可以简化为 umtopretorhmtutmopretorhtm，即确定计算值的阈值即可。</p>
-<p>对于一些场景来说，需要捕获特征变量的相对性。因此，引入相对值比较器：</p>
-<p>f=xmt−umtumt opretor hm(6)(6)f=xtm−utmutm opretor hm</p>
-<p>通过对相对值比较器进行阈值处理，既可以检测异常值，同时还能对期望值进行归一化。</p>
-<h5 id="比较器阈值h的选取">2.2.1.2 比较器阈值h的选取</h5>
-<p>一般情况下，阈值参数决定了异常检测模块的敏感度。最优阈值的选择，取决于数据分布的性质以及先验数据。一般情况下，<strong>阈值的选取方法为</strong>：</p>
+<li>开放链访问协议（Open Chain Access Protocal，缩写OCAP），即采用相同的接口去访问不同的区块链</li>
+<li>跨链资产原子交换协议</li>
+</ul></li>
+<li><p>三种主要的跨链实现方法:</p></li>
+</ol>
 <ul>
-<li>方法一：跟踪一组故障数据和正常数据，根据经验估计阈值。</li>
-<li>方法二：跟踪一组故障数据和正常数据，根据经验，并结合<code>3σ准则</code>确定，来确定阈值。（特征变量或者特征变量的组合，服从正态分布）</li>
+<li>公证人机制</li>
+<li>侧链/中继</li>
 </ul>
-<h4 id="决策器">2.2.2 决策器</h4>
-<p>如下公式，基于逻辑操作符，对比较器结果进行合并.</p>
-<ul>
-<li>方式一：逻辑组合</li>
-</ul>
-<p>yt=y1t &amp;| y2t &amp;| y3t &amp;| ... ymt(7)(7)yt=yt1 &amp;| yt2 &amp;| yt3 &amp;| ... ytm</p>
-<p>其中，||表示逻辑或操作，&amp;&amp;表示逻辑与操作。</p>
-<ul>
-<li><p>方式二：权重设置法</p>
-<p>yt=k1∗y1t + k2∗y2t + k3∗y3t + ... km∗ymt(8)</p></li>
-</ul>
-<p>其中，kmkm为系数，这种方式一般适合基本无负样本的场景，参数的确定需要使用<code>层次分析法</code>，将在后面的文章进行说明。</p>
-<h2 id="故障止损">3. 故障止损</h2>
-<p>上面主要阐述了异常识别的方式。如果条件过于严格，刚开始并不容易被识别出来；如果条件过松，可能导致误识别。对此，我们将止损策略分为两级：</p>
-<ul>
-<li>级别一：预警。对于不能完全确定故障发生的场景，使用级别一。</li>
-<li>级别二：预警+止损（踢IDC）。对于能确定IDC故障的场景，使用级别二。</li>
-</ul>
-<h2 id="实际场景应用">4. 实际场景应用</h2>
-<p>下面通过一个规则的场景，进行举例说明。假如存在如下异常场景：</p>
-<p><a target="_blank" rel="noopener" href="http://www.datadriven.top/images/image-20181108211144340.png"><img src="http://www.datadriven.top/images/image-20181108211144340.png" alt="image-20181108211144340" /></a>image-20181108211144340</p>
-<p><strong>体现在模型中，则级别一（预警）的模型图</strong></p>
-<p><a target="_blank" rel="noopener" href="http://www.datadriven.top/images/image-20180815093336600.png"><img src="http://www.datadriven.top/images/image-20180815093336600.png" alt="image-20180815093336600" /></a>image-20180815093336600</p>
-<p><strong>级别二（预警+踢IDC）的模型图：</strong></p>
-<p><a target="_blank" rel="noopener" href="http://www.datadriven.top/images/image-20180815093352931.png"><img src="http://www.datadriven.top/images/image-20180815093352931.png" alt="image-20180815093352931" /></a>image-20180815093352931</p>
-<p>最终，得到故障识别规则：</p>
-<ul>
-<li>级别一触发条件: u1&lt;h1 | (u5&lt;h5 &amp; u6&lt;h6 &amp; u7&lt;h7)u1&lt;h1 | (u5&lt;h5 &amp; u6&lt;h6 &amp; u7&lt;h7)</li>
-<li>级别二触发条件：u1&lt;h2 &amp; u3&gt;h3u1&lt;h2 &amp; u3&gt;h3</li>
-</ul>
-<p>其中，h1,h2,h3,h5,h6,h7h1,h2,h3,h5,h6,h7为阈值参数。需要结合经验和实际数据估计得到。</p>
-<h2 id="小结">5. 小结</h2>
-<p>本文主要基于时间序列的数据，提出了异常场景识别模型，并重点对基于规则的识别进行了说明。</p>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="http://dl.acm.org/citation.cfm?id=2788611">Generic and Scalable Framework for Automated Time-series Anomaly Detection</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.datadriven.top/categories/数据驱动/">数据驱动应用（一）：整体概述</a></li>
+<li>https://weread.qq.com/web/reader/3b63273071e8eda73b6dc4d</li>
 </ol>
 
       
@@ -438,7 +393,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/34/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><span class="page-number current">35</span><a class="page-number" href="/page/36/">36</a><span class="space">&hellip;</span><a class="page-number" href="/page/98/">98</a><a class="extend next" rel="next" href="/page/36/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/34/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/34/">34</a><span class="page-number current">35</span><a class="page-number" href="/page/36/">36</a><span class="space">&hellip;</span><a class="page-number" href="/page/97/">97</a><a class="extend next" rel="next" href="/page/36/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -504,20 +459,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">195</span>
+          <span class="site-state-item-count">193</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">208</span>
+        <span class="site-state-item-count">206</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

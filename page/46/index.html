@@ -350,7 +350,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/25/reinforcement_learning/rl7_baseline-in-policy-gradient/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/26/machine-learning/machine-learning_4-dl7_bert/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -364,7 +364,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/25/reinforcement_learning/rl7_baseline-in-policy-gradient/" class="post-title-link" itemprop="url">强化学习7 策略梯度中的baseline</a>
+            <a href="/2021/04/26/machine-learning/machine-learning_4-dl7_bert/" class="post-title-link" itemprop="url">chapter 4.7  深度学习7 Bert</a>
         </h2>
 
         <div class="post-meta">
@@ -374,14 +374,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-25 20:41:33" itemprop="dateCreated datePublished" datetime="2021-04-25T20:41:33+08:00">2021-04-25</time>
+              <time title="创建时间：2021-04-26 11:50:30" itemprop="dateCreated datePublished" datetime="2021-04-26T11:50:30+08:00">2021-04-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
+                <time title="修改时间：2021-07-22 15:58:34" itemprop="dateModified" datetime="2021-07-22T15:58:34+08:00">2021-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -389,7 +389,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
                 </span>
             </span>
 
@@ -404,138 +404,83 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="策略梯度中的baseline-14-数学推导">策略梯度中的Baseline 1/4-数学推导</h2>
+          <p>为什么有了word2vec还不够？还需要bert干嘛？因为一词多义，同样的词在不同的上下文中表达的意思不一样，而word2vec的表示是静态的。 所以我们需要一个能对上下文编码的动态的embedding方法，bert就应运而生了。</p>
+<h1 id="总结">总结</h1>
 <ul>
-<li>https://www.youtube.com/watch?v=yNEqbptitZs</li>
-<li>Policy gradient (策略梯度) 方法中常用 baseline 来降低方差，加速收敛。Baseline 可以是任何不依赖于动作的函数。这节课我们做数学推导，得出带有 baseline 的策略梯度，并对它做蒙特卡洛近似。在后面的两节课中，我们把它用在 REINFORCE 和 A2C 方法中。</li>
-<li>策略梯度中的数学推导</li>
-<li>将baseline 应用到reinforce算法中</li>
-<li>将baseline 应用到actor2critic方法中：
+<li>Bert也是是一个对词语生成词语向量的方法。</li>
+<li>Bert可以认为是一个预训练Transformer的encoder部分</li>
+<li>Bert的全称是Bidirectional Encoder Representations from Transformers，双向encoder表示</li>
+<li>Bert的目的是预训练transformer模型的encoder网络，</li>
+<li>Bert的学习目标是怎么设定的呢？bert用以下两个任务来预训练transformer中的encoder网络
 <ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FVfCPRKT8Wg.png?alt=media&amp;token=aa73c63c-f5f4-4b48-b626-a5c5262b71ca" /></li>
-<li>直观理解：
-<ul>
-<li>放到两军交战的场景，对于某一方来说
-<ul>
-<li>策略网络就像一个军师，对于每一种战况（state）给出行动建议（action）；</li>
-<li>价值网络就像一个先知，预测当前战况（state）的好坏（state value）。</li>
-<li>战斗是一个持续的过程，每次交锋（at）一次，根据即时的收益（rt）, 军队首领（agent）要反省得失，更新军师的策略：
-<ul>
-<li>根据先知对交锋前后的战况预测差异 ， 来评价刚刚行为（at）好坏（好坏用 td error来衡量，越大说明at越垃圾）， 并且用来指引接下来策略（梯度更新公式中出现的td error一项）</li>
-<li>此外，策略调整的方向 还有一个因子，就是 策略梯度，也就是 在st时，选择at的概率下降 的方向。是想让军师探索其他方向？？</li>
+<li>任务1-预测遮挡词（Predict Masked Words）： 随机遮挡上下文，让encoder根据上下文来预测被遮挡的单词，大概随机遮挡挡15%的单词</li>
+<li>任务2-预测下一个句子（Predict the Next Sentence）： 把两个句子放在一起，让encoder判断两句话是不是原文里面相邻的两句话，正样本摘自原文，负样本是随机选择50%。</li>
 </ul></li>
-<li>同时，也要更新先知的认知
+<li>Bert学习的时候，把上面两个任务结合起来</li>
+<li>假如有两个词被遮挡，就要训练三个任务，2个预测遮挡词任务，1个预测是否邻近的任务。前面两个是一个multi-class分类；后面一个是一个二分类。前两个任务的损失函数是cross entropy，第三个任务的损失函数是binary-entropy。</li>
+<li>最终的目标函数，是上面三个损失函数的求和，把最终的目标函数关于模型参数求梯度，然后使用梯度下降来求参数。</li>
+<li>Bert的优点：不需要人工标注数据，训练数据可以从wiki/网页等，长度为2.5billion单词</li>
+<li>Bert可以利用海量数据训练一个超级大的模型</li>
+<li>Bert想法简单有效，计算大家大，bert有两个版本
 <ul>
-<li>梯度表示想要td error减少</li>
+<li>base： 1.1yi参数, 16个tpu训练4days，不算调参数，该参数是公开的</li>
+<li>large：2.35yi参数，64个tpu训练4days，不算调参数，该参数是公开的</li>
 </ul></li>
-</ul></li>
-</ul></li>
-</ul></li>
+<li>想用transformer直接下载徐训练好的bert模型就好，拿到参数就可以对英文编码了</li>
+<li>RoBERTa建议只用masking，而且是动态masking,</li>
 </ul>
-<h2 id="策略梯度中的baseline-24-reinforce-with-baseline">策略梯度中的Baseline 2/4-REINFORCE with Baseline</h2>
+<h1 id="附录">附录</h1>
+<h2 id="bert模型原理">bert模型原理</h2>
+<figure>
+<img src="https://images.prismic.io/peltarionv2/e69c6ec6-50d9-43e9-96f0-a09bb338199f_BERT_model.png?auto=compress%2Cformat&amp;rect=0%2C0%2C2668%2C3126&amp;w=1980&amp;h=2320" alt="bert模型可视化" /><figcaption aria-hidden="true">bert模型可视化</figcaption>
+</figure>
+<h3 id="任务一--预测遮挡词">任务一--预测遮挡词</h3>
+<p>任务可以描述为： 输入： “The _____ sat on the mat” 输出： What is the masked word?</p>
+<figure>
+<img src="./img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
+</figure>
+<p>如何学习？</p>
 <ul>
-<li>Policy gradient (策略梯度) 方法中常用 baseline 来降低方差，加速收敛。这节课我们学习 REINFORCE with Baseline，它是一种策略梯度方法。它用价值网络近似 baseline 函数。它用带 baseline 的策略梯度学习策略网络，用价值网络去拟合观测到的回报。</li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FMRYKuGAY2M.png?alt=media&amp;token=120372a3-7c92-4b48-be89-9bc99679e69c" /></li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F2KjX--n5BX.png?alt=media&amp;token=5edb9a0b-aaec-4d99-addf-ff2898eccd99" /></li>
-<li></li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FWR1r0uRGvm.png?alt=media&amp;token=3bb38d00-ec27-4f8d-acf9-8aa0208cb791" /></li>
-<li>接下来用reinforce训练策略网络，用回归算法训练价值网络</li>
-<li>更新策略网络：
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fi95LEON8Wl.png?alt=media&amp;token=626bdff1-fccd-4c9f-b1cc-c288c2ee0977" /></li>
-</ul></li>
-<li>更新价值网络
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F55QYQnU8wS.png?alt=media&amp;token=b116aa54-22c2-49ae-9fe5-a8b124f78d56" /></li>
-</ul></li>
-<li>整体：</li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Foc2FFolpEM.png?alt=media&amp;token=9f2955f5-98a1-4752-b475-094e41be8e6f" /></li>
+<li>e：one-hot vector of the masked word “cat”.</li>
+<li>𝐩: output probability distribution at the masked position.</li>
+<li>损失函数Loss = CrossEntropy(𝐞, 𝐩 )</li>
+<li>• Performing one gradient descent to update the model parameters.</li>
 </ul>
-<h2 id="策略梯度中的baseline-34-a2c-方法">策略梯度中的Baseline 3/4-A2C 方法</h2>
-<p>https://www.youtube.com/watch?v=mtT4TSGSon8</p>
-<h2 id="策略梯度中的baseline-44-reinforce与a2c的异同">策略梯度中的Baseline 4/4-REINFORCE与A2C的异同</h2>
+<h3 id="任务二---predict-the-next-sentence">任务二-- Predict the Next Sentence</h3>
+<p>任务可以描述为：</p>
+<p>• Given the sentence: “calculus is a branch of math”. • Is this the next sentence? “it was developed by newton and leibniz” 可以表述为一个而分类问题 • 输入: [CLS] “calculus is a branch of math” [SEP] “it was developed by newton and leibniz” • Target: true</p>
+<p>• [CLS] is a token for classification. • [SEP] is for separating sentences.</p>
+<p>学习过程</p>
+<figure>
+<img src="./img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption>
+</figure>
+<h3 id="结合两个任务">结合两个任务</h3>
+<p>• Input: “[CLS] calculus is a [MASK] of math [SEP] it [MASK] developed by newton and leibniz”.</p>
+<p>• Targets: true, “branch”, “was”.</p>
+<h2 id="bert实践todo">Bert实践【todo】</h2>
+<p>如何使用BERT做迁移学习（Transfer Learning）？</p>
 <ul>
-<li>先看A2C： 单步td算法和 多步td 算法（多步用的多一些）
-<ul>
-<li>one -step ：
-<ul>
-<li>step1 观察1个transition数据
-<ul>
-<li><span class="math inline">\(\left(s_{t}, a_{t}, r_{t}, s_{t+1}\right)\)</span></li>
-</ul></li>
-<li>step2 计算TD Target
-<ul>
-<li><span class="math inline">\(y_{t}=r_{t}+\gamma \cdot v\left(s_{t+1} ; \mathbf{w}\right)\)</span></li>
-</ul></li>
-<li>step 3 计算TD eror
-<ul>
-<li><span class="math inline">\(\delta_{t}=v\left(s_{t} ; \mathbf{w}\right)-y_{t}\)</span></li>
-</ul></li>
-<li>step 4 更新策略网络
-<ul>
-<li><span class="math inline">\(\boldsymbol{\theta} \leftarrow \boldsymbol{\theta}-\beta \cdot \delta_{t} \cdot \frac{\partial \ln \pi\left(a_{t} \mid s_{t} ; \boldsymbol{\theta}\right)}{\partial \boldsymbol{\theta}}\)</span></li>
-</ul></li>
-<li>step5 更新价值网络
-<ul>
-<li><span class="math inline">\(\mathbf{w} \leftarrow \mathbf{w}-\alpha \cdot \delta_{t} \cdot \frac{\partial v\left(s_{t} ; \mathbf{w}\right)}{\partial \mathbf{w}}\)</span></li>
-</ul></li>
-</ul></li>
-<li>multi-step
-<ul>
-<li>step1: 观察m个transitions数据<span class="math inline">\(\left\{\left(S_{t+i}, a_{t+i}, r_{t+i}, S_{t+i+1}\right)\right\}_{i=0}^{m-1}\)</span></li>
-<li>step2: 计算TD target：
-<ul>
-<li><span class="math inline">\(y_{t}=\sum\limits_{i=0}^{m-1} \gamma^{i} \cdot r_{t+i}+\gamma^{m} \cdot v\left(s_{t+m} ; \mathbf{w}\right)\)</span></li>
-</ul></li>
-<li>step3: 计算 TD error：
-<ul>
-<li><span class="math inline">\(\delta_t = v(s_t;w) - y_t\)</span></li>
-</ul></li>
-<li>step4: 更新策略网络（actor）
-<ul>
-<li><span class="math inline">\(\boldsymbol{\theta} \leftarrow \boldsymbol{\theta}-\beta \cdot \delta_{t} \cdot \frac{\partial \ln \pi\left(a_{t} \mid s_{t} ; \boldsymbol{\theta}\right)}{\partial \boldsymbol{\theta}}\)</span></li>
-</ul></li>
-<li>step5: 更新价值网络（critic）
-<ul>
-<li><span class="math inline">\(\mathbf{w} \leftarrow \mathbf{w}-\alpha \cdot \delta_{t} \cdot \frac{\partial v\left(s_{t} ; \mathbf{w}\right)}{\partial \mathbf{w}}\)</span></li>
-</ul></li>
-</ul></li>
-</ul></li>
-<li>再看看reinforce with baseline
-<ul>
-<li>step1 获取一整局游戏的transition 数据</li>
-<li>step2 使用观测到的奖励来计算回报
-<ul>
-<li><span class="math inline">\(u_{t}=\sum_{i=t}^{n} \gamma^{i-t} \cdot r_{i}\)</span></li>
-</ul></li>
-<li>step3 计算error：价值网络和回报的差
-<ul>
-<li><span class="math inline">\(\delta_{t}=v\left(s_{t} ; \mathbf{w}\right)-u_{t}\)</span></li>
-</ul></li>
-<li>step4 更新策略网络
-<ul>
-<li><span class="math inline">\(\boldsymbol{\theta} \leftarrow \boldsymbol{\theta}-\beta \cdot \delta_{t} \cdot \frac{\partial \ln \pi\left(a_{t} \mid s_{t} ; \boldsymbol{\theta}\right)}{\partial \boldsymbol{\theta}}\)</span></li>
-</ul></li>
-<li>step5 更新价值网络
-<ul>
-<li><span class="math inline">\(\mathbf{w} \leftarrow \mathbf{w}-\alpha \cdot \delta_{t} \cdot \frac{\partial v\left(s_{t} ; \mathbf{w}\right)}{\partial \mathbf{w}}\)</span></li>
-</ul></li>
-</ul></li>
-<li>两者的关系：A2C 和 Reinforce
-<ul>
-<li>Reinforce 是A2C的一种特例，用到了更多的观测数据，没有使用bootsrap（a2c的第二项）
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F4cy4PbmERs.png?alt=media&amp;token=07f13dfc-b03b-43f5-a99e-82690b8b6a79" /></li>
-</ul></li>
-<li>one -step A2C 是 multi-step A2C 的一个特例，使用了最少的观测数据。multi-step的效果更好
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FNV4Q90x0xU.png?alt=media&amp;token=eed6b59f-01e5-4803-9475-27a7f594bab9" /></li>
-</ul></li>
-</ul></li>
+<li>(demo数据)[https://www.kaggle.com/c/fake-news-pair-classification-challenge/data]</li>
+<li>预训练的中文bert模型：hugging face</li>
 </ul>
-<h2 id="参考">参考</h2>
+<h2 id="要不要冻结bert的部分参数">要不要冻结BERT的部分参数？</h2>
+<p>Why not to freeze BERT？</p>
+<p>That said, BERT is meant to be fine-tuned. The paper talks about the feature-based (i.e., frozen) vs fine-tuning approaches in more general terms, but the module doc spells it out clearly: "fine-tuning all parameters is the recommended practice." This gives the final parts of computing the pooled output a better shot at adapting to the features that matter most for the task at hand.</p>
+<p>when you fine-tune BERT, you can choose whether to freeze the BERT layers or not. Do you want BERT to learn to embed the words in a slightly different way, based on your new data, or do you just want to learn to classify the texts in a new way (with the standard BERT embedding of the words)?</p>
+<p>I wanted to use BertViz visualisation to see what effect the classification tuning had on the attention heads, so I did fine-tuning with the first 8 layers of BERT frozen and the remaining 4 layers unfrozen.</p>
+<p>Some people suggest doing gradual unfreezing of the BERT layers, ie finetuning with BERT frozen, then finetuning a bit more with just one layer unfrozen, etc.</p>
+<h1 id="参考">参考</h1>
 <ol type="1">
-<li>https://www.youtube.com/watch?v=hN9WMIMMeAI&amp;t=64s</li>
+<li>Bahdanau, Cho, &amp; Bengio. Neural machine translation by jointly learning to align and translate. In ICLR, 2015.</li>
+<li>Cheng, Dong, &amp; Lapata. Long Short-Term Memory-Networks for Machine Reading. In EMNLP, 2016.</li>
+<li>Vaswani et al. Attention Is All You Need. In NIPS, 2017.</li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=UlC6AjQWao8&amp;t=26s">BERT (预训练Transformer模型)</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1907.11692v1.pdf">RoBERTa</a></li>
+<li>Devlin, Chang, Lee, and Toutanova. BERT: Pre-training of deep bidirectional transformers for language understanding. In ACL, 2019.</li>
+<li><a target="_blank" rel="noopener" href="https://leemeng.tw/attack_on_bert_transfer_learning_in_nlp.html">attack_on_bert_transfer_learning_in_nlp-blog</a></li>
+<li><a target="_blank" rel="noopener" href="https://pytorch.org/hub/pytorch_fairseq_roberta/">ROBERTA-pytorch</a></li>
+<li><a target="_blank" rel="noopener" href="https://discuss.huggingface.co/t/fine-tune-bert-models/1554/2">huggingface</a></li>
+<li>https://medium.com/swlh/painless-fine-tuning-of-bert-in-pytorch-b91c14912caa</li>
 </ol>
 
       
@@ -555,7 +500,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/45/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><span class="page-number current">46</span><a class="page-number" href="/page/47/">47</a><span class="space">&hellip;</span><a class="page-number" href="/page/98/">98</a><a class="extend next" rel="next" href="/page/47/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/45/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><span class="page-number current">46</span><a class="page-number" href="/page/47/">47</a><span class="space">&hellip;</span><a class="page-number" href="/page/97/">97</a><a class="extend next" rel="next" href="/page/47/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -621,20 +566,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">195</span>
+          <span class="site-state-item-count">193</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">9</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">208</span>
+        <span class="site-state-item-count">206</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
