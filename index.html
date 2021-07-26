@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/21/timeseries/timeseries1_basic/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/26/probability-tensorflow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/07/21/timeseries/timeseries1_basic/" class="post-title-link" itemprop="url">时间序列1 时间序列技术概况</a>
+            <a href="/2021/07/26/probability-tensorflow/" class="post-title-link" itemprop="url">基于tensorflow构建时间序列模型</a>
         </h2>
 
         <div class="post-meta">
@@ -188,16 +188,19 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-07-21 15:23:49" itemprop="dateCreated datePublished" datetime="2021-07-21T15:23:49+08:00">2021-07-21</time>
+              <time title="创建时间：2021-07-26 22:10:33 / 修改时间：23:17:53" itemprop="dateCreated datePublished" datetime="2021-07-26T22:10:33+08:00">2021-07-26</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 11:10:34" itemprop="dateModified" datetime="2021-07-22T11:10:34+08:00">2021-07-22</time>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
               </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">时间序列</span></a>
+                </span>
+            </span>
 
           
 
@@ -210,67 +213,37 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="概要">概要</h2>
+          <p>下面介绍一种基于tensorflow的概率编程框架TensorFlow Probability，可用于对时间序列构建概率模型。</p>
 <ol type="1">
-<li><p>神经网络中专门有一些算子来处理时间序列结构，比如卷积神经网络中的因果卷积（causal conv），空洞因果卷积（Dilated Causal Convolution），空洞卷积（dialted conv）。这些卷积原理上都大同小异，都假设相邻时间内，数据的相关性很强，卷起来可以得到更高层的语义信息。</p></li>
-<li><p>空洞卷积本来是图像领域的概念，希望扩大接受域（ reception field）而不增加计算量。</p></li>
-<li><p>因果卷积类似于自回归算子，对前置窗口中的数据做线性组合。可以说自回归模型是因果卷积的退化版。</p>
-<blockquote>
-<p>arima/sarima可以看成残差网络 + 因果卷积的特例</p>
-</blockquote></li>
-<li><p>膨胀因果卷积：空洞卷积 + 因果卷机的结合</p></li>
-<li><p>TCN网络的结果：多个 膨胀因果卷积层的堆叠，加上了pooling（扔掉后置窗口）+ activation + Dropout（卷完之后的非线性转换+裁剪） + Resnet（残差连接避免梯度消失）</p></li>
-<li><p>时序预测方法的分类：传统时间序列和深度神经网络。</p></li>
-<li><p>传统时间序列模型：arma/arima/sarima/ arima/state space/exponential smoothing。平稳性检验。</p></li>
-<li><p>深度神经网络模型：卷积神经网络/全连接神经网络/循环神经网络/基于Seq2Seq的模型，以及是否基于attention。</p>
-<ol type="1">
-<li>基于全连接网络的模型：MQ-DNN</li>
-<li>基于卷积的神经网络：TCN/CNN-QR/</li>
-<li>基于隐藏状态的模型：DeepFactor/DeepStateSpaceModel</li>
-<li>基于循环神经网络：SimpleRNN/LSTM/GRU，也可以加入attention层，变成基于重要性的神经网络。</li>
-<li>基于Seq2Seq的模型：DeepAR/Transformer/Bert/GPT，其中Transformer/Bert/GPT是基于attention的。</li>
-</ol></li>
-<li><p>传统时间序列模型只对单个曲线做预测，缺点是要一个个曲线去做模型选择，并且每个样本曲线需要积累大量的历史数据。基于深度学习或机器学习的时序预测技术可以对多个曲线一起建模。</p></li>
-<li><p>其他领域如文本，图像，语音领域的技术都可以应用到时间序列，但是要注意时序场景中有几个特殊的地方</p>
-<ol type="1">
-<li>实践序列的下游的决策一般依赖输出概率分布，比如要做异常检测，就需要输出上下界。</li>
-<li>预测target为整数时，不能使用常用的归一化方法。</li>
-</ol></li>
-<li><p>时序预测中的一些难点：</p></li>
+<li><p>2018年谷歌在tf开发者峰会上，宣布了新工具--tensorFlow Probability，用于构建贝叶斯模型，可分布式部署，对于大规模的时间序列的场景优势明显。</p></li>
+<li><p>贝叶斯概率模型虽然在tfp中被看作一种新的建模范式，依然遵循经典的时序模型建模原理，如时序的季节性，增长趋势。</p></li>
+<li><p>从整体上看看TensorFlow Probability主要包含：分布、模型构建层/损失函数、马尔可夫概率推断、优化。通过 Bijectors 和 TransformedDistribution计算复杂的分布，使用tfp.mcmc，tfp.vi进行概率推断。建模部分正主要分为以下步骤：</p>
+<ul>
+<li>build_mode:将训练数据输入-输出映射；</li>
+<li>fit_model， 使用变分推断拟合模型，抽样计算参数后验分布；</li>
+<li>得到模型预测值；</li>
+<li>evaluate：计算模型评估指标MAPE；</li>
+</ul>
+<figure>
+<img src="./image-20190621104830343.png" alt="image-20190621104830343" /><figcaption aria-hidden="true">image-20190621104830343</figcaption>
+</figure></li>
+<li><p>贝叶斯模型的特点是，引入先验信息，通过概率描述不确定；概率编程则是利用计算机采样的方法进行贝叶斯推断（Bayesian inference），得出未知参数的概率分布，也就是利用贝叶斯公式给定观测数据和先验分布计算参数的后验概率，公式如下： <span class="math display">\[p(\theta \mid X)=\frac{p(\theta) p((X \mid \theta)}{p(X)}\]</span></p></li>
+<li><p>由于后验分布精确求解非常困难，所以使用变分推断（variational inference）算近似分布，将计算后验分布转化最小化ELBO（negative evidence lower bound），得到变分的参数。</p></li>
+<li><p>输出模型参数有</p></li>
 </ol>
 <ul>
-<li><p>现实中需要对多条曲线建模，但是单个曲线去建模，人工成本高</p></li>
-<li><p>不同曲线模式不一样（最显而易见的，scale不一样），而学习一个global model对nn来说挑战很大（nn擅长局部建模）</p></li>
-<li><p>预测概率分布</p></li>
+<li>observation_noise_scale： 噪声</li>
+<li>LocalLinearTrend/level_scale：局部线性截距</li>
+<li>LocalLinearTrend/slope_scale：局部线性趋势的斜率</li>
+<li>Seasonal/_drift_scale：季节性</li>
 </ul>
 <h2 id="附录">附录</h2>
-<h3 id="标准卷积">标准卷积</h3>
-<figure>
-<img src="https://pic3.zhimg.com/v2-d552433faa8363df84c53b905443a556_b.webp" alt="Standard Convolution with a 3 x 3 kernel (and padding" /><figcaption aria-hidden="true">Standard Convolution with a 3 x 3 kernel (and padding</figcaption>
-</figure>
-<h3 id="空洞卷积">空洞卷积</h3>
-<figure>
-<img src="https://github.com/vdumoulin/conv_arithmetic/blob/master/gif/dilation.gif?raw=true" alt="dilation" /><figcaption aria-hidden="true">dilation</figcaption>
-</figure>
-<h3 id="膨胀因果卷积">膨胀因果卷积</h3>
-<figure>
-<img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FzEwTvSz-ee.png?alt=media&amp;token=c46507da-4eca-4d43-970d-fd1180495d82" alt="膨胀因果卷积" /><figcaption aria-hidden="true">膨胀因果卷积</figcaption>
-</figure>
-<ul>
-<li></li>
-</ul>
-<h3 id="cnnrnn基于attention的模型对于时间序列建模">CNN，RNN，基于attention的模型，对于时间序列建模</h3>
-<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F_n2z_XQqI2.png?alt=media&amp;token=facfccac-e8ac-4895-a84c-7add43cd165a" /></p>
-<h3 id="多步预测-迭代法和直接法">多步预测-迭代法和直接法</h3>
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fcfl7jS1Uqc.png?alt=media&amp;token=39859f26-511a-4d29-840f-8038bcaa824e" /></li>
-</ul>
-<h3 id="wavenet">wavenet</h3>
-<p>wavenet是什么？可视化长什么样？输入输出和参数个数分别是什么？</p>
-<h2 id="参考">参考</h2>
+<p>程序运算步骤主要为：用正态分布作为先验分布，使用negative evidence lower bound作为损失函数，通过tfp.sts计算后验。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#本文为使用tensorflow概率建模</span></span><br><span class="line"></span><br><span class="line">%matplotlib inline</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pylab <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> tensorflow_probability <span class="keyword">as</span> tfp</span><br><span class="line"><span class="keyword">from</span> tensorflow_probability <span class="keyword">import</span> distributions <span class="keyword">as</span> tfd</span><br><span class="line"><span class="keyword">from</span> tensorflow_probability <span class="keyword">import</span> sts</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#绘制预测与真实值时间序列图</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_forecast</span>(<span class="params">x, y,</span></span></span><br><span class="line"><span class="function"><span class="params">                  forecast_mean, forecast_scale, forecast_samples,</span></span></span><br><span class="line"><span class="function"><span class="params">                  title, x_locator=<span class="literal">None</span>, x_formatter=<span class="literal">None</span></span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;Plot a forecast distribution against the &#x27;true&#x27; time series.&quot;&quot;&quot;</span></span><br><span class="line">    colors = sns.color_palette()</span><br><span class="line">    c1, c2 = colors[<span class="number">0</span>], colors[<span class="number">1</span>]</span><br><span class="line">    fig = plt.figure(figsize=(<span class="number">12</span>, <span class="number">6</span>))</span><br><span class="line">    ax = fig.add_subplot(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    num_steps = <span class="built_in">len</span>(y)</span><br><span class="line">    num_steps_forecast = forecast_mean.shape[-<span class="number">1</span>]</span><br><span class="line">    num_steps_train = num_steps - num_steps_forecast</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    ax.plot(x, y, lw=<span class="number">2</span>, color=c1, label=<span class="string">&#x27;ground truth&#x27;</span>)</span><br><span class="line">    forecast_steps = np.arange(</span><br><span class="line">      x[num_steps_train],</span><br><span class="line">      x[num_steps_train]+num_steps_forecast,</span><br><span class="line">      dtype=x.dtype)</span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    ax.plot(forecast_steps, forecast_samples.T, lw=<span class="number">1</span>, color=c2, alpha=<span class="number">0.1</span>)</span><br><span class="line">    <span class="comment">#绘制预测期望值以及针对最后三个月的100个采样结果</span></span><br><span class="line">    ax.plot(forecast_steps, forecast_mean, lw=<span class="number">2</span>, ls=<span class="string">&#x27;--&#x27;</span>, color=<span class="string">&#x27;r&#x27;</span>,</span><br><span class="line">           label=<span class="string">&#x27;forecast&#x27;</span>)</span><br><span class="line">    ax.fill_between(forecast_steps,</span><br><span class="line">                   forecast_mean-<span class="number">2</span>*forecast_scale,</span><br><span class="line">                   forecast_mean+<span class="number">2</span>*forecast_scale, color=c2, alpha=<span class="number">0.2</span>)</span><br><span class="line">    </span><br><span class="line">    ymin, ymax = <span class="built_in">min</span>(np.<span class="built_in">min</span>(forecast_samples), np.<span class="built_in">min</span>(y)), <span class="built_in">max</span>(np.<span class="built_in">max</span>(forecast_samples), np.<span class="built_in">max</span>(y))</span><br><span class="line">    yrange = ymax-ymin</span><br><span class="line">    ax.set_ylim([ymin - yrange*<span class="number">0.1</span>, ymax + yrange*<span class="number">0.1</span>])</span><br><span class="line">    ax.set_title(<span class="string">&quot;&#123;&#125;&quot;</span>.<span class="built_in">format</span>(title))</span><br><span class="line">    ax.legend()</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">if</span> x_locator <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        ax.xaxis.set_major_locator(x_locator)</span><br><span class="line">        ax.xaxis.set_major_formatter(x_formatter)</span><br><span class="line">        fig.autofmt_xdate()</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> fig, ax</span><br><span class="line"></span><br><span class="line"><span class="comment">#建构模型，并计算计算损失函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cal_loss</span>(<span class="params">training_data</span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#设置全局默认图形</span></span><br><span class="line">    tf.reset_default_graph()</span><br><span class="line">    <span class="comment">#遵循加法模型，设置趋势</span></span><br><span class="line">    trend = sts.LocalLinearTrend(observed_time_series=observed_time_series)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#设置季节性</span></span><br><span class="line">    seasonal = tfp.sts.Seasonal(</span><br><span class="line">          num_seasons=<span class="number">12</span>, observed_time_series=observed_time_series)</span><br><span class="line">    <span class="comment">#模型拟合,之所以用sum，而不是我们在建模中常见的fit定义，是因为，</span></span><br><span class="line">    <span class="comment">#模型时间序列为加法模型，有如上文提到的趋势，季节性，周期性等成分相加</span></span><br><span class="line">    <span class="comment">#默认的先验分布为正态（normal）</span></span><br><span class="line">    ts_model = sts.Sum([trend, seasonal], observed_time_series=observed_time_series)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#构建变分损失函数和后验</span></span><br><span class="line">    <span class="keyword">with</span> tf.variable_scope(<span class="string">&#x27;sts_elbo&#x27;</span>, reuse=tf.AUTO_REUSE):</span><br><span class="line">        elbo_loss, variational_posteriors = tfp.sts.build_factored_variational_loss(</span><br><span class="line">          ts_model,observed_time_series=training_data)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> ts_model,elbo_loss,variational_posteriors</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#模型训练，输出后验分布</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">training_data</span>):</span></span><br><span class="line">    </span><br><span class="line">    ts_model,elbo_loss,variational_posteriors=cal_loss(training_data)</span><br><span class="line">    num_variational_steps = <span class="number">401</span> </span><br><span class="line">    num_variational_steps = <span class="built_in">int</span>(num_variational_steps)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#训练模型，ELBO作为在变分推断的损失函数</span></span><br><span class="line">    train_vi = tf.train.AdamOptimizer(<span class="number">0.1</span>).minimize(elbo_loss)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#创建会话,并通过上下文管理器方式对张量Tensor对象进行计算</span></span><br><span class="line">    <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">        sess.run(tf.global_variables_initializer())</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_variational_steps):</span><br><span class="line">            _, elbo_ = sess.run((train_vi, elbo_loss))</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">20</span> == <span class="number">0</span>:</span><br><span class="line">            print(<span class="string">&quot;step &#123;&#125; -ELBO &#123;&#125;&quot;</span>.<span class="built_in">format</span>(i, elbo_))</span><br><span class="line">        <span class="comment">#求解后验参数</span></span><br><span class="line">        q_samples_ = sess.run(&#123;k: q.sample(<span class="number">3</span>)</span><br><span class="line">                             <span class="keyword">for</span> k, q <span class="keyword">in</span> variational_posteriors.items()&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">        print(<span class="string">&quot;打印变分推断参数信息:&quot;</span>)</span><br><span class="line">        <span class="keyword">for</span> param <span class="keyword">in</span> ts_model.parameters:</span><br><span class="line">            print(<span class="string">&quot;&#123;&#125;: &#123;&#125; +- &#123;&#125;&quot;</span>.<span class="built_in">format</span>(param.name,</span><br><span class="line">                      np.mean(q_samples_[param.name], axis=<span class="number">0</span>),</span><br><span class="line">                      np.std(q_samples_[param.name], axis=<span class="number">0</span>)))</span><br><span class="line">    </span><br><span class="line">    data_t_dist = tfp.sts.forecast(ts_model,observed_time_series=training_data,\</span><br><span class="line">                                   parameter_samples=q_samples_,num_steps_forecast=num_forecast_steps)</span><br><span class="line">    <span class="keyword">return</span>  data_t_dist</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#模型预测</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">forecast</span>(<span class="params">training_data</span>):</span></span><br><span class="line">    data_t_dist=run(training_data)</span><br><span class="line">    <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">        data_t_mean, data_t_scale, data_t_samples = sess.run(</span><br><span class="line">          (data_t_dist.mean()[..., <span class="number">0</span>],</span><br><span class="line">           data_t_dist.stddev()[..., <span class="number">0</span>],</span><br><span class="line">           data_t_dist.sample(num_samples)[..., <span class="number">0</span>]))</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> data_t_mean,data_t_scale, data_t_samples</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#计算回测</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_mape</span>(<span class="params">data_t,forecsat</span>):</span></span><br><span class="line">    true_=data_t[-num_forecast_steps:]</span><br><span class="line">    true_=true_.iloc[:,-<span class="number">1</span>]</span><br><span class="line">    true_=true_.reset_index()</span><br><span class="line">    forecsat=pd.DataFrame(forecsat,columns=[<span class="string">&#x27;focecast&#x27;</span>])</span><br><span class="line">    mape_=pd.concat([pd.DataFrame(true_),forecsat],axis=<span class="number">1</span>)</span><br><span class="line">    mape_[<span class="string">&#x27;mape&#x27;</span>]=<span class="built_in">abs</span>(mape_.iloc[:,-<span class="number">2</span>]-mape_.iloc[:,-<span class="number">1</span>])/mape_.iloc[:,-<span class="number">2</span>]*<span class="number">100</span></span><br><span class="line">    <span class="keyword">return</span> mape_</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#读取数据集</span></span><br><span class="line">    </span><br><span class="line">    data_t=pd.read_csv(<span class="string">&quot;../input/ts_sale.csv&quot;</span>)</span><br><span class="line">    data_t=data_t[[<span class="string">&#x27;sale&#x27;</span>,<span class="string">&#x27;ym&#x27;</span>]]</span><br><span class="line">    data_t=data_t.set_index(<span class="string">&#x27;ym&#x27;</span>)</span><br><span class="line">    <span class="comment">#data_t.to_csv(&#x27;/input/ts_sale&#x27;)</span></span><br><span class="line">    print(<span class="string">&#x27;序列长度&#x27;</span>,<span class="built_in">len</span>(data_t))</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#设置超参数</span></span><br><span class="line">    num_forecast_steps =<span class="number">3</span> <span class="comment"># 最后三个月作为预测值，以便于计算回测mape</span></span><br><span class="line">    num_samples=<span class="number">100</span>    <span class="comment">#设定采样次数</span></span><br><span class="line">    </span><br><span class="line">    training_data = data_t[:-num_forecast_steps]</span><br><span class="line">    data_dates=np.array(data_t.index,dtype=<span class="string">&#x27;datetime64[M]&#x27;</span>)</span><br><span class="line">    </span><br><span class="line">    observed_time_series=training_data</span><br><span class="line">    data_t_mean,data_t_scale, data_t_samples=forecast(training_data)</span><br><span class="line">    </span><br><span class="line">    data_y=pd.Series(data_t[<span class="string">&#x27;sale&#x27;</span>])</span><br><span class="line">    fig, ax = plot_forecast(</span><br><span class="line">    data_dates, data_y,</span><br><span class="line">    data_t_mean,data_t_scale, data_t_samples,title=<span class="string">&quot;forecast&quot;</span>)</span><br><span class="line">    ax.axvline(data_dates[-num_forecast_steps], linestyle=<span class="string">&quot;--&quot;</span>)</span><br><span class="line">    ax.legend(loc=<span class="string">&quot;upper left&quot;</span>)</span><br><span class="line">    ax.set_ylabel(<span class="string">&quot;sale&quot;</span>)</span><br><span class="line">    ax.set_xlabel(<span class="string">&quot;year_month&quot;</span>)</span><br><span class="line">    fig.autofmt_xdate()</span><br><span class="line">    </span><br><span class="line">    mape=get_mape(data_t,data_t_mean)</span><br><span class="line">    print(mape)</span><br><span class="line">    print(<span class="string">&#x27;mape:&#x27;</span>,mape[<span class="string">&#x27;mape&#x27;</span>].mean())</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料">参考资料</h2>
 <ol type="1">
-<li><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/54149221/answer/323880412">如何理解空洞卷积（dilated convolution）？ - 刘诗昆的回答 - 知乎</a></p></li>
-<li><p>https://github.com/vdumoulin/conv_arithmetic</p></li>
+<li><a target="_blank" rel="noopener" href="https://www.jiqizhixin.com/articles/042202">blog</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/tensorflow/probability">tfp</a></li>
 </ol>
 
       
@@ -291,7 +264,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/15/reading_notes/economics/finance-basic/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/26/ts-prepare/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -305,7 +278,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/07/15/reading_notes/economics/finance-basic/" class="post-title-link" itemprop="url">金融基础</a>
+            <a href="/2021/07/26/ts-prepare/" class="post-title-link" itemprop="url">ts_prepare</a>
         </h2>
 
         <div class="post-meta">
@@ -315,15 +288,8 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-07-15 22:50:07" itemprop="dateCreated datePublished" datetime="2021-07-15T22:50:07+08:00">2021-07-15</time>
+              <time title="创建时间：2021-07-26 22:04:02" itemprop="dateCreated datePublished" datetime="2021-07-26T22:04:02+08:00">2021-07-26</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-19 12:04:15" itemprop="dateModified" datetime="2021-07-19T12:04:15+08:00">2021-07-19</time>
-              </span>
 
           
 
@@ -336,53 +302,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="总结">总结</h2>
-<ol type="1">
-<li><p>资产是什么？连续产生现金流。比如公司，股票债券，知识，名声。</p></li>
-<li><p>如何对资产定价？未来所有现金流折现。</p></li>
-<li><p>如何计算net PV？减去初始时刻的投资。</p></li>
-<li><p>按什么折现？无风险利率。</p>
-<blockquote>
-<p>...公认的risk free rate是指美帝的treasury security rate,也就是美国国债的利率。通常而言，根据maturity长短不同，我们有主要三种treasury securities：T-Bill（一年以下），T-Note（两年到十年），和T-Bond（十年以上）。</p>
-</blockquote></li>
-<li><p>复利？不仅仅一年才计息，银行账户每天计利，抵押物每个月计利息，债券半年计利息。</p></li>
-<li><p>有效年利率和年利率</p>
-<ol type="1">
-<li>有效年利率（EAR effective annual interest rate）是指把各种不同的复利周期（如一年复利12次，或者一年复利4次）换算为以年为一个复利周期时，利率是多少。</li>
-<li>年利率(annual interest rate)是指银行公布的利率，一般需要和公布的复利频率结合起来用，才能知道每一个复利期真正的利率，单独看用处不大。</li>
-</ol></li>
-<li><p>通胀（inflaction）：1美元购买力的变化。（对应物理世界）</p></li>
-<li><p>计算资产的NPV时，实物现金流使用实际利率折现；名义现金流使用名义利率折现。</p></li>
-<li><p>固定收益证券，未来现金流固定的资产。</p></li>
-<li><p>固定收益市场的参与者：证券发行人/承销商/投资人。</p></li>
-<li><p>债券的即期收益率，到期收益率，远期收益率有什么区别？</p>
-<ol type="1">
-<li><p><strong>YTM主要用于quotation，spot rate主要用于pricing，而forward rate多用于modeling。</strong></p></li>
-<li><p>即期利率与远期利率的区别在于某利率起作用的起点 即期利率通常在即期交易前1-2天报价 远期利率是某一未来时间到另一未来时间的利率.远期利率是用即期利率根据无套利原则推算的</p>
-<figure>
-<img src="https://pic2.zhimg.com/80/8c16de723d1089665bd6d38d94b66738_1440w.jpg?source=1940ef5c" alt="img" /><figcaption aria-hidden="true">img</figcaption>
-</figure></li>
-<li><p>YTM是一种内部收益率（Internal rate of return）， 是净现值NPV=0(即成本与收益现值相等)时的收益率。</p></li>
-<li><p>yield curve也更多是作为市场的一个indicator，而不是分析工具。</p></li>
-</ol></li>
-<li><p>股票定价模型：</p>
-<ol type="1">
-<li>分红折现模型v1--折现现金流模型（DCF）：假设分红是常数</li>
-<li>分红折现模型v2--gorden增长模型：分红以g的增长率增长</li>
-</ol></li>
-<li><p>期货定价</p>
-<figure>
-<img src="/Users/shihuanzhao/research_space/chiechie.github.io/source/_posts/finance-basi/image-20210716000554865.png" alt="image-20210716000554865" /><figcaption aria-hidden="true">image-20210716000554865</figcaption>
-</figure></li>
-</ol>
-<h2 id="参考">参考</h2>
-<ol type="1">
-<li>https://ocw.mit.edu/courses/sloan-school-of-management/15-401-finance-theory-i-fall-2008/video-lectures-and-slides/MIT15_401F08_lec02.pdf</li>
-<li>https://www.zhihu.com/question/22562103/answer/21833989</li>
-<li>https://ocw.mit.edu/courses/sloan-school-of-management/15-401-finance-theory-i-fall-2008/video-lectures-and-slides/MIT15_401F08_lec04.pdf</li>
-<li><a href="(https://www.zhihu.com/roundtable/money)">债券的即期收益率，到期收益率，远期收益率有什么区别？</a></li>
-<li>https://ocw.mit.edu/courses/sloan-school-of-management/15-401-finance-theory-i-fall-2008/video-lectures-and-slides/MIT15_401F08_lec07.pdf</li>
-</ol>
+          
 
       
     </div>
@@ -401,7 +321,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/97/">97</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -467,7 +387,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">194</span>
+          <span class="site-state-item-count">198</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -480,7 +400,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">208</span>
+        <span class="site-state-item-count">210</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

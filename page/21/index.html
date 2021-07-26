@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/23/AIOps/AIOps-2_1_5-topo-rca-cnsoftbei2020/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/26/AIOps/AIOps-2_3-trace_rca/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/23/AIOps/AIOps-2_1_5-topo-rca-cnsoftbei2020/" class="post-title-link" itemprop="url">chapter2.1.5 基于拓扑的根因定位-CN-Softbei2020比赛</a>
+            <a href="/2021/05/26/AIOps/AIOps-2_3-trace_rca/" class="post-title-link" itemprop="url">chapter2.3 调用链根因分析</a>
         </h2>
 
         <div class="post-meta">
@@ -189,7 +189,163 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-05-23 14:37:13" itemprop="dateCreated datePublished" datetime="2021-05-23T14:37:13+08:00">2021-05-23</time>
+              <time title="创建时间：2021-05-26 16:49:19" itemprop="dateCreated datePublished" datetime="2021-05-26T16:49:19+08:00">2021-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-09 18:11:19" itemprop="dateModified" datetime="2021-07-09T18:11:19+08:00">2021-07-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/AIOps/" itemprop="url" rel="index"><span itemprop="name">AIOps</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="总结">总结</h1>
+<ol type="1">
+<li><p>在微服务的架构中，1个web service内部通常需要调用多个微服务。</p></li>
+<li><p>当外部对web service S1 发起请求时，请求id就是uuid。S1 会将这个外部请求拆成一系列微服务之间的子调用。</p></li>
+<li><p>这样微服务和它们之间的调用（call path）关系就构成一个调用拓扑。当其中某个节点--即某个微服务s1--发生故障了，所有调用他的微服务s2,s3,...都会发生故障。所以可以看到，故障是沿着调用的反方向传播的，或者说沿着被调用的方向传播的。</p></li>
+<li><p>对微服务架构进行故障定位，也就是需要，实时监控web service（S1）的健康状况，并且在S1异常的时候给出根因节点，即是哪个微服务故障引起的，从而去执行修复的操作。</p></li>
+<li><p>当web service S1时，通常有两类表现，分别是调用链结构异常 和 调用耗时异常</p>
+<ul>
+<li>调用结构异常：即跟正常调用链关系相比，边变多了或者变少了。举个列子，微服务a本应该调用微服务b，但是a服务挂了，那么本来应该存在的调用链条就消失了。再举个列子，正常情况下本不应该存在调用关系，但是由于故障导致产生了不正常的调用关系。</li>
+<li>调用耗时异常：即调用耗时比正常的调用耗时要少/多。举个例子，正常情况下a调用b，b响应a只需要1min，但是如果b所在的机器内存满了, 就需要10min完成响应了。</li>
+</ul></li>
+<li><p>总结下调用链路故障定位要解决的问题：</p>
+<ol type="1">
+<li>当前微服务间的调用是否正常？有可能某些微服务之间的调用已经异常了，但是web service暂时还能对外提供正常服务。</li>
+<li>如果异常，是哪个节点（微服务）引起的？</li>
+</ol></li>
+<li><p>TraceAnomaly对调用链系统做异常检测的思路是这样：</p>
+<ol type="1">
+<li>生成样本：对每一个web service S1，搜集跟S1相关的所有trace数据。S1被调用一次就生成一个trace, 也就是一个样本，uuid可以认为是样本id了。1个样本包含的信息有：所有子调用span_id, 每次子调用的耗时，以及路径（起点（调用方）--&gt;终点（被调用方））</li>
+<li>trace向量化：每个trace的每一次子调用call_path 都会统一存放到 call path list 中去，也就是说 call path list收集了 所有trace 的所有的子调用路径, 就好像一个字典。 然后将span参考call path list去做one-hot编码，然后构建一个等长的耗时向量，把两个向量做点乘。注意，为了区分耗时很短的子调用和实际中缺失的自调用，将one-hot encoder向量中，为0的元素设置为-1（为0表示，实际没有命中该位置对应的call path）。</li>
+<li>降维得到STV：如果某个web service对应的所有trace的call path的并集为32，那么样本的维度就是32, 一个样本对应的特征向量就叫STV（Service Trace Vector）。得到了这个STV后要做两个事情：检测 和 定位</li>
+<li>异常检测： 构造一个生成模型（vae），输入STV，输出是该STV的logits，logits越小说明越异常</li>
+<li>根因定位：通过异常检测知道了该trace异常，那么到底是哪个节点导致的呢？
+<ol type="1">
+<li>找出同构trace：在历史数据中，找出当前有问题的trace通过的其他traces（同构调用链，也叫HSTV）</li>
+<li>找出异常的子调用：跟同构trace对比所有子调用耗时（3-sigma）</li>
+<li>找call path最长的子调用：将所有异常子调用，映射成call path，并且按照调用链路长度从大到小排序，最长的哪个call path就是根因e。</li>
+</ol></li>
+</ol></li>
+<li><p>TraceAnomaly是这么处理冷启动问题的：如果在实时监控的时候，产生了新的正常的call path，而call path list没有这个call pah，那么正常流程会认为该call path对应的trace是异常。这时需要让运维人员进行人工审核，看call path是否符合预期，符合预期就将该call path放入白名单，暂时不告警，并且不会判断其耗时。</p></li>
+</ol>
+<h1 id="附录">附录</h1>
+<h2 id="traceanomaly流程">TraceAnomaly流程</h2>
+<ol type="1">
+<li>TraceAnomaly整体结构 <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FAEYpjsaibJ.png?alt=media&amp;token=361e3b43-eeee-49af-90b7-fed65874868b" /></li>
+<li>TraceAnomaly在线检测：
+<ul>
+<li><p>首先提取新trace中的所有子调用的call path</p></li>
+<li><p>如果trace中包含有未见过的call path就认为是异常，当然这么简单粗暴的方式会带来误警，所以后面提出了白名单的方法（让运维人员去判断，当然只用判断1次）。</p></li>
+<li><p>如果trace中没有unseen call path, 将该trace编码成一个STV向量，就丢到神经网络vae中计算vector的likelihood， 进行异常检测</p></li>
+<li><p>如果当前trace异常，触发在线的根因分析</p>
+<ul>
+<li>step1 首先跟跟同构traces相比，找出异常的call paths？</li>
+<li>step2 在异常的call paths中找出调用链路最长的path &gt; the traceAnomaly finds the longest common path between trace t's longest call path and call paths in the call path list <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FTn7YZeNZvO.png?alt=media&amp;token=12611153-f760-45de-843f-d2db11015f81" alt="根因分析" /></li>
+</ul></li>
+</ul></li>
+</ol>
+<h2 id="调用链路数据预处理">调用链路数据预处理</h2>
+<p>目的: 从一个调用链数据（trace）中提取微服务的调用路径（call paths）和 每个微服务的响应时长（response times）</p>
+<ol type="1">
+<li><p>调用路径（call path）: 从本次trace启动开始，直到微服务s被调用，经过的子调用组成的列表（按调用时间排序），将这个序列记为call path。</p></li>
+<li><p>某个微服务s的响应时间: <span class="math display">\[ rt(response time) = srt(sending time of response message) - rct(recieve time of response message) \]</span> <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fi4eYxs1D2B.png?alt=media&amp;token=fdaf077a-cddc-4e9a-bd0f-4f2c291b3b4d" /></p></li>
+<li><p>举例介绍怎么计算微服务b的响应时间：从原始的调用数据(trace)提取微服务s的耗时，以下图为例，微服务b的响应时间（respond time） = 处理完事务并开始响应的时间点（第11行红色的时间戳） - 接受到指令的时间（第2行红色的时间戳）= 处理事务消耗的时间</p></li>
+</ol>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FzI6rcYmiD2.png?alt=media&amp;token=449f532b-a126-40b0-a6dd-f07067847e3a" /></p>
+<ol start="5" type="1">
+<li>构造STV：使用所有(s, call path)对应的耗时组装成向量，即STV： <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FIcq2XYIGEe.png?alt=media&amp;token=ac5e5876-cc3f-4fd2-94d4-fec58ebf3a1e" /></li>
+<li>调用耗时异常的例子： <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FL-kGMqUym3.png?alt=media&amp;token=a388505b-f239-4b57-b5f2-770253d44ead" alt="Fig. 6: Trace t1 和 t2 结构一样, 但t1正常，t2 异常" />
+<ul>
+<li>t1 ：业务逻辑是b不调用e。</li>
+<li>t2 ：业务逻辑是b调用e，但是因为e故障了导致调用失败。</li>
+<li>两种情况都看不到b-&gt;e的call path，但是t1是正常，而t2是异常。那么应该怎么做 才能找到 t2 ，而不误伤t1呢？看耗时</li>
+</ul></li>
+</ol>
+<h2 id="对stv做异常检测">对STV做异常检测</h2>
+<ol type="1">
+<li>VAE的输入 <img src="./image_1.png" alt="样本概念" /></li>
+<li>通过生成模型学习数据分布，VAE模型结构 <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F5CUrxFwPhA.png?alt=media&amp;token=84b40833-873d-482b-979f-181f4fc3ad45" /></li>
+<li>训练VAE</li>
+<li>使用VAE异常检测
+<ul>
+<li><span class="math display">\[\log p_{\theta}(\mathbf{x}) \approx \log \frac{1}{L_{z}} \sum_{l=1}^{L_{z}}\left[\frac{p_{\theta}\left(\mathbf{x} \mid \mathbf{z}_{(l)}^{(K)}\right) p_{\theta}\left(\mathbf{z}_{(l)}^{(K)}\right)}{q_{\phi}^{(K)}\left(\mathbf{z}_{(l)}^{(K)} \mid \mathbf{x}\right)}\right]\]</span></li>
+<li>某个trace为异常 等价于 ，该trace 的对数概率明显小于 正常trace（要求同构吗？</li>
+</ul></li>
+<li>怎么界定正常呢？用kde来拟合对数概率的分布, 然后使用p值来判断。</li>
+</ol>
+<h2 id="参考资料">参考资料</h2>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/sqYIb6i9z6xF5nDr8fuVsA">清华微众AIOps新作:基于深度学习的调用轨迹异常检测算法 -微信公众号</a></li>
+<li><a href="https://chiechie.github.io/2021/03/09/AI/AIOps/AIOps-2_1_4-topo-rca-aiops2021/">chapter2.1.4 AIOps挑战赛2021-demo方案</a></li>
+<li>https://github.com/chiechie/TraceAnomaly</li>
+<li>https://docs.qq.com/sheet/DVERzcVpWa2xtckJT?tab=BB08J2</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/25/AIOps/AIOps-2_2-multi-dimensional-rca/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/05/25/AIOps/AIOps-2_2-multi-dimensional-rca/" class="post-title-link" itemprop="url">chapter2.2 多维下钻根因定位/多维指标异常定位</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-05-25 16:05:42" itemprop="dateCreated datePublished" datetime="2021-05-25T16:05:42+08:00">2021-05-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
@@ -219,239 +375,83 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>数据来自CN-Softbei2020比赛--《基于网络拓扑及告警的故障根因定位系统实现及算法研究》</p>
-<p>现在实验一种很激进的做法---仅靠指标做根因分析</p>
-<p>当涉及的指标过多时, 得到的拓扑图非常复杂.</p>
-</blockquote>
-<p><strong>赛题名称:基于网络拓扑及告警的故障根因定位系统实现及算法研究</strong> - <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FQm8N2Yas2F.png?alt=media&amp;token=110a4f63-df4b-4080-96e7-538078152112" /> - <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FiscvbTqPV9.png?alt=media&amp;token=0fd1674e-9bc7-4ac2-8f48-add9cdf2c946" /> - <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fn2jiCvLL8K.png?alt=media&amp;token=6ee81f61-a008-4040-b1d0-5968b6ab5765" /> - <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FbiDgXGazeM.png?alt=media&amp;token=60d55dac-68c7-42df-a7c4-4b8270ce0578" /> - <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FW1v20u-7tH.png?alt=media&amp;token=0702a100-6ee5-4e4d-98b1-a42e92ac1fa0" /> - <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fsvpv3-38IA.png?alt=media&amp;token=5b7e7f4f-0ac7-4180-bfa2-1e2447bffa3a" /> - <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FzflLEiJ2fa.png?alt=media&amp;token=d07f20d5-c2b7-4011-acd4-c6df97b7964b" /> - <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FherPwjhHIR.png?alt=media&amp;token=8cbd3491-37d9-46d6-9c12-7d6292e3689f" /> - <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FF47x1XYXV2.png?alt=media&amp;token=f837d32c-a170-4bf6-8a20-7be096537ba3" /> - 大型电商平台内部涉及上百个系统间的相互调用，每天会产生上万条告警数据。如何利用网络拓扑信息及告警数据，及时有效的对告警进行过滤、分析，最终给出有效告警及疑似根因是网络运维面临的主要挑战。 - 本赛题的目标是分析实际生产中的网络拓扑及告警数据，设计并实现一种故障根因定位算法，准确的定位出故障根因节点。 - 赛题的价值在于准确、快速的定位网络故障，提升一线网络运维的效率，降低网络故障产生的损失。 - 该赛题主要涉及数据分析、图论、信息论、自然语言处理、神经网络等技术，要求参赛队员掌握相关的基础知识，具有python数据分析、处理及功能开发能力。 # 业务背景：</p>
-<ul>
-<li>网络拓扑中一个节点出现故障，往往会导致与其相连的其他节点也发生异常，进而产生大量告警，将真正根因淹没掉。当出现大量告警时，为保证电商业务的稳定运行，我们需要对这些告警进行分析处理，过滤掉无效的告警，准确定位出可能的疑似根因节点，缩短故障定位时间。</li>
-<li>在实际中，同一故障触发的告警信息往往相似的。网络故障定位的一般过程为：先根据历史告警数据及标记进行离线分析，总结因果关系的规律；然后在线分析阶段，首先对告警数据进行去噪和聚类，然后对类内的告警进行因果关系匹配，得到当前告警的可能根因。</li>
-</ul>
-<h1 id="赛题场景">赛题场景：</h1>
-<ul>
-<li>提供实际生产中的网络拓扑数据，100组不同时间段的告警数据，每组中可能有根因，也可能没有根因，根据拓扑数据及告警数据，设计并实现故障根因定位算法，最终在测试数据上评估告警根因定位的F1值，可视化展现根因信息及根因关联的局部拓扑图。</li>
-</ul>
-<h1 id="要求">要求</h1>
-<ul>
-<li>1、基于提供的训练数据，设计并实现故障根因定位算法。</li>
-<li>2、故障根因定位算法中要包含告警数据预处理和故障根因定位两个模块；</li>
-<li>3、可视化展现根因信息及根因关联的局部拓扑图。</li>
-</ul>
-<h1 id="训练数据">训练数据</h1>
-<ul>
-<li>1、实际生产中的部分网络拓扑数据，json格式，key为父亲节点，value为孩子节点list。</li>
-<li>2、告警数据，csv格式，包括告警节点，告警信息，告警时间，告警级别，是否为根因。</li>
-<li>3、提供100组不同时间段的告警数据，每组中可能有根因，也可能没有根因，如果有根因，只有1个准确的根因。</li>
-<li>数据样例：</li>
-</ul>
+          <h1 id="问题描述">问题描述</h1>
+<p>在运维场景中对监控指标的多个维度进行根因定位。具体来说，当某个总指标（如总流量）发生异常时，需要快速准确地定位到是哪个交叉维度的细粒度指标（如“省份=北京 &amp; 运营商=联通”的流量）的异常导致的，以便尽快做进一步的修复止损操作。图示如下：</p>
+<h2 id="输入输出">输入输出</h2>
+<p>输出：</p>
+<table>
+<thead>
+<tr class="header">
+<th>timestamp</th>
+<th>set</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1501475700</td>
+<td>a1&amp;b2;a3&amp;b4</td>
+</tr>
+<tr class="even">
+<td>1501475760</td>
+<td>a1&amp;b2&amp;x3;a4&amp;b5&amp;x6</td>
+</tr>
+</tbody>
+</table>
+<h1 id="方案介绍">方案介绍</h1>
+<h2 id="几个问题">几个问题</h2>
 <ol type="1">
-<li>拓扑图样例：</li>
+<li><p>要训练集干嘛？</p>
+<p>训练集用来当做历史数据，学习正常波动区间，对测试数据进行异常检测。</p></li>
+<li><p>为什么要注入异常？</p>
+<p>真实中故障很少发生，并且故障根因大部分都比较简单，不会出现多层，多个elemnts是根因的情况, 需要人工构造。</p></li>
 </ol>
-<ul>
-<li>key为源节点，value为目标节点list，类似下面这样：AAA表示系统名，NG表示是Nginx。</li>
-<li><code>javascript &#123;   "AAA-10.10.0.1":     ["AAA-NG-10.10.0.2",      "AAA-NG-10.10.0.3",      "AAA-NG-10.10.0.4"],    "AAA-NG-10.10.0.2":    ["AAA-JBOSS-10.10.0.5",     "AAA-JBOSS-10.10.0.6",      "AAA-JBOSS-10.10.0.7"] &#125;</code> 2。告警数据样例：</li>
-</ul>
-<p>告警数据为csv格式，如下面所示，其中sysEname为系统名称, software为软件类型,time告警时间,triggername告警信息，里面包含ip信息，isrootcause表示是否为根因，0-否，1-是。 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">,sysEname,software,time,告警信息,isrootcause</span><br><span class="line"><span class="number">0</span>,AAA,Elasticsearch <span class="number">1.7</span><span class="number">.0</span> ,<span class="number">2019</span>-<span class="number">06</span>-<span class="number">01</span> <span class="number">00</span>:<span class="number">01</span>:<span class="number">04</span>,<span class="string">&quot;eth0 网卡接受数据流量,net.if.in[eth0],主机10.10.0.8(VM)网卡eth0接收流量持续10分钟平均值大于180M&quot;</span>,<span class="number">0</span></span><br><span class="line"><span class="number">1</span>,BBB,WildFly standalone ,<span class="number">2019</span>-<span class="number">06</span>-<span class="number">01</span> <span class="number">00</span>:<span class="number">01</span>:<span class="number">05</span>,主机<span class="number">10.10</span><span class="number">.0</span><span class="number">.9</span>日志中有READONLY信息,<span class="number">0</span></span><br><span class="line"><span class="number">2</span>,BBB,WildFly standalone ,<span class="number">2019</span>-<span class="number">06</span>-<span class="number">01</span> <span class="number">00</span>:<span class="number">01</span>:<span class="number">06</span>,主机<span class="number">10.10</span><span class="number">.0</span><span class="number">.10</span>日志中有READONLY信息,<span class="number">0</span></span><br></pre></td></tr></table></figure> 测试数据： - 1、提供20组训练数据，格式同训练数据，不提供根因标注（没有is_root列） - <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F0iBs9_I--S.png?alt=media&amp;token=3963d6db-13df-4b57-9318-a0eb008c6766" /></p>
-<p>总结一下， -取发生故障的这段时间内(每次10到15min)： - <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FhT-H9-YnH5.png?alt=media&amp;token=2b7a6f5f-c828-49c0-b6be-f274de231c1d" /> - 所有告警数据： 来自哪台机器，那个系统，哪个软件，告警描述 - 软硬件拓扑数据：静态的， - 根因incident可能存在也可能不存在 - 根因incident可能是1个也有可能是多个（多个是因为持续异常，所以就持续告警） - <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FRgMOthtgUp.png?alt=media&amp;token=37da69ab-2425-472f-acc1-7ea85c517cf3" /> - - 训练数据有标记，人工标的根因事件 - 根因分析的样本粒度是 event，即一个告警事件，它的特征包括，主机id，系统名称，软件类型（optinal），告警信息</p>
-<ul>
-<li>还没有搞清楚，如何处理这些数据，已经定位到根因？
-<ul>
-<li>如何利用拓扑数据？</li>
-<li>如何利用标记数据？</li>
-<li>如何利用历史数据？--历史的告警数据</li>
-</ul></li>
-<li>看一下nokia的解决方案把[[bell给nokia做 故障诊断的 方案]]</li>
-</ul>
-<h2 id="数据解析">数据解析</h2>
+<h2 id="adtributor">Adtributor</h2>
+<p>Adtributor: Revenue Debugging in Advertising Systems</p>
+<p>简介：Adtributor假设所有根因都是一维的，提出了解释力（Explanatory power）和惊奇性（Surprise）来量化根因的定义。使用ARMA模型对KPI进行预测，通过计算维度的惊奇性（维度内所有元素惊奇性之和）对维度进行排序，确定根因所在的维度（例如省份）。在维度内部计算每个元素的解释力，当元素的解释力之和（例如北京+上海）超过阈值时，这些元素就被认为是根因。</p>
 <figure>
-<img src="dataoverview.png" alt="dataoverview" /><figcaption aria-hidden="true">dataoverview</figcaption>
+<img src="img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption>
 </figure>
-<p>将每个事件看成一个指标的话，可以得到一个节点为2876的图</p>
-<h2 id="关联分析">关联分析</h2>
-<figure>
-<img src="./orr.png" alt="corr" /><figcaption aria-hidden="true">corr</figcaption>
-</figure>
-<figure>
-<img src="img.png" alt="节点个数" /><figcaption aria-hidden="true">节点个数</figcaption>
-</figure>
-<p>对应的 因果图巨大无比，如下：</p>
-<figure>
-<img src="./correlation_topology.png" alt="图1-关联拓扑" /><figcaption aria-hidden="true">图1-关联拓扑</figcaption>
-</figure>
-<h2 id="参考">参考</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="http://www.cnsoftbei.com/plus/view.php?aid=479">CN-Softbei2020比赛</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/chiechie/Insighter/blob/master/aiops_CN-Softbei_2020.ipynb">chiechie的代码-github</a></li>
+<p>上述是针对基本类型的KPI的计算公式（例如PV、交易量），对于派生类型的KPI（多个基本类型KPI计算得到，例如成功率）就不太适用了。当然，作者也提出了另一套公式来计算派生型KPI，主要是让“解释力”和“惊奇性”的分数符合我们对于异常的“直觉”。</p>
+<p>评价：Adtributor提出的“解释力”和“惊奇性”对根因给出了量化的评价，有很强的借鉴意义。将根因限定在一维的假设也极大的简化了问题的复杂度。但是这样的假设并不太符合我们的实际场景，同时用解释性和惊奇性的大小来衡量根因也不完全合理。因为其没有考虑到维度之间的相互影响以及「外部根因」的可能，即根因所在的维度没有在数据中体现。另外，Adtributor的根因分析严重依赖于整体KPI的变化情况，对于整体变化不大，但是内部波动较为剧烈的数据表现不好。</p>
+<p>总的来说，Adtributor是一种可以落地的业务指标明细多维分析算法，能够提供一些对排障有帮助的信息，配合人工筛查，可以有一定的效果。但是如果应对更多的维度、更复杂的情况，甚至存在外部根因的时候，能够提供的帮助就有限了。</p>
+<h2 id="idice">iDice</h2>
+<p>iDice: Problem Identification for Emerging Issues</p>
+<p>简介：iDice针对的场景和Adtributor稍有不同，它分析的数据是一段时间序列下的多维明细数据而不是对某一个具体的时间点。首先它认为根因的表现是一定在时间序列上体现突变，然后根据信息熵的思想提出Isolation Power的概念来解释根因，基本的思想就是对每一个维度组合计算他们的Isolation Power值，一个有效的根因维度组合（图1 Effective Combination）是其IP值大于其所有的直接子节点和直接父节点。在判断了当前节点为「可能的根因」后，其所有子节点都被剪枝掉。为了降低搜索和聚合的复杂度，本文还提出了多种剪枝方法。如减掉数量较小的节点、减掉在时间序列上没有突变的的节点等。最终对每个「可能的根因」突变点前后计算类似Adtributor的“惊奇性”进行排序。</p>
+<p>评价：iDice提出了一种更符合实际情况的根因评估指标：Isolation Power，利用多种剪枝手段减少搜索的复杂度。利用了数据的时间序列，从一定程度上缓解了单一时间点做预测时不准的情况。但是对大量的节点做异常检测也带来了额外的复杂度，在维度和取值较多时，上层节点的数目要远远大于叶子结点的数目。从上至下的搜索以及至下而上的聚合的复杂度极大，虽然本文提出了几种剪枝方法，但是并不能带来量级上的减少。</p>
+<p>同时，iDice的几种剪枝略显暴力，例如基于Impact的剪枝，虽然减掉的是量较少的维度组合，但是当维度和取值增加，极限情况下每一个叶子结点的维度组合的量只有1，这样剪枝的结果是不可以接受的。另外iDice对于派生类型的指标没有很好的处理方法，例如成功率，首先剪枝不能很好地进行，其次做变点检测时，容易忽略掉真正的“根因”。</p>
+<h2 id="hotspot">HotSpot</h2>
+<ol start="3" type="1">
+<li>HotSpot: Anomaly Localization for Additive KPIs with Multi-Dimensional Attributes</li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/22/AIOps/AIOps-2_1_4-topo-rca-aiops2021/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Chiechie">
-      <meta itemprop="description" content="a reader & thinker">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chiechie's Mini World">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/05/22/AIOps/AIOps-2_1_4-topo-rca-aiops2021/" class="post-title-link" itemprop="url">chapter2.1.4 基于拓扑的根因定位-AIOps挑战赛2021-demo方案</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-05-22 22:04:42" itemprop="dateCreated datePublished" datetime="2021-05-22T22:04:42+08:00">2021-05-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 17:58:49" itemprop="dateModified" datetime="2021-07-09T17:58:49+08:00">2021-07-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/AIOps/" itemprop="url" rel="index"><span itemprop="name">AIOps</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="数据解析">数据解析</h2>
-<p>比赛数据包括： 部署拓扑，指标数据，日志数据，调用链数据，故障标签</p>
-<h3 id="部署数据">部署数据</h3>
-<figure>
-<img src="./bushu.png" alt="部署数据" /><figcaption aria-hidden="true">部署数据</figcaption>
-</figure>
-<h3 id="指标数据">指标数据</h3>
-<p>指标数据包括业务指标 和 性能指标。 业务指标用于触发根因分析，性能指标用于局部的根因定位</p>
-<p>每个指标数据，都需要附带的信息有：归属物理设备id，以及相应用id，（这样才能做机器的指标依赖的额故障定位）</p>
-<p>2021AIOps比赛的调用链的数据：每个span_id表示一个trace中的一次子调用，耗时表示当前服务从接受call，到开始response的时间间隔。这里的表格信息量很少，它不知道每次子调用，具体是那个应用在调用，也不知道此次子调用之前，该trace已经走过了哪些调用路径了。</p>
-<h4 id="业务指标">业务指标</h4>
-<p>kpi_0304.csv</p>
-<ul>
-<li>rr：单位%，系统响应率</li>
-<li>sr：单位%，业务成功率</li>
-<li>cnt：单位条，交易量</li>
-<li>mrt：单位ms，平均响应时间</li>
-<li>tc：交易码, 有11种应用, 'ServiceTest1', 'ServiceTest10', 'ServiceTest11', 'ServiceTest2', 'ServiceTest3', 'ServiceTest4', 'ServiceTest5', 'ServiceTest6', 'ServiceTest7', 'ServiceTest8', 'ServiceTest9'</li>
-</ul>
-<figure>
-<img src="./yewu.png" alt="业务指标" /><figcaption aria-hidden="true">业务指标</figcaption>
-</figure>
-<h4 id="性能指标">性能指标</h4>
-<p>每个应用的指标, 每个kpi会有一个对应的机器id（即cmdb_id）</p>
-<ul>
-<li>cmdb_id: 指标归属的物理设备, 每个物理设备上收集到的指标一般来说包括两种，「操作系统」性能指标以及「服务」性能指标。</li>
-<li>kpi_name: 指标归属的服务类型，比如归属于操作系统/java虚拟机/Redis/Tomcat/Mysql等</li>
-</ul>
-<figure>
-<img src="./xingneng.png" alt="性能指标" /><figcaption aria-hidden="true">性能指标</figcaption>
-</figure>
-<h3 id="日志数据">日志数据</h3>
-<p>日志数据有3个重要字段：</p>
-<ul>
-<li>cmdb_id： 日志是从哪台物理机器上产生</li>
-<li>log_name: 日志对应的组件名和日志类别, 相当于4个采集器，eg catalina/gc/localhost/localhost_access_log</li>
-<li>value: 日志内容, 里面的信息包括，日志级别，egINFO/WARNING/SEVERE，具体报错信息</li>
-</ul>
-<p>目前只有Tomcat4台服务器有日志数据；并且根据采集的不同的组件，收集的日志。</p>
-<h3 id="调用链数据">调用链数据</h3>
-<p>调用链路数据来自：trace/trace_0304.csv</p>
-<p>重要的字段有：</p>
-<ul>
-<li>cmdb_id: 即对应的服务是部署在哪个机器上的, 一次全局的trace_id 可能跨越几个设备</li>
-<li>parent_id：子调用的上一次调用</li>
-<li>trace_id：一次trace对应的全局id，一个trace包括多次子调用</li>
-<li>span_id： 本流程的Span ID，</li>
-</ul>
-<figure>
-<img src="./trace.png" alt="调用链" /><figcaption aria-hidden="true">调用链</figcaption>
-</figure>
-<h3 id="故障标签">故障标签</h3>
-<p>故障类型可分为--'应用故障', '网络故障', '资源故障'</p>
-<ul>
-<li>应用故障可分为2类：'JVM CPU负载高', 'JVM OOM Heap'</li>
-<li>网络故障可分为两类：'网络延迟', '网络隔离'</li>
-<li>资源故障可分为三类：CPU使用率爬升，内存使用率过高，磁盘IO写使用率过高</li>
-</ul>
-<h2 id="demo方案">demo方案</h2>
-<p>流程：</p>
+<p>简介：HotSpot和Adtributor一样使用“预测+搜索”的策略，针对基本类型的指标（可加型，例如交易量，PV等）提出了基于Ripple Effect的根因判断方法，即维度组合与其子节点之间越满足Ripple Effect条件就越有可能是根因，提出了Potential Score来量化一个节点与其所有叶子结点之间满足Ripple Effect程度。举个简单的例子，例如表一中的北京。PV从30-&gt;21,而北京联通和北京电信分别从20-&gt;14、10-&gt;7，变化的比例和北京相同（Ripple Effect），所以判断出北京是根因。和iDice对于根因集的定义不同，HotSpot会考虑同一维度下的根因组合，例如不仅有（北京，联通）这样的元素，还会有（北京，上海）这样的元素。这样当然会带来额外的搜索复杂度（2n-1，n是维度取值数目之和），所以作者提出基于MCTS（蒙特卡洛树搜索）和分层的剪枝策略，按照获得最大Potential Score收益的路径进行搜索，如果某一元素的PS分数较低，则减掉其子节点（Hierarchical Pruning）。</p>
+<p>评价：HotSpot提出具有启发意义的根因判断方式：Ripple Effect。使用叶子结点而不使用直接子节点参与Potential Score的计算，达到了边搜索边聚合的效果，极大的降低了空间的使用。创新的将MCTS应用到搜索的剪枝中，降低了搜索的复杂度。当然，HotSpot也存在一些局限，例如假设所有的根因在一个Cuboid内（完全相同的维度组成：eg.C省份、C省份、运营商）、没有考虑到非可加型指标（eg.成功率）、时间序列预测方法也只是使用了简单的MA，如果指标有一定的波动，可能会影响PS的准确性。另外使用叶子结点计算PS虽然减少了空间的使用，但是随着维度和取值的增加，叶子结点的量下降，极端情况下下降到1，此时的PS计算会受到较大的影响。</p>
+<h2 id="squeeze">Squeeze</h2>
+<p>Squeeze：Generic and Robust Localization of Multi-Dimensional Root Causes</p>
+<p>简介：Squeeze在HotSpot的基础上提出广义的Ripple Effect,证明RE不仅仅适用于基本类型的指标，也适用于派生类型的指标（eg.成功率）同时解决了0值预测的问题。和之前的算法搜索策略不同，Squeeze先至下而上剪掉正常的叶子结点的减小搜索空间，然后计算叶子结点的deviation score来进行聚类，因为根据RE，相同的根因的叶子结点将具有相似的deviation score。然后自顶向下在每一个簇中搜索根因。Squeeze假设每一个簇中的根因都在一个Cuboid（见HotSpot简介）内，同样提出类似于Potential Score的GPS来作为是否是根因的量化标准。</p>
+<p>评价：Squeeze在HotSpot的基础上进行了理论的拓展，增加了算法的通用性和鲁棒性。“Squeeze”的做法也极具创新性。不过实际的业务场景可能会对算法的准确性产生一定的影响，例如预测不准可能会导致聚类不准确、同时有多个异常或者外部异常也会影响聚类效果。另外按照GPS对结果根因进行排序有时也不符合真实业务场景，因为真实的业务场景数量的大小同样是一个重要的衡量指标。失败量从50到100的组合可能比0到5的组合更值得注意。</p>
+<h2 id="百度的方案">百度的方案</h2>
+<p>参考人工定位过程中的分析思路，提取了两个特征，用来描述某维度是否为根因：</p>
 <ol type="1">
-<li>对「业务指标」进行异常检测，异常则触发下面的诊断。</li>
-<li>调用链异常检测和根因定位:「业务」指标异常了，定位是哪个中间件或者服务出现了异常，以及根因的那个服务。</li>
-<li>对应机器的指标进行根因定位：定位到了调用链中的根因服务，然后对该服务所在的机器进行下钻分析，进行更细粒度的根因指标定位，使用到了机器和中间件的「性能指标」。</li>
+<li>贡献度：即该维度PVLost与总PVLost的比例。</li>
+<li>一致度：即构成该维度的子维度的异常程度的相似度。子维度的异常程度的一致度可通过各子维度异常程度间的变异系数衡量，变异系数越小，则异常程度越一致。(如何衡量小？绝对值还是相对值?)</li>
 </ol>
-<h3 id="业务指标异常检测略">业务指标异常检测(略)</h3>
-<p>找出第一个故障发生时刻：</p>
-<ul>
-<li>2021-03-04 08:39:00 - 2021-03-04 08:44:00</li>
-</ul>
-<h3 id="调用链异常检测和根因定位">调用链异常检测和根因定位</h3>
+<h1 id="评估指标">评估指标</h1>
+<p>评估准确性的指标是F-score,该指标是准确率（Precision）和召回率(Recall)综合体现。具体计算如下所示： F-score =(2 ∗ Precision ∗ Recall)/(Precision+ Recall)，其中： Precision ＝ TP / (TP + FP)， Recall = TP / (TP + FN)。</p>
+<p>每个异常时刻都有一个真正的根因集合，记为S<em>，该集合中包含一个或多个属性值组合，参赛队伍的算法输出结果 记为S。对于S</em>中的每一个元素，S中包含其中一个，则算一次true positive （TP），遗漏一个算一次false negative （FN），多出一个S*中不存在的，记一次false positive （FP）。计算出所有异常时刻总的TP、FP、FN，最后得出F-score。</p>
+<h1 id="代码地址">代码地址</h1>
 <ol type="1">
-<li>找出异常调用路径--trace_id</li>
-<li>找出对应的根因的子调用--span_id</li>
-<li>找到span_id的机器</li>
+<li>https://github.com/chiechie/ADminer</li>
 </ol>
-<figure>
-<img src="./trace_rca.png" alt="调用链异常检测和根因定位" /><figcaption aria-hidden="true">调用链异常检测和根因定位</figcaption>
-</figure>
-<h3 id="对定位到的机器进行指标根因分析">对定位到的机器进行指标根因分析</h3>
+<h1 id="参考">参考</h1>
 <ol type="1">
-<li>搜集该机器的所有性能指标，进行异常检测</li>
-<li>对于异常的指标，根据历史数据中学习到的因果图，进行根因推断。</li>
-</ol>
-<figure>
-<img src="./metric_rca.png" alt="指标根因分析" /><figcaption aria-hidden="true">指标根因分析</figcaption>
-</figure>
-<h3 id="对下-分析结果-和-标准答案">对下 分析结果 和 标准答案</h3>
-<figure>
-<img src="./evaluate.png" alt="对比" /><figcaption aria-hidden="true">对比</figcaption>
-</figure>
-<h2 id="参考资料">参考资料</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="http://iops.ai/competition_detail/?competition_id=17&amp;flag=1">aiops挑战赛2021-官网</a></li>
+<li><a target="_blank" rel="noopener" href="https://netman.aiops.org/wp-content/uploads/2018/12/sunyq_IEEEAccess2018_HotSpot.pdf">HotSpot-英文paper</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Kj309bzifIv4j80nZbGVZw">HotSpot-中文</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/48926992">百度做根因钻</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.usenix.org/system/files/conference/nsdi14/nsdi14-paper-bhagwan.pdf">Adtributor</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/ICSE-2016-1-iDice-Problem-Identification-for-Emerging-Issues.pdf">iDice</a></li>
+<li><a target="_blank" rel="noopener" href="https://netman.aiops.org/wp-content/uploads/2019/08/camera_ready.pdf">Squeeze</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bizseer.com/index.php?m=content&amp;c=index&amp;a=show&amp;catid=26&amp;id=3">bizseer总结</a></li>
+<li><a target="_blank" rel="noopener" href="http://iops.ai/competition_detail/?competition_id=8&amp;flag=1">比赛</a></li>
 </ol>
 
       
@@ -471,7 +471,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/97/">97</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -537,7 +537,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">194</span>
+          <span class="site-state-item-count">198</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -550,7 +550,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">208</span>
+        <span class="site-state-item-count">210</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

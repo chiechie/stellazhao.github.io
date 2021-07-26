@@ -20,24 +20,24 @@
     var CONFIG = {"hostname":"chiechie.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="总结  小样本学习（few shot learning）是元学习（meta learning）的一个子类，目标是learn to learn，大致思路是这样的：   【在大样本中学习】在领域1中使用大样本中学习得到距离函数， 【在小样本中预测】在领域2中使用该距离函数找出最接近的样本，其类别就是预测结果。   few-shot learning 叫few-shot prediction会更贴切。">
+  <meta name="description" content="总结  元学习是一种机器学习的范式：现做多个小任务，预先学习，然后带着学好的知识（就是元知识），去做新的任务。  元学习，迁移学习，多任务学习，三者原理大同小异，都是在一堆低成本的小任务预先学习，升级打怪，然后去真实的任务上，真枪实战地接受训练。  小样本学习（few shot learning）是元学习（meta learning）的一个子类，大致思路是这样的：   在大样本中学习:在领域1中使">
 <meta property="og:type" content="article">
-<meta property="og:title" content="chapter 6 元学习">
+<meta property="og:title" content="chapter 6 元学习和小样本学习">
 <meta property="og:url" content="https://chiechie.github.io/2021/04/30/machine-learning/machine-learning_6-meta-learning/index.html">
 <meta property="og:site_name" content="Chiechie&#39;s Mini World">
-<meta property="og:description" content="总结  小样本学习（few shot learning）是元学习（meta learning）的一个子类，目标是learn to learn，大致思路是这样的：   【在大样本中学习】在领域1中使用大样本中学习得到距离函数， 【在小样本中预测】在领域2中使用该距离函数找出最接近的样本，其类别就是预测结果。   few-shot learning 叫few-shot prediction会更贴切。">
+<meta property="og:description" content="总结  元学习是一种机器学习的范式：现做多个小任务，预先学习，然后带着学好的知识（就是元知识），去做新的任务。  元学习，迁移学习，多任务学习，三者原理大同小异，都是在一堆低成本的小任务预先学习，升级打怪，然后去真实的任务上，真枪实战地接受训练。  小样本学习（few shot learning）是元学习（meta learning）的一个子类，大致思路是这样的：   在大样本中学习:在领域1中使">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chiechie.github.io/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20200505125818526.png">
-<meta property="og:image" content="https://chiechie.github.io/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20200505130507134.png">
-<meta property="og:image" content="https://chiechie.github.io/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20200505131406968.png">
-<meta property="og:image" content="https://chiechie.github.io/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20200505132048021.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/30/machine-learning/machine-learning_6-meta-learning/image-20200505125818526.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/30/machine-learning/machine-learning_6-meta-learning/image-20200505130507134.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/30/machine-learning/machine-learning_6-meta-learning/image-20200505131406968.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/30/machine-learning/machine-learning_6-meta-learning/image-20200505132048021.png">
 <meta property="article:published_time" content="2021-04-30T06:47:47.000Z">
-<meta property="article:modified_time" content="2021-07-22T07:58:52.025Z">
+<meta property="article:modified_time" content="2021-07-22T08:44:40.505Z">
 <meta property="article:author" content="Chiechie">
 <meta property="article:tag" content="人工智能">
 <meta property="article:tag" content="auto ml">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chiechie.github.io/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20200505125818526.png">
+<meta name="twitter:image" content="https://chiechie.github.io/2021/04/30/machine-learning/machine-learning_6-meta-learning/image-20200505125818526.png">
 
 <link rel="canonical" href="https://chiechie.github.io/2021/04/30/machine-learning/machine-learning_6-meta-learning/">
 
@@ -52,7 +52,7 @@
   };
 </script>
 
-  <title>chapter 6 元学习 | Chiechie's Mini World</title>
+  <title>chapter 6 元学习和小样本学习 | Chiechie's Mini World</title>
   
 
 
@@ -187,7 +187,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          chapter 6 元学习<a href="https://github.com/chiechie/chiechie.github.io/tree/master/source/_posts/machine-learning/machine-learning_6-meta-learning.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+          chapter 6 元学习和小样本学习<a href="https://github.com/chiechie/chiechie.github.io/tree/master/source/_posts/machine-learning/machine-learning_6-meta-learning.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
         </h1>
 
         <div class="post-meta">
@@ -204,7 +204,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 15:58:52" itemprop="dateModified" datetime="2021-07-22T15:58:52+08:00">2021-07-22</time>
+                <time title="修改时间：2021-07-22 16:44:40" itemprop="dateModified" datetime="2021-07-22T16:44:40+08:00">2021-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -236,30 +236,33 @@
       
         <h2 id="总结">总结</h2>
 <ol type="1">
-<li>小样本学习（few shot learning）是元学习（meta learning）的一个子类，目标是learn to learn，大致思路是这样的：</li>
+<li><p>元学习是一种机器学习的范式：现做多个小任务，预先学习，然后带着学好的知识（就是元知识），去做新的任务。</p>
+<blockquote>
+<p>元学习，迁移学习，多任务学习，三者原理大同小异，都是在一堆低成本的小任务预先学习，升级打怪，然后去真实的任务上，真枪实战地接受训练。</p>
+</blockquote></li>
+<li><p>小样本学习（few shot learning）是元学习（meta learning）的一个子类，大致思路是这样的：</p></li>
 </ol>
 <ul>
-<li>【在大样本中学习】在领域1中使用大样本中学习得到距离函数，</li>
-<li>【在小样本中预测】在领域2中使用该距离函数找出最接近的样本，其类别就是预测结果。</li>
+<li>在大样本中学习:在领域1中使用大样本中学习得到距离函数或者相似度函数。</li>
+<li>在小样本中预测: 使用该距离函数或者相似度函数，找出领域2中最接近query的样本，这个样本对应类别就是query的类别。</li>
 </ul>
 <blockquote>
 <p>few-shot learning 叫few-shot prediction会更贴切。</p>
 </blockquote>
-<ol start="2" type="1">
-<li>领域1中的样本叫training set，领域2中的样本集叫support set，新预测的实例叫query sample。</li>
-<li>support set有两个属性：k-way和n-shot，𝑘表示support set中的类别数，𝑛表示support set中每一类的样本数。</li>
-<li>k和n对预测准确率的影响：k越大准确率越低，因为任务变复杂了；n越大准确率越高，因为可以学习的样本数变多了。</li>
-<li>在<strong>学习</strong>阶段，构造一个孪生网络，将样本从原始空间映射到特征空间，并且不同类别样本在特征空间中距离很远，相同类别距离很近</li>
+<ol start="3" type="1">
+<li><p>领域1中的样本叫training set，领域2中的样本集叫support set，新预测的实例叫query sample。support set有两个属性：k-way和n-shot，𝑘表示support set中的类别数，𝑛表示support set中每一类的样本数。k和n对预测准确率的影响：k越大准确率越低，因为任务变复杂了；n越大准确率越高，因为可以学习的样本数变多了。</p></li>
+<li><p>小样本学习的具体的建模方法有两种：构建孪生网络（siamese-network）和直接学习图片的embedding表示，后者效果更好。孪生网络有两个变体，分别是基于Pairwise loss的孪生网络和基于tripplet loss的孪生网络。</p></li>
+<li><p>使用孪生网络去做小样本学习具体思路是这样的：</p>
+<ol type="1">
+<li>在<strong>学习</strong>阶段，构造一个孪生网络，将样本从原始空间映射到特征空间，这个映射最好能让不同类别样本在特征空间中距离很远，相同类别距离很近</li>
 <li>在<strong>预测</strong>阶段，输入一个𝑘-way 𝑛-shot的support set和一个query，然后输出query的类别。使用孪生网络中的部分参数，计算query和support中每个样本的（特征的）距离，返回最近的样本的类别。</li>
-<li>小样本学习的思路是这样的：首先从一个大的训练集上学习一个相似度函数，然后将这个相似度函数应用到新的query样本上，先比较query和support中每个样本的距离，然后返回最接近的那个样本</li>
-<li>具体的建模方法有两类：构建孪生网络（siamese-network）和直接学习图片的embedding表示，后者效果更好。</li>
-<li>孪生网络有两个变体，分别是基于Pairwise loss的孪生网络和基于tripplet loss的孪生网络。</li>
+</ol></li>
 </ol>
 <h2 id="附录">附录</h2>
 <h3 id="training-setsupport-setquery-sample三者关系">training set/support set/query sample三者关系</h3>
 <p>k-way和n-shot</p>
 <figure>
-<img src="/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20200505125818526.png" alt="training set/support set/query sample" /><figcaption aria-hidden="true">training set/support set/query sample</figcaption>
+<img src="./image-20200505125818526.png" alt="training set/support set/query sample" /><figcaption aria-hidden="true">training set/support set/query sample</figcaption>
 </figure>
 <ul>
 <li>support set有两个属性：k-way和n-shot</li>
@@ -268,15 +271,15 @@
 </ul>
 <h3 id="k和n对预测准确率的影响">k和n对预测准确率的影响</h3>
 <figure>
-<img src="/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20200505130507134.png" alt="k和n对预测准确率的影响（" /><figcaption aria-hidden="true">k和n对预测准确率的影响（</figcaption>
+<img src="./image-20200505130507134.png" alt="k和n对预测准确率的影响（" /><figcaption aria-hidden="true">k和n对预测准确率的影响（</figcaption>
 </figure>
 <h4 id="基于pairwise-loss的孪生网络">基于Pairwise loss的孪生网络</h4>
 <figure>
-<img src="/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20200505131406968.png" alt="基于Pairwise loss的孪生网络" /><figcaption aria-hidden="true">基于Pairwise loss的孪生网络</figcaption>
+<img src="./image-20200505131406968.png" alt="基于Pairwise loss的孪生网络" /><figcaption aria-hidden="true">基于Pairwise loss的孪生网络</figcaption>
 </figure>
 <h4 id="基于tripplet-loss的孪生网络">基于tripplet loss的孪生网络</h4>
 <figure>
-<img src="/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20200505132048021.png" alt="基于tripplet loss的孪生网络" /><figcaption aria-hidden="true">基于tripplet loss的孪生网络</figcaption>
+<img src="./image-20200505132048021.png" alt="基于tripplet loss的孪生网络" /><figcaption aria-hidden="true">基于tripplet loss的孪生网络</figcaption>
 </figure>
 <h2 id="参考">参考</h2>
 <ol type="1">
@@ -384,7 +387,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">194</span>
+          <span class="site-state-item-count">198</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -397,7 +400,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">208</span>
+        <span class="site-state-item-count">210</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
