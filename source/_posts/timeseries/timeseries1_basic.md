@@ -3,13 +3,29 @@ title: 时间序列1 时间序列技术概况
 author: chiechie
 mathjax: true
 date: 2021-07-21 15:23:49
-tags:
-categories:
+tags: 
+- 最佳实践
+- 人工智能
+- 时序预测
+- 量化交易
+categories: 
+- 时间序列
 ---
 
 
 
-## 概要 
+## 时间序列技术综述
+
+1. 时间序列结构比截面数据的信息量更多
+2. 时序分析工具可以分析所有的序列数据，不一定是时间序列。
+
+3. 时间序列模型包括几种：统计模型，状态空间模型，机器学习/深度学习模型。
+
+   
+
+
+
+## 时间序列与深度学习
 
 1. 神经网络中专门有一些算子来处理时间序列结构，比如卷积神经网络中的因果卷积（causal conv），空洞因果卷积（Dilated Causal Convolution），空洞卷积（dialted conv）。这些卷积原理上都大同小异，都假设相邻时间内，数据的相关性很强，卷起来可以得到更高层的语义信息。
 
@@ -91,5 +107,4 @@ wavenet是什么？可视化长什么样？输入输出和参数个数分别是�
 ## 参考
 
 1. [如何理解空洞卷积（dilated convolution）？ - 刘诗昆的回答 - 知乎](https://www.zhihu.com/question/54149221/answer/323880412)
-
-2. https://github.com/vdumoulin/conv_arithmetic
+2. [conv_t](https://github.com/vdumoulin/conv_arithmetic)

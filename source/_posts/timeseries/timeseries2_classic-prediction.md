@@ -1,5 +1,5 @@
 ---
-title: 时间序列2 经典时序分析
+title: 时间序列2 统计分析模型
 author: chiechie
 mathjax: true
 date: 2021-07-15 08:25:11

@@ -1,20 +1,22 @@
 ---
-title: force
+title: 塑造世界的力量
 author: chiechie
 mathjax: true
 date: 2021-07-26 09:43:58
 tags:
 - 因果关系
+- 趋势
 categories:
+- 阅读
 ---
 
 
 
-> 三个突出的问题是人口统计、不平等和信息获取。
+> 三个突出的问题是人口结构、不平等和信息获取。
+
+
 
 # 三件大事: 塑造世界的最重要力量
-
-
 
 1. 研究历史的一个讽刺（irony）是，我们常常知道一个故事的确切结局，但不知道它什么时候开始的
 
@@ -22,7 +24,7 @@ categories:
 
 3. 每一个当前的事件，无论大小，都有父母、祖父母、曾祖父母、兄弟姐妹和堂兄弟姐妹。忽略家谱会混淆你对事件的理解，给人一种错误的印象，比如事情为什么会发生，可能会持续多久，以及在什么情况下它们可能会再次发生。孤立地看待事件，而不去欣赏它们的长期根因（long roots），可以解释预测为什么困难？政治为什么令人讨厌？等等
 
-4. 那些根因可以无限地向后弯曲。但是你挖得越深，你就越能接近重大事件: 这些事件是如此的强大，它们影响着一系列看起来毫不相关的话题。这些事件的根原是二次世界大战。
+4. 那些根因可以溯源。挖得越深，你就越能接近重大事件: 这些事件是如此的强大，它们影响着一系列看起来毫不相关的话题。这些事件的根原是二次世界大战。
 
 5. 从1939年到1945年，世界重置了多少，战争留下的变化有多么深刻，这些都很难夸大，几乎定义了此后发生的一切。
 
@@ -48,11 +50,7 @@ categories:
 
 18. 人口结构的变化( demographic shift)重塑了现代经济。以下是正在发生的事情:
 
-
-
 ![1-9a3ba1.png](https://www.collaborativefund.com/uploads/1-9a3ba1.png)
-
-
 
 *Source: Census Bureau*
 
@@ -72,9 +70,7 @@ For practically all of that time, making more people wasn’t an issue. Keeping 
 
 在苏联，约瑟夫 · 斯大林将女英雄奖授予那些有10多个孩子的妇女。
 
-美国也不害羞。盖洛普(Gallup)调查了美国人70年来理想的家庭规模数量。1944年，77% 的美国人认为生三个以上的孩子是理想的。女性平均得分为3.4。
-
-
+盖洛普(Gallup)调查了美国人70年来理想的家庭规模数量。1944年，77% 的美国人认为生三个以上的孩子是理想的。女性平均得分为3.4。
 
 后来事情发生了变化。
 
@@ -85,8 +81,6 @@ For practically all of that time, making more people wasn’t an issue. Keeping 
 
 
 ![2-d2f6ba.png](https://www.collaborativefund.com/uploads/2-d2f6ba.png)
-
-
 
 *From the book What to Expect When No One’s Expecting*
 
