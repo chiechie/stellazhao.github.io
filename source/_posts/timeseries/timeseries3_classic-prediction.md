@@ -2,7 +2,7 @@
 title: 时间序列2 统计分析模型
 author: chiechie
 mathjax: true
-date: 2021-07-15 08:25:11
+date: 2021-07-23 08:25:11
 tags: 
 - 最佳实践
 - 人工智能

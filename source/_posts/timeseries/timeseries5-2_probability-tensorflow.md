@@ -1,8 +1,8 @@
 ---
-title: 基于tensorflow构建时间序列模型
+title: 时间序列6 时序预测框架-TensorFlow Probability
 author: chiechie
 mathjax: true
-date: 2021-07-26 22:10:33
+date: 2021-07-28 22:10:33
 tags:
 - 贝叶斯
 - 时间序列

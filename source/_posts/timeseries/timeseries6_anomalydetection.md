@@ -1,8 +1,8 @@
 ---
-title:  时间序列5 时序异常检测
+title: 时间序列5 时序异常检测
 author: chiechie
 mathjax: true
-date: 2021-04-01 23:12:28
+date: 2021-07-26 23:12:28
 tags:
 - 时间序列
 - 不相容需求

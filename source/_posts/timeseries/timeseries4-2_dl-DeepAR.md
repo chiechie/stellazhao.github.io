@@ -1,8 +1,8 @@
 ---
-title: 时间序列3 深度学习模型DeepAR
+title: 时间序列4-2 基于深度学习的时间序列预测方法-DeepAR
 author: chiechie
 mathjax: true
-date: 2021-04-14 17:21:19
+date: 2021-07-25 17:21:19
 tags:
 - 人工智能
 - 时间序列
