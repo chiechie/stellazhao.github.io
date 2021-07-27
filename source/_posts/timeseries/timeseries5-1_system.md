@@ -1,5 +1,5 @@
 ---
-title: 时间序列6 时序预测框架--《Probabilistic Demand Forecasting at Scale》笔记
+title: 时间序列6 时序预测框架--《Probabilistic Demand Forecasting at Scale》
 author: chiechie
 mathjax: true
 date: 2021-07-27 11:35:00
