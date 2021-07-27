@@ -20,15 +20,17 @@
     var CONFIG = {"hostname":"chiechie.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="ts_prepare">
+  <meta name="description" content="蒙特卡洛采样可以生成iid的样本，但是要生成有依赖关系的样本就不行了，可以使用马尔可夫链。  参考  practical time series:prediction with statistic &amp; machine learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="时间序列 数据合成">
 <meta property="og:url" content="https://chiechie.github.io/2021/07/26/ts-prepare/index.html">
 <meta property="og:site_name" content="Chiechie&#39;s Mini World">
+<meta property="og:description" content="蒙特卡洛采样可以生成iid的样本，但是要生成有依赖关系的样本就不行了，可以使用马尔可夫链。  参考  practical time series:prediction with statistic &amp; machine learning">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-07-26T14:04:02.000Z">
-<meta property="article:modified_time" content="2021-07-26T14:04:02.931Z">
+<meta property="article:modified_time" content="2021-07-26T15:25:25.472Z">
 <meta property="article:author" content="Chiechie">
-<meta property="article:tag" content="博客, AI, 互联网">
+<meta property="article:tag" content="时间序列">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://chiechie.github.io/2021/07/26/ts-prepare/">
@@ -44,7 +46,7 @@
   };
 </script>
 
-  <title>ts_prepare | Chiechie's Mini World</title>
+  <title>时间序列 数据合成 | Chiechie's Mini World</title>
   
 
 
@@ -179,7 +181,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          ts_prepare<a href="https://github.com/chiechie/chiechie.github.io/tree/master/source/_posts/ts-prepare.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+          时间序列 数据合成<a href="https://github.com/chiechie/chiechie.github.io/tree/master/source/_posts/ts-prepare.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
         </h1>
 
         <div class="post-meta">
@@ -188,8 +190,18 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-07-26 22:04:02" itemprop="dateCreated datePublished" datetime="2021-07-26T22:04:02+08:00">2021-07-26</time>
+              <time title="创建时间：2021-07-26 22:04:02 / 修改时间：23:25:25" itemprop="dateCreated datePublished" datetime="2021-07-26T22:04:02+08:00">2021-07-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">时间序列</span></a>
+                </span>
             </span>
 
           
@@ -210,7 +222,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <ol type="1">
+<li>蒙特卡洛采样可以生成iid的样本，但是要生成有依赖关系的样本就不行了，可以使用马尔可夫链。</li>
+</ol>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://ipfs.io/ipfs/bafykbzaceajhmnmehz7amkjofpsxmsymk5u6ph4mrzytlp5zq7wf7ouhqkre2?filename=Aileen%20Nielsen%20-%20Practical%20Time%20Series%20Analysis_%20Prediction%20with%20Statistics%20and%20Machine%20Learning-O’Reilly%20Media%20(2019).pdf">practical time series:prediction with statistic &amp; machine learning</a></li>
+</ol>
 
     </div>
 
@@ -219,6 +237,9 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/" rel="tag"># 时间序列</a>
+          </div>
 
         
 
@@ -226,8 +247,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/07/26/ml-platform-nots/" rel="prev" title="ml_platform_nots">
-      <i class="fa fa-chevron-left"></i> ml_platform_nots
+    <a href="/2021/07/26/reading_notes/reality/force/" rel="prev" title="3个驱动因子">
+      <i class="fa fa-chevron-left"></i> 3个驱动因子
     </a></div>
       <div class="post-nav-item">
     <a href="/2021/07/26/probability-tensorflow/" rel="next" title="基于tensorflow构建时间序列模型">
@@ -291,6 +312,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
