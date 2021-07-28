@@ -157,11 +157,15 @@ categories:
 
 5. 专门针对深度神经网络的优化算法被发明，例如，带动量的随机梯度下降，ada梯度，rmsprop，ada delta
 
-  - 带动量的随机梯度下降： 对所有历史梯度，依据其远离当前时间的程度，以指数递减的权重，一起决定下一步模型的更新方向。
-  - ada梯度：在带动量的随机梯度下降基础上，还基于历史梯度大小调整学习步长
+  - 动量法：带动量的随机梯度下降， 对所有历史梯度，依据其远离当前时间的程度，以指数递减的权重，一起决定下一步模型的更新方向。动量法使用了指数加权移动平均的思想。它将过去时间步的梯度做了加权平均，且权重按时间步指数衰减。动量法使得相邻时间步的自变量更新在方向上更加一致。
+
+  - AdaGrad：在带动量的随机梯度下降基础上，还基于历史梯度大小调整学习步长。它根据自变量在每个维度的梯度值的大小来调整各个维度上的学习率，从而避免统一的学习率难以适应所有维度的问题 
+
   - rmsprop：带动量的sgd+ada
-  - ada delta：基于rmsprop，进一步对步长调整
-  - adam：
+
+  - AdaDelta算法：针对AdaGrad算法在迭代后期较难找到有用解的问题做了改进 ，AdaDelta算法没有学习率这一超参数。
+
+  - Adam算法：在RMSProp算法基础上对小批量随机梯度也做了指数加权移动平均。
 
 6. ada系列算法的思想：更新模型权重时，不仅依赖当前梯度，还要利用历史上所有的梯度信息，自适应（adaptively）调整步长。具体做法是，
 
@@ -217,3 +221,4 @@ IG = information before splitting (parent) — information after splitting (chil
 
 1. 分布式机器学习
 2. [sklearn-kernel](https://scikit-learn.org/stable/modules/svm.html#svm-kernels)
+3. https://zh.d2l.ai/chapter_optimization/adam.html
