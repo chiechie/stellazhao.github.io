@@ -41,11 +41,14 @@ PCA和Word2vec的区别在于，两者对于何为「最优表达」的定义不
 ![img.png](./img.png)
 
 
-## how word2vec?
+## word2vec的两个算法--跳字模型和连续词袋模型
 
 先看跳字模型
 
-### 跳字模型（skip gram）--基于中心词来生成背景词
+### 跳字模型
+
+跳字模型（skip gram）--基于中心词来生成背景词
+
 
 #### high-level
 
@@ -121,7 +124,10 @@ google提供了 测试数据 和 测试脚本
 - 最好的结果：准确率 70% + 覆盖率 100%.
 
 
-### 连续词袋模型（continous bag of words）
+### 连续词袋模型
+
+连续词袋模型（continous bag of words）
+
 
 连续词袋模型与跳字模型类似。与跳字模型最大的不同在于，连续词袋模型假设基于某中心词在文本序列前后的背景词来生成该中心词。在同样的文本序列“the”“man”“loves”“his”“son”里，以“loves”作为中心词，且背景窗口大小为2时，连续词袋模型关心的是，给定背景词“the”“man”“his”“son”生成中心词“loves”的条件概率（如图10.2所示），也就是
 
@@ -132,8 +138,6 @@ google提供了 测试数据 和 测试脚本
 ## 优化版
 
 梯度上式的复杂度为|V|, 为了提高计算效率，有两个近似训练方案：负采样 和 层次化softmax
-
-### 近似的学习方法-负采样
 
 负采样的想法是，最后一层不用softmax，而是sigmoid,损失函数交叉熵：观测到就是正样本，没观测到就是负样本（通过对词典采样K次得到）
 （类似异常检测）
@@ -148,8 +152,11 @@ $\begin{aligned}-\log P\left(w^{(t+j)} \mid w^{(t)}\right) &=-\log P\left(D=1 \m
 
 
 
+## 附录
 
-## 点积or余弦
+
+
+### 点积or余弦
 
 > word2vec中的优化目标是点积，但实际使用的却是使用向量夹角的余弦？
 
@@ -158,14 +165,58 @@ $\begin{aligned}-\log P\left(w^{(t+j)} \mid w^{(t)}\right) &=-\log P\left(D=1 \m
 2. 如果是在一个空间中找近义词，肯定是要用带归一化的距离函数--余弦；
 3. 在训练的时候，为了迁就损失函数-sigmod，才将量岗还原。
 
-## detail
-
 - 训练时，优化的是input/output vector的点积，预测时使用的是夹角余弦.
 - 训练的时候之所以不用cos相似度，而用点积，是因为如果先做cos，会将神经网络的输出限制到[-1, 1]，使网络的表达能力（p=σ(w*c)）受限，performance下降很多。w, c来自不同的空间， w为input vector，c为output vector。
+- 
 - 如果效仿word2vec设计(user, item)这类点击率预估模型，二者的不同之处：
     - word2vec使用的是input vector，点击率预估模型使用的是最后参与点积运算的user vector, item vector；
     - word2vec预测时是求word的knn word（word2vec的源码文件distance.c，用的是余弦距离），
     - 点击率预估模型求的是user的knn item
+
+
+
+### word2vec是无监督还是有监督？
+
+按lecun的定义，属于自监督--无监督的一种。个人认为自监督自成一类更好， 和 有监督，无监督，强化学习一样 属于机器学习的几个分类。
+
+![img](https://pic1.zhimg.com/v2-86184fb83baaf83c6acb1785ad00ada8_b.png)
+
+
+
+现在大家一般说有监督/无监督，总结下来，本质是从两个维度描述：
+
+维度1： 是否需要人工标注
+
+维度2： 是否使用supervised data来更新参数，
+
+两个维度的取值为「 是」，就是有监督
+
+两个维度的取值为「 否」，就是无监督
+
+对于两个流派来说，这个是能达成共识的。
+
+而如果维度2 认为「是」，维度1认为「否」的情况呢？ （也就是word2vec的情况）
+
+![img](https://pic2.zhimg.com/v2-694995f782ec70a94315715edbaae5f9_b.png)
+
+
+做异常检测的时候，如果没有异常标记数据，
+
+使用预测 + 极值检测 的方法，算是有监督还是无监督？
+
+把预测 + 极值检测 看成一个黑盒，是无监督，
+
+单独看时序预测，是自监督。
+
+
+
+![img](https://pic2.zhimg.com/v2-71e036edb275e380e362a4c5f0f1feb5_b.png)
+
+hands on ml chaper 11
+
+无监督训练中：一个模型在未标记的数据（或者全部数据） 上训练，使用了一个无监督的学习技术，然后对最后的带标记数据使用有监督学习的方式，进行微调；
+
+无监督每次只训练一层，也可以直接训练整个模型
 
 ## 参考
 1. https://mk.woa.com/q/267975?strict=true&ADTAG=daily
@@ -173,3 +224,9 @@ $\begin{aligned}-\log P\left(w^{(t+j)} \mid w^{(t)}\right) &=-\log P\left(D=1 \m
 
 1. [word2vec开源实现](https://github.com/tmikolov/word2vec)
 2. [dive into deep learning](https://zh.d2l.ai/chapter_natural-language-processing/word2vec.html#%E8%BF%9E%E7%BB%AD%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B)
+
+5. https://www.quora.com/Is-Word2vec-a-supervised-unsupervised-learning-algorithm
+
+6. [Sherlock：Self-Supervised Learning 入门介绍](https://zhuanlan.zhihu.com/p/108625273)
+
+## 
