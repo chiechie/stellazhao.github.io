@@ -1,8 +1,8 @@
 ---
-title: 时间序列3 深度学习模型DeepAR
+title: 时间序列4-2 基于深度学习的时间序列预测方法-DeepAR
 author: chiechie
 mathjax: true
-date: 2021-04-14 17:21:19
+date: 2021-07-25 17:21:19
 tags:
 - 人工智能
 - 时间序列
@@ -111,7 +111,18 @@ DeepAR号称能解决冷启动的问题，然而在实验设置中，如果没�
 
 1. 输出的概率分布，怎么评估模型效果？
 
-   
+    可以使用pinball loss是用来评估分位数预测的 准确性的
+
+   - 例子1：
+       - 小A预测明天股价小于110的概率为75%
+       - 小B预测明天股价小于105的概率为75%
+       - 而第二天 股价为100，我们说小B预测的更准， 小A的分位数损失值 是 2.5，小B的分位数损失值是 1.25 
+   - 例子2
+       - 小A预测明天股价跌破95的概率为25%
+       - 小B预测明天股价跌破90的概率为25%， 跌破95的概率为50%，
+       - 而第二天 股价为100，我们说小A预测的更准
+   - 综合上面的两次预测，我们说小A和小B的预测能力差不多准
+   - ![](https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FQG2JiB0Z1u.png?alt=media&token=770f3265-bf08-4355-9ece-7fdb7afc9465)
 
 ### 从paper 到 落地
 
