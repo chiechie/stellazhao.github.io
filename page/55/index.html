@@ -165,161 +165,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/22/machine-learning/machine-learning_4-dl4_lstm/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Chiechie">
-      <meta itemprop="description" content="a reader & thinker">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chiechie's Mini World">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/22/machine-learning/machine-learning_4-dl4_lstm/" class="post-title-link" itemprop="url">chapter 4.3 循环神经网络2-长短期记忆网络（LSTM）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-22 10:48:04" itemprop="dateCreated datePublished" datetime="2021-04-22T10:48:04+08:00">2021-04-22</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 15:53:38" itemprop="dateModified" datetime="2021-07-22T15:53:38+08:00">2021-07-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="总结">总结</h2>
-<ol type="1">
-<li>LSTM是一个循环神经网络，即RNN模型，是对Simple RNN的一种改进，可以避免梯度消失问题, 可以有比simple RNN更长的记忆。LSTM的论文在1997年就发表了。</li>
-<li>LSTM的结构比simple-RNN的结构复杂很多，Simple RNN有1个参数矩阵，LSTM有四个参数矩阵。</li>
-<li>LSTM也可以看成一个带状态的函数，输入当前词的embedding向量（维度为m）和上一个时刻的状态向量（h维）和上一个时刻的记忆单元向量（h + m 维），输出当前时刻的状态向量（h维）和当前时刻的记忆单元向量（h维）。</li>
-<li>LSTM通过引入一个传输带（conveyor belt）来缓解梯度消失的问题。过去的信息通过传输带到达下一个时刻，不会发生很大变化。</li>
-<li>LSTM的处理流程可以描述为，对长期记忆选择性遗忘，对短期记忆选择性保留，两个求和得到了新的长期记忆；将新的长期记忆选择性输出，得到新的短期记忆。</li>
-<li>LSTM有3个门，分别为输入门，输出门，遗忘门，也是三个权重向量，取值范围从0到1
-<ul>
-<li><p>遗忘门：一个权重向量表示上一个时刻的传送带向量<span class="math inline">\(\mathbf{c}_{t-1}\)</span>需要遗忘多少信息</p></li>
-<li><p>输入门：一个权重向量，控制当前时刻的新的状态<span class="math inline">\(z\)</span>有多少信息要保留</p>
-<blockquote>
-<p>遗忘门 + 输入门共同作用的结果是，得到新的传送带向量</p>
-</blockquote></li>
-<li><p>输出门：控制当前传送带向量<span class="math inline">\(\tilde{\mathbf{c}}_{t}\)</span>有多少信息要输出给外部状态</p></li>
-</ul></li>
-</ol>
-<h2 id="lstm应用-情感判断">LSTM应用-情感判断</h2>
-<p><img src="./img_3.png" /></p>
-<figure>
-<img src="./image_1212.png" alt="使用keras实现lstm" /><figcaption aria-hidden="true">使用keras实现lstm</figcaption>
-</figure>
-<figure>
-<img src="./image_1213.png" alt="img_13.png" /><figcaption aria-hidden="true">img_13.png</figcaption>
-</figure>
-<h2 id="cnn-和-rnn视觉对比">cnn 和 rnn视觉对比</h2>
-<p>有两个图还蛮有意思的，</p>
-<figure>
-<img src="https://miro.medium.com/max/3058/1*W34PwVsbTm_3EbJozaWWdA.jpeg" alt="cnn" /><figcaption aria-hidden="true">cnn</figcaption>
-</figure>
-<figure>
-<img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FoIsH5iVKwV.png?alt=media&amp;token=05e8189e-dd5f-4781-910c-a46bb9fa4eaf" alt="rnn" /><figcaption aria-hidden="true">rnn</figcaption>
-</figure>
-<h2 id="cnn-vs-rnn-vs-attention">cnn vs rnn vs attention</h2>
-<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F_n2z_XQqI2.png?alt=media&amp;token=facfccac-e8ac-4895-a84c-7add43cd165a" /></p>
-<h2 id="附录">附录</h2>
-<h3 id="lstm的内部结构">LSTM的内部结构</h3>
-<ol type="1">
-<li><p>LSTM最重要的设计是一个传输带（conveyor belt），记为向量<span class="math inline">\(C_t\)</span>, 过去的信息通过传输带直接传到下一个时刻<span class="math inline">\(C_{t+1}\)</span> ，不会发生太大的变化。LSTM就是靠传输带来避免梯度小时的问题。</p></li>
-<li><p>遗忘门的输入是上一个时刻的状态<span class="math inline">\(h_{t-1}\)</span>和当前时刻的观测值<span class="math inline">\(x_t\)</span>，通过遗忘矩阵<span class="math inline">\(W^f\)</span>加上一个sigomid变换，得到一个概率向量。 <img src="./lstm.png" />。 <img src="./image_123.png" alt="img_3.png" /></p></li>
-<li><p>LSTM的遗忘门（forget gate）的作用是，让传输带上的信息有选择性的通过，选择性是由遗忘门向量控制的，通过遗忘门向量与传送带向量<span class="math inline">\(C_t\)</span>点乘来实现。 <img src="./image_122.png" alt="img_2.png" /></p></li>
-<li><p>输入门(input gate)的输入也是上一个时刻的状态<span class="math inline">\(h_{t-1}\)</span>和当前时刻的观测值<span class="math inline">\(x_t\)</span>。</p>
-<figure>
-<img src="./image_125.png" alt="img_5.png" /><figcaption aria-hidden="true">img_5.png</figcaption>
-</figure></li>
-<li><p>输入门的目的是，让上一个时刻的状态和最新的信息，能有选择性的通过。通过计算输入门向量跟<span class="math inline">\([h_{t-1}, x_{t}]\)</span>的双曲正切向量的点乘来实现。</p>
-<blockquote>
-<p>双曲正切函数可以把上一个时刻的状态和新的观测值组成的向量映射到【-1，1]之间，</p>
-</blockquote></li>
-<li><p>输出门(output gate)的输入也是上一个时刻的状态<span class="math inline">\(h_{t-1}\)</span>和当前时刻的观测值<span class="math inline">\(x_t\)</span></p></li>
-</ol>
-<figure>
-<img src="image_128.png" alt="img_8.png" /><figcaption aria-hidden="true">img_8.png</figcaption>
-</figure>
-<ol start="7" type="1">
-<li><p>输出门的目的是，让最新的长期记忆有选择性的输出，作为状态向量<span class="math inline">\(h_t\)</span>。计算状态向量, 将输出门向量<span class="math inline">\(o_t\)</span>跟传输带最新值<span class="math inline">\(c_t\)</span>的双曲正切映射进行点乘，得到新的状态向量<span class="math inline">\(h_t\)</span>。</p></li>
-<li><p>新的状态向量<span class="math inline">\(h_t\)</span>有两份copies，一份作为当前时刻的输出，一份作为下一个时刻lstm单元的输入。可以认为迄今为止，t个时刻的输入信息都被编码到了状态向量<span class="math inline">\(h_t\)</span>中。 <img src="image_129.png" alt="img_9.png" /></p></li>
-<li><p>LSTM有遗忘门，输入门，new value，输出门，一共对应4个参数矩阵。矩阵的行数是状态向量的长度，矩阵的列数是状态向量的长度+输入向量的长度。</p></li>
-</ol>
-<figure>
-<img src="./image_1210.png" alt="img_10.png" /><figcaption aria-hidden="true">img_10.png</figcaption>
-</figure>
-<ol start="10" type="1">
-<li>更新长期记忆-传送带向量</li>
-</ol>
-<p><img src="./img_1.png" /></p>
-<ol start="11" type="1">
-<li>更新短期机器-状态向量</li>
-</ol>
-<p><img src="./img_2.png" /></p>
-<ol start="12" type="1">
-<li>LSTM处理过程用数学公式表达 <img src="./img_5.png" alt="img_5.png" /> <img src="./img_4.png" alt="img_4.png" /></li>
-</ol>
-<h2 id="参考资料">参考资料</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://towardsdatascience.com/a-comparison-of-dnn-cnn-and-lstm-using-tf-keras-2191f8c77bbe">a-comparison-of-dnn-cnn-and-lstm-using-tf-keras</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_recurrent-neural-networks/lstm.html">dive into deep learning-lstm</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Cc4ENs6BHQw&amp;list=PLvOO0btloRnuTUGN4XqO85eKPeFSZsEqK&amp;index=3">wangshusen-RNN-youtube</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/wangshusen/DeepLearning">RNN模型与NLP应用(4/9)：LSTM模型</a></li>
-<li><a target="_blank" rel="noopener" href="https://nndl.github.io/nndl-book.pdf">神经网络与深度学习</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/32085405">人人都能看懂的LSTM</a></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/21/reinforcement_learning/rl3_value-based/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -480,10 +325,111 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/21/machine-learning/machine-learning_4-dl3_attention/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/21/machine-learning/machine-learning_4-dl3_attention/" class="post-title-link" itemprop="url">chapter 4.3 attention和self-attention是什么？</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-21 15:43:10" itemprop="dateCreated datePublished" datetime="2021-04-21T15:43:10+08:00">2021-04-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-22 15:53:32" itemprop="dateModified" datetime="2021-07-22T15:53:32+08:00">2021-07-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="attention">attention</h2>
+<ol type="1">
+<li>seq2seq有两个神经网络，一个encoder一个decoder。</li>
+<li>最早提出attention的设计是在2015年，bengio的一片机器翻译的文章，该文章中使用的seq2seq做机器翻译，创新之处在于对encoder的多个输出增加关注度，从而让decoder知道应该关注encoder的哪个地方的输出， 从而解决了长输入序列遗忘的问题。缺点是计算量很大</li>
+<li>Simple-RNN+attention层的工作机制：encoder结束工作之后，所有时刻的状态都要保留下来，需要计算decoder当前状态相对于encoder的状态中，每一个状态的相关性，得到一个长度为m的权重向量，每个元素都大于0，求和等于1。</li>
+<li>怎么计算decoder当前状态跟encoder状态间的相关性呢？第一种方法是原始论文的方法，定义成两种状态的非线性函数--含有trainnable参数， <img src="./img_1.png" alt="img_1.png" /></li>
+<li>第二种方法根transformer类似，先定义两个参数矩阵<span class="math inline">\(W_k\)</span>和<span class="math inline">\(W_q\)</span>，分别对decoder的状态和encoder的状态做线形变换，得到k向量和q向量，求k向量和q向量的内积，然后使用softmax归一化，得到权重向量，attention得分，表示decoder的状态对encoder状态state关注的程度。 <img src="./img_2.png" alt="img_2.png" /></li>
+<li>计算好了长度为m的权重向量之后，然后作用于encoder的所有状态向量，于是得到了一个context vector，表示decoder状态对每个encoder状态的注意力大小。</li>
+<li>decoder输入context vector和上一个时刻的状态，最新的观测值，输出下一个时刻的状态，中间的处理逻辑是怎样的？ <img src="./img_3.png" alt="img_3.png" /></li>
+<li>可以看到decoder输出的新的状态依赖于context vector向量，而context vector包含了输入的长序列中的信息，因此长输入序列遗忘的问题就可以避免了。</li>
+<li>值得注意的是，当decoder再次计算新的状态时，上一次算的权重向量和context vector就报废了，必须根据最新的状态和encoder的相关性刷新权重向量和context vector，这样也就是对输出的不同位置，给予输入不同位置不同的关注度。</li>
+<li>权重计算的时间复杂度是 mt,m为encoder长度，t为decoder长度。时间复杂度挺高的。</li>
+<li>英译法，当decoder想要更新state时，拿当前state跟encoder的额所有state对比了一下，发现短距离area对应的state最近，因此context vector非常接近area对应的state，因此输出的新的状态也会跟area更予以接近。 <img src="./img_4.png" alt="img_4.png" /></li>
+<li>总结一下，标准的seq2seq模型中，decoder更新状态时，只看当前状态和最新的输入，这样产生的新状态可能已经忘记了encoder的部分输入。在seq2seq中加入attention之后，decoder每次更新state时，会先看一下encoder的所有状态。这样就知道encoder的完整信息，并不会遗忘。除了解决遗忘问题，attention还能告诉decoder应该更关注encoder的哪一个状态，这就是attention名字的由来。</li>
+<li>attention可以提升seq2seq的准确率，但是要付出更多的计算。</li>
+</ol>
+<h2 id="self-attention">self-attention</h2>
+<ol type="1">
+<li>如何将attention剥离seq2seq，只用在一个rnn网络上，就叫self-attention</li>
+<li>提出self attetion的文章发表于2016年，把attention用在了lstm上面。 <img src="./img_5.png" alt="img_5.png" /></li>
+<li>self-attention可以解决rnn的容易遗忘的问题，比如电影评论的情感分类，如果评论太长rnn的最后一个状态就很记不住整个语句，不能有效利用整句话的信息。 self-attention可以解决rnn容易遗忘的问题，每次更新状态之前都会看一下所有状态的重要性，这样就不会遗忘掉重要信息。下面这个图是</li>
+<li>下面的图中，红色的词表明当前输入，蓝色的阴影表明关注度得分。 <img src="./img_6.png" alt="img_6.png" /></li>
+</ol>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=XhWdv7ghmQQ&amp;t=183s">RNN模型与NLP应用(8/9)：Attention (注意力机制)</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1601.06733">Long Short-Term Memory-Networks for Machine Reading</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/54/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/54/">54</a><span class="page-number current">55</span><a class="page-number" href="/page/56/">56</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/56/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/54/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/54/">54</a><span class="page-number current">55</span><a class="page-number" href="/page/56/">56</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/56/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -549,7 +495,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-count">197</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

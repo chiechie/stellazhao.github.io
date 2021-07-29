@@ -171,8 +171,8 @@
   
   <entry>
     <title>人工智能交易系统</title>
-    <link href="https://chiechie.github.io/2021/07/25/ai-trading/"/>
-    <id>https://chiechie.github.io/2021/07/25/ai-trading/</id>
+    <link href="https://chiechie.github.io/2021/07/25/reading_notes/investment/ai-trading/"/>
+    <id>https://chiechie.github.io/2021/07/25/reading_notes/investment/ai-trading/</id>
     <published>2021-07-25T06:43:08.000Z</published>
     <updated>2021-07-28T08:06:26.973Z</updated>
     
@@ -190,9 +190,9 @@
     <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
     
     
-    <category term="量化" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96/"/>
-    
     <category term="强化学习" scheme="https://chiechie.github.io/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="量化" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96/"/>
     
   </entry>
   
@@ -453,10 +453,10 @@
   
   <entry>
     <title>《Advances in Financial Machine Learning》读书笔记3 回测</title>
-    <link href="https://chiechie.github.io/2021/07/07/AFML/AFML3/"/>
-    <id>https://chiechie.github.io/2021/07/07/AFML/AFML3/</id>
+    <link href="https://chiechie.github.io/2021/07/07/reading_notes/AFML/AFML3/"/>
+    <id>https://chiechie.github.io/2021/07/07/reading_notes/AFML/AFML3/</id>
     <published>2021-07-07T03:08:30.000Z</published>
-    <updated>2021-07-19T03:51:56.346Z</updated>
+    <updated>2021-07-29T12:08:37.713Z</updated>
     
     
       
@@ -469,7 +469,7 @@
     
     
     
-    <category term="AFML" scheme="https://chiechie.github.io/categories/AFML/"/>
+    <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
     
     
     <category term="量化" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96/"/>
@@ -480,10 +480,10 @@
   
   <entry>
     <title>《Advances in Financial Machine Learning》读书笔记1 数据分析</title>
-    <link href="https://chiechie.github.io/2021/07/06/AFML/AFML1/"/>
-    <id>https://chiechie.github.io/2021/07/06/AFML/AFML1/</id>
+    <link href="https://chiechie.github.io/2021/07/06/reading_notes/AFML/AFML1/"/>
+    <id>https://chiechie.github.io/2021/07/06/reading_notes/AFML/AFML1/</id>
     <published>2021-07-06T11:50:44.000Z</published>
-    <updated>2021-07-12T00:57:59.690Z</updated>
+    <updated>2021-07-29T12:08:39.463Z</updated>
     
     
       
@@ -496,7 +496,7 @@
     
     
     
-    <category term="AFML" scheme="https://chiechie.github.io/categories/AFML/"/>
+    <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
     
     
     <category term="量化" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96/"/>
@@ -507,10 +507,10 @@
   
   <entry>
     <title>《Advances in Financial Machine Learning》读书笔记0 为什么金融领域的机器学习项目经常失败？</title>
-    <link href="https://chiechie.github.io/2021/07/05/AFML/AFML0/"/>
-    <id>https://chiechie.github.io/2021/07/05/AFML/AFML0/</id>
+    <link href="https://chiechie.github.io/2021/07/05/reading_notes/AFML/AFML0/"/>
+    <id>https://chiechie.github.io/2021/07/05/reading_notes/AFML/AFML0/</id>
     <published>2021-07-05T01:49:02.000Z</published>
-    <updated>2021-07-08T02:55:20.196Z</updated>
+    <updated>2021-07-29T12:08:29.042Z</updated>
     
     
       
@@ -523,7 +523,7 @@
     
     
     
-    <category term="AFML" scheme="https://chiechie.github.io/categories/AFML/"/>
+    <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
     
     
     <category term="量化" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96/"/>
@@ -561,10 +561,10 @@
   
   <entry>
     <title>《巫师唐望》读书笔记</title>
-    <link href="https://chiechie.github.io/2021/07/03/reading_notes/zhexue/wushitangwang/"/>
-    <id>https://chiechie.github.io/2021/07/03/reading_notes/zhexue/wushitangwang/</id>
+    <link href="https://chiechie.github.io/2021/07/03/zhexue/wushitangwang/"/>
+    <id>https://chiechie.github.io/2021/07/03/zhexue/wushitangwang/</id>
     <published>2021-07-03T07:30:45.000Z</published>
-    <updated>2021-07-15T05:57:29.723Z</updated>
+    <updated>2021-07-29T11:43:20.975Z</updated>
     
     
       
@@ -577,7 +577,7 @@
     
     
     
-    <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
+    <category term="哲学" scheme="https://chiechie.github.io/categories/%E5%93%B2%E5%AD%A6/"/>
     
     
     <category term="哲学" scheme="https://chiechie.github.io/tags/%E5%93%B2%E5%AD%A6/"/>
