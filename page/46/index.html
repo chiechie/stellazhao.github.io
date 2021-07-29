@@ -165,131 +165,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/28/reinforcement_learning/rl10_gym/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Chiechie">
-      <meta itemprop="description" content="a reader & thinker">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chiechie's Mini World">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/28/reinforcement_learning/rl10_gym/" class="post-title-link" itemprop="url">强化学习10 使用gym规划出租车行车路线的demo</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-28 20:33:14" itemprop="dateCreated datePublished" datetime="2021-04-28T20:33:14+08:00">2021-04-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>看完了强化学习的理论，现在来动手试一试</p>
-</blockquote>
-<h2 id="场景介绍">场景介绍</h2>
-<p>以出租车司机路线规划为背景，下面演示一下如何由强化学习解决这个问题</p>
-<p>为了将问题进一步简化，基于已有的强化学习框架gym，我就可以更关注在策略实现了</p>
-<p>首先强化学习将问题建模为两个部分：环境（environment）和 决策主体（agent）。 环境基于state，action给出反馈（reward），以及下一个时刻的reward。 agent基于state，给出最佳的action。</p>
-<p>对于「出租车路线规划问题」，state就是给定区域：出租车坐标，行人坐标，行人目的地，障碍物（墙）的坐标，出租车当前是否已经载人</p>
-<p>action就4个方向（东南西北），2个动作（载人，下客）</p>
-<h2 id="开始编程实现啦">开始编程实现啦</h2>
-<h3 id="step1-加载出租车路线规划这个环境">step1: 加载「出租车路线规划」这个环境</h3>
-<p>因为gym已经带有这个环境，直接可用</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"></span><br><span class="line">env = gym.make(<span class="string">&quot;Taxi-v3&quot;</span>)</span><br><span class="line">env.reset()</span><br><span class="line"><span class="comment"># visulize current state</span></span><br><span class="line">env.render()</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="img.png" alt="environment" /><figcaption aria-hidden="true">environment</figcaption>
-</figure>
-<p>上图环境渲染的图中</p>
-<ul>
-<li>黄色方块代表出租车当前的位置</li>
-<li>“|”代表一堵墙，不能穿透</li>
-<li>蓝色的字母表示载人地方</li>
-<li>紫色的字母表示下客的地方</li>
-<li>出租车接到人之后会编程绿色</li>
-</ul>
-<p>注意，这些颜色，形状只是方便人理解，算法内部只关心有5个状态</p>
-<h3 id="step2-看一下action的6个状态">step2： 看一下action的6个状态</h3>
-<p>看一下action的6个状态， down (0), up (1), right (2), left (3), pick-up (4), and drop-off (5). <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(env.action_space)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    print(env.action_space.sample())</span><br></pre></td></tr></table></figure> <img src="img_1.png" alt="img_1.png" /></p>
-<h3 id="step3-跟env交互一次">step3: 跟env交互一次</h3>
-<p>跟env交互一次，拿到反馈和最新的状态</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">state, reward, done, info = env.step(action=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<p><img src="img_3.png" alt="img_3.png" /> 注意：每个Gym环境的step方法都返回state, reward, done, info这四个变量，输入某个action</p>
-<h3 id="step4-使用某个简单策略随机策略">step4： 使用某个简单策略（随机策略）</h3>
-<p>使用某个简单策略（随机策略），让出租车跑完一轮</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">state = env.reset()</span><br><span class="line">env.render()</span><br><span class="line">n = <span class="number">0</span></span><br><span class="line">r = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    state, reward, done, info = env.step(action=env.action_space.sample())</span><br><span class="line">    r += reward</span><br><span class="line">    n = n + <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> done:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">print(<span class="string">&quot;totally make %d decisions&quot;</span> % (n+<span class="number">1</span>), <span class="string">&quot;total reward&quot;</span>, r)</span><br><span class="line">env.render()</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="img_4.png" alt="img_4.png" /><figcaption aria-hidden="true">img_4.png</figcaption>
-</figure>
-<h3 id="step5-升级策略-q-table-跑多轮">step5: 升级策略-Q-table, 跑多轮</h3>
-<p>Q-table使用bellman方程迭代更新策略，并且存放到一张表中（这个表就是Q-table），即每个状态，每个action对应的Q-value</p>
-<p><span class="math display">\[Q_{t+1}\left(s_{t}, a_{t}\right)=\underbrace{Q_{t}\left(s_{t}, a_{t}\right)}_{\text {old value }}+\underbrace{\alpha_{t}\left(s_{t}, a_{t}\right)}_{\text {learning rate }} \times[\overbrace{\underbrace{R_{t+1}}_{\text {reward }}+\underbrace{\gamma}_{\text {discount factor }} \underbrace{\max _{a} Q_{t}\left(s_{t+1}, a_{t}\right)}_{\text {estimate of optimal future value }}}^{\text {learned value }}-\underbrace{Q_{t}\left(s_{t}, a_{t}\right)}_{\text {old value }}]\]</span></p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">n_state = env.observation_space.n</span><br><span class="line">n_action = env.action_space.n</span><br><span class="line">Q_table = np.zeros((n_state, n_action))</span><br><span class="line">alpha = <span class="number">0.615</span></span><br><span class="line">gamma = <span class="number">0.9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> episode <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1000</span>):</span><br><span class="line">    state = env.reset()</span><br><span class="line">    <span class="comment">#env.render()</span></span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    r = <span class="number">0</span></span><br><span class="line">    done = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">while</span> done <span class="keyword">is</span> <span class="literal">False</span>:</span><br><span class="line">        best_action = np.argmax(Q_table[state, :])</span><br><span class="line">        state2, reward, done, info = env.step(action=best_action)</span><br><span class="line">        Q_table[state, best_action] = Q_table[state, best_action] + alpha *(reward + gamma * np.<span class="built_in">max</span>(Q_table[state2]) - Q_table[state, best_action])</span><br><span class="line">        r += reward</span><br><span class="line">        n = n + <span class="number">1</span></span><br><span class="line">        <span class="comment"># 别漏了</span></span><br><span class="line">        state = state2 </span><br><span class="line">    <span class="keyword">if</span> episode % <span class="number">50</span> == <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">&#x27;Episode &#123;&#125; Total Reward: &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(episode,r))</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="img_6.png" alt="img_6.png" /><figcaption aria-hidden="true">img_6.png</figcaption>
-</figure>
-<h2 id="遗留问题">遗留问题</h2>
-<ol type="1">
-<li>策略函数要设置约束，比如不能撞墙</li>
-</ol>
-<h2 id="参考">参考</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.oreilly.com/radar/introduction-to-reinforcement-learning-and-openai-gym/">强化学习环境框架-gym</a>)</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/28/machine-learning/machine-learning_4-dl9_lvm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -523,6 +398,108 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/28/reading_notes/computer/pred-sparse-ts/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/28/reading_notes/computer/pred-sparse-ts/" class="post-title-link" itemprop="url">对稀疏序列进行预测</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-28 09:33:02" itemprop="dateCreated datePublished" datetime="2021-04-28T09:33:02+08:00">2021-04-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-06-07 08:17:56" itemprop="dateModified" datetime="2021-06-07T08:17:56+08:00">2021-06-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="背景和问题描述">背景和问题描述</h2>
+<ul>
+<li>我有一个time-series dataset (daily frequency) ，代表某个顾客购买某个商品的数量，如下:
+<ul>
+<li>[0,0,0,0,24,0,0,0,0,0,0,0,4,0,0,0,0,17,0,0,0,0,9,0,...]</li>
+</ul></li>
+<li>每个数据表示 某一天商品的销量</li>
+<li>已有的算法如arima，holtwinter只能对连续型 和 光滑型数据做预测，不适合现在的稀疏数据。</li>
+<li>总结下，target 非负&amp;稀疏&amp;整数，有什么技术可以做预测吗？</li>
+</ul>
+<h2 id="方案1将天的数据聚合成周">方案1:将天的数据聚合成周：</h2>
+<p>if you don't need daily resolution in your predictions, perhaps by aggregating to weekly you will have an easier time series to forecast.</p>
+<h2 id="方案2对两个事件的时间间隔-和-数值-进行建模">方案2:对两个事件的时间间隔 和 数值 进行建模</h2>
+<pre><code>- 假设数据是由两个随机过程驱动生成
+    - 1  a distribution over time intervals, （poisson？）
+    - 2 a distribution over purchase amounts. （gaussian？）</code></pre>
+<h2 id="方案3对用户的库存建模">方案3:对用户的库存建模</h2>
+<p>假设用户的库存是随事件衰减的，到达某个阈值就开始考虑购入，那么可以用手头的购买数据来拟合已经有的曲线（注意 消耗速率和threshold都有可能随时间变化）</p>
+<h2 id="方案4-建模成一个state-space模型state是时间间隔space是取值">方案4-建模成一个state-space模型，state是时间间隔，space是取值</h2>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FbO8qrMgQNa.png?alt=media&amp;token=4078557f-5b4f-4b43-8fed-1eed975a0d80" /></p>
+<h2 id="chiechies-refomulation">chiechie's refomulation</h2>
+<p>突然想到，事件序列可以和 时间序列 重新定义到 一个框架下建模： - 事件序列 相当于 是中间有缺失值 或者 零值的 时间序列， - 一种建模方式是，按照滑动事件窗口的方式，将最近w个事件放入一个样本，特征除了event的值，还有相邻两个event的时间间隔 - 还有一种建模方式，缺失时刻补0，然后重新聚合，然后取时间窗口， - 两种方式都是把序列数据 转换为 表数据。</p>
+<h2 id="先转换--cusum-不仅适合sparse信号还适合固定值的信号">先转换--&gt;cusum, 不仅适合sparse信号，还适合固定值的信号：</h2>
+<ul>
+<li>You might be getting caught up on the sparsity characteristic... If you take a cumulative sum then it's just a plain old monotonic time series!</li>
+<li>https://www.reddit.com/r/datascience/comments/a63aq9/sparse_time_series_prediction/</li>
+</ul>
+<h2 id="参考">参考</h2>
+<p>1.<a target="_blank" rel="noopener" href="https://datascience.stackexchange.com/questions/17341/forecasting-non-negative-sparse-time-series-data">ts_prediction-stackexchange</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -592,7 +569,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">199</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

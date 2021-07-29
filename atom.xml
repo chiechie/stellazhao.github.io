@@ -44,27 +44,6 @@
   </entry>
   
   <entry>
-    <title>server</title>
-    <link href="https://chiechie.github.io/2021/07/28/server/"/>
-    <id>https://chiechie.github.io/2021/07/28/server/</id>
-    <published>2021-07-28T07:39:24.000Z</published>
-    <updated>2021-07-28T07:39:24.876Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html"></summary>
-        
-      
-    
-    
-    
-    
-  </entry>
-  
-  <entry>
     <title>时间序列6 时序预测框架--《Probabilistic Demand Forecasting at Scale》</title>
     <link href="https://chiechie.github.io/2021/07/27/timeseries/timeseries5-1_system/"/>
     <id>https://chiechie.github.io/2021/07/27/timeseries/timeseries5-1_system/</id>
@@ -253,7 +232,7 @@
     <link href="https://chiechie.github.io/2021/07/23/timeseries/timeseries3_classic-prediction/"/>
     <id>https://chiechie.github.io/2021/07/23/timeseries/timeseries3_classic-prediction/</id>
     <published>2021-07-23T00:25:11.000Z</published>
-    <updated>2021-07-27T12:33:37.851Z</updated>
+    <updated>2021-07-29T09:53:38.725Z</updated>
     
     
       
@@ -284,7 +263,7 @@
     <link href="https://chiechie.github.io/2021/07/22/timeseries/timeseries2_ts-prepare/"/>
     <id>https://chiechie.github.io/2021/07/22/timeseries/timeseries2_ts-prepare/</id>
     <published>2021-07-22T14:04:02.000Z</published>
-    <updated>2021-07-28T08:07:04.981Z</updated>
+    <updated>2021-07-29T09:00:11.862Z</updated>
     
     
       
@@ -577,6 +556,33 @@
     <category term="量化" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96/"/>
     
     <category term="投资" scheme="https://chiechie.github.io/tags/%E6%8A%95%E8%B5%84/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>《巫师唐望》读书笔记</title>
+    <link href="https://chiechie.github.io/2021/07/03/reading_notes/zhexue/wushitangwang/"/>
+    <id>https://chiechie.github.io/2021/07/03/reading_notes/zhexue/wushitangwang/</id>
+    <published>2021-07-03T07:30:45.000Z</published>
+    <updated>2021-07-15T05:57:29.723Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html"></summary>
+        
+      
+    
+    
+    
+    <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
+    
+    
+    <category term="哲学" scheme="https://chiechie.github.io/tags/%E5%93%B2%E5%AD%A6/"/>
+    
+    <category term="自我中心主义" scheme="https://chiechie.github.io/tags/%E8%87%AA%E6%88%91%E4%B8%AD%E5%BF%83%E4%B8%BB%E4%B9%89/"/>
     
   </entry>
   

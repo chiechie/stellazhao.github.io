@@ -165,169 +165,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/23/timeseries/timeseries3_classic-prediction/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Chiechie">
-      <meta itemprop="description" content="a reader & thinker">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chiechie's Mini World">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/07/23/timeseries/timeseries3_classic-prediction/" class="post-title-link" itemprop="url">时间序列2 统计分析模型</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-07-23 08:25:11" itemprop="dateCreated datePublished" datetime="2021-07-23T08:25:11+08:00">2021-07-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-27 20:33:37" itemprop="dateModified" datetime="2021-07-27T20:33:37+08:00">2021-07-27</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">时间序列</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="总结">总结</h2>
-<ol type="1">
-<li><p>随机过程，由一系列按照时间排序的随机变量组成。</p></li>
-<li><p>序列的随机行为，由概率密度函数定义，如果能穷举出所有finite时间索引集合的概率分布，就可以确定该随机过程。</p>
-<blockquote>
-<p>随机过程的定义并没有提到平移不变性。</p>
-</blockquote></li>
-<li><p>平移不变性是指，移动一个时间步之后，概率分布保持不变。</p></li>
-<li><p>严格平稳性，表示一个随机过程的所有finite时间索引集合对应的概率分布，都满足平移不变性。</p>
-<blockquote>
-<p>随机过程如果有了平移不变性，就可以用更简洁的pdf来表达。</p>
-</blockquote></li>
-<li><p>弱平稳性，也叫协方差平稳性，表示一个随机过程的所有2维时间索引集合对应的概率分布, 都满足平移不变性。</p></li>
-<li><p>满足弱平稳性的随机过程比仅满足强平稳行的随机过程多的多。</p></li>
-<li><p>满足协方差平稳性的随机过程满足表示定理(wold representation):</p></li>
-<li><p>什么是好的模型？p尽可能小，或者ma中的q尽可能小。</p></li>
-<li><p>弱平稳随机过程<span class="math inline">\({X_t}\)</span>的脉冲响应函数（impulse response function）表示某个时刻的噪声（innovation）怎么影响后面的随机过程，即the impact of the innovation on the process。</p>
-<blockquote>
-<p>脉冲响应函数，有点像这个因子的能量衰减函数，总能量(long-run cumalative response)=1, 每过一段时间，这个因子释放一点能量，从而对观测值造成影响，释放能量随时间逐渐疲乏，趋近于0.</p>
-</blockquote></li>
-<li><p><span class="math inline">\(\psi\)</span>和<span class="math inline">\(\psi^{-1}\)</span>类似收集能量（或者innovation造成的影响）和消除能量（或者innovation造成的影响）。</p></li>
-<li><p>对<span class="math inline">\(X_t\)</span>进行消除能量操作（历史innovation的影响）之后，就只剩下当下时刻的innovation带来的影响了。</p>
-<p>如果<span class="math inline">\(\psi\)</span>的逆存在，那么原始的ma过程等价于ar过程。即一个随机过程，既可以表达为从历史innovation中收集能量的过程，也可以表达为，对历史观测值中剔除能量的过程，观测值的系数就是自回归系数。</p></li>
-<li><p>经典的时序分析模型ARMA(p, q) 表示，对观测变量的多项式滞后操作+对噪声的多项式滞后操作，噪声<span class="math inline">\(\eta_t\)</span>是一个维纳过程</p></li>
-<li><p>随机游走就是一个一阶自回归模型，但是非平稳.</p></li>
-<li><p>自回归模型如果满足，特征方程的p个根（复数），都在单位元外面，该随机过程是平稳的。本质上是对回归函数的逆函数施加的收敛性约束。</p></li>
-<li><p>如何对非平稳随机过程建模？先差分，那几个非平稳的例子验一验，比如随时间线性增长+白噪声，再比如</p></li>
-<li><p>金融数据大部分都是非平稳的，像随机游走，box和jenkins想出来了一种移除非平稳趋势的方法--差分</p></li>
-<li><p>平稳性测试：H0是平稳的，检验方法有KPSS测试</p>
-<p>非平稳性测试，H0假设是非平稳的，常用来检测非平稳性的方法单位根检验方法，例如Dickey-Fuller测试</p></li>
-<li><p>DF测试是一种单位根检测，它的流程是这样的，先假设随机过程服从AR（1）模型，拟合一个AR（1）的模型，然后定义一个根<span class="math inline">\(\phi\)</span>相关的统计量，</p>
-<ol type="1">
-<li>如果 <span class="math inline">\(\phi=1\)</span>, 那就应该观察到t服从一个DF分布，对应的随机过程就是是随机游走，是一个非平稳的随机过程。</li>
-<li>如果<span class="math inline">\(|\phi|=1\)</span>,那么估计量和真实<span class="math inline">\(\phi\)</span>的差值就近似一个正态分布，以真实<span class="math inline">\(\phi^2\)</span>为方差。</li>
-</ol></li>
-</ol>
-<h2 id="附录">附录</h2>
-<ol type="1">
-<li><p>相关系数：两个随机变量标准化到均值=0，方差=1之后的，求协方差。</p></li>
-<li><p>wold representation定理</p>
-<figure>
-<img src="./image-20210715091517366.png" alt="wold representation" /><figcaption aria-hidden="true">wold representation</figcaption>
-</figure></li>
-</ol>
-<h3 id="representation定理">representation定理</h3>
-<p>使用滞后算子表述representation定理</p>
-<figure>
-<img src="./image-20210715101032432.png" alt="image-20210715101032432" /><figcaption aria-hidden="true">image-20210715101032432</figcaption>
-</figure>
-<h3 id="representation定理的应用--估计时间序列背后的分布">representation定理的应用--估计时间序列背后的分布</h3>
-<p>表示定义的应用-给定一个时间序列，希望确定背后的分布：</p>
-<ol type="1">
-<li><p>假设：背后的随机过程由两部分构成，历史信息 + 白噪声，历史信息是过去p段时间的信息的线性变换，白噪声是的平稳的随机过程</p></li>
-<li><p>参数估计：使用最小二乘估计出线形变换</p></li>
-<li><p>模型诊断：基于假设+数据，推断出一些其他的统计量，将这些统计量带回假设，检验一致性。</p>
-<blockquote>
-<p>观测值减去历史信息，就是白噪声的观测值，接下来检测，这个白噪声是否如step1的 假设所描述</p>
-</blockquote>
-<ol type="1">
-<li>正交性检验：测试白噪声是否跟p个变量的相关性为0，不为0的话，就要将p的值变大，重新做实验。</li>
-<li>检验是否是白噪声 : 不是白噪声的话，要么调整ma模型，要么在线性变换中加入更多的lag项，或者其他的确定性变量</li>
-</ol></li>
-</ol>
-<figure>
-<img src="./image-20210715095528794.png" alt="image-20210715095528794" /><figcaption aria-hidden="true">image-20210715095528794</figcaption>
-</figure>
-<h3 id="arma模型">ARMA模型</h3>
-<figure>
-<img src="./image-20210715140721430.png" alt="image-20210715140721430" /><figcaption aria-hidden="true">image-20210715140721430</figcaption>
-</figure>
-<ol start="3" type="1">
-<li><p>AR（p）模型的平稳条件：</p>
-<figure>
-<img src="./image-20210715145052508.png" alt="image-20210715145052508" /><figcaption aria-hidden="true">image-20210715145052508</figcaption>
-</figure></li>
-<li><p>yuler walker方程：AR（P）的协方差<span class="math inline">\(\gamma\)</span>和<span class="math inline">\(\phi\)</span>满足的某个方程</p></li>
-<li><p>有了协方差矩阵的估计量，求yuler walker方程，就可以得出AR（p）的p个参数，再就可以算出波动率。</p></li>
-<li><figure>
-<img src="./image-20210715153433604.png" alt="image-20210715153433604" /><figcaption aria-hidden="true">image-20210715153433604</figcaption>
-</figure>
-<ol type="1">
-<li>使用原始的p阶自回归过程，</li>
-</ol></li>
-</ol>
-<h2 id="参考">参考</h2>
-<ol type="1">
-<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=uBeM1FUk4Ps&amp;t=362s">Time Series Analysis I--youtube</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://ocw.mit.edu/courses/mathematics/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/">Time Series Analysis---slide</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://ocw.mit.edu/courses/mathematics/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/">Topics in Mathematics with Applications in Finance-open course</a></p></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/22/timeseries/timeseries2_ts-prepare/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -359,7 +196,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-28 16:07:04" itemprop="dateModified" datetime="2021-07-28T16:07:04+08:00">2021-07-28</time>
+                <time title="修改时间：2021-07-29 17:00:11" itemprop="dateModified" datetime="2021-07-29T17:00:11+08:00">2021-07-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -384,7 +221,131 @@
       
           <h2 id="时间序列的特征生成">时间序列的特征生成</h2>
 <ol type="1">
+<li>对于统计模型和状态空间模型，需要用到时序中所有的数据点来拟合模型</li>
+<li>为了将机器学习技术应用到时间序列上面来，需要做特征生成</li>
+<li>特征生成：将时间序列数据中重要的信息表达为几个数值和类别标签。实际上是一个信息压缩的方法。 例如,一个时序可以表达为均值和长度。</li>
+<li>传统的机器学习模式最初不是为时间序列数据设计的,因此它们不可以直接用于自动用于时间序列分析应用</li>
+<li>然而,使这些模型在时间数据发挥作用的一个办法是特征生成。</li>
+<li>例如,通过一系列特征集合来描述某个时间序列, 就可以使截面数据（cross-sectional ）使用的方法了。</li>
+<li>短时间序列做特征生成的例子,接下来看一下自动化的特征生成和特征选择，之后就具备了下游机器学习应用所需要的预处理的全部技能。</li>
+<li>时序的特征比如，周期性，斜率，均值。</li>
+<li>遍历性（ergodic）：</li>
+<li>An <em>ergodic</em> time series is one in which every (reasonably large) sub‐ sample is equally representative of the series. This is a weaker label than stationarity, which requires that these subsamples have equal mean and variance. Ergodicity requires that each slice in time is “equal” in containing information about the time series, but not necessarily equal in its statistical measurements (mean and var‐ iance). You can find a helpful discussion on StackExchange.</li>
 <li>蒙特卡洛采样可以生成iid的样本，但是要生成有依赖关系的样本就不行了，可以使用马尔可夫链。</li>
+</ol>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://ipfs.io/ipfs/bafykbzaceajhmnmehz7amkjofpsxmsymk5u6ph4mrzytlp5zq7wf7ouhqkre2?filename=Aileen%20Nielsen%20-%20Practical%20Time%20Series%20Analysis_%20Prediction%20with%20Statistics%20and%20Machine%20Learning-O’Reilly%20Media%20(2019).pdf">practical time series:prediction with statistic &amp; machine learning</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/21/timeseries/timeseries1_basic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/07/21/timeseries/timeseries1_basic/" class="post-title-link" itemprop="url">时间序列1 时间序列技术介绍</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-21 15:23:49" itemprop="dateCreated datePublished" datetime="2021-07-21T15:23:49+08:00">2021-07-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-27 20:54:26" itemprop="dateModified" datetime="2021-07-27T20:54:26+08:00">2021-07-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">时间序列</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="时间序列相关技术概览">时间序列相关技术概览</h2>
+<ol type="1">
+<li>时间序列结构比截面数据的信息量更多</li>
+<li>时序分析工具可以分析所有的序列类型数据，不一定是时间序列。</li>
+<li>对时间序列数据分析的过程包括：预处理，建模和评估</li>
+<li>对时间序列预处理包括，缺失值填充，时序数据合成。</li>
+<li>关于数据数据合成：蒙特卡洛采样可以生成iid的样本，但是要生成有依赖关系的样本就不行了，可以使用马尔可夫链。</li>
+<li>关于时间序列模型：常用的时间序列模型有统计模型，状态空间模型，机器学习/深度学习模型。</li>
+<li>传统的统计模型：arma/arima/sarima/ arima/state space/exponential smoothing平稳性检验。</li>
+<li>深度神经网络模型：卷积神经网络/全连接神经网络/循环神经网络/基于Seq2Seq的模型，以及是否基于attention。
+<ol type="1">
+<li>基于全连接网络的模型：MQ-DNN</li>
+<li>基于卷积的神经网络：TCN/CNN-QR/</li>
+<li>基于隐藏状态的模型：DeepFactor/DeepStateSpaceModel</li>
+<li>基于循环神经网络：SimpleRNN/LSTM/GRU，也可以加入attention层，变成基于重要性的神经网络。</li>
+<li>基于Seq2Seq的模型：DeepAR/Transformer/Bert/GPT，其中Transformer/Bert/GPT是基于attention的。</li>
+</ol></li>
+</ol>
+<h2 id="时间序列预测">时间序列预测</h2>
+<ol type="1">
+<li>时序预测中的一些难点：
+<ul>
+<li>现实中需要对多条曲线建模，但是单个曲线去建模，人工成本高</li>
+<li>不同曲线模式不一样（最显而易见的，scale不一样），而学习一个global model对nn来说挑战很大（nn擅长局部建模）</li>
+<li>预测概率分布</li>
+</ul></li>
+<li>传统统计模型只对单个曲线做预测，缺点是要一个个曲线去做模型选择，并且每个样本曲线需要积累大量的历史数据。基于深度学习或机器学习的时序预测技术可以对多个曲线一起建模。</li>
+</ol>
+<h2 id="时序异常检测">时序异常检测</h2>
+<ol type="1">
+<li><p>对时间序列进行异常检测，难度小于对时间序列进行预测。</p></li>
+<li><p>对时间序列进行异常检测的流程：</p>
+<ol type="1">
+<li>找出最匹配模式：用拟合程度来判断最符合的是哪个模式。</li>
+<li>使用模式来预测未来范围：给一个区间。</li>
+</ol></li>
 </ol>
 <h2 id="参考">参考</h2>
 <ol type="1">
@@ -474,7 +435,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">199</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
