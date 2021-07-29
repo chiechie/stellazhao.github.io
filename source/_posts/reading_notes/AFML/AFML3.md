@@ -7,7 +7,7 @@ tags:
 - 量化
 - 投资
 categories:
-- AFML
+- 阅读
 ---
 
 ## chapter 10  仓位大小
