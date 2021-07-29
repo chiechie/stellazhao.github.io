@@ -1,5 +1,5 @@
 ---
-title: 黑天鹅
+title: 《黑天鹅》读书笔记
 author: chiechie
 mathjax: true
 date: 2021-04-18 19:55:49

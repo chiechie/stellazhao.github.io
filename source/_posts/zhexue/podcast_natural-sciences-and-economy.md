@@ -9,7 +9,7 @@ tags:
 - 物理
 - 哲学
 categories: 
-- 阅读
+- 哲学
 ---
 
 
@@ -29,5 +29,4 @@ categories:
 
 ## 参考
 1.[微信公众号-RandomWalk Theory-许成钢教授谈治学](https://mp.weixin.qq.com/s/OOZabR5vQgmQzFIPrkJyoA)
-
 

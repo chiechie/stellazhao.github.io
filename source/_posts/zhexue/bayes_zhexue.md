@@ -4,7 +4,7 @@ date: 2021-04-24 09:03:28
 author: "chiechie"
 header-style: text
 categories: 
-- 阅读
+- 哲学
 tags:
 - 哲学
 - 统计学
@@ -19,10 +19,11 @@ tags:
 
 ## law和regularities
 
-- 科学界曾被认为是自然定律（Laws of Nature）的原则（principle）: 牛顿的万有引力定律（law of gravitation），他的三大运动定律（three laws of motion），理想气体定律，孟德尔定律，供需定律（,the laws of supply and demand,），等等。
-- 规律（regularities）被科学家认为(或仍然被认为)需要更坚实的基础。其中包括海洋潮汐的规律，水星轨道的近日点，光电效应，宇宙正在膨胀等等。
-- 科学家使用定律（laws）而不是其他规律（regularities）来推断出更可能的结论: 宇宙学家根据与爱因斯坦引力定律的一致性认识到我们的宇宙可能是封闭的，也可能是开放的(Maudlin，2007,7-8)。
-- 在统计力学中，基本物理理论的定律（laws）被用来确定系统状态空间中可能的动态轨迹。
+- 科学界最高原则（principle）叫法则（law），地位其次的是规律（regularities）。
+- 法则比如牛顿的万有引力定律（law of gravitation），他的三大运动定律（three laws of motion），理想气体定律，孟德尔定律，供需定律（the laws of supply and demand,），等等。
+- 规律（regularities）则仍需要更坚实的基础。其中包括海洋潮汐的规律，水星轨道的近日点，光电效应，宇宙膨胀理论等等。
+- 科学家使用法则（laws）而不是规律（regularities）来推断其他结论，例如宇宙学家根据爱因斯坦的引力定律推测出我们的宇宙可能是封闭的，也可能是开放的(Maudlin，2007,7-8)。
+- 在统计力学中，根据物理理论的法则（laws）来推断系统状态空间中可能的动态轨迹。
 
 
 
