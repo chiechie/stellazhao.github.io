@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/26/AIOps/AIOps-2_3-trace_rca/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/06/03/reading_notes/economics/huilv/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/26/AIOps/AIOps-2_3-trace_rca/" class="post-title-link" itemprop="url">chapter2.3 调用链根因分析</a>
+            <a href="/2021/06/03/reading_notes/economics/huilv/" class="post-title-link" itemprop="url">汇率机制</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-05-26 16:49:19" itemprop="dateCreated datePublished" datetime="2021-05-26T16:49:19+08:00">2021-05-26</time>
+              <time title="创建时间：2021-06-03 08:28:28" itemprop="dateCreated datePublished" datetime="2021-06-03T08:28:28+08:00">2021-06-03</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 18:11:19" itemprop="dateModified" datetime="2021-07-09T18:11:19+08:00">2021-07-09</time>
+                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/AIOps/" itemprop="url" rel="index"><span itemprop="name">AIOps</span></a>
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
                 </span>
             </span>
 
@@ -219,88 +219,53 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="总结">总结</h1>
+          <blockquote>
+<p>中国可以无限印钞购买美国的东西吗？</p>
+</blockquote>
+<p>蒙代尔三角：本国货币政策的独立性（印钞权），汇率的稳定性，资本自由流动，3选2，必须放弃一个。</p>
+<p>蒙代尔三角短期可以三种都实行，但是最终会提供套利机会，导致三者里面必须放弃一个。 例如92-98年的泰国，三者都要导致外汇掏空，固定汇率无法维持，引起亚洲金融危机。</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>货币主权</th>
+<th>汇率的稳定性</th>
+<th>资本自由流动</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>英国/希腊等欧盟国家</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td>中国香港</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="odd">
+<td>中国大陆</td>
+<td>Yes</td>
+<td>有限</td>
+<td>有限</td>
+</tr>
+<tr class="even">
+<td>美国</td>
+<td>有限</td>
+<td>有限</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="香港政府怎么发币的">香港政府怎么发币的？</h2>
+<p>法律规定，香港的发钞银行在发行钞票时，需要找7.8:1的汇率向金管局提交等值美元，并计入外汇基金账目，作为所发钞票的支持。</p>
+<h2 id="参考">参考</h2>
 <ol type="1">
-<li><p>在微服务的架构中，1个web service内部通常需要调用多个微服务。</p></li>
-<li><p>当外部对web service S1 发起请求时，请求id就是uuid。S1 会将这个外部请求拆成一系列微服务之间的子调用。</p></li>
-<li><p>这样微服务和它们之间的调用（call path）关系就构成一个调用拓扑。当其中某个节点--即某个微服务s1--发生故障了，所有调用他的微服务s2,s3,...都会发生故障。所以可以看到，故障是沿着调用的反方向传播的，或者说沿着被调用的方向传播的。</p></li>
-<li><p>对微服务架构进行故障定位，也就是需要，实时监控web service（S1）的健康状况，并且在S1异常的时候给出根因节点，即是哪个微服务故障引起的，从而去执行修复的操作。</p></li>
-<li><p>当web service S1时，通常有两类表现，分别是调用链结构异常 和 调用耗时异常</p>
-<ul>
-<li>调用结构异常：即跟正常调用链关系相比，边变多了或者变少了。举个列子，微服务a本应该调用微服务b，但是a服务挂了，那么本来应该存在的调用链条就消失了。再举个列子，正常情况下本不应该存在调用关系，但是由于故障导致产生了不正常的调用关系。</li>
-<li>调用耗时异常：即调用耗时比正常的调用耗时要少/多。举个例子，正常情况下a调用b，b响应a只需要1min，但是如果b所在的机器内存满了, 就需要10min完成响应了。</li>
-</ul></li>
-<li><p>总结下调用链路故障定位要解决的问题：</p>
-<ol type="1">
-<li>当前微服务间的调用是否正常？有可能某些微服务之间的调用已经异常了，但是web service暂时还能对外提供正常服务。</li>
-<li>如果异常，是哪个节点（微服务）引起的？</li>
-</ol></li>
-<li><p>TraceAnomaly对调用链系统做异常检测的思路是这样：</p>
-<ol type="1">
-<li>生成样本：对每一个web service S1，搜集跟S1相关的所有trace数据。S1被调用一次就生成一个trace, 也就是一个样本，uuid可以认为是样本id了。1个样本包含的信息有：所有子调用span_id, 每次子调用的耗时，以及路径（起点（调用方）--&gt;终点（被调用方））</li>
-<li>trace向量化：每个trace的每一次子调用call_path 都会统一存放到 call path list 中去，也就是说 call path list收集了 所有trace 的所有的子调用路径, 就好像一个字典。 然后将span参考call path list去做one-hot编码，然后构建一个等长的耗时向量，把两个向量做点乘。注意，为了区分耗时很短的子调用和实际中缺失的自调用，将one-hot encoder向量中，为0的元素设置为-1（为0表示，实际没有命中该位置对应的call path）。</li>
-<li>降维得到STV：如果某个web service对应的所有trace的call path的并集为32，那么样本的维度就是32, 一个样本对应的特征向量就叫STV（Service Trace Vector）。得到了这个STV后要做两个事情：检测 和 定位</li>
-<li>异常检测： 构造一个生成模型（vae），输入STV，输出是该STV的logits，logits越小说明越异常</li>
-<li>根因定位：通过异常检测知道了该trace异常，那么到底是哪个节点导致的呢？
-<ol type="1">
-<li>找出同构trace：在历史数据中，找出当前有问题的trace通过的其他traces（同构调用链，也叫HSTV）</li>
-<li>找出异常的子调用：跟同构trace对比所有子调用耗时（3-sigma）</li>
-<li>找call path最长的子调用：将所有异常子调用，映射成call path，并且按照调用链路长度从大到小排序，最长的哪个call path就是根因e。</li>
-</ol></li>
-</ol></li>
-<li><p>TraceAnomaly是这么处理冷启动问题的：如果在实时监控的时候，产生了新的正常的call path，而call path list没有这个call pah，那么正常流程会认为该call path对应的trace是异常。这时需要让运维人员进行人工审核，看call path是否符合预期，符合预期就将该call path放入白名单，暂时不告警，并且不会判断其耗时。</p></li>
-</ol>
-<h1 id="附录">附录</h1>
-<h2 id="traceanomaly流程">TraceAnomaly流程</h2>
-<ol type="1">
-<li>TraceAnomaly整体结构 <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FAEYpjsaibJ.png?alt=media&amp;token=361e3b43-eeee-49af-90b7-fed65874868b" /></li>
-<li>TraceAnomaly在线检测：
-<ul>
-<li><p>首先提取新trace中的所有子调用的call path</p></li>
-<li><p>如果trace中包含有未见过的call path就认为是异常，当然这么简单粗暴的方式会带来误警，所以后面提出了白名单的方法（让运维人员去判断，当然只用判断1次）。</p></li>
-<li><p>如果trace中没有unseen call path, 将该trace编码成一个STV向量，就丢到神经网络vae中计算vector的likelihood， 进行异常检测</p></li>
-<li><p>如果当前trace异常，触发在线的根因分析</p>
-<ul>
-<li>step1 首先跟跟同构traces相比，找出异常的call paths？</li>
-<li>step2 在异常的call paths中找出调用链路最长的path &gt; the traceAnomaly finds the longest common path between trace t's longest call path and call paths in the call path list <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FTn7YZeNZvO.png?alt=media&amp;token=12611153-f760-45de-843f-d2db11015f81" alt="根因分析" /></li>
-</ul></li>
-</ul></li>
-</ol>
-<h2 id="调用链路数据预处理">调用链路数据预处理</h2>
-<p>目的: 从一个调用链数据（trace）中提取微服务的调用路径（call paths）和 每个微服务的响应时长（response times）</p>
-<ol type="1">
-<li><p>调用路径（call path）: 从本次trace启动开始，直到微服务s被调用，经过的子调用组成的列表（按调用时间排序），将这个序列记为call path。</p></li>
-<li><p>某个微服务s的响应时间: <span class="math display">\[ rt(response time) = srt(sending time of response message) - rct(recieve time of response message) \]</span> <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fi4eYxs1D2B.png?alt=media&amp;token=fdaf077a-cddc-4e9a-bd0f-4f2c291b3b4d" /></p></li>
-<li><p>举例介绍怎么计算微服务b的响应时间：从原始的调用数据(trace)提取微服务s的耗时，以下图为例，微服务b的响应时间（respond time） = 处理完事务并开始响应的时间点（第11行红色的时间戳） - 接受到指令的时间（第2行红色的时间戳）= 处理事务消耗的时间</p></li>
-</ol>
-<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FzI6rcYmiD2.png?alt=media&amp;token=449f532b-a126-40b0-a6dd-f07067847e3a" /></p>
-<ol start="5" type="1">
-<li>构造STV：使用所有(s, call path)对应的耗时组装成向量，即STV： <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FIcq2XYIGEe.png?alt=media&amp;token=ac5e5876-cc3f-4fd2-94d4-fec58ebf3a1e" /></li>
-<li>调用耗时异常的例子： <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FL-kGMqUym3.png?alt=media&amp;token=a388505b-f239-4b57-b5f2-770253d44ead" alt="Fig. 6: Trace t1 和 t2 结构一样, 但t1正常，t2 异常" />
-<ul>
-<li>t1 ：业务逻辑是b不调用e。</li>
-<li>t2 ：业务逻辑是b调用e，但是因为e故障了导致调用失败。</li>
-<li>两种情况都看不到b-&gt;e的call path，但是t1是正常，而t2是异常。那么应该怎么做 才能找到 t2 ，而不误伤t1呢？看耗时</li>
-</ul></li>
-</ol>
-<h2 id="对stv做异常检测">对STV做异常检测</h2>
-<ol type="1">
-<li>VAE的输入 <img src="./image_1.png" alt="样本概念" /></li>
-<li>通过生成模型学习数据分布，VAE模型结构 <img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F5CUrxFwPhA.png?alt=media&amp;token=84b40833-873d-482b-979f-181f4fc3ad45" /></li>
-<li>训练VAE</li>
-<li>使用VAE异常检测
-<ul>
-<li><span class="math display">\[\log p_{\theta}(\mathbf{x}) \approx \log \frac{1}{L_{z}} \sum_{l=1}^{L_{z}}\left[\frac{p_{\theta}\left(\mathbf{x} \mid \mathbf{z}_{(l)}^{(K)}\right) p_{\theta}\left(\mathbf{z}_{(l)}^{(K)}\right)}{q_{\phi}^{(K)}\left(\mathbf{z}_{(l)}^{(K)} \mid \mathbf{x}\right)}\right]\]</span></li>
-<li>某个trace为异常 等价于 ，该trace 的对数概率明显小于 正常trace（要求同构吗？</li>
-</ul></li>
-<li>怎么界定正常呢？用kde来拟合对数概率的分布, 然后使用p值来判断。</li>
-</ol>
-<h2 id="参考资料">参考资料</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/sqYIb6i9z6xF5nDr8fuVsA">清华微众AIOps新作:基于深度学习的调用轨迹异常检测算法 -微信公众号</a></li>
-<li><a href="https://chiechie.github.io/2021/03/09/AI/AIOps/AIOps-2_1_4-topo-rca-aiops2021/">chapter2.1.4 AIOps挑战赛2021-demo方案</a></li>
-<li>https://github.com/chiechie/TraceAnomaly</li>
-<li>https://docs.qq.com/sheet/DVERzcVpWa2xtckJT?tab=BB08J2</li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21611592/answer/18777171">一种货币和美元挂钩是怎样实现的？-知乎</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/67928805/answer/257923560">中国为什么不直接印大量的人民币去买美国的东西?知乎</a></li>
 </ol>
 
       
@@ -321,7 +286,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/25/AIOps/AIOps-2_2-multi-dimensional-rca/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/30/reading_notes/reality/shisanyao-lian/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -335,7 +300,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/05/25/AIOps/AIOps-2_2-multi-dimensional-rca/" class="post-title-link" itemprop="url">chapter2.2 多维下钻根因定位/多维指标异常定位</a>
+            <a href="/2021/05/30/reading_notes/reality/shisanyao-lian/" class="post-title-link" itemprop="url">十三邀-采访李安</a>
         </h2>
 
         <div class="post-meta">
@@ -345,14 +310,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-05-25 16:05:42" itemprop="dateCreated datePublished" datetime="2021-05-25T16:05:42+08:00">2021-05-25</time>
+              <time title="创建时间：2021-05-30 12:02:44" itemprop="dateCreated datePublished" datetime="2021-05-30T12:02:44+08:00">2021-05-30</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
+                <time title="修改时间：2021-07-22 15:12:51" itemprop="dateModified" datetime="2021-07-22T15:12:51+08:00">2021-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -360,7 +325,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/AIOps/" itemprop="url" rel="index"><span itemprop="name">AIOps</span></a>
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
                 </span>
             </span>
 
@@ -375,83 +340,47 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="问题描述">问题描述</h1>
-<p>在运维场景中对监控指标的多个维度进行根因定位。具体来说，当某个总指标（如总流量）发生异常时，需要快速准确地定位到是哪个交叉维度的细粒度指标（如“省份=北京 &amp; 运营商=联通”的流量）的异常导致的，以便尽快做进一步的修复止损操作。图示如下：</p>
-<h2 id="输入输出">输入输出</h2>
-<p>输出：</p>
-<table>
-<thead>
-<tr class="header">
-<th>timestamp</th>
-<th>set</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>1501475700</td>
-<td>a1&amp;b2;a3&amp;b4</td>
-</tr>
-<tr class="even">
-<td>1501475760</td>
-<td>a1&amp;b2&amp;x3;a4&amp;b5&amp;x6</td>
-</tr>
-</tbody>
-</table>
-<h1 id="方案介绍">方案介绍</h1>
-<h2 id="几个问题">几个问题</h2>
+          <blockquote>
+<p>看了昨天看十三邀采访李安那一期，关于如何面对恐惧，作为旁观者如何深入一个领域，李安分享了自己的经验</p>
+<p>这些也是我一直困惑的地方，看完访谈有一些触动，但是要完全解答自己的困惑，还得要自己去实践吧</p>
+</blockquote>
+<h3 id="勤能补拙的旁观者">勤能补拙的旁观者</h3>
+<p>许知远：你说你总是一个旁观者，旁观者可以进入不同的领域，通过研究理解事物，但它的劣势是什么？</p>
+<p>李安：劣势就是不够地道，你只能用将心比心和勤快去弥补；另一个弥补就是电影不是我一个人拍的，这么多人参与，我总是可以跟他们商量，看看对不对，试试风向。</p>
+<p>电影总是人家看嘛，只要你够勤快，天分到，你合作的伙伴愿意投入，入木三分是做得到的。</p>
+<p>局外人的好处是看得比较准，而且一看就能看到； 局内人的话，你的成长经验、成见都会产生影响。</p>
+<p>我觉得让局外人去做一个东西比较简单，但局内人的话，你要把自己的肉拿出来拧的话，有更大的难度。</p>
+<p>事不关己，关己则乱。</p>
+<p>在研究一个新领域时，也经常会经常怀疑自己，所以要相信勤能补拙，做不到100分，80分总是可以的</p>
+<h3 id="面对不安假装我是谁">面对不安"假装我是谁"</h3>
+<p>许知远：被上了这么多次不同的“身”，面对不安全感、恐惧、挣扎，然后走出来，你觉得人变得更安全了吗？</p>
+<p>李安：我想我们的成长不必靠电影去修炼，你可以用别的方式。我觉得我可能很像演员吧，年轻的时候我想过做演员，做不成，英文不会讲，就做了导演，所以我跟演员扮演角色的感觉很像。我记得梁朝伟跟我讲了一句话，他说“我们做演员很痛苦”，当然，好的演员才会这样讲。因为我每天都在说服他相信一些东西，他自己也相信了，然后就变成了那个人。拍完以后，又要说服自己不要去相信那个东西，要走出来，好累。而我可能就是用电影来扮演不同的角色吧。我觉得就像《色戒》里的主题一样，<strong>透过假装一件事情，你才会有胆量去触摸真实</strong>。<strong>我想人生倒是不可能没有一些好奇心，我们有自己的课业要学，这一辈子有很多东西要学，而这是一个很好的学习方式——“假装是谁”</strong>。</p>
+<p>chiechie： 对于局内人，比如我工作中，要把我的亲身经验拿出来，反复的批判自己，让我感觉很痛苦，但是透过假装一件事情--假装我是谁，做产品的时候可以更有胆量去触摸真实。</p>
+<h3 id="人生就像剥洋葱">人生就像剥洋葱</h3>
+<p>李安：我觉得我也需要去摸自己不同的面向。</p>
+<p>根据成长经验，你到了某一个面向，又到了某一个时间，你会对其他的主题产生兴趣，会遭遇一个困境，需要去触摸它，如果不去触摸的话，它会骚扰不休的。</p>
+<p><strong>首先是要面对，然后去处理它，去处理它以后就可以把它 rationalize（理性化）了，你就定型了</strong>。</p>
+<p>可是一个议题处理以后，你又会有新的会骚扰你的东西，你又要去面对它、处理它，然后把它理性化，<strong>这就跟剥洋葱一样，我想人生是剥不尽的</strong>。</p>
+<h3 id="摸着石头过河">摸着石头过河</h3>
+<p>许知远：那你现在最想剥的是哪块“洋葱”？你最想处理的是哪个主题？</p>
+<p>李安：我不晓得，看下部电影吧。我可能会处理不同议题，也可能是用不同的角度来看同样的事情，这都很难讲，我不是天天思索这种问题的人，我不是搞哲学的。对，哲学有这个需要，它一定要有道理，而<strong>我是拍出来再制作道理</strong>。</p>
+<p>我相信道家的玄之又玄，因为真的就是这样，摸不透，<strong>我只能在我可以触摸的地方去感受它</strong>。有时候触动别人的心的时候，也是有感应的，毕竟我们不是单独的存在嘛；感应多了有时候也有烦的时候，也有想独自一人的时候，<strong>人生也没有什么太大需要解答的东西，摸摸石头过河</strong>。</p>
+<h3 id="命运的安排">命运的安排</h3>
+<p>许知远：如果当时没有去美国，留在台湾，会是什么样？</p>
+<p>李安：不晓得，我的命就是那个时候该离开。我说年纪到了，跟我的朋友冯光远一起去了，后来我们在纽约的人，大部分都回了台湾，很多人到了北京和上海，留在纽约的其实已经很少了。我那时候其实也想回来，可是刚好申请了绿卡，因为美国有一个经纪人签了我。学校刚毕业，太太还在读书，小孩生了，于是就在那边耗着。申请绿卡又好几年不能离开，也不能回台湾找工作，就这么耗着。说真的，我在念书的时候，从来没有想过可能在美国拍电影，这个事情在我脑子还不构成一个想象，连“梦想”都还没有。后来我得了台湾的一个奖，非拍那个片子不可，故事写的是美国，我才开始。后来那个片子又得奖了，一得国际奖，我又进了美国的艺术院线。</p>
+<p>这也不是我设计出来的，好像是命运规定我这么走。现在好像<strong>东西两方我都沾到，有时候也会落到“缝隙”里面</strong>，这种经验也不少。</p>
+<h3 id="失败的经历">失败的经历</h3>
+<p>许知远：落到“缝隙”里是什么感觉？怎样描述这个“缝隙”？</p>
+<p>李安：有一种黑暗无助的感觉。我不是每部电影都那么卖座成功的，我也受过好多打击，刚开始的时候也吃过很多苦头。</p>
+<p>许知远：印象最深的打击是什么？</p>
+<p>李安：不一而足啦，片子不卖座，没人看。但我觉得那片子也挺好，跟我成功的片子一样，<strong>我一样的拍，觉得差不多，可为什么别人不看呢</strong>？</p>
+<p>电影有时真的是<strong>人算不如天算</strong>。</p>
+<p>有的电影中西方都有市场，比如《断背山》这样的，突然大家都喜欢上了，这是没有国界的，我也不晓得为什么，我让一个台湾人看，他为什么会感动，我真的是不晓得。</p>
+<p>我第一次受打击其实是拍完《冰风暴》，真没人看，《绿巨人》也是受打击的。</p>
+<p>其实我受到的打击，我自己也不太知道，即便大约知道是什么，我也不敢肯定，所以会有一种惶恐的感觉，我也不是习惯受打击的。</p>
+<h3 id="参考">参考</h3>
 <ol type="1">
-<li><p>要训练集干嘛？</p>
-<p>训练集用来当做历史数据，学习正常波动区间，对测试数据进行异常检测。</p></li>
-<li><p>为什么要注入异常？</p>
-<p>真实中故障很少发生，并且故障根因大部分都比较简单，不会出现多层，多个elemnts是根因的情况, 需要人工构造。</p></li>
-</ol>
-<h2 id="adtributor">Adtributor</h2>
-<p>Adtributor: Revenue Debugging in Advertising Systems</p>
-<p>简介：Adtributor假设所有根因都是一维的，提出了解释力（Explanatory power）和惊奇性（Surprise）来量化根因的定义。使用ARMA模型对KPI进行预测，通过计算维度的惊奇性（维度内所有元素惊奇性之和）对维度进行排序，确定根因所在的维度（例如省份）。在维度内部计算每个元素的解释力，当元素的解释力之和（例如北京+上海）超过阈值时，这些元素就被认为是根因。</p>
-<figure>
-<img src="img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption>
-</figure>
-<p>上述是针对基本类型的KPI的计算公式（例如PV、交易量），对于派生类型的KPI（多个基本类型KPI计算得到，例如成功率）就不太适用了。当然，作者也提出了另一套公式来计算派生型KPI，主要是让“解释力”和“惊奇性”的分数符合我们对于异常的“直觉”。</p>
-<p>评价：Adtributor提出的“解释力”和“惊奇性”对根因给出了量化的评价，有很强的借鉴意义。将根因限定在一维的假设也极大的简化了问题的复杂度。但是这样的假设并不太符合我们的实际场景，同时用解释性和惊奇性的大小来衡量根因也不完全合理。因为其没有考虑到维度之间的相互影响以及「外部根因」的可能，即根因所在的维度没有在数据中体现。另外，Adtributor的根因分析严重依赖于整体KPI的变化情况，对于整体变化不大，但是内部波动较为剧烈的数据表现不好。</p>
-<p>总的来说，Adtributor是一种可以落地的业务指标明细多维分析算法，能够提供一些对排障有帮助的信息，配合人工筛查，可以有一定的效果。但是如果应对更多的维度、更复杂的情况，甚至存在外部根因的时候，能够提供的帮助就有限了。</p>
-<h2 id="idice">iDice</h2>
-<p>iDice: Problem Identification for Emerging Issues</p>
-<p>简介：iDice针对的场景和Adtributor稍有不同，它分析的数据是一段时间序列下的多维明细数据而不是对某一个具体的时间点。首先它认为根因的表现是一定在时间序列上体现突变，然后根据信息熵的思想提出Isolation Power的概念来解释根因，基本的思想就是对每一个维度组合计算他们的Isolation Power值，一个有效的根因维度组合（图1 Effective Combination）是其IP值大于其所有的直接子节点和直接父节点。在判断了当前节点为「可能的根因」后，其所有子节点都被剪枝掉。为了降低搜索和聚合的复杂度，本文还提出了多种剪枝方法。如减掉数量较小的节点、减掉在时间序列上没有突变的的节点等。最终对每个「可能的根因」突变点前后计算类似Adtributor的“惊奇性”进行排序。</p>
-<p>评价：iDice提出了一种更符合实际情况的根因评估指标：Isolation Power，利用多种剪枝手段减少搜索的复杂度。利用了数据的时间序列，从一定程度上缓解了单一时间点做预测时不准的情况。但是对大量的节点做异常检测也带来了额外的复杂度，在维度和取值较多时，上层节点的数目要远远大于叶子结点的数目。从上至下的搜索以及至下而上的聚合的复杂度极大，虽然本文提出了几种剪枝方法，但是并不能带来量级上的减少。</p>
-<p>同时，iDice的几种剪枝略显暴力，例如基于Impact的剪枝，虽然减掉的是量较少的维度组合，但是当维度和取值增加，极限情况下每一个叶子结点的维度组合的量只有1，这样剪枝的结果是不可以接受的。另外iDice对于派生类型的指标没有很好的处理方法，例如成功率，首先剪枝不能很好地进行，其次做变点检测时，容易忽略掉真正的“根因”。</p>
-<h2 id="hotspot">HotSpot</h2>
-<ol start="3" type="1">
-<li>HotSpot: Anomaly Localization for Additive KPIs with Multi-Dimensional Attributes</li>
-</ol>
-<p>简介：HotSpot和Adtributor一样使用“预测+搜索”的策略，针对基本类型的指标（可加型，例如交易量，PV等）提出了基于Ripple Effect的根因判断方法，即维度组合与其子节点之间越满足Ripple Effect条件就越有可能是根因，提出了Potential Score来量化一个节点与其所有叶子结点之间满足Ripple Effect程度。举个简单的例子，例如表一中的北京。PV从30-&gt;21,而北京联通和北京电信分别从20-&gt;14、10-&gt;7，变化的比例和北京相同（Ripple Effect），所以判断出北京是根因。和iDice对于根因集的定义不同，HotSpot会考虑同一维度下的根因组合，例如不仅有（北京，联通）这样的元素，还会有（北京，上海）这样的元素。这样当然会带来额外的搜索复杂度（2n-1，n是维度取值数目之和），所以作者提出基于MCTS（蒙特卡洛树搜索）和分层的剪枝策略，按照获得最大Potential Score收益的路径进行搜索，如果某一元素的PS分数较低，则减掉其子节点（Hierarchical Pruning）。</p>
-<p>评价：HotSpot提出具有启发意义的根因判断方式：Ripple Effect。使用叶子结点而不使用直接子节点参与Potential Score的计算，达到了边搜索边聚合的效果，极大的降低了空间的使用。创新的将MCTS应用到搜索的剪枝中，降低了搜索的复杂度。当然，HotSpot也存在一些局限，例如假设所有的根因在一个Cuboid内（完全相同的维度组成：eg.C省份、C省份、运营商）、没有考虑到非可加型指标（eg.成功率）、时间序列预测方法也只是使用了简单的MA，如果指标有一定的波动，可能会影响PS的准确性。另外使用叶子结点计算PS虽然减少了空间的使用，但是随着维度和取值的增加，叶子结点的量下降，极端情况下下降到1，此时的PS计算会受到较大的影响。</p>
-<h2 id="squeeze">Squeeze</h2>
-<p>Squeeze：Generic and Robust Localization of Multi-Dimensional Root Causes</p>
-<p>简介：Squeeze在HotSpot的基础上提出广义的Ripple Effect,证明RE不仅仅适用于基本类型的指标，也适用于派生类型的指标（eg.成功率）同时解决了0值预测的问题。和之前的算法搜索策略不同，Squeeze先至下而上剪掉正常的叶子结点的减小搜索空间，然后计算叶子结点的deviation score来进行聚类，因为根据RE，相同的根因的叶子结点将具有相似的deviation score。然后自顶向下在每一个簇中搜索根因。Squeeze假设每一个簇中的根因都在一个Cuboid（见HotSpot简介）内，同样提出类似于Potential Score的GPS来作为是否是根因的量化标准。</p>
-<p>评价：Squeeze在HotSpot的基础上进行了理论的拓展，增加了算法的通用性和鲁棒性。“Squeeze”的做法也极具创新性。不过实际的业务场景可能会对算法的准确性产生一定的影响，例如预测不准可能会导致聚类不准确、同时有多个异常或者外部异常也会影响聚类效果。另外按照GPS对结果根因进行排序有时也不符合真实业务场景，因为真实的业务场景数量的大小同样是一个重要的衡量指标。失败量从50到100的组合可能比0到5的组合更值得注意。</p>
-<h2 id="百度的方案">百度的方案</h2>
-<p>参考人工定位过程中的分析思路，提取了两个特征，用来描述某维度是否为根因：</p>
-<ol type="1">
-<li>贡献度：即该维度PVLost与总PVLost的比例。</li>
-<li>一致度：即构成该维度的子维度的异常程度的相似度。子维度的异常程度的一致度可通过各子维度异常程度间的变异系数衡量，变异系数越小，则异常程度越一致。(如何衡量小？绝对值还是相对值?)</li>
-</ol>
-<h1 id="评估指标">评估指标</h1>
-<p>评估准确性的指标是F-score,该指标是准确率（Precision）和召回率(Recall)综合体现。具体计算如下所示： F-score =(2 ∗ Precision ∗ Recall)/(Precision+ Recall)，其中： Precision ＝ TP / (TP + FP)， Recall = TP / (TP + FN)。</p>
-<p>每个异常时刻都有一个真正的根因集合，记为S<em>，该集合中包含一个或多个属性值组合，参赛队伍的算法输出结果 记为S。对于S</em>中的每一个元素，S中包含其中一个，则算一次true positive （TP），遗漏一个算一次false negative （FN），多出一个S*中不存在的，记一次false positive （FP）。计算出所有异常时刻总的TP、FP、FN，最后得出F-score。</p>
-<h1 id="代码地址">代码地址</h1>
-<ol type="1">
-<li>https://github.com/chiechie/ADminer</li>
-</ol>
-<h1 id="参考">参考</h1>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://netman.aiops.org/wp-content/uploads/2018/12/sunyq_IEEEAccess2018_HotSpot.pdf">HotSpot-英文paper</a></li>
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Kj309bzifIv4j80nZbGVZw">HotSpot-中文</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/48926992">百度做根因钻</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.usenix.org/system/files/conference/nsdi14/nsdi14-paper-bhagwan.pdf">Adtributor</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/07/ICSE-2016-1-iDice-Problem-Identification-for-Emerging-Issues.pdf">iDice</a></li>
-<li><a target="_blank" rel="noopener" href="https://netman.aiops.org/wp-content/uploads/2019/08/camera_ready.pdf">Squeeze</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.bizseer.com/index.php?m=content&amp;c=index&amp;a=show&amp;catid=26&amp;id=3">bizseer总结</a></li>
-<li><a target="_blank" rel="noopener" href="http://iops.ai/competition_detail/?competition_id=8&amp;flag=1">比赛</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.sohu.com/a/349695818_563941">十三邀-许知远采访李安-文字稿</a></li>
 </ol>
 
       
@@ -471,7 +400,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -537,7 +466,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

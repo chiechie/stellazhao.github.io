@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/25/machine-learning/machine-learning_4-dl6_transformer/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/26/reinforcement_learning/rl8_continous-action/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/25/machine-learning/machine-learning_4-dl6_transformer/" class="post-title-link" itemprop="url">chapter 4.6 深度学习6 Transformer</a>
+            <a href="/2021/04/26/reinforcement_learning/rl8_continous-action/" class="post-title-link" itemprop="url">强化学习8 连续控制</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-25 00:04:13" itemprop="dateCreated datePublished" datetime="2021-04-25T00:04:13+08:00">2021-04-25</time>
+              <time title="创建时间：2021-04-26 20:46:57" itemprop="dateCreated datePublished" datetime="2021-04-26T20:46:57+08:00">2021-04-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 15:58:29" itemprop="dateModified" datetime="2021-07-22T15:58:29+08:00">2021-07-22</time>
+                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
                 </span>
             </span>
 
@@ -219,134 +219,117 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="transformer总结">Transformer总结</h1>
+          <h2 id="离散控制与随机控制介绍">离散控制与随机控制介绍</h2>
 <ul>
-<li>Transformer是google2016年在《attention is all you need》提出的一个机器翻译模型，是一个很典型的seq2seq架构。</li>
-<li>Transformer的亮点在于将attention和self-attention完全剥离开之前rnn的结构，只跟dense层组合。</li>
-<li>Transformer跟RNN没有关系, 只有attention和全连接层</li>
-<li>Transformer比所有的rnn+attention效果都要好，机器翻译的王者</li>
-<li>Transformer是一个翻译模型，在机器翻译任务中，eg德译英，输入一个德文句子，输出十一句英文。</li>
-<li>Transformer由两部分组成：encoders和decoders</li>
-<li>encoders由6个encoder堆叠而成，decoders由6个decoder堆叠而成，一个encoder或一个decoder叫做一个block。</li>
-<li>encoders的每个block有2层：self-attention和dense，每个block结构相同，但不共享权重。</li>
-<li>decoders的每个block有3层：self-attention，attention和dense，其中attenton用来关注encoder的输出，</li>
-<li>attention技术的演进：attention + 基于rnn的seq2seq --&gt; self-attention + lstm --&gt; attention/self attention + dense.</li>
-<li>"多头"注意机制扩展了模型关注不同位置的能力, 给予attention层多个"表示子空间", 每个头有自己的一组query / key / value 权重矩阵，当于审视多次上下文，</li>
-</ul>
-<h1 id="附录">附录</h1>
-<h2 id="输入和位置编码">输入和位置编码</h2>
+<li>这节课讨论离散控制与连续控制的区别、连续控制的难点、以及连续动作空间的离散化。</li>
+<li>之前讲的强化学习方法 都是来 处理离散控制变量的场景的：策略梯度 和 DQN</li>
+<li>那么对连续控制变量这种场景如何处理呢？
 <ol type="1">
-<li>和一般的NLP任务一样，用embedding algorithm将每个输入单词转化为词向量之后，才能作为Transformer的输入使用。</li>
-<li>如下图，3个单词被embedded为3个512维的向量 <img src="./transformer_embeddings.png" /></li>
-<li>接下来，将这3个512维的词向量传入self-attention和dense层 <img src="./transformer_encoder_with_tensors.png" /></li>
-<li>位置编码（Positional Encoding）表示序列的顺序, 为了让模型学习到词的顺序关系，transformer向每个输入embedding向量（x1）又加上一个位置编码向量（t1）。 <img src="./transformer_positional_encoding_vectors.png" alt="img" /></li>
-<li>假设embedding的维度是4，那么实际的位置编码看起来是这样的: <img src="./transformer_positional_encoding_example.png" alt="img" /></li>
-</ol>
-<h2 id="多头self-attention">多头self attention</h2>
-<ol type="1">
-<li>每个单头self-attention层有三个参数矩阵，单头的context vector是一个d * m维的矩阵 <img src="./img_6.png" alt="单头self-attention" /></li>
-<li>多头attention层就有3<em>l个参数矩阵（l代表头的个数），多头的context vector是一个(dl) </em>m维的矩阵 <img src="./img_7.png" alt="多头self-attention" /> <img src="./transformer_attention_heads_qkv.png" alt="img" /></li>
-<li>类似上面提到的单头self-attention计算，我们现在只是用8个不同的权重矩阵算了8次，并且得到了8个不同的 z 矩阵 <img src="./transformer_attention_heads_z.png" alt="img" /></li>
-<li>当解读一个句子中的一个word时， Transforme中的encoder通过self-attention来回顾上下文信息，找出输入序列中的重要的word，从而更关注重要信息，并且会把重要word的value vector编码到自己的向量里面去。 RNN通过hidden state策略，使得它将当前词与上下文（准确来说只有上文）的信息进行融合。</li>
-<li>self-attention的输入是m个词向量，输出是m个context vector，vector表示融合了上下文之后，对word再次编码。 <img src="./img_2.png" alt="img_2.png" /> <img src="./img_3.png" alt="img_3.png" /></li>
-<li>如何实现self-attention layer？即如何实现计算context vector？</li>
-</ol>
+<li>将连续空间网格化，套上离散控制变量的方法。但是输出向量的长度随着控制变量的个数呈指数增加。</li>
+<li>使用更适合连续控制变量的方法：
 <ul>
-<li>step1: 对于每个输入的word的此向量分别计算3个表示向量：
-<ul>
-<li>Query vector： <span class="math inline">\(q_i\)</span>, to match others；</li>
-<li>Key vector：<span class="math inline">\(k_i\)</span>, to be matched；</li>
-<li>Value vector：<span class="math inline">\(v_i\)</span> to be weighted averaged 。</li>
-<li>这些向量是通过将输入的词向量做三次线性变换得到的，当然对应的三个矩阵是需要学习的。</li>
-<li>请注意，得到的新向量的维度（64）比embedding（512）小。这么设计为了保证，加入多头self-attention之后，encoder的输出和输入维度（512）还能保持一致。 &gt; 8头 * 64 = 512</li>
+<li>确定的策略网络</li>
+<li>随机的策略网络</li>
 </ul></li>
-<li>step2: 计算权重分数, 目的是量化其他单词应该被关注的程度。
-<ul>
-<li>计算当前单词的query vector和其他单词的key vector的内积</li>
-</ul></li>
-<li>step3: 权重分数归一化。将上一步算出来的权重得分向量（长度为m）进行归一化，目的是让权重不要受到key vector的长度（paper里面是64）的影响，这样算梯度就更稳定。</li>
-<li>step4：将归一化的权重得分向量（长度为m）送入softmax，目的是得到一个概率向量，所有数值加起来为1。示每个单词应该被当前单词关注的程度，值越大越应该被关注。。</li>
-<li>step5：计算contect vector。将每个单词的value vector使用权重概率向量进行加权求和，作为当前单词的self-attention表达（输出长度为64 * 8个头 = 512）。</li>
-</ul>
-<ol start="6" type="1">
-<li>把刚刚的过程再加入一个维度，也就是从一个单词 变成 多个单词，计算他们各自的self-attention表示，用矩阵表达该计算流程：</li>
-</ol>
-<ul>
-<li>第一步是计算 Query、 Key 和 Value 矩阵：
-<ul>
-<li>我们将embeddings塞到一个矩阵x：行数表示单词个数，列表示embedding的长度</li>
-<li>权重矩阵(WQ、 WK、 WV）：行代表embedding向量的长度，列分别代表query空间，key空间，value空间的维度</li>
-<li>X分别和这几个矩阵相乘 <img src="./transformer_self-attention-matrix-calculation.png" /></li>
-</ul></li>
-<li>第二步，利用第一步的结果来计算attention的输出，用一个矩阵计算来表达，简洁优雅 <img src="./transformer_self-attention-matrix-calculation-2.png" /></li>
-</ul>
-<h2 id="dense层">dense层</h2>
-<ol type="1">
-<li>后面怎么跟dense层进行衔接呢？1. 将这8个z矩阵进行列拼接（concat）；2. 拼接后的矩阵大小为m<em>(8</em>64) = m *512，丢入dense层 <img src="./transformer_attention_heads_weight_matrix_o.png" alt="img" /></li>
-<li>这就是multi-headed self-attention的大部分内容。把整个过程放在一个图中描述： <img src="./transformer_multi-headed_self-attention-recap.png" alt="img" /></li>
-</ol>
-<h2 id="encoder-block-多头self-attention-dense-layer">encoder block = 多头self-attention + dense layer</h2>
-<ol type="1">
-<li>encoder block ≈ 多头self-attention + dense。encoder block的输入维度是512×𝑚，输出维度是512×𝑚.</li>
-<li>以一个短句为例,看看encoder的处理流程:
-<ol type="1">
-<li>将[x1，...,xm]输入多头self-attention层, 得到m个context vector</li>
-<li>将m个context vector输入dense + relu，得到m个重新编码后的向量[u1,...,um]，dense层对m个word生效。</li>
-<li>将[u1,...,um]传递给下一个编码器encoder2作为输入。 <img src="./img_9.png" alt="img_9.png" /> <img src="./img_10.png" alt="img_10.png" /></li>
 </ol></li>
-</ol>
-<h2 id="残差连接和layer-normalization">残差连接和layer-normalization</h2>
+</ul>
+<h2 id="确定策略梯度dpg">确定策略梯度DPG</h2>
+<ul>
+<li>DPG是一种actor cirtic方法</li>
+<li>DPG的策略网络输出1个实数（机械手臂只有1个关节）或者1个向量（机械手臂又多个关节），但是输出是确定的没有随机性的</li>
+<li>流程：
+<ul>
+<li>结构：</li>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FFFnC_ZZDfS.png?alt=media&amp;token=b76bce5a-44cb-4967-8831-9ad7e3bac627" /></li>
+<li>更新价值网络</li>
+<li>更新策略网络
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F1lO0oHsg0f.png?alt=media&amp;token=4624994e-3a30-4a5d-9ea3-7ecc419516e1" /></li>
+</ul></li>
+</ul></li>
+<li>缺点，bootstrap带来的估计偏差（一开始TD target估高了，就会持续高估）
+<ul>
+<li>bootstrap的解释：使用自己的更新至来更新自己</li>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FckUhWapL92.png?alt=media&amp;token=56166270-8cad-42fc-a94e-f88f329c6c41" /></li>
+</ul></li>
+<li>改进方法-target networks：基本思路，使用别的网络来计算TD target
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F6lBqZiXi9f.png?alt=media&amp;token=17ff418c-0a8d-437f-8b82-7848a8cfa243" /></li>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FkSbwop1R3_.png?alt=media&amp;token=9dd29838-a62a-4a89-8717-7e1972f3da74" /></li>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FKrdc65AdRE.png?alt=media&amp;token=3d72f27f-a8be-468c-8910-df0ad025f5da" /></li>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FnLzNJ8bG14.png?alt=media&amp;token=fe8f8570-8304-4c5e-bd16-0649684ecaf7" /></li>
+</ul></li>
+<li>还有一些其他的DPG的改进方法：
+<ul>
+<li>target network</li>
+<li>经验回放（experience replace）</li>
+<li>multi-step TD target</li>
+</ul></li>
+<li>随机策略网络和确定策略网络对比
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FRDz29hZbP4.png?alt=media&amp;token=52f95ad5-5f13-4974-87f8-c52d8c734836" /></li>
+</ul></li>
+</ul>
+<h2 id="用随机策略做连续控制">用随机策略做连续控制</h2>
+<h3 id="基本概念">基本概念</h3>
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fza5rJJXnoe.png?alt=media&amp;token=48526a35-cc19-486c-b91b-3a0ef9df1edc" /></li>
+<li>策略梯度：--谁对谁的梯度？（状态价值函数 关于策略网络参数的梯度）
+<ul>
+<li><span class="math inline">\(\frac{\partial V_{\pi}(s)}{\partial \boldsymbol{\theta}}=\mathbb{E}_{A \sim \pi}\left[\frac{\partial \ln \pi(A \mid s ; \boldsymbol{\theta})}{\partial \boldsymbol{\theta}} \cdot Q_{\pi}(s, A)\right]\)</span></li>
+</ul></li>
+<li>随机策略梯度
+<ul>
+<li><span class="math inline">\(\mathbf{g}(a)=\frac{\partial \ln \pi(a \mid s ; \boldsymbol{\theta})}{\partial \boldsymbol{\theta}} \cdot Q_{\pi}(s, a), \text { where } a \sim \pi(\cdot \mid s ; \boldsymbol{\theta})\)</span></li>
+</ul></li>
+</ul>
+<h3 id="连续控制问题-怎么设计方案">连续控制问题 怎么设计方案？</h3>
+<p>chiechie的思索：第一反应是 使用回归模型，即策略网络是将state 映射到一个确定的action（比如机械臂转动多少度），但是从贝叶斯角度来理解现实问题的话，刚刚的处理方式是明显不合理的， 因为永远 不存在唯一的正确答案。（贝叶斯认为正确答案 是一个随机变量，只不过在不同区间的概率分布不一样）。</p>
+<p>接下来看看wang给的方案：</p>
+<ul>
+<li>将连续的决策空间离散化为网格空间，但是会带来维树灾难</li>
+<li>使用确定性的梯度算法：上一节讲的内容，对于给定的状态，输出的action是唯一确定的。（这不就是我上面的想法吗？似乎不是，这个随机策略梯度更像是一种数值算法，类似sgd）</li>
+<li>使用随机策略网络，也就是本节要讲的内容</li>
+</ul>
+<p>【核心】构建一个输出pi的概率分布的策略网络：</p>
+<ul>
+<li>如何训练？ --使用随机策略梯度
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F-HeYISazuj.png?alt=media&amp;token=0d3ebe9c-6f04-4867-b2cb-553503e9a523" /></li>
+</ul></li>
+<li>策略梯度的第一个部分使用 辅助神经网络，第二部分使用 reinforce 或者 actor2critic来计算
+<ul>
+<li>step1- 辅助神经网络：就是算实际action的似然概率，以此作为反馈信号，往后传播策略网络参数的梯度。
+<ul>
+<li>往前传播
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FF3rR0gy8Su.png?alt=media&amp;token=32c8deac-e6ed-4c36-8490-682457bd96cf" /></li>
+</ul></li>
+<li>往后传播
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FqKuN1X6D_b.png?alt=media&amp;token=aa379ddd-eb64-4674-a1c9-136f77996250" /></li>
+</ul></li>
+</ul></li>
+<li>step2-计算Q value：然是在计算策略梯度的时候，又遇到了一个问题，就是如何计算Qvalue？又两种方法：
+<ul>
+<li>reinforce： 玩完一局，然后那观测到的ut去近似</li>
+<li>actior-critic：使用价值网络来近似Q，
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F1OdWlyBP_B.png?alt=media&amp;token=4e37f7bb-e85d-4e0b-afb3-bbf99f3bb628" /></li>
+</ul></li>
+<li>还有更高级的方法--策略梯度with baseline:
+<ul>
+<li>reinforce==&gt; [[策略梯度中的Baseline 2/4-REINFORCE with Baseline]]</li>
+<li>actor-critic==&gt; [[策略梯度中的Baseline 3/4-A2C 方法]]</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="参考">参考</h2>
 <ol type="1">
-<li>每个encoder block中，self-attention和dense都有一个残差连接，然后接一个层标准化（layer-normalization）。 <img src="./transformer_resideual_layer_norm.png" alt="img" /></li>
-<li>如果我们将残差连接和layer normalization用矩阵表示，就是下图： <img src="./transformer_resideual_layer_norm_2.png" alt="img" /></li>
-<li>decoder的sub-layers 也同样用到了add &amp; normalization的设计。 下图是一个简化版的Transformer架构：由2个stacked encoder和2个stacked decoder组成。 <img src="./transformer_resideual_layer_norm_3.png" alt="img" /></li>
-<li>更准确来说 encoder block = positional codeing + 多头self-attention + add &amp; normalizatioin + dense layer + add &amp; normalizatioin</li>
-</ol>
-<h2 id="encoder-network-6-encoder-block">encoder network = 6 * encoder block</h2>
-<p>encoder network is a stack of 6 encoder blocks.</p>
-<figure>
-<img src="./img_11.png" alt="img_11.png" /><figcaption aria-hidden="true">img_11.png</figcaption>
-</figure>
-<h2 id="多头attention">多头attention</h2>
-<ol type="1">
-<li>单头attention层，要计算3个向量，先计算q跟每个k的相关性（求内积），然后做softmax变换得到权重得分，对所有的v使用该权重求和，得到decoder的这个词相对encoder的表示，也就是context vector。 <img src="./img.png" alt="单头atttion" /></li>
-<li>decoder中的attention，q来自两部分：下面的decoder的输出和最上面encoder中的Keys矩阵和Values矩阵 。 <img src="img_17.png" alt="img_17.png" /> <img src="img_18.png" alt="img_18.png" /></li>
-<li>Attention 层的Queries</li>
-</ol>
-<p><img src="./img_1.png" alt="img_1.png" /> <img src="./img_5.png" alt="img_5.png" /><br />
-<img src="./img_8.png" alt="img_8.png" /></p>
-<h2 id="decoder-block-多头self-attention-多头attention-dense-layer">decoder block = 多头self-attention + 多头attention + dense layer</h2>
-<p><img src="./img_13.png" alt="img_13.png" /> 1. 1个decoder block ≈ 多头self-attention + 多头attention + dense。decoder block的输入有两个，一个是encoder的输出（512×m）， 一个来自decoder当前的的输出（512×t ）. 2. encoding阶段（phase）完成后，我们开始decoding阶段，decoding的每个step描述如下： <img src="./transformer_decoding_1.gif" alt="img" /> <img src="./transformer_decoding_2.png" alt="img" /> 1. 每个时刻，输入第6个encoder产生的m个keys vectors和value vectors，输出一个element的概率分布pdf。 2. 从pdf中抽样出word（或者直接选择概率最大的word），作为decoder的输入。 3. 重复step1，直到产生结束符。 3. decoder也会用到位置编码. 4. decoder中的self attention layers:与encoder的运作方式略有不同,在decoder中，self-attention layer只能接触到输出序列中的前半部分。怎么做到呢？在softmax操作之前，masking序列后半部分(设为 -inf)</p>
-<h2 id="decoder-network-6-decoder-block">decoder network = 6 * decoder block</h2>
-<ol type="1">
-<li><p>Decoder network is a stack of 6 decoder blocks.</p>
-<p><img src="./img_12.png" /> <img src="./Transformer_decoder.png" /></p></li>
-<li><p>stack decoders输出一个数值向量。 我们怎么把它变成一个词呢？ 这是最后的dense层+softmax在做的事情。它将stack of decoders的输出映射为一个权重向量。（长度就是输出词汇表的大小）</p></li>
-<li><p>这个图从底部开始，生成一个vector作为decoder stack的输出。 然后它被转换成一个输出单词。 <img src="./transformer_decoder_output_softmax.gif" alt="img" /></p></li>
-</ol>
-<h2 id="transformer-encoder-network-decoder-network">Transformer = encoder network+ decoder network</h2>
-<p><img src="./img_14.png" alt="img_14.png" /> <img src="./img_15.png" alt="img_15.png" /> <img src="./transformer_encoders_decoders.png" alt="Transformer=encoders+decoders" /> <img src="./transformer_encoder_decoder_stack.png" /></p>
-<h2 id="训练">训练</h2>
-<p>学习的目标？ 将模型输出与目标输出进行比较，然后使用反向传播方法调整模型的权重，使模型输出更接近目标输出。</p>
-<p>如何比较两种概率分布？ 可查看 <a target="_blank" rel="noopener" href="https://colah.github.io/posts/2015-09-Visual-Information/">cross-entropy</a>和 <a target="_blank" rel="noopener" href="https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained">Kullback-Leibler</a>. 。</p>
-<p>目标概率分布：</p>
-<figure>
-<img src="./output_target_probability_distributions.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
-</figure>
-<p>模型输出：</p>
-<figure>
-<img src="./transformer_output_trained_model_probability_distributions.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
-</figure>
-<h2 id="应用的一个例子">应用的一个例子</h2>
-<figure>
-<img src="img_20.png" alt="img_20.png" /><figcaption aria-hidden="true">img_20.png</figcaption>
-</figure>
-<h1 id="参考">参考</h1>
-<ol type="1">
-<li>Bahdanau, Cho, &amp; Bengio. Neural machine translation by jointly learning to align and translate. In ICLR, 2015.</li>
-<li>Cheng, Dong, &amp; Lapata. Long Short-Term Memory-Networks for Machine Reading. In EMNLP, 2016.</li>
-<li>Vaswani et al. Attention Is All You Need. In NIPS, 2017.</li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=aJRsr39F4dI">Transformer模型(2/2): 从Attention层到Transformer网络</a></li>
+<li>https://www.youtube.com/watch?v=rRIjgdxSvg8</li>
+<li>https://www.youtube.com/watch?v=cmWejKRWLA8</li>
+<li>https://www.youtube.com/watch?v=McqFyl_W5Wc</li>
 </ol>
 
       
@@ -367,7 +350,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/24/machine-learning/machine-learning_4-dl5_word2vec/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/26/machine-learning/machine-learning_4-dl7_bert/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -381,7 +364,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/24/machine-learning/machine-learning_4-dl5_word2vec/" class="post-title-link" itemprop="url">chapter 4.5 深度学习5 word2vec</a>
+            <a href="/2021/04/26/machine-learning/machine-learning_4-dl7_bert/" class="post-title-link" itemprop="url">chapter 4.7  深度学习7 Bert</a>
         </h2>
 
         <div class="post-meta">
@@ -391,14 +374,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-24 22:23:20" itemprop="dateCreated datePublished" datetime="2021-04-24T22:23:20+08:00">2021-04-24</time>
+              <time title="创建时间：2021-04-26 11:50:30" itemprop="dateCreated datePublished" datetime="2021-04-26T11:50:30+08:00">2021-04-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 15:58:24" itemprop="dateModified" datetime="2021-07-22T15:58:24+08:00">2021-07-22</time>
+                <time title="修改时间：2021-07-22 15:58:34" itemprop="dateModified" datetime="2021-07-22T15:58:34+08:00">2021-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -421,132 +404,83 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>词嵌入（word embedding）是指把一个词映射为一个实数域的向量，这个向量也叫词向量。</p>
-<p>word2vec是一个词嵌入模型，有两个变形，跳字模型和连续词袋模型。跳字模型是基于中心词来生成背景词。连续词袋模型假设基于背景词来生成中心词。</p>
-<p>word2vec模型学习到了一个词的两个表示（背景词向量和中心词向量），下游节点用的是哪个呢？</p>
-</blockquote>
-<h2 id="why-word2vec">why word2vec？</h2>
-<p>实现词嵌入的方法有很多，最简单的就是one-hot，即，先构建一次词典，然后将该word映射为索引向量。</p>
-<p>那么为什么还要提出来word2vec方法？直接使用one-hot有什么问题吗？</p>
-<p>one-hot vector没有表达word在语义上的相似性。 举个例子，假如用余弦函数来描述word之间的相似度， 那么one-hot的表达方式，就会使所有word之间的相似度为0，这样就丢失了词语的语义上的信息。</p>
-<p>所以，需要一种词的表示方法，能表达语义上的相关性，word2vec就应运而生了。</p>
-<h2 id="what-word2vec">what word2vec？</h2>
-<p>wod2vec跟传统的线性降维方法如PCA一样，本质上都是在寻找对原始输入（词语）的一种更经济、高效的表达。</p>
-<p>PCA和Word2vec的区别在于，两者对于何为「最优表达」的定义不一样：</p>
+          <p>为什么有了word2vec还不够？还需要bert干嘛？因为一词多义，同样的词在不同的上下文中表达的意思不一样，而word2vec的表示是静态的。 所以我们需要一个能对上下文编码的动态的embedding方法，bert就应运而生了。</p>
+<h1 id="总结">总结</h1>
 <ul>
-<li>PCA认为重构误差最小的表达，就是最好的表达。即经过编码-解码之后,重构回原来空间时丢失尽可能少。</li>
-<li>word2vec认为如果一个中心词的表达跟上下文表达关联最大，就是最好的表达。即经过编码-解码之后，中心词映射为背景词，或者，背景词映射为中心词。想预测另外一个东西。 其中，前者是（Skip-gram model，SG），后者是连续词袋模型（Continuous Bag-of-Words，CBOW）。</li>
+<li>Bert也是是一个对词语生成词语向量的方法。</li>
+<li>Bert可以认为是一个预训练Transformer的encoder部分</li>
+<li>Bert的全称是Bidirectional Encoder Representations from Transformers，双向encoder表示</li>
+<li>Bert的目的是预训练transformer模型的encoder网络，</li>
+<li>Bert的学习目标是怎么设定的呢？bert用以下两个任务来预训练transformer中的encoder网络
+<ul>
+<li>任务1-预测遮挡词（Predict Masked Words）： 随机遮挡上下文，让encoder根据上下文来预测被遮挡的单词，大概随机遮挡挡15%的单词</li>
+<li>任务2-预测下一个句子（Predict the Next Sentence）： 把两个句子放在一起，让encoder判断两句话是不是原文里面相邻的两句话，正样本摘自原文，负样本是随机选择50%。</li>
+</ul></li>
+<li>Bert学习的时候，把上面两个任务结合起来</li>
+<li>假如有两个词被遮挡，就要训练三个任务，2个预测遮挡词任务，1个预测是否邻近的任务。前面两个是一个multi-class分类；后面一个是一个二分类。前两个任务的损失函数是cross entropy，第三个任务的损失函数是binary-entropy。</li>
+<li>最终的目标函数，是上面三个损失函数的求和，把最终的目标函数关于模型参数求梯度，然后使用梯度下降来求参数。</li>
+<li>Bert的优点：不需要人工标注数据，训练数据可以从wiki/网页等，长度为2.5billion单词</li>
+<li>Bert可以利用海量数据训练一个超级大的模型</li>
+<li>Bert想法简单有效，计算大家大，bert有两个版本
+<ul>
+<li>base： 1.1yi参数, 16个tpu训练4days，不算调参数，该参数是公开的</li>
+<li>large：2.35yi参数，64个tpu训练4days，不算调参数，该参数是公开的</li>
+</ul></li>
+<li>想用transformer直接下载徐训练好的bert模型就好，拿到参数就可以对英文编码了</li>
+<li>RoBERTa建议只用masking，而且是动态masking,</li>
 </ul>
+<h1 id="附录">附录</h1>
+<h2 id="bert模型原理">bert模型原理</h2>
+<figure>
+<img src="https://images.prismic.io/peltarionv2/e69c6ec6-50d9-43e9-96f0-a09bb338199f_BERT_model.png?auto=compress%2Cformat&amp;rect=0%2C0%2C2668%2C3126&amp;w=1980&amp;h=2320" alt="bert模型可视化" /><figcaption aria-hidden="true">bert模型可视化</figcaption>
+</figure>
+<h3 id="任务一--预测遮挡词">任务一--预测遮挡词</h3>
+<p>任务可以描述为： 输入： “The _____ sat on the mat” 输出： What is the masked word?</p>
 <figure>
 <img src="./img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
 </figure>
-<h2 id="how-word2vec">how word2vec?</h2>
-<p>先看跳字模型</p>
-<h3 id="跳字模型skip-gram--基于中心词来生成背景词">跳字模型（skip gram）--基于中心词来生成背景词</h3>
-<h4 id="high-level">high-level</h4>
-<p>跳字模型就是将一个中心词映射成多个背景词，大概思路，</p>
-<p><img src="./img1.png" /></p>
+<p>如何学习？</p>
+<ul>
+<li>e：one-hot vector of the masked word “cat”.</li>
+<li>𝐩: output probability distribution at the masked position.</li>
+<li>损失函数Loss = CrossEntropy(𝐞, 𝐩 )</li>
+<li>• Performing one gradient descent to update the model parameters.</li>
+</ul>
+<h3 id="任务二---predict-the-next-sentence">任务二-- Predict the Next Sentence</h3>
+<p>任务可以描述为：</p>
+<p>• Given the sentence: “calculus is a branch of math”. • Is this the next sentence? “it was developed by newton and leibniz” 可以表述为一个而分类问题 • 输入: [CLS] “calculus is a branch of math” [SEP] “it was developed by newton and leibniz” • Target: true</p>
+<p>• [CLS] is a token for classification. • [SEP] is for separating sentences.</p>
+<p>学习过程</p>
+<figure>
+<img src="./img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption>
+</figure>
+<h3 id="结合两个任务">结合两个任务</h3>
+<p>• Input: “[CLS] calculus is a [MASK] of math [SEP] it [MASK] developed by newton and leibniz”.</p>
+<p>• Targets: true, “branch”, “was”.</p>
+<h2 id="bert实践todo">Bert实践【todo】</h2>
+<p>如何使用BERT做迁移学习（Transfer Learning）？</p>
+<ul>
+<li>(demo数据)[https://www.kaggle.com/c/fake-news-pair-classification-challenge/data]</li>
+<li>预训练的中文bert模型：hugging face</li>
+</ul>
+<h2 id="要不要冻结bert的部分参数">要不要冻结BERT的部分参数？</h2>
+<p>Why not to freeze BERT？</p>
+<p>That said, BERT is meant to be fine-tuned. The paper talks about the feature-based (i.e., frozen) vs fine-tuning approaches in more general terms, but the module doc spells it out clearly: "fine-tuning all parameters is the recommended practice." This gives the final parts of computing the pooled output a better shot at adapting to the features that matter most for the task at hand.</p>
+<p>when you fine-tune BERT, you can choose whether to freeze the BERT layers or not. Do you want BERT to learn to embed the words in a slightly different way, based on your new data, or do you just want to learn to classify the texts in a new way (with the standard BERT embedding of the words)?</p>
+<p>I wanted to use BertViz visualisation to see what effect the classification tuning had on the attention heads, so I did fine-tuning with the first 8 layers of BERT frozen and the remaining 4 layers unfrozen.</p>
+<p>Some people suggest doing gradual unfreezing of the BERT layers, ie finetuning with BERT frozen, then finetuning a bit more with just one layer unfrozen, etc.</p>
+<h1 id="参考">参考</h1>
 <ol type="1">
-<li>对词典中每个词，构建2个向量表示，这个是待估参数。</li>
-<li>类似多分类问题，构造一个映射函数，输入中心词的one-hot（长度为<span class="math inline">\(\mathcal{V}\)</span>），输出背景词的概率分布（长度为<span class="math inline">\(\mathcal{V}\)</span>）</li>
-<li>类似逻辑回归的参数估计，使用交叉熵作为损失函数。</li>
-</ol>
-<p>总体来说，从low-level，跳字模型，就很像是一个多分类的逻辑回归，跳字模型保留的是参数，而逻辑回归需要用的是输出的概率。</p>
-<p>下面是一些细节可以跳过</p>
-<h4 id="细节">细节</h4>
-<ul>
-<li><p>词典索引集： <span class="math inline">\(\mathcal{V} =\{0,1, \ldots,|\mathcal{V}|-1\}\)</span></p></li>
-<li><p>假设某个词在词典中的索引为i，这个词被表示成2个d维向量:</p>
-<ul>
-<li>中心词向量：<span class="math inline">\(\boldsymbol{v}_{i} \in \mathbb{R}^{d}\)</span></li>
-<li>背景词向量：<span class="math inline">\(\boldsymbol{u}_{i} \in \mathbb{R}^{d}\)</span></li>
-</ul></li>
-<li><p>模型的输出是条件概率，假设中心词<span class="math inline">\(w_c\)</span>在词典中的索引为c，背景词<span class="math inline">\(w_o\)</span>在词典中的索引为o，那么给定中心词生成背景词的条件概率为</p>
-<p><span class="math display">\[P\left(w_{o} \mid w_{c}\right)=\frac{\exp \left(\boldsymbol{u}_{o}^{\top} \boldsymbol{v}_{c}\right)}{\sum\limits_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)}\]</span></p></li>
-<li><p>假设给定一个长度为 T 的文本序列，设时间步 t 的词为 w(t) 。假设给定中心词的情况下背景词的生成相互独立，当背景窗口大小为 m 时，跳字模型的似然函数即给定任一中心词生成所有背景词的概率 <span class="math display">\[P\left(w_{o} \mid w_{c}\right)=\frac{\exp \left(\boldsymbol{u}_{o}^{\top} \boldsymbol{v}_{c}\right)}{\sum_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)}\]</span> 这里小于1或大于 T 的时间步可以被忽略。</p></li>
-<li><p>参数估计方法：MLE, 即最大化如下对数似然函数来估计参数，等价于最小化交叉熵（用来计算两个函数或者概率之间的距离）</p>
-<p><span class="math display">\[  \prod\limits_{t=1}^{T} \prod\limits_{-m \leq j \leq m, j \neq 0} P\left(w^{(t+j)} \mid w^{(t)}\right)\]</span> 等价于最小化如下 损失函数 <span class="math display">\[ -\sum\limits_{i=1}^{T} \sum\limits_{-m \leq j \leq m, j \neq 0} \log P\left(w^{(t+j)} \mid w^{(t)}\right)\]</span> 根据定义 <span class="math display">\[\log P\left(w_{o} \mid w_{c}\right)=\boldsymbol{u}_{o}^{\top} \boldsymbol{v}_{c}-\log \left(\sum\limits_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)\right)\]</span></p>
-<p>按照梯度上升的思路，先求损失函数其中一项相对于<span class="math inline">\(v_c\)</span>的梯度 <span class="math display">\[\begin{aligned} \frac{\partial \log P\left(w_{o} \mid w_{c}\right)}{\partial \boldsymbol{v}_{c}} &amp;=\boldsymbol{u}_{o}-\frac{\sum_{j \in \mathcal{V}} \exp \left(\boldsymbol{u}_{j}^{\top} \boldsymbol{v}_{c}\right) \boldsymbol{u}_{j}}{\sum_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)} \\ &amp;=\boldsymbol{u}_{o}-\sum_{j \in \mathcal{V}}\left(\frac{\exp \left(\boldsymbol{u}_{j}^{\top} \boldsymbol{v}_{c}\right)}{\sum_{i \in \mathcal{V}} \exp \left(\boldsymbol{u}_{i}^{\top} \boldsymbol{v}_{c}\right)}\right) \boldsymbol{u}_{j} \\ &amp;=\boldsymbol{u}_{o}-\sum_{j \in \mathcal{V}} P\left(w_{j} \mid w_{c}\right) \boldsymbol{u}_{j} \end{aligned}\]</span></p></li>
-</ul>
-<p>训练结束后，对于词典中的任一索引为i的词，我们均得到该词作为中心词和背景词的两组词向量 <span class="math inline">\(v_i\)</span> 和 <span class="math inline">\(u_i\)</span> 。在自然语言处理应用中，一般使用跳字模型的中心词向量作为词的表征向量。</p>
-<h4 id="使用tensorflow实现一个跳字模型">使用tensorflow实现一个跳字模型</h4>
-<h5 id="建模">建模</h5>
-<p>word2vec将每个词表示成一个定长的向量，并使得这些向量能较好地表达不同词之间的相似和类比关系</p>
-<ul>
-<li>第一步：获取训练样本
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FjpuHAmzTik.png?alt=media&amp;token=47e0004c-bc7c-4fc5-af22-d227532a7548" /></li>
-</ul></li>
-<li>第二步：构建1个神经网络
-<ul>
-<li>输入：上面的中心词的one-hot向量，形状为（词典大小，）</li>
-<li>输出：中心词周围出现的词的概率向量（相近词的概率），形状也是（词典大小）</li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FsFuwRdSRxR.png?alt=media&amp;token=03f6ea4c-aee0-4e11-993f-468505022f8d" /></li>
-<li>模型参数（or权重向量）的形状和含义：
-<ul>
-<li>网络 第一层有300（词向量长度）个单元，权重向量的形状是 (词典大小，词向量长度)，表示 每个词的中心词向量</li>
-<li>网络 第二层有10000（词典大小）个单元，权重向量的形状是（词向量长度，词典大小），表示 每个词的背景词向量</li>
-</ul></li>
-</ul></li>
-</ul>
-<h5 id="评估">评估</h5>
-<ul>
-<li>影响词向量质量的三个因素：
-<ul>
-<li>训练数据的数量和质量</li>
-<li>词向量的大小</li>
-<li>训练算法</li>
-</ul></li>
-</ul>
-<p>google提供了 测试数据 和 测试脚本</p>
-<ul>
-<li>chiechie：先人工定义一些 近义词组，反义词组，不相关词组，计算这些词组的 余弦距离，看是否跟之前定义的语义距离 一致。</li>
-<li>提供2份 相关性测试集（relation test set）:
-<ul>
-<li>word relation test set :<strong>./demo-word-accuracy.sh</strong>,</li>
-<li>phrase relation test set:<strong>./demo-phrase-accuracy.sh</strong></li>
-</ul></li>
-<li>最好的结果：准确率 70% + 覆盖率 100%.</li>
-</ul>
-<h3 id="连续词袋模型continous-bag-of-words">连续词袋模型（continous bag of words）</h3>
-<p>连续词袋模型与跳字模型类似。与跳字模型最大的不同在于，连续词袋模型假设基于某中心词在文本序列前后的背景词来生成该中心词。在同样的文本序列“the”“man”“loves”“his”“son”里，以“loves”作为中心词，且背景窗口大小为2时，连续词袋模型关心的是，给定背景词“the”“man”“his”“son”生成中心词“loves”的条件概率（如图10.2所示），也就是</p>
-<p><img src="img2.png" /></p>
-<p>一般使用连续词袋模型的背景词向量作为词的表征向量。</p>
-<h2 id="优化版">优化版</h2>
-<p>梯度上式的复杂度为|V|, 为了提高计算效率，有两个近似训练方案：负采样 和 层次化softmax</p>
-<h3 id="近似的学习方法-负采样">近似的学习方法-负采样</h3>
-<p>负采样的想法是，最后一层不用softmax，而是sigmoid,损失函数交叉熵：观测到就是正样本，没观测到就是负样本（通过对词典采样K次得到） （类似异常检测）</p>
-<p><span class="math inline">\(P\left(w^{(t+j)} \mid w^{(t)}\right)=P\left(D=1 \mid w^{(t)}, w^{(t+j)}\right) \prod\limits_{k=1, w_{k} \sim P(w)}^{K} P\left(D=0 \mid w^{(t)}, w_{k}\right)\)</span></p>
-<p>取对数就是</p>
-<p><span class="math inline">\(\begin{aligned}-\log P\left(w^{(t+j)} \mid w^{(t)}\right) &amp;=-\log P\left(D=1 \mid w^{(t)}, w^{(t+j)}\right)-\sum_{k=1, w_{k} \sim P(w)}^{K} \log P\left(D=0 \mid w^{(t)}, w_{k}\right) \\ &amp;=-\log \sigma\left(\boldsymbol{u}_{i_{t+j}}^{\top} \boldsymbol{y}_{i_{t}}\right)-\sum_{k=1, w_{k} \sim P(w)}^{K} \log \left(1-\sigma\left(\boldsymbol{u}_{h_{k}}^{\top} \boldsymbol{v}_{i_{t}}\right)\right) \\ &amp;=-\log \sigma\left(\boldsymbol{u}_{i_{t+j}}^{\top} \boldsymbol{y}_{i_{t}}\right)-\sum_{k=1, w_{k} \sim P(w)}^{K} \log \sigma\left(-\boldsymbol{u}_{h_{k}}^{\top} \boldsymbol{v}_{i_{t}}\right) \end{aligned}\)</span></p>
-<p>好处是：计算 梯度的 复杂度 从N 减少到 K</p>
-<h2 id="点积or余弦">点积or余弦</h2>
-<blockquote>
-<p>word2vec中的优化目标是点积，但实际使用的却是使用向量夹角的余弦？</p>
-</blockquote>
-<ol type="1">
-<li>点积和余弦, 差了一个量岗，即向量模长。</li>
-<li>如果是在一个空间中找近义词，肯定是要用带归一化的距离函数--余弦；</li>
-<li>在训练的时候，为了迁就损失函数-sigmod，才将量岗还原。</li>
-</ol>
-<h2 id="detail">detail</h2>
-<ul>
-<li>训练时，优化的是input/output vector的点积，预测时使用的是夹角余弦.</li>
-<li>训练的时候之所以不用cos相似度，而用点积，是因为如果先做cos，会将神经网络的输出限制到[-1, 1]，使网络的表达能力（p=σ(w*c)）受限，performance下降很多。w, c来自不同的空间， w为input vector，c为output vector。</li>
-<li>如果效仿word2vec设计(user, item)这类点击率预估模型，二者的不同之处：
-<ul>
-<li>word2vec使用的是input vector，点击率预估模型使用的是最后参与点积运算的user vector, item vector；</li>
-<li>word2vec预测时是求word的knn word（word2vec的源码文件distance.c，用的是余弦距离），</li>
-<li>点击率预估模型求的是user的knn item</li>
-</ul></li>
-</ul>
-<h2 id="参考">参考</h2>
-<ol type="1">
-<li><p>https://mk.woa.com/q/267975?strict=true&amp;ADTAG=daily</p></li>
-<li><p>Distributed Representations of Words and Phrases and their Compositionality, Section 2</p></li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/tmikolov/word2vec">word2vec开源实现</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_natural-language-processing/word2vec.html#%E8%BF%9E%E7%BB%AD%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B">dive into deep learning</a></p></li>
+<li>Bahdanau, Cho, &amp; Bengio. Neural machine translation by jointly learning to align and translate. In ICLR, 2015.</li>
+<li>Cheng, Dong, &amp; Lapata. Long Short-Term Memory-Networks for Machine Reading. In EMNLP, 2016.</li>
+<li>Vaswani et al. Attention Is All You Need. In NIPS, 2017.</li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=UlC6AjQWao8&amp;t=26s">BERT (预训练Transformer模型)</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1907.11692v1.pdf">RoBERTa</a></li>
+<li>Devlin, Chang, Lee, and Toutanova. BERT: Pre-training of deep bidirectional transformers for language understanding. In ACL, 2019.</li>
+<li><a target="_blank" rel="noopener" href="https://leemeng.tw/attack_on_bert_transfer_learning_in_nlp.html">attack_on_bert_transfer_learning_in_nlp-blog</a></li>
+<li><a target="_blank" rel="noopener" href="https://pytorch.org/hub/pytorch_fairseq_roberta/">ROBERTA-pytorch</a></li>
+<li><a target="_blank" rel="noopener" href="https://discuss.huggingface.co/t/fine-tune-bert-models/1554/2">huggingface</a></li>
+<li>https://medium.com/swlh/painless-fine-tuning-of-bert-in-pytorch-b91c14912caa</li>
 </ol>
 
       
@@ -566,7 +500,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/49/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/49/">49</a><span class="page-number current">50</span><a class="page-number" href="/page/51/">51</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/51/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/49/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/49/">49</a><span class="page-number current">50</span><a class="page-number" href="/page/51/">51</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/51/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -632,7 +566,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

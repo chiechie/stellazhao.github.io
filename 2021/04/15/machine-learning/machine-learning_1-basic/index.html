@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"chiechie.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="机器学习的基本概念  机器学习是一个多领域交叉的学科，但是总结起来，关注的核心点都在于：如何从历史经验（数据）中获取知识或者规律（模型），并将知识应用到新的类似的场景中。 机器学习的三个要素：假设函数空间；学习策略or目标函数；优化算法。 机器学习的流程一般要经历几个阶段：收集样本（大部分场景都要人工标注），特征提取，定义预测函数（也叫假设函数空间，线性的还是非线性的），定义损失函数&#x2F;目标函数，选">
+  <meta name="description" content="机器学习的基本概念  机器学习是一个领域交叉的学科，涉及到统计学系，认知科学，最优化，信息论等学科，但无论从那个角度出发，关注的核心点都在于：如何从历史经验（数据）中获取知识，并将知识应用到新的类似的场景中。 机器学习的三个要素：假设函数空间&#x2F;预测函数族；学习策略&#x2F;目标函数&#x2F;损失函数；优化算法。 机器学习的流程分为几个阶段：收集样本（mostly需要人工标注），特征提取，定义预测函数族&#x2F;假设函数空">
 <meta property="og:type" content="article">
-<meta property="og:title" content="chapter 1 机器学习基本概念">
+<meta property="og:title" content="chapter 1 机器学习基础">
 <meta property="og:url" content="https://chiechie.github.io/2021/04/15/machine-learning/machine-learning_1-basic/index.html">
 <meta property="og:site_name" content="Chiechie&#39;s Mini World">
-<meta property="og:description" content="机器学习的基本概念  机器学习是一个多领域交叉的学科，但是总结起来，关注的核心点都在于：如何从历史经验（数据）中获取知识或者规律（模型），并将知识应用到新的类似的场景中。 机器学习的三个要素：假设函数空间；学习策略or目标函数；优化算法。 机器学习的流程一般要经历几个阶段：收集样本（大部分场景都要人工标注），特征提取，定义预测函数（也叫假设函数空间，线性的还是非线性的），定义损失函数&#x2F;目标函数，选">
+<meta property="og:description" content="机器学习的基本概念  机器学习是一个领域交叉的学科，涉及到统计学系，认知科学，最优化，信息论等学科，但无论从那个角度出发，关注的核心点都在于：如何从历史经验（数据）中获取知识，并将知识应用到新的类似的场景中。 机器学习的三个要素：假设函数空间&#x2F;预测函数族；学习策略&#x2F;目标函数&#x2F;损失函数；优化算法。 机器学习的流程分为几个阶段：收集样本（mostly需要人工标注），特征提取，定义预测函数族&#x2F;假设函数空">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://chiechie.github.io/2021/04/15/machine-learning/machine-learning_1-basic/dl0_basic.png">
 <meta property="og:image" content="https://chiechie.github.io/2021/04/15/machine-learning/machine-learning_1-basic/image-20210720201740269.png">
 <meta property="og:image" content="https://chiechie.github.io/2021/04/15/machine-learning/machine-learning_1-basic/image-20210720204128001.png">
 <meta property="article:published_time" content="2021-04-15T08:00:28.000Z">
-<meta property="article:modified_time" content="2021-07-22T07:55:37.719Z">
+<meta property="article:modified_time" content="2021-07-28T03:24:36.457Z">
 <meta property="article:author" content="Chiechie">
 <meta property="article:tag" content="人工智能">
 <meta property="article:tag" content="机器学习">
@@ -51,7 +51,7 @@
   };
 </script>
 
-  <title>chapter 1 机器学习基本概念 | Chiechie's Mini World</title>
+  <title>chapter 1 机器学习基础 | Chiechie's Mini World</title>
   
 
 
@@ -186,7 +186,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          chapter 1 机器学习基本概念<a href="https://github.com/chiechie/chiechie.github.io/tree/master/source/_posts/machine-learning/machine-learning_1-basic.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+          chapter 1 机器学习基础<a href="https://github.com/chiechie/chiechie.github.io/tree/master/source/_posts/machine-learning/machine-learning_1-basic.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
         </h1>
 
         <div class="post-meta">
@@ -203,7 +203,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 15:55:37" itemprop="dateModified" datetime="2021-07-22T15:55:37+08:00">2021-07-22</time>
+                <time title="修改时间：2021-07-28 11:24:36" itemprop="dateModified" datetime="2021-07-28T11:24:36+08:00">2021-07-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -235,17 +235,16 @@
       
         <h2 id="机器学习的基本概念">机器学习的基本概念</h2>
 <ol type="1">
-<li><p>机器学习是一个多领域交叉的学科，但是总结起来，关注的核心点都在于：如何从历史经验（数据）中获取知识或者规律（模型），并将知识应用到新的类似的场景中。</p></li>
-<li><p>机器学习的三个要素：假设函数空间；学习策略or目标函数；优化算法。</p></li>
-<li><p>机器学习的流程一般要经历几个阶段：收集样本（大部分场景都要人工标注），特征提取，定义预测函数（也叫假设函数空间，线性的还是非线性的），定义损失函数/目标函数，选择优化算法。</p>
-<blockquote>
-<p>使用sklearn的时候，后面三步骤写一行命令就完成了。</p>
-</blockquote>
+<li><p>机器学习是一个领域交叉的学科，涉及到统计学系，认知科学，最优化，信息论等学科，但无论从那个角度出发，关注的核心点都在于：如何从历史经验（数据）中获取知识，并将知识应用到新的类似的场景中。</p></li>
+<li><p>机器学习的三个要素：假设函数空间/预测函数族；学习策略/目标函数/损失函数；优化算法。</p></li>
+<li><p>机器学习的流程分为几个阶段：收集样本（mostly需要人工标注），特征提取，定义预测函数族/假设函数空间，定义损失函数/目标函数/学习策略，选择优化算法。</p>
 <ul>
-<li>定义损失函数：给定预测模型之后，让他去预测训练数据中的每一个输入样本，为了让预测模型学的越来越准，我们需要设置一个奖惩机制：当模型预测对了，就给一个高分，预测错了就给一个低分。负责对预测函数打分的组建就是这个损失函数，当然，他只会惩罚错误的预测结果，即，预测错了就跟一个很严重的惩罚分数，这样我们的目的就变成，希望找到一个惩罚分数最低的预测函数。怎么找呢？这个就涉及到最优化的知识，当损失函数是个连续可导的函数，更甚至是一个凸函数时，比如误差平方和交叉熵函数，我们就可以利用导数的方法来求最优的参数</li>
-<li>选择优化方法：当有了损失函数和训练数据之后，我们就可以定义一个优化问题--最小化所有训练数据的总体预测误差，通常也称之为经验风险，通过合适的优化方法去求解这个最优化问题，就可以得到最佳的预测函数。优化方法有很多，比如梯度下降，牛顿法等，能否找到全局最优解，取决于损失函数的复杂程度，如果损失函数是一个凸函数，很容易找到全局最优，否则，大部分情况都只能找到局部最优。</li>
+<li>定义损失函数：为了让预测模型预测得越来越准，需要设置一个奖惩机制：当模型预测错了就惩罚它，负责给预测函数打分就是损失函数。这样我们的目的就变成，找到一个惩罚分数最低的预测函数。具体来说，定义一个优化问题--最小化训练数据上的总体预测误差，即经验风险，通过优化算法去找到这个优化问题的解。</li>
 </ul></li>
 </ol>
+<ul>
+<li>选择优化算法：通过合适的优化方法去求解经验风险最小化问题，就可以得到最佳的预测函数。优化方法有很多，比如梯度下降，牛顿法等，能否找到全局最优解，取决于损失函数的复杂程度，如果损失函数是一个凸函数（比如误差平方和交叉熵函数），很容易找到全局最优，然而，大部分情况都只能找到局部最优。</li>
+</ul>
 <h2 id="机器学习的细分方向">机器学习的细分方向</h2>
 <p>从预测函数的类别来看，可以分为回归，分类，排序，有结构的预测</p>
 <p>从复杂度来看，可以分为线性和非线性；浅层和深度</p>
@@ -255,8 +254,8 @@
 </ul>
 <p>从模型功能，可以分为生成模型和判别模型</p>
 <ul>
-<li>生成模型的学习目标是mle，关注特征和标签的联合概率，它要学习的概率分布很复杂，但是适用场景多，eg分类，概率密度估计，样本生成。</li>
-<li>判别模型的学习目标是最大化条件概率或者后验概率，不关注特征和标签的联合概率，直接对后验概率建模，学习效率高，不过只能做分类。</li>
+<li>生成模型的学习目标是最大化似然概率(max P(x))，关注特征和标签的联合概率，它要学习的概率分布很复杂，但是适用场景多，eg分类，概率密度估计，样本生成。</li>
+<li>判别模型的学习目标是最大化条件概率或者后验概率(max P(y|x))，不关注特征和标签的联合概率，直接对后验概率建模，学习效率高，不过只能做分类。</li>
 </ul>
 <h3 id="常用的机器学习模型">常用的机器学习模型</h3>
 <h3 id="线性模型逻辑回归">线性模型/逻辑回归</h3>
@@ -269,21 +268,14 @@
 <h3 id="支持向量机">支持向量机</h3>
 <ol type="1">
 <li><p>核方法的基本思想，通过一个非线性变换，把输入数据映射到高维度的希尔伯特空间，在高维空间中，原先线性不可分的问题，变得很好解决。</p></li>
-<li><p>使用核方法时，理论上，计算高维空间中两个向量的距离要分两步走：1.先将输入向量映射到高维空间，2. 然后再计算高维空间中向量之间的距离，但是，在已知<span class="math inline">\(\phi\)</span>的表达式时，可以直接推导出两个低维向量在高维空间的距离函数<span class="math inline">\(k(x_1, x_2)\)</span></p></li>
-</ol>
-<p><span class="math inline">\(x_1\)</span>--&gt; <span class="math inline">\(\phi(x_1)\)</span></p>
-<p><span class="math inline">\(x_2\)</span>--&gt; <span class="math inline">\(\phi(x_2)\)</span></p>
-<p><span class="math inline">\(dist(\phi(x_1), \phi(x_2)) = k(x_1, x_2)\)</span></p>
-<ol start="3" type="1">
-<li>举几个例子核函数的例子：</li>
+<li><p>使用核方法时，理论上，计算高维空间中两个向量的距离要分两步走：1.先将输入向量映射到高维空间，2. 然后再计算高维空间中向量之间的距离，但是，在已知<span class="math inline">\(\phi\)</span>的表达式时，可以直接推导出两个低维向量在高维空间的距离函数<span class="math inline">\(k(x_1, x_2)\)</span></p>
+<p><span class="math inline">\(x_1\)</span>--&gt; <span class="math inline">\(\phi(x_1)\)</span>，<span class="math inline">\(x_2\)</span>--&gt; <span class="math inline">\(\phi(x_2)\)</span>，<span class="math inline">\(dist(\phi(x_1), \phi(x_2)) = k(x_1, x_2)\)</span></p></li>
+<li><p>举几个例子核函数的例子：</p></li>
 </ol>
 <ul>
-<li>自由度为d的多项式核函数:<span class="math inline">\(k(x,y) = (x^\mathsf{T} y + c)^{d}\)</span></li>
-</ul>
-<blockquote>
-<p>假设d=2对应的映射函数：$ (x) = x_n^2, , x_1^2,  x_n x_{n-1}, ,  x_n x_1,  x_{n-1} x_{n-2}, ,  x_{n-1} x_{1}, ,  x_{2} x_{1},  x_n, ,  x_1, c $</p>
-</blockquote>
-<ul>
+<li><p>自由度为d的多项式核函数:<span class="math inline">\(k(x,y) = (x^\mathsf{T} y + c)^{d}\)</span></p>
+<p>假设d=2对应的映射函数：</p>
+<p>$ (x) = x_n^2, , x_1^2,  x_n x_{n-1}, ,  x_n x_1,  x_{n-1} x_{n-2}, ,  x_{n-1} x_{1}, ,  x_{2} x_{1},  x_n, ,  x_1, c $</p></li>
 <li><p>RBF核函数或者高斯核函数：<span class="math inline">\(k(\mathbf{x}, \mathbf{y})=e^{-\gamma\|\mathbf{x}-\mathbf{y}\|^{2}}, \gamma&gt;0\)</span></p></li>
 <li><p>sigmoid核函数: <span class="math inline">\(\tanh \left(\gamma\left\langle x, x^{\prime}\right\rangle+r\right)\)</span></p></li>
 </ul>
@@ -351,32 +343,41 @@
 </ol>
 <h2 id="常用的优化方法">常用的优化方法</h2>
 <ol type="1">
-<li>远在机器学习之前，梯度下降就已经被提出，还有共轭梯度法，坐标下降法，牛顿法，拟牛顿法，Frank-Wolfe方法，Nesterov加速方法，内点法，对偶方法他确定性优化算法。</li>
-<li>确定性优化算法从算法使用的信息的角度可以分为一阶和二阶方法，
+<li><p>几十年前提出的模拟退火，贝叶斯优化虽可以解决低维度非凸，然而解决不了深度学习中的高维非凸。</p></li>
+<li><p>在深度学习中，虽然找到目标函数的全局最优解很难，但这并非必要。我深度学习中常用的优化算法，它们在很多实际问题中都能够训练出十分有效的深度学习模型, 例如，带动量的随机梯度下降，ada梯度，rmsprop，ada delta</p>
 <ul>
-<li>一阶：只用到了目标函数的一阶导数信息</li>
-<li>二阶：用到了二阶导数，如嗨森矩阵</li>
+<li><p>动量法：带动量的随机梯度下降， 对所有历史梯度，依据其远离当前时间的程度，以指数递减的权重，一起决定下一步模型的更新方向。动量法使用了指数加权移动平均的思想。它将过去时间步的梯度做了加权平均，且权重按时间步指数衰减。动量法使得相邻时间步的自变量更新在方向上更加一致。</p></li>
+<li><p>AdaGrad：在带动量的随机梯度下降基础上，还基于历史梯度大小调整学习步长。它根据自变量在每个维度的梯度值的大小来调整各个维度上的学习率，从而避免统一的学习率难以适应所有维度的问题</p></li>
+<li><p>rmsprop：带动量的sgd+ada</p></li>
+<li><p>AdaDelta算法：针对AdaGrad算法在迭代后期较难找到有用解的问题做了改进 ，AdaDelta算法没有学习率这一超参数。</p></li>
+<li><p>Adam算法：在RMSProp算法基础上对小批量随机梯度也做了指数加权移动平均。</p></li>
 </ul></li>
-<li>随着大数据的兴起，确定性优化算法的效率成为瓶颈。为了减少优化过程中每次迭代的计算复杂度，开始关注随机优化算法，比如随机梯度下降，随机坐标下降等。这些算法的基本思想是，每次迭代不使用全部样本或者全部特征，而是随机抽样一个/或者一组样本，或者一个/一组特征，再利用这些抽象的信息来计算一阶或者二阶导数，对目标函数进行优化。很多情况下，随机优化可以看成是确定性算法的无偏估计，但是，有时候也会带来较大方差，需要使用新的技术手段去控制方差，比如SVRG。</li>
-<li>上面的优化算法在求解凸优化问题时，理论性质是比较清楚的，但是深度神经网络引入了非凸优化问题，以上的算法在该问题域还存在很大的理论空白，例如：
+<li><p>总结一下深度学习的优化算法的思想--ada系列算法：更新模型权重时，不仅依赖当前梯度，还要利用历史上所有的梯度信息，自适应（adaptively）调整步长。具体做法是，</p>
+<ol type="1">
+<li>对所有历史梯度，依据其远离当前时间的程度，以指数递减的权重，一起决定下一步模型的更新方向。</li>
+<li>根据历史梯度大小<strong>逐维</strong>调整步长，这样算法会照顾到当前梯度值较小，但是对搜索路径具有重要贡献的维度，更适合多局部极值和鞍点的模型。</li>
+</ol></li>
+</ol>
+<blockquote>
+<ol type="1">
+<li>远在机器学习之前，梯度下降就已经被提出，还有共轭梯度法，坐标下降法，牛顿法，拟牛顿法，Frank-Wolfe方法，Nesterov加速方法，内点法，对偶方法等确定性优化算法。确定性优化算法从算法使用的信息的角度可以分为一阶和二阶方法，
+<ol type="1">
+<li>一阶：只用到了目标函数的一阶导数信息</li>
+<li>二阶：用到了二阶导数，如海森矩阵</li>
+</ol></li>
+<li>随着大数据的兴起，确定性优化算法的效率成为瓶颈。为了减少优化过程中每次迭代的计算复杂度，人们开始关注随机优化算法，比如随机梯度下降，随机坐标下降等。这些算法的基本思想是，每次迭代不使用全部样本或者全部特征，而是随机抽样一个/或者一组样本，或者一个/一组特征，再利用这些抽样的信息来计算一阶或者二阶导数，对目标函数进行优化。很多情况下，随机优化可以看成是确定性算法的无偏估计，但是，有时候也会带来较大方差，需要使用新的技术手段去控制方差，比如SVRG。</li>
+<li>已有算法在非凸问题上的理论性质还不够完善：分析一个凸问题的优化算法的收敛性，是看其能否收敛到全局最优。但是对于更难的非凸问题，可能存在多个局部极值或者鞍点，可以放松「收敛」的要求：看其能否收敛到梯度为0的临界点。确定性优化算法和随机优化算法在求解凸优化问题时，理论性质是比较清楚的，但是深度神经网络引入了非凸优化问题，已有的优化算法在该类问题域还存在很大的理论空白，例如：
 <ol type="1">
 <li>优化算法的收敛性在非凸问题能否保持？</li>
 <li>有没有什么加速的方法？</li>
 </ol></li>
-<li>专门针对深度神经网络的优化算法被发明，例如，带冲量的速记梯度下降，ada梯度，rmsprop，ada delta</li>
 </ol>
-<ul>
-<li>带动量的随机梯度下降，对所有历史的梯度，按照时间衰减为权重，一起决定下一步的更新方向</li>
-<li>ada梯度：在上面的基础上，还考虑了根据历史梯度大小调整了学习步长</li>
-<li>rmsprop：带动量的sgd和ada的结合</li>
-<li>ada delta：在rmsprop基础行，进一步对步长调整</li>
-<li>adam：</li>
-</ul>
+</blockquote>
 <h2 id="机器学习理论">机器学习理论</h2>
 <p>机器学习最关注的是泛化能力，反映了机器能否抓住问题本质，获得处理未知样本的能力</p>
 <ol type="1">
-<li><p>机器学习算法的最终目标是最小化损失的期望，但是我们不知道真实分布，所以将目标转为，最小化经验风险，同时，会给函数空间添加适当的约束，比如只允许搜索那些范数小于c的函数子空间，成学习问题为正则经验风险最小化，我们希望学习到的模型的期望风险尽可能小，并将其定义为机器学习的泛化误差。</p></li>
-<li><p>希望算法的泛化误差尽可能小，即，算法输出的模型和最优的模型对应的期望风险之差尽可能小，这个差距也称为泛化误差，可以分解为三部分：</p>
+<li><p>机器学习算法的最终目标是最小化期望损失。由于真实概率分布未知，所以将目标转为，最小化经验风险，同时，给假设函数空间添加适当的约束，比如只允许搜索那些范数小于c的函数子空间，变成学习问题为正则经验风险最小化。</p></li>
+<li><p>我们希望算法输出的模型和最优的模型对应的期望风险之差尽可能小，这个差距也称为泛化误差，它来源3部分：</p>
 <ol type="1">
 <li>优化误差：迭代出来的算法与精确的最小经验风险的模型的差别，这个误差是由优化算法的局限性带来的，与选用的优化算法，数据量大小，迭代轮数，以及函数空间有关。</li>
 <li>估计误差：最小经验风险模型和最小期望风险模型的差距。这个误差主要是训练数据的局限性带来的。</li>
@@ -412,6 +413,7 @@
 <ol type="1">
 <li>分布式机器学习</li>
 <li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/svm.html#svm-kernels">sklearn-kernel</a></li>
+<li>https://zh.d2l.ai/chapter_optimization/adam.html</li>
 </ol>
 
     </div>
@@ -511,7 +513,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

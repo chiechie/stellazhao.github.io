@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/06/17/reading_notes/reality/about-AGI/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/06/26/reading_notes/computer/cache-memory/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/06/17/reading_notes/reality/about-AGI/" class="post-title-link" itemprop="url">关于AGI？</a>
+            <a href="/2021/06/26/reading_notes/computer/cache-memory/" class="post-title-link" itemprop="url">计算机的存储单元</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-06-17 17:04:32" itemprop="dateCreated datePublished" datetime="2021-06-17T17:04:32+08:00">2021-06-17</time>
+              <time title="创建时间：2021-06-26 09:47:32" itemprop="dateCreated datePublished" datetime="2021-06-26T09:47:32+08:00">2021-06-26</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
+                <time title="修改时间：2021-06-28 13:56:10" itemprop="dateModified" datetime="2021-06-28T13:56:10+08:00">2021-06-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -219,38 +219,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="chiechies-reflection">chiechie's reflection</h2>
+          <h2 id="概览">概览</h2>
 <ol type="1">
-<li>理论突破不是技术爆发的必经之路，很多技术都没有理论，比如古代时候的发明，造船，造纸，造火药，爱迪森发明电灯泡，还有现代的量子计算机和深度学习，理论完备个P。</li>
-<li>大部分发明都是做实验，通过试错迭代而产生的,而很多情况下理论都是滞后的。</li>
+<li><p>计算机上的存储单元的处理速度从快到慢依次是： 寄存器&gt; L1&gt;L2&gt;L3&gt;内存&gt;固态硬盘&gt; 机械硬盘</p>
+<figure>
+<img src="./img_1.png" alt="存储单元" /><figcaption aria-hidden="true">存储单元</figcaption>
+</figure></li>
+<li><p>早期的计算机只有寄存器和内存，但是寄存器的处理速度远高于内存，所以大部分时间是寄存器在等内存，所以CPU是处于空转状态。 经过改进</p></li>
+<li><p>除了寄存器，后面的计算机在CPU中又逐步加入了高速缓存--L1/L2/L3缓存，相当于让内存提前做功课，把数据提前取出来，在3个缓存中候着，等寄存器有空了就取来用。笨鸟先飞嘛。</p></li>
+<li><p>L1/L2/L3缓存，每层速度递减、容量递增。L1缓存速度接近寄存器速度，大约1ns时延。</p></li>
+<li><p>多核CPU的L3对诶个core是共享的，L2和L1是每个core私有的。</p></li>
 </ol>
-<h2 id="无人驾驶现状">无人驾驶现状</h2>
-<ol type="1">
-<li>一个技术在工业化生产之前，一般要经历三个阶段, 理论突破，技术验证，工程化
-<ol type="1">
-<li>理论突破，科学家在理论上证明其可行性，即产品要达到一个什么样的性能，在技术上是一定可以实现的；</li>
-<li>技术突破，研究机构突破技术实现上壁垒，做出来达到预期的Demo；</li>
-<li>工程化，主要解决产品设计，方案优化，功能完备，性能提升，良品率，鲁棒性，可用性提升，大规模复制的技术准备，成本降低等工程问题。</li>
-</ol></li>
-<li>通用无人驾驶在第一，第二阶段还彻底整明白的情况下，由资本驱动直接进入第三阶段.</li>
-</ol>
-<h2 id="agi的理论先行者">AGI的理论先行者</h2>
-<ol type="1">
-<li>目前强化学习是最被看好的方向。</li>
-<li>强化学习本质上是演化论的思路，跟自然界一样，给定一个reward，让机器放肆的学习探索。</li>
-<li>目前还需要解决的问题是计算资源的问题。</li>
-<li>自然界的演化大部分时间是平稳状态，只有极少数黑天鹅事件决定了演化的方向。</li>
-<li>在计算机中模拟agent的演化过程，和自然界的演化类似，需要忍受长期的无秩序无进展。</li>
-<li>如果全世界的资源往这方面倾斜，可能可以加快黑天鹅事件出现。</li>
-<li>理论突破不是AGI成熟的必要条件，有可能是2者互相促进发展。</li>
-<li>目前收到关注较多的公司--自动标注样本公司scale</li>
+<figure>
+<img src="./img_2.png" alt="img_2.png" /><figcaption aria-hidden="true">img_2.png</figcaption>
+</figure>
+<ol start="6" type="1">
+<li>CPU读取数据时，要从内存读取到L3，再读取到L2再读取到L1，同样写到内存时也会经过这些层次。</li>
 </ol>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li>https://www.zhihu.com/question/404870865/answer/1324577689</li>
-<li>https://www.zhihu.com/question/464616760/answer/1940847401</li>
-<li><a target="_blank" rel="noopener" href="https://www.sciencedirect.com/science/article/pii/S0004370221000862">reward is enough ,david silver</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.notboring.co/p/scale-rational-in-the-fullness-of?token=eyJ1c2VyX2lkIjoxNzY2NjQ2OSwicG9zdF9pZCI6Mzc4NDY2MzEsIl8iOiJrTHFWcCIsImlhdCI6MTYyNDQyNDU4NCwiZXhwIjoxNjI0NDI4MTg0LCJpc3MiOiJwdWItMTAwMjUiLCJzdWIiOiJwb3N0LXJlYWN0aW9uIn0.zWmuXLn35R720iDVtX7yTuTpM4kCMk25457XzZN8_Ks">not boring</a></li>
+<li>https://www.junmajinlong.com/os/cpu_cache/</li>
 </ol>
 
       
@@ -271,7 +259,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/06/16/reading_notes/reality/about-scale/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/06/22/data_structure/ds3-1_graph-basic/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -285,7 +273,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/06/16/reading_notes/reality/about-scale/" class="post-title-link" itemprop="url">关于Scale AI</a>
+            <a href="/2021/06/22/data_structure/ds3-1_graph-basic/" class="post-title-link" itemprop="url">图数据基础</a>
         </h2>
 
         <div class="post-meta">
@@ -295,14 +283,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-06-16 10:39:20" itemprop="dateCreated datePublished" datetime="2021-06-16T10:39:20+08:00">2021-06-16</time>
+              <time title="创建时间：2021-06-22 11:42:17" itemprop="dateCreated datePublished" datetime="2021-06-22T11:42:17+08:00">2021-06-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-30 15:30:46" itemprop="dateModified" datetime="2021-06-30T15:30:46+08:00">2021-06-30</time>
+                <time title="修改时间：2021-07-22 16:53:10" itemprop="dateModified" datetime="2021-07-22T16:53:10+08:00">2021-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -310,7 +298,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84/" itemprop="url" rel="index"><span itemprop="name">投资</span></a>
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
                 </span>
             </span>
 
@@ -325,59 +313,86 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>看到Packy激情满满写了一篇关于Scale AI的公关文，比较好奇这个年轻的小公司有何特别之处，为什么会受到资本的一致认可。</p>
-<p>印象中Scale AI就是一家硅谷的数据标注公司，主要靠外包给第三方国家，赚取中间费用，这种公司有什么竞争力呢？跟大厂比起来？</p>
-</blockquote>
-<h2 id="总结">总结</h2>
+          <h2 id="总结">总结</h2>
 <ol type="1">
-<li><p>Scale AI创立至今5年，最近一次估值73亿$。它跟stripe有点像，在一个蓬勃发展的行业，找到一个关键但是不起眼的小地方，深耕细作。</p></li>
-<li><p>刚开始成立的时候，Scale AI专注做数据标注，但是他们的野心不限于此，他们想做更好用的数据标注工具，即人机互助的方式，Human-in-the-Loop（HIL）。</p></li>
-<li><p>Scale AI的故事是：随着标记数据越来越多，标注数据的边际成本会降低，因为标记样本越多，标记机器人的性能越好，能hold的事情就越多，需要分配出去的工作就越少。</p>
-<blockquote>
-<p>这里有一个问题，怎么确定，哪些是机器可以搞定的，哪些是机器搞不定的？这个是不是又要多一层人工监督了？</p>
-<p>可以从环境中获取到反馈，也可以人工抽查。</p>
-<p>总的来说，都不是很完善的方案。</p>
-</blockquote></li>
-<li><p>Scale AI还有一个亮点，他的客户群体很分散，从国防部到无人驾驶公司，eg OpenAI, Airbnb and Lyft。这有一个好处就是。AI公司去去留留，竞争之后，留下了最有效的ml应用场景，但是Scale AI始终有机会，因为是做基础设施的。</p></li>
-<li><p>除了标注API，Scale AI还做了一个样本调试的产品--Nucleus，data debugging SaaS product。目的是做全链路基建嘛。 <img src="./img.png" alt="Nucleus" /></p></li>
-<li><p>Scale AI的CEO Alexandr Wang 说的一段话</p>
-<blockquote>
-<p>At Scale, we’re building the foundation to enable organizations to manage the entire AI lifecycle. Whether they have an AI team in-house or need a fully managed models-as-a-service approach, we partner with our customers to build their strategy from the ground up and ensure they have the infrastructure in place to systematically deliver highly-performant models.</p>
-</blockquote></li>
+<li><p>图数据是一种数据结构，对于图数据有一些常见的任务，比如单源最短路径，等。</p></li>
+<li><p>当图数据的点和边具备一定的含义，如边代表概率，这个时候就是一个概率图模型。</p></li>
+<li><p>概率图通常用于对多个变量之间的因果关系或者相关关系进行建模。</p></li>
+<li><p>概率图模型可以细分为有向图和无向图。有向图比如贝叶斯网络，无向图比条件随机场（CRF）。</p></li>
+<li><p>有向图又可进一步细分，如果边的方向代表因果关系，就是一个因果图，通常因果图都是需要专家构建的。</p></li>
+<li><p>图不仅仅通过边存储静态的信息，还能基于边，inference更多的信息。</p></li>
 </ol>
-<p>简单点说，他们的方法是，帮助企业从0到1落地一个AI应用--不管这个企业内部有没有AI团队--企业能够使用这个基建更高效地构建模型. 就是win-win,后生可畏.</p>
-<ol start="10" type="1">
-<li><p>对于没有AI团队的传统企业，Scale AI定制化合作（跟必示一样），客户例如Brex和Flexport。</p>
+<h2 id="真实世界中的网络">真实世界中的网络</h2>
+<ol type="1">
+<li>计算机网络--互联网</li>
+<li>交通网络（铁路网，公路网）</li>
+<li>金融网络</li>
+<li>下水道网络</li>
+<li>政治网络</li>
+<li>犯罪网络</li>
+</ol>
+<h2 id="图的表示">图的表示</h2>
+<ol type="1">
+<li><p>传统的空间都是定义在欧几里得空间（Euclidean Space）的，在该空间定义的距离被称为欧式距离。 音频，图像，视频等都是定义在欧式空间下的欧几里得结构化数据，然而对于社交网络等数据，使用欧几里得空间进行定义并不合适，所以将这一类的数据所处的空间称为非欧几里得空间。</p></li>
+<li><p>非欧空间下最有代表的结构就是图（Graph）结构， 每一个图都有对应的4个矩阵：incidence matrix,A/degree matrix/adjacency matrix/拉普拉斯矩阵（laplacian matrix， L）</p></li>
+</ol>
+<p>incidence matrix:<span class="math inline">\(A \ in R^{m *n}\)</span>, m 是边的个数，n是节点的个数 每一行代表一条边的起点（也叫parent）和终点（也叫children）</p>
 <figure>
-<img src="./img1.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
-</figure></li>
-<li><p>这里有一个小故事：Brex doesn’t have an AI team working on the model; they outsource it to Scale. .Brex一开始找的是专门做OCR的大公司，帮他们做发票文本提取，但是效果一般（“they were all mediocre.” ）。后面找到scale，通过深入合作定制化了一个模型，效果100%。后面沉淀出了一个产品document。</p></li>
-<li><p>scale的产品还有蛮多的：地图/文档/图像。。 <img src="img2.png" alt="img.png" /></p></li>
+<img src="./img_2.png" alt="img_2.png" /><figcaption aria-hidden="true">img_2.png</figcaption>
+</figure>
+<h3 id="邻接矩阵adjacency-matrix">邻接矩阵（Adjacency matrix）</h3>
+<p>邻接矩阵是一个NxN的矩阵，对于有权图，其值为权重或0，对于无权图，其值为0和1，该矩阵定义如下： <span class="math display">\[A \in R^{N \times N}, A_{i j}=\left\{\begin{array}{ll}a_{i j} \neq 0 &amp; e_{i j} \in E \\ 0 &amp; \text { othersize }\end{array}\right.\]</span></p>
+<h3 id="度矩阵degree-matrix">度矩阵（Degree matrix）</h3>
+<p>度矩阵D是一个对角矩阵，其定义为：</p>
+<p><span class="math display">\[D \in R^{N \times N}, D_{i i}=\sum_{j} A_{i j}\]</span></p>
+<h3 id="邻域neighborhood">邻域（Neighborhood）</h3>
+<p>邻域表示与某个顶点有连接的点集，其定义为：<span class="math display">\[N\left(v_{i}\right)=\left\{v_{j} \mid e_{i j} \in E\right\}\]</span></p>
+<h3 id="谱spectral">谱（Spectral）</h3>
+<h3 id="拉普拉斯矩阵lapalcian-matrix">拉普拉斯矩阵（Lapalcian matrix）</h3>
+<h4 id="谱分解spectral-factorization">谱分解(Spectral Factorization)</h4>
+<p>什么是spectrum？ 矩阵的spectrum就是矩阵的特征根。 只有方阵才有谱概念，方阵作为线性算子，其所有特征值的集合称为方阵的谱。方阵的谱半径为其最大的特征值，谱分解就是特征分解。</p>
+<p>谱分解(Spectral Factorization)又叫特征值分解，实际上就是对n维方阵做特征分解. 只有含有n个线性无关的特征向量的n维方阵才可以进行特征分解.</p>
+<p>spectral定理用公式表达：对于一个对称矩阵S，其特征根<span class="math inline">\(\Lambda\)</span>都是实数, 特征向量都正交<span class="math inline">\(Q\)</span></p>
+<p><span class="math display">\[S = Q\Lambda Q^T\]</span>​</p>
+<p>graph laplacian 矩阵：connection of 线性代数和图论</p>
+<p>拉普拉斯矩阵（laplacian matrix），<span class="math inline">\(L \ in R^{n *n}\)</span> <span class="math display">\[L = A^T A= D-B\]</span></p>
+<p>degree matrix：<span class="math inline">\(D \ in R^{n*n}\)</span>，代表了每个节点有多少degree adjaceny matrix：<span class="math inline">\(B \ in R^{n*n}\)</span>，代表了任意两个点是否有link</p>
+<p>拉普拉斯矩阵是半正定矩阵,其特征根从小到达排序 1. 第一个特征根为0，<span class="math inline">\(\lambda_1 = 0\)</span>, 即DIM(null space) = 1，对应的特种向量为常熟向量 2. 第二个特征根（最小的正的特征根）叫fiedler， 对应的特征向量叫fiedler vector</p>
+<p>graph的laplacian矩阵和laplace方程（有限差分方法）的关系：</p>
+<p>laplace方程也叫微分方程，其微分形式 跟一个网格图的laplacian矩阵（n*n）就是离散形式。</p>
+<ol start="3" type="1">
+<li>实对称矩阵,有n个线性无关的特征向量;</li>
+<li>其特征向量可以进行正交单位化;</li>
+<li>所有的特征值非负;</li>
 </ol>
-<blockquote>
-<p>btw, 知乎上有一个相关提问--如何评价Scale AI？大家似乎认识非常有限（只知道它是做数据标注的），还讨论的热火朝天。由此可见的，噪声膨胀的速度远远超过信息增长的速度。</p>
-</blockquote>
-<h2 id="chiechies-reflection">chiechie's reflection</h2>
-<ol type="1">
-<li><p>packy这篇文章的公司分析框架蛮好的，后面分析科技公司可以套用：</p>
-<ul>
-<li>行业介绍：The State of AI and ML</li>
-<li>公司介绍：Getting to Scale.</li>
-<li>相同模式的成功案例对比：Scaling Like Stripe.</li>
-<li>关于公司的负面观点：The Bear Case for Scale.</li>
-<li>关于公司的正面观点：The Bull Case for Scale.</li>
-<li>前景展望：Scale’s Compounding Vision.</li>
-</ul></li>
-<li><p>AI市场未来还有这么大的成长空间，当前只有8%的公司应用了AI技术,看到这个数字有点吃惊。但是，即便如此，AI从业人员的需求也不用过分乐观估计。</p></li>
-<li><p>AI应用目前还在探索期。Scale AI比较鸡贼，让AI公司在前面探路，让他们相互pk，把有价值可落地的场景摸索清楚，自己在后面提供军火库，妥妥的赢家。</p></li>
-</ol>
+<p><span class="math display">\[L=U\left(\begin{array}{ccc}\lambda_{1} &amp; &amp; \\ &amp; \ddots &amp; \\ &amp; &amp; \lambda_{n}\end{array}\right) U^{-1}=U\left(\begin{array}{ccc}\lambda_{1} &amp; &amp; \\ &amp; \ddots &amp; \\ &amp; &amp; \lambda_{n}\end{array}\right) U^{T}\]</span></p>
+<p>有时，使用的都是正规拉普拉斯矩阵（Symmetric Normalized Laplacian matrix）: <span class="math display">\[L^{s y s}=D^{-1 / 2} L D^{-1 / 2}=I-D^{-1 / 2} A D^{-1 / 2}\]</span></p>
+<h2 id="图的算法">图的算法</h2>
+<p>基于这个网络，可以做一些什么分析呢？聚类分析，</p>
+<p>即，找到一些cluster，内部的距离很小，之间的距离很大，这个可以抽象成求最大割或者最小流问题 通常还有一些其他的基于图的问题：</p>
+<p>比如，给定一个图，任意两个元素之间是否存在一个link？如果存在，最快捷的路径是什么？</p>
+<p>还有一个经典的问题--'图分割'（graph partition）</p>
+<h3 id="s-t-cut">S-T Cut</h3>
+<p>S-T Cut 就是把一个图切成了两个子图，S和T</p>
+<figure>
+<img src="img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
+</figure>
+<p>S-T cut的容量，就是链接S,C的变（图中红色的边）的权重求和，</p>
+<figure>
+<img src="img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption>
+</figure>
+<h3 id="最小割">最小割</h3>
+<p>最小割（min -cut），就是容量最小的那个S-T cut</p>
+<figure>
+<img src="img_2.png" alt="img_2.png" /><figcaption aria-hidden="true">img_2.png</figcaption>
+</figure>
+<p>最小割是指去掉图中的一些边，在使得图从连通图变为不连通图，并且尽可能保证去除的边对应的权重很小。</p>
+<p>最小割可能并不唯一</p>
+<p>对于相似性图来说，最小割就是要去除一些很弱的相似性，把数据点从一个连通的大图切割成多个独立的连通小图。</p>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.notboring.co/p/scale-rational-in-the-fullness-of">not boring</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/384012257">吴恩达发起新型竞赛范式！模型固定，只调数据？</a></li>
-<li><a target="_blank" rel="noopener" href="https://scale.com/blog/series-e">Scale AI’s Series E: Deploying AI Across Every Industry</a></li>
-<li><a target="_blank" rel="noopener" href="https://dashboard.scale.com/nucleus/">nucleus</a></li>
+<li>https://zhuanlan.zhihu.com/p/84271169</li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=V_TulH374hw">Graph-theoretic Models</a></li>
 </ol>
 
       
@@ -397,7 +412,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -463,7 +478,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/17/machine-learning/machine-learning_2-trees_2/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/18/reading_notes/zhexue/taleb-blackswan/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/17/machine-learning/machine-learning_2-trees_2/" class="post-title-link" itemprop="url">chapter 2.2 树模型2-随机森林,Adaboost和GBDT</a>
+            <a href="/2021/04/18/reading_notes/zhexue/taleb-blackswan/" class="post-title-link" itemprop="url">黑天鹅</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,138 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-17 10:39:45" itemprop="dateCreated datePublished" datetime="2021-04-17T10:39:45+08:00">2021-04-17</time>
+              <time title="创建时间：2021-04-18 19:55:49" itemprop="dateCreated datePublished" datetime="2021-04-18T19:55:49+08:00">2021-04-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 15:55:53" itemprop="dateModified" datetime="2021-07-22T15:55:53+08:00">2021-07-22</time>
+                <time title="修改时间：2021-06-10 17:29:43" itemprop="dateModified" datetime="2021-06-10T17:29:43+08:00">2021-06-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="序言">序言</h1>
+<ul>
+<li>黑天鹅举例子
+<ul>
+<li>能带来收益的：风险投资，科技发现</li>
+<li>能带来损失的：金融危机，失业</li>
+</ul></li>
+<li>关于学习，人性又一个弱点：习惯学习精确的东西，而不是从整体上把握
+<ul>
+<li>【马其诺防线的故事】第一次世界大战之后，为了避免德国人再次入侵，法国人沿德国人曾经入侵的路线修建了一条防御工事，而希特勒（几乎）毫不费力地绕过了它。</li>
+<li>问题产生于我们的思维结构：我们不学习规律，而是学习事实，而且只学习事实。。我们似乎不太善于认识到我们的超规律（即我们倾向于不学习规律的规律）。我们蔑视抽象的东西——疯狂地蔑视。</li>
+</ul></li>
+<li>这个问题为什么很重要？
+<ul>
+<li>这种直觉的方法论，对于现代复杂且越来越具循环性的环境来说是非常不切实际的。</li>
+</ul></li>
+<li>我们的生物基因决定了，我们其实不擅长思考。
+<ul>
+<li>我们的头脑似乎不是用来思考和内省的，远古时期，我进行反常规内省和努力思考的祖先会被老虎吃掉，而他不爱思考但身体反应迅速的表亲早已跑开躲了起来。</li>
+</ul></li>
+<li>因为钟形曲线忽（高斯曲线）略大的离差，无法解释它们，但还要让我们相信不确定性是可以控制的，我在本书中戏称它为“智力大骗局”。</li>
+<li>【关于模型】模型和结构并不永远是错的，它们只错在一些具体的运用上。困难在于你不可能事前知道哪里会错（而只能事后知道），也不可能知道错误会导致严重后果。这些模型就像某些可能有效，但同时也可能具有非常严重的副作用的药品。</li>
+<li>教室中的人从没有面对过在不确定性条件下进行决策的真实情况，意识不到什么是重要的，什么是不重要的，即使他们是关于不确定性问题的学者。我所说的不确定性实践，可以是当海盗、做商品投机、职业赌博、在黑手党的某个分部效力，或者是简单的持续创业</li>
+</ul>
+<h1 id="第一部分-极端斯坦-与-黑天鹅现象">第一部分 极端斯坦 与 黑天鹅现象</h1>
+<h2 id="第一章-自我欺骗的人类">第一章 自我欺骗的人类</h2>
+<ul>
+<li>面对历史，人类的思想会犯三个毛病：
+<ul>
+<li>第一宠迷雾：我们以为我们生活的这个世界比他实际上更加可理解，可解释，可预测</li>
+</ul></li>
+</ul>
+<h2 id="第三章-极端斯坦与平均斯坦">第三章 极端斯坦与平均斯坦</h2>
+<ul>
+<li>关于职业选择，有两类职业：
+<ul>
+<li>“一劳永逸型”：
+<ul>
+<li>录音师和电影演员也是一样：他们会让电影院的音效工程师调好播放器，而不必在每一次播放电影时都出现。</li>
+</ul></li>
+<li>“苦力活”
+<ul>
+<li>面包师必须为每一位新客户——烤出面包。</li>
+</ul></li>
+<li>假如我必须给出建议的话，我会建议选择一个收入不具有突破性的职业---面包师！收入具有突破性的职业只有在你成功的时候对你是有利的。这样的职业竞争更激烈，导致更大的不平均和不确定性，在努力和回报之间存在巨大差异，因为少数人获得蛋糕的大部分，其他人可能什么也得不到，而这怪不了别人</li>
+</ul></li>
+<li>可以这样陈述平均斯坦的最高法则：当你的样本量足够大时，任何个例都不会对整体产生重大影响。最大的观察值虽然令人吃惊，但对整体而言最终微不足道。</li>
+<li></li>
+</ul>
+<h1 id="第三部分-极端斯坦的灰天鹅">第三部分 极端斯坦的灰天鹅</h1>
+<h2 id="第十八章-骗子的不确定性">第十八章 骗子的不确定性</h2>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/18/machine-learning/machine-learning_3-clustering/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/18/machine-learning/machine-learning_3-clustering/" class="post-title-link" itemprop="url">chapter 3 聚类算法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-18 11:20:42" itemprop="dateCreated datePublished" datetime="2021-04-18T11:20:42+08:00">2021-04-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-22 16:06:56" itemprop="dateModified" datetime="2021-07-22T16:06:56+08:00">2021-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -220,346 +344,135 @@
 
       
           <blockquote>
-<p>boosting tree的代表是gbdt，以及一系列变形xgboost,catboost,下面重点介绍一下xgboost</p>
+<p>除了kmeans，聚类算法中还有一类更简单直观的方法，就是层次聚类。</p>
 </blockquote>
-<h1 id="何为bagging和boosting">何为bagging和boosting？</h1>
+<h2 id="总结">总结</h2>
 <ol type="1">
-<li>Bagging是一种数据采样的方法，Blending是一种模型混合的方法.</li>
-<li>Blending的方法有几个：投票/线性blending/stacking。
-<ul>
-<li>如果每个base estimator一样重要，就对他们采用uniform的aggregation方式。</li>
-<li>如果有的base estimator特别重要，可以将estimator当成特征转换器使用，然后将不同estimator的输出做一个线性映射，得到最终的结果，这个也叫线性blending。</li>
-<li>如果想让这个aggregation更加复杂，也就是说，想要这个模型实现，在不同的condition下，不同的estimator发挥的重要性不一样，这个时候就要基于不同estimator的输出构建一个非线性映射。这个也叫stacking</li>
-</ul>
-<ol start="3" type="1">
-<li>投票追求的是公平稳定，其他两种追求高效。</li>
-</ol></li>
-<li>也可以一边构建base estimator，一边决定模型blending的方法。
-<ul>
-<li>uniform aggregation的代表是Bagging Tree/随机森林</li>
-<li>AdaBoost通过改变样本权重的方式得到不一样的base estimator，一边根据他们的表现决定给每个estimator多少票。</li>
-<li>在不同条件下找到最优的base estimator的代表算法是决策树，回想一下，在决策树里面，不同的路径使用的是不同的叶子（在决策树的场景中，一个叶子就是一个base estimator）。</li>
-<li>gradient boost是一种线性blending的方法，只不过，构建新的base estimator时，不是像AdaBoost那样重新对样本赋予权重，而是，直接去最小化残差，然后根据学到的结果，赋予当前base estimator一个权重。</li>
-<li>boosting-like的算法最受到欢迎，即aAdaBoost和GradientBoost，还有xgboost和catboost</li>
-</ul>
-<img src="./img_2.png" title="fig:" alt="img_2.png" /></li>
-<li>为什么对模型做aggregation之后，效果变好了？相当于对特征做了非线性变换，整体表达能力更强；多个estimator求共识，相当于做了正则化，模型效果更稳定。</li>
-<li>不同的blending方法中，有的方法解决overfitting，有的适合解决underfitting。</li>
-<li>boosting是多个base estimtor进行aggregate的一种方法，并且每个estimator都有一个自己的权重，GBDT和AdaBoosting要解决的就是一个问题。 boosting相对于uniform的方式，多了n个待估参数，复杂度更高，如何求解这个高维的优化问题？衍生出了两种算法，第一种是像adaboost，使用一个reweighted的样本去构建一个新的estimator，并使用其预测准确率作为权重。 GBDT则是基于前面所有的estimator的学习成果，做增量学习。</li>
-</ol>
-<h1 id="随机森林adaboost和-gbdt">随机森林，Adaboost和 GBDT</h1>
-<h2 id="随机森林">随机森林</h2>
-<ol type="1">
-<li><p>bootstrap是什么？是一种抽样的方法，通过多次有放回的抽样，得到多份独立的样本集，获得统计量。</p></li>
-<li><p>Bagging是什么？通过bootstrap的方式抽样得到多份样本。Bagging的特点是，可以降低整体的模型预测的不稳定性，通过让多个base estimator投票或者取均值的方式。</p></li>
-<li><p>decision tree非常不稳定，训练数据稍微有一点变化，分支条件就会改变，从而整个树都长得不一样了。</p></li>
-<li><p>bagging trees 是什么？针对单个决策树方差过大的问题，bagging trees 利用bootstrap，提取B份独立的样本集，分别估计出预测值<span class="math inline">\(\hat{f}^{1}(x), \hat{f}^{2}(x), \ldots, \hat{f}^{B}(x)\)</span> ，然后将结果取平均，就可以得到一个方差更小的预测模型，通过多次实验获得多个regression tree或者classification tree，对每一个input，会产生多个输出，regression tree的输出是K个树的输出取average。classification tree是采用投票的方法，大多数相同的那一类就是输出的那一类 。</p></li>
-<li><p>Bagging + decision tree综合起来构建随机森林。 <img src="img_1.png" alt="img_1.png" /></p></li>
-<li><p>Bagging的部分可以并行化，从而可以更加有效地处理更大的训练数据。</p></li>
-<li><p>构建base estimator时，除了对样本采样，还可以对特征采样，随机森林的原始论文作者建议，在构建cart的每个分支条件时，都随机采样一个特征子空间，在这个子空间中找一个最优的分割点。</p></li>
-<li><p>随机森林论文的作者还建议，可个对特征作随机组合，即构建投影矩阵，将原始的训练数据映射到一个低维的特征空间。</p></li>
-<li><p>random forest是bagging tree的加强版本，因为他考虑到了tree之间的de correlates，使得组合后结果的variance更小。构造树过程如下：consider 每一个split的时候，会从p个predictors中<strong>随机</strong>的挑<span class="math inline">\(m = \sqrt p\)</span>）个作为split candidate，</p></li>
-<li><p>boosting跟bagging tree不一样的地方在于，trees are grown sequentially: each tree is grown using information from previously grown trees. Boosting不涉及每个bootstrap采样。</p></li>
-</ol>
-<h2 id="adaboost">Adaboost</h2>
-<figure>
-<img src="./img.png" alt="adaboost" /><figcaption aria-hidden="true">adaboost</figcaption>
-</figure>
-<ol type="1">
-<li><p>AdaBoost通过改变样本权重的方式得到不一样的base estimator，一边根据他们的表现决定给每个estimator多少票。</p></li>
-<li><p>adaboosting的思路是，先训练出一个base estimator，根据预测结果的准确率，对样本的权重进行调整，预测不准的样本调高权重，预测准的样本调低权重，然后让下一个base estimmtor来学习。这样，原来base estimator搞不定的样本，在后续的学习中，得到更多的关注，最终的预测模型，是所有base estimator预测结果的线性组合，权重表示对应base estimator的预测准确率。</p></li>
-</ol>
-<h2 id="gbdt">GBDT</h2>
-<ol type="1">
-<li><p>GBDT是将一个优化问题，拆解成一系列子优化问题，每个子优化问题要解决的问题是，在当前学习成果的基础上查漏补缺，从而更加逼近target variable。即当前的base estimator的优化目标是最小化target和截止当前的预测值之间的差，也叫residual。 <img src="img_4.png" alt="img_4.png" /> h是当前的base estimator，<span class="math inline">\(\eta\)</span>表示权重</p></li>
-<li><p>怎么求这个优化问题？先求里层的优化问题，再求外层的优化问题。里面的优化问题是将err对当前prediction做一阶泰勒展开，其中一阶项（h，待学习的目标）的系数就是error相对当前prediction的一偏导数，也就是梯度。这里有一个问题，如果我已经知道要做regression，也就是当前的目标函数是关于h的二次函数，我直接求最优解不就好了，即令损失函数关于h的导数为0？其实是可以的，但是GBDT的野心很大，想推导出，任意形式的err对应的最优解h，随意下面的一阶近似方法是更具备通用性的。（想象一下如果err是absolute loss或者像交叉熵这种非convex，就不适用了。btw，xgboost是使用err的二阶泰勒展开去作为err的近似）</p>
+<li><p>聚类是一种非监督的数据驱动的分析方法，当给定一堆样本的特征时，希望聚类算法能从特征中发现不同 的样本的聚集的模式，并且可以将发现的知识推广到新的数据上。</p></li>
+<li><p>我们常常对表数据使用kmeans来实现聚类，内部流程分为两步，第一步是是将多维的表数据（维度代表特征），转为2D的相似图（一个节点代表一个样本）。第二步，是对这个图进行聚类。</p></li>
+<li><p>kmeans在实际中应用较多，但是并没有理论保证其收敛。</p>
 <blockquote>
-<p>回忆一下一阶泰勒展开： <span class="math display">\[f(x + \Delta x) = f(x) + \Delta x \partial f_x \]</span></p>
-</blockquote>
+<p>...I don't think there is a nice theory of convergence or rate of convergence, But is a very popular algorimth,..., But that's one sort of hack that works quite well--Gilbert Strang</p>
+</blockquote></li>
+<li><p>对一个图，找到其中的一些cluster，kmeans是其中一种方法，还有谱聚类（spectral clustring）。</p></li>
+<li><p>除此之外，还可以使用终极大招--使用数值方法去求解优化问题（比如BP，就是alternative methods的一个特例）。</p></li>
+<li><p>按照理论严密从高到低，实现聚类的算法可以分为三类：谱聚类，基于运筹优化的聚类，一些直觉类的方法。直觉类的方法包括kmeans，层次聚类</p></li>
+<li><p>2个基本概念： <span class="math display">\[
+\operatorname{variability}(c)=\sum_{e \in c} \operatorname{distance}(\operatorname{mean}(c), e)^{2}
+\]</span></p></li>
+</ol>
+<p><span class="math display">\[
+\operatorname{dissimilarity}(C)=\sum_{c \in C} \operatorname{variability}(c)
+\]</span></p>
+<ul>
+<li><p>variability表示一个cluster的紧实程度（肌肉or胖子），有点点像衡量发散程度的方差，</p></li>
+<li><p>variability计算一个cluster内部，每个样本点离中心点的距离（eg欧式距离）</p></li>
+<li><p>dissimilarity表示一系列cluster的紧实程度，除以clusters的个数就是方差。</p></li>
+</ul>
+<ol start="9" type="1">
+<li>聚类就是求解一个优化问题： 最小化dissimilarity， 同时满足约束：至少有几个cluster（kmeans）or。cluster之间的距离超过给定的阈值（层次聚类）</li>
+<li>层次聚类是确定性的，kmeans是随机的，聚类结果依赖于K个中心点的初始值。</li>
+<li>目前常用的聚类算法大概分为三类：层次聚类/kmeans聚类</li>
+</ol>
+<ul>
+<li>层次聚类： nearest neigbour</li>
+<li>基于分区的聚类（partitional）：Kmeans系列/FCM/图理论</li>
+<li>基于密度：DBSCAN</li>
+<li>其他：ACODF</li>
+</ul>
 <figure>
-<img src="img_5.png" alt="img_5.png" /><figcaption aria-hidden="true">img_5.png</figcaption>
-</figure></li>
-<li><p>里层的优化问题求解方法类似拉格朗日乘子法，先将h的大小限制到一定的范围内。然后经过各种变形之后，发现直接拟合residual就好。 <img src="img_7.png" alt="img_7.png" /></p></li>
-<li><p>如何使用GBDT做回归？将上面的error 设置为squared loss。</p></li>
-<li><p>AdaBoost是要根据不同样本的权重来找一一个拟合的最好的小g; GBDT是找一个能拟合当前残差最好的小g。</p></li>
-</ol>
-<h2 id="xgboost">xgboost</h2>
-<ol type="1">
-<li><p>除了Adaboost，GradientBoost，Boosting tree的另外一个代表是xgboost,简称为XGB</p></li>
-<li><p>相对GBDT用err的一阶泰勒展开做近似，XGB做了更逼近的近似--二阶近似，并且在err中加入了正则项，限制了base estimator的复杂度。</p></li>
-<li><p>为什么要使用二阶近似？</p>
-<ol type="1">
-<li>先回答为什么要用近似（不管是一阶还是二阶）？为了简化优化目标：让各种稀奇古怪的loss function都统一表达为关于f的二次函数，然后就可以使用同样的优化算法求最优的f了，不管loss长什么样都可以用一招方法。</li>
-<li>再回答为什么是二阶而不是一阶？二阶更精确啊。</li>
-</ol></li>
-</ol>
-<h1 id="附录">附录</h1>
-<h2 id="xgboost的公式推导">xgboost的公式推导</h2>
-<h3 id="损失函数">损失函数</h3>
-<p>先看看，xgboost怎么定义ensemble tree的损失函数：</p>
-<p><span class="math display">\[\begin{array}{l}{\mathcal{L}(\phi)=\sum\limits_{i} l\left(\hat{y}_{i}, y_{i}\right)+\sum\limits_{k} \Omega\left(f_{k}\right)}\end{array}\]</span> <span class="math display">\[ \\{\Omega(f)=\gamma T+\frac{1}{2} \lambda\|w\|^{2}} \]</span></p>
-<ul>
-<li><span class="math inline">\(\hat{y}_{i}=\phi\left(\mathbf{x}_{i}\right)=\sum^{K} f_{k}\left(\mathbf{x}_{i}\right), \quad f_{k} \in \mathcal{F}\)</span></li>
-<li>l是一个可微convex函数</li>
-<li>k表示第k棵树</li>
-<li>i表示第i个样本</li>
-<li>T is the number of leaves in the tree.</li>
-<li><span class="math inline">\(f_k\)</span>表示第k棵树的预测函数，</li>
-<li>q代表树的结构，w代表叶子节点的权重</li>
-<li><span class="math inline">\(\Omega(f_k)\)</span>表示第k棵树的复杂度</li>
-</ul>
-<h3 id="reformulate为一系列子优化问题">reformulate为一系列子优化问题</h3>
-<p>上面的优化问题的解，近似求一系列优化问题的解，如下</p>
-<p><span class="math inline">\(\min \mathcal{L}^{(t)}=\min\limits_{f_t}\sum\limits_{i=1}^{n} l\left(\hat{y}_{i}^{(t-1)}+f_{t}\left(\mathbf{x}_{i}\right), y_{i}\right)+\Omega\left(f_{t}\right)\)</span></p>
-<p><span class="math inline">\(\mathcal{L}^{(t)}\)</span>表示第t棵树的训练目标</p>
-<h3 id="将子优化问题做二阶近似">将子优化问题做二阶近似</h3>
-<p>跟GBDT一样，将l进一步简化，使用二阶展开</p>
-<p><span class="math inline">\(\mathcal{L}^{(t)} \simeq\sum\limits_{i=1}^{n}\left[l\left(y_{i}, \hat{y}^{(t-1)}\right)+g_{i} f_{t}\left(\mathbf{x}_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(\mathbf{x}_{i}\right)\right]+\Omega\left(f_{t}\right)\)</span></p>
-<p>这里</p>
-<ul>
-<li><p><span class="math inline">\(g_{i}=\partial_{\hat{y}^{(t-1) }}l\left(y_{i}, \hat{y}^{(t-1)}\right)\)</span>，即l对<span class="math inline">\(y^{(t-1)}\)</span>的一阶导数</p></li>
-<li><p><span class="math inline">\(h_{i}=\partial_{\hat y^{(t-1)}}^{2} l\left(y_{i}, \hat{y}^{(t-1)}\right)\)</span>，即l对<span class="math inline">\(y^{(t-1)}\)</span>的二阶导数</p></li>
-</ul>
-<p>进一步remove常数项，得到优化目标为：</p>
-<p><span class="math inline">\(min \sum\limits_{i=1}^{n}\left[g_{i} f_{t}\left(\mathbf{x}_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(\mathbf{x}_{i}\right)\right]+\Omega\left(f_{t}\right)\)</span></p>
-<h3 id="基于样本集重新定义损失函数">基于样本集重新定义损失函数</h3>
-<ol type="1">
-<li><p>更进一步，上面的优化目标可以转换为： <span class="math display">\[\min\limits_{\omega, q} \sum_{i=1}^{n}\left[g_{i} f_{t}\left(\mathbf{x}_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(\mathbf{x}_{i}\right)\right]+\gamma T+\frac{1}{2} \lambda \sum_{j=1}^{T} w_{j}^{2} \]</span> 即： <span class="math display">\[\min\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right]+\gamma T \]</span></p>
-<ul>
-<li><span class="math inline">\(I_{j}=\left\{i | q\left(\mathbf{x}_{i}\right)=j\right\}\)</span>为叶子j对应的特征子空间</li>
-</ul>
-<p>也就是说，在构造第t个base estimator时，需满找到一个使得上面函数取得最小值的的base estimator，即找到最优<span class="math inline">\(w^{\star}\)</span>​和<span class="math inline">\(q^{\star}\)</span>​​对应的决策树。</p></li>
-<li><p>如何找到满足以上优化目标的决策树？拆解成两层优化问题，内层的优化问题确定叶子的预测值w，外层的优化问题确定分支q。</p>
-<p><span class="math display">\[\min_{q} （\min_{w}\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right] +  \gamma T） \]</span></p></li>
-<li><p>最优化叶子预测值w：对于某个给定分支(q)的决策树, <span class="math inline">\(I_{j}\)</span>​​​​​是确定，</p>
-<p><span class="math display">\[\min_{w}\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right]\]</span></p>
-<p>里面的优化问题是一个二次优化问题，直接令导数取0，即可得到最优解: <span class="math display">\[w_{j}^{*}=-(\sum_{i \in I_{j}} g_{i}) /(\sum_{i \in I_{j}} h_{i}+\lambda)\]</span>​​​​​​​</p></li>
-<li><p>最优化叶子分支q：将<span class="math inline">\(w_{j}^{*}\)</span>​​带入上面的目标函数，优化问题转换为：</p>
-<p><span class="math inline">\(\min\limits_q -\frac{1}{2} \sum\limits_{j=1}^{T} \frac{\left(\sum_{i \in I_{j}} g_{i}\right)^{2}}{\sum_{i \in I_{j}} h_{i}+\lambda}+\gamma T\)</span>​</p></li>
-</ol>
-<p>可以使用构造决策树的方式--递归构造子树，使用该指标的下降来评价splitting的质量（cart使用entropy或者gini index对应的信息增益来衡量），当前的「信息增益」可以表达 <span class="math display">\[\mathcal{L}_{s p l i t}=\frac{1}{2}\left[\frac{\left(\sum_{i \in I_{L}} g_{i}\right)^{2}}{\sum_{i \in I_{L}} h_{i}+\lambda}+\frac{\left(\sum_{i \in I_{R}} g_{i}\right)^{2}}{\sum_{i \in I_{R}} h_{i}+\lambda}-\frac{\left(\sum_{i \in I} g_{i}\right)^{2}}{\sum_{i \in I} h_{i}+\lambda}\right]-\gamma\]</span>​​​</p>
-<p>其中，<span class="math inline">\(I=I_{L} \cup I_{R}\)</span></p>
-<h3 id="切分点查找算法">切分点查找算法</h3>
-<p>最朴素的算法，遍历所有特征的所有的切分值，找出最佳的。</p>
-<p>目前大部分单机的机器学习库都是采用的这种算法。</p>
-<figure>
-<img src="./image-20200107161207967.png" alt="image-20200107161207967" /><figcaption aria-hidden="true">image-20200107161207967</figcaption>
+<img src="./img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
 </figure>
-<h2 id="最佳实践">最佳实践</h2>
+<h2 id="kmeans">kmeans</h2>
+<p>怎么选择k？</p>
+<ol type="1">
+<li>使用不同的k，看聚类效果，需要借助label， 看每个cluster的impurity，值越少，越符合预期。</li>
+<li>在一小数据集上使用层次聚类，然后在全量数据上使用kmeans。</li>
+</ol>
+<p>怎么避免初始中心点的随机性造成的算法效果不稳定？</p>
+<ol type="1">
+<li>设定初始聚类中心的时候，尽可能散布在整个空间。</li>
+<li>多跑几组聚类，选择聚类结果的dissimilarity最小的实验</li>
+</ol>
+<p>注意样本的特征范围需要统一，否则某一个特征就决定距离</p>
+<h2 id="层次聚类">层次聚类</h2>
+<p>层次聚类算法,又称为树聚类算法,它使用数据的联接规则,透过一种层次架构方式,反复将数据进行分裂或聚合,以形成一个层次序列的聚类问题解.</p>
+<ol type="1">
+<li><p>层次聚类算法中的层次聚合算法为例进行介绍.</p></li>
+<li><p>如何判断两个cluster之间的距离？average-linkage/single-linkage/complete-linkage</p>
 <ul>
-<li>number of trees:太大会造成过拟合，一般用cross validation去挑最好的参数</li>
-<li>shrinkage parameter:迭代步长，通常取0.01或者0.001，较小的lambda会需要很大的B来取得较好的效果。</li>
-<li>number of split d:通常d=1效果就比较好了。d表示的interation depth，就是交叉项的深度。</li>
-</ul>
-<h1 id="参考资料">参考资料</h1>
-<ol type="1">
-<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=ATM3sH0D45s&amp;list=RDCMUC9Wi1Ias8t4u1OosYnHhi0Q&amp;index=9">Random Forest Algorithm-Hsuan-Tien Lin</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.csie.ntu.edu.tw/~htlin/mooc/doc/208_present.pdf">Adaptive Boosting linxuantian</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=2xudPOBz-vs">youtube-gbdt</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1603.02754.pdf">xgboost</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://static1.squarespace.com/static/5ff2adbe3fe4fe33db902812/t/6062a083acbfe82c7195b27d/1617076404560/ISLR%2BSeventh%2BPrinting.pdf">An Introduction to Statistical Learning</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=F_EuNXhS9js&amp;list=RDCMUC9Wi1Ias8t4u1OosYnHhi0Q&amp;index=4">Gradient Boosted Decision Tree :: Gradient Boosting</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=3T1mdvzRAF0&amp;list=RDCMUC9Wi1Ias8t4u1OosYnHhi0Q&amp;index=6">Blending and Bagging :: Bagging (Bootstrap Aggregation)- Tien Lin</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1603.02754.pdf">xgboost</a></p></li>
+<li>average-linkage计算两个cluster各自数据点的两两距离的平均值。</li>
+<li>single-linkage,选择两个cluster中距离最短的一对数据点的距离作为类的距离</li>
+<li>complete-linkage选择两个cluster中距离最长的一对数据点的距离作为类的距离。</li>
+</ul></li>
+<li><p>层次聚合算法的时间复杂度为<span class="math inline">\(O(n^2)\)</span>,适合于小数据集的分类.</p></li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/16/machine-learning/machine-learning_2-trees_1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Chiechie">
-      <meta itemprop="description" content="a reader & thinker">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chiechie's Mini World">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/16/machine-learning/machine-learning_2-trees_1/" class="post-title-link" itemprop="url">chapter 2.1 树模型-决策树介绍</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-16 20:56:02" itemprop="dateCreated datePublished" datetime="2021-04-16T20:56:02+08:00">2021-04-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 15:55:48" itemprop="dateModified" datetime="2021-07-22T15:55:48+08:00">2021-07-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="总结">总结</h1>
-<h2 id="决策树">决策树</h2>
+<p>该算法由树状结构的底部开始逐层向上进行聚合,假定样本集S={o1,o2,...,on}共有n个样本.</p>
 <ol type="1">
-<li>决策树是一个预测算法，是使用贪婪的递归的方法来找到最优的预测结构。</li>
-<li>构建一个决策树需要确定分支条件以及每个分支的预测值。构建分支条件即把特征空间划分为多个distinct and non-overlapping regions,<span class="math inline">\(R_1,\dots,R_J\)</span>；第二步，对每个region定义一个response variable，作为该region的值。</li>
-<li>构建好了一个决策树，想要使用决策树做预测，步骤也分为两步：第一步是按照分支条件将新样本路由到指定的叶子结点，第二步将叶子结点对应的responsible varible作为该样本的预测值。</li>
-<li>怎么得到分支条件呢？有三类构建决策树的算法：ID3，C4.5和cart。前两者可以构造多叉树，cart只能构造二叉树。 因为cart效果最好，现在通常就用它（例如sklean）。</li>
-<li>ID3，C4.5和cart三类算法的大致思路一样，分为两步：第一步是将feature space切成多个boxes。为什么不是切成多个球？因为球没法填充整个feature space.</li>
-<li>如何找到最优的切割boxes的方式，如果去遍历每一组partition of feature space，计算量太大了，通常采用greedy的方法。</li>
-<li>构建决策树的过程中需要确定的参数：分支的个数，条件分支的条件，终止条件，叶子结点的值。</li>
+<li>初始化：每个样本 <span class="math inline">\(o_i\)</span> 为一个类; 共形成 n 个类:<span class="math inline">\(o_1,o_2,...,o_n\)</span></li>
+<li>找最近的<strong>两个类</strong>：从现有所有类中找出相似度最大的<strong>两个</strong>类<span class="math inline">\(o_r\)</span> 和 <span class="math inline">\(o_k\)</span> <span class="math display">\[distance(o_r,o_k) = min_{\forall{o_u,o_v \in S,o_u \neq o_v}}distance(o_u,o_v)\]</span></li>
+<li>将类<span class="math inline">\(o_r\)</span>和<span class="math inline">\(o_k\)</span>合并成一个新类<span class="math inline">\(o_{rk}\)</span>，现有cluster个数减1</li>
+<li>若所有的样本都属于同一个类,则终止;否则,返回步骤2.</li>
 </ol>
-<h2 id="决策树算法-cart">决策树算法-CART</h2>
+<p>层次聚类最大的优点，它一次性地得到了整个聚类的过程。如果想要改变cluster个数，不需要重新训练聚类模型，取聚类树的中间某一层就好了。相比之下kmeans是要重新弄训练的。</p>
+<p>层次聚类的缺点是计算量比较大，因为要每次都要计算多个cluster内所有数据点的两两距离，复杂度是O(n^2*d)，d表示聚类树的深度。</p>
+<p>还有一个缺点，超参数比较难设置，跟kmeans一样。最终到底聚成多少类，需人工给定一个distance threshold，这个阈值跟sample有关，跟距离函数的定义也有关，并且聚类结果对这个参数比较敏感。</p>
+<h2 id="谱聚类">谱聚类</h2>
 <ol type="1">
-<li>cart的特色是构建的一个binary tree，每次分支条件都是将一个空间以分为2，变成2个子空间，每个叶子结点的值，即response variable都是一个常数，是这么的到的：</li>
+<li>基于图数据的聚是非监督算法中的一种，目的是对一个图的点和变去聚类，而不是在特征空间中聚类。典型应用就是web图或者社交网络进行数据挖掘。</li>
 </ol>
-<ul>
-<li>如果target var是一个连续变量，求落入该region的训练集的response均值，即<span class="math inline">\({y_n}\)</span>的均值，其实这个均值对应的是最小化suqared error。 构建一个决策树，主要是要确定partition，或者说分支条件，以及每个落入每个partition（或者说）中对应的预测值。</li>
-<li>如果target var是一个离散变量，求众数对应的那个类别。</li>
-</ul>
+<blockquote>
+<p><strong>Graph</strong>-<strong>based clustering</strong> comprises a family of unsupervised classification algorithms that are designed to <strong>cluster</strong> the vertices and edges of a <strong>graph</strong> instead of objects in a feature space. A typical application field of these methods is the Data Mining of online social networks or the Web <strong>graph</strong> [1].Feb 8, 2020</p>
+</blockquote>
 <ol start="2" type="1">
-<li>怎么确定分支条件？找一个decision stump，使用纯度（purify）来衡量分支的质量，如果左边的data set 和右边的dataset 纯度 都很高，（其中的大部分样本的label很接近），就说切分的很好。对应到计算上面，就是找一个让平均不纯度最小的切分方式（decision stump）。</li>
-<li>如何确定分支/切割的不纯度？
-<ul>
-<li>如果target var是一个连续变量，使用squared loss来描述impurity，（跟样本子集的均值比），</li>
-<li>如果target var是一个离散变量，使用不一致样本比例来描述impurity，（跟样本子集的众数币），多分类的时候，不纯度常用giniindex</li>
-<li>如果是多分类，经常使用Gini index来刻画不纯度。</li>
-</ul></li>
-<li>什么时候会停下来？当满足下面的条件时，也叫fully grown tree：
-<ul>
-<li>落入某个分支的样本的target都一样，不纯度取到最小了，</li>
-<li>落入某个分支的样本的x都一样，没有decision stupms了。</li>
-</ul></li>
-<li>为何要剪枝(pruning)? a very bushy tree has got high variances,ie, over-fitting the data</li>
+<li><p>矩阵的spectrum就是矩阵的特征根。Spectral clustering就是使用矩阵的特征根聚类。</p></li>
+<li><p>图的拉普拉斯矩阵定义为 <span class="math inline">\(L=D-A\)</span>.</p></li>
 </ol>
-<h1 id="附录">附录</h1>
-<h2 id="基本概念">基本概念</h2>
-<ul>
-<li>信息增益: 衡量切分前后，样本纯度的提升or混乱度的下降。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IG = information before splitting (parent) — information after splitting (children)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>具体的，有两个衡量纯度/混乱度的指标：Entropy 和 Gini Impurity
-<ul>
-<li>基尼系数（<strong>gini index</strong>）: <span class="math display">\[I_{G}=1-\sum_{j=1}^{c} p_{j}^{2}\]</span>
-<ul>
-<li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li>
-<li>如果所有样本都属于某一类c，gini系数最小，为0。</li>
-</ul></li>
-<li>熵（entropy）：<span class="math display">\[I_{H}=-\sum_{j=1}^{c} p_{j} \log _{2}\left(p_{j}\right)\]</span>
-<ul>
-<li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li>
-<li>如果所有样本都属于某一类c，熵最小，为0。</li>
-</ul></li>
-</ul></li>
-</ul>
-<h2 id="决策树算法-id3">决策树算法-ID3</h2>
-<p>ID3, was the first of three Decision Tree implementations developed by Ross Quinlan</p>
-<p>It builds a decision tree for the given data in a top-down fashion. each node of the tree, one feature is tested based on 最大熵降, and the results are used to split the sample set. This process is recursively done until the set in a given sub-tree is homogeneous (i.e. it contains samples belonging to the same category). The ID3 algorithm uses a greedy search.</p>
-<p>Disadvantages:</p>
-<ul>
-<li>Data may be over-fitted or over-classified, if a small sample is tested.</li>
-<li>Only one attribute at a time is tested for making a decision.</li>
-<li>Does not handle numeric attributes and missing values.</li>
-</ul>
-<h2 id="决策树算法-c4.5">决策树算法-C4.5</h2>
-<p>Improved version on ID 3 . The new features (versus ID3) are:</p>
-<ul>
-<li><ol type="i">
-<li>accepts both continuous and discrete features;</li>
-</ol></li>
-<li><ol start="2" type="i">
-<li>handles incomplete data points;</li>
-</ol></li>
-<li><ol start="3" type="i">
-<li>solves over-fitting problem by (very clever) bottom-up technique usually known as "pruning"; and</li>
-</ol></li>
-<li><ol start="4" type="i">
-<li>different weights can be applied the features that comprise the training data.</li>
-</ol></li>
-</ul>
-<p>Disadvantages</p>
-<ul>
-<li>Over fitting happens when model picks up data with uncommon features value, especially when data is noisy.</li>
-</ul>
-<h2 id="决策树算法-cart-1">决策树算法-CART</h2>
-<p>ID3 和 C4.5是使用基于Entropy-最大信息增益的特征作为节点。</p>
-<p>CART代表分类树和回归树，使用基于entropy和ginix index计算信息增益。</p>
-<p>Disadvantages</p>
-<ul>
-<li>It can split on only one variable</li>
-<li>Trees formed may be unstable</li>
-</ul>
-<p>cart的原理就是，构造一颗大树<span class="math inline">\(T_0\)</span>，然后去剪枝（也叫做cost complexity pruning/the weakest link pruning）, 下面以regression tree 和 classification tree举例说明</p>
-<blockquote>
-<p>如果response var是imbalance, 全部预测为label占比更多的类，怎么办？</p>
-</blockquote>
-<h3 id="regression-tree">regression tree</h3>
-<p>regression tree的cost function 是RSS加上正则项</p>
-<p><span class="math display">\[\min\limits_{T\in T_0} \sum\limits_{m=1}^{|T|}\sum\limits_{x_i\in R_m}(y_i - \hat y_{R_m})^2+\alpha|T|\]</span></p>
-<ul>
-<li><span class="math inline">\(|T|\)</span>是叶子节点的个数。</li>
-<li>m表示第m个叶子</li>
-<li><span class="math inline">\(R_m\)</span>表示第m个partition region</li>
-<li><span class="math inline">\(y_i\)</span>表示第i个样本的真实值</li>
-<li><span class="math inline">\(y_{R_m}\)</span>表示第m个partition region的预测值</li>
-</ul>
-<p>可以使用一个递归的方法来构建一个决策树，主要是要确定partition，或者说分支条件，以及每个落入每个partition（或者说）中对应的预测值。</p>
-<figure>
-<img src="./img.png" alt="regression tree 构造流程" /><figcaption aria-hidden="true">regression tree 构造流程</figcaption>
-</figure>
-<h3 id="classification-tree">classification tree</h3>
-<p>classification tree切分节点时，参考信息增益，其他流程和构建回归树是一样的</p>
-<h1 id="参考">参考</h1>
+<p>怎么根据L来找到目标的clusters（or centriod）？ 对L进行谱分解（特征根分解），并且找到L的fieder向量。</p>
+<p>fieder向量中的元素有正的，也有负的， 正的位置对应的样本分配到cluster1，负元素对应的样本分配到cluster2</p>
+<p>谱聚类的流程是：</p>
+<p>输入：n个样本, 类别k</p>
 <ol type="1">
-<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=s9Um2O7N7YM">决策树算法-linxuantian</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.csie.ntu.edu.tw/~htlin/mooc/doc/209_present.pdf">决策树-linxuantian</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://static1.squarespace.com/static/5ff2adbe3fe4fe33db902812/t/6062a083acbfe82c7195b27d/1617076404560/ISLR%2BSeventh%2BPrinting.pdf">An Introduction to Statistical Learning</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.quora.com/Why-is-entropy-used-instead-of-the-Gini-index">Why-is-entropy-used-instead-of-the-Gini-index</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/dozercodes/DecisionTree">github-id3的实现1</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://github.com/SebastianMantey/Decision-Tree-from-Scratch/blob/master/notebooks/decision_tree_functions.py">github-id3的实现2</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Information_gain_in_decision_trees">wiki-Information_gain_in_decision_trees</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/tree/plot_unveil_tree_structure.html#sphx-glr-auto-examples-tree-plot-unveil-tree-structure-py">sklearn-decisiontree</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.quora.com/What-are-the-differences-between-ID3-C4-5-and-CART">quora-ID3-C4-5-and-CART的区别？</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=2xudPOBz-vs">youtube-gbdt</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1603.02754.pdf">xgboost</a></p></li>
+<li>根据样本两两之间的相似度，构建有权无向图，以及邻接矩阵W。</li>
+<li>计算出拉普拉斯矩阵L，对L做谱分解（相当于降维）：计算拉普拉斯矩阵L的最小的k个特征值对应的特征向量u1, u2,...,uk,将这些向量组成n*k维的矩阵U</li>
+<li>将U中的每一行作为一个样本，共n个样本，使用k-means对这n个样本进行聚类</li>
+</ol>
+<p>得到簇划分C(c1,c2,...ck).</p>
+<p>可以将谱聚类应用到，对样本的相似图做聚类。</p>
+<h2 id="聚类应用-图像分割">聚类应用-图像分割</h2>
+<p>图像分割是图聚类的其中一个应用场景。</p>
+<p>层次聚类可看成框架，而基于图的图像分割是在层次聚类上加了骨头，使他更适用于图像分割的领域，而使用者可以在骨头上继续加肉来达到不同的分割效果。</p>
+<p>图像中的每一个像素点是一个item，图像分割的任务即对所有items聚类，属于一个cluster的所有像素就构成了一个区域， 最终的分割结构就是若干个区域（即clusters）组成的。由此我们过渡到本文的第二部分，</p>
+<p>基于图的图像分割算法，主要流程如下</p>
+<p>输入一个图<span class="math inline">\(G=(V,E)\)</span>，有n个点和m个边。输出是一个分割V，分割成<span class="math inline">\(S=(C_1,...,C_2).\)</span></p>
+<ol type="1">
+<li><p>对边E进行排序，生成非递减的序列<span class="math inline">\(\pi = (o_1,...,o_m)\)</span></p></li>
+<li><p>从初始分割<span class="math inline">\(S^0\)</span>开始，每一个点<span class="math inline">\(v_i\)</span>自己就是一个区域</p></li>
+<li><p>对于每一个边<span class="math inline">\(q = 1,...,m\)</span>重复步骤3，通过<span class="math inline">\(S^{q-1}\)</span>构建<span class="math inline">\(S^q\)</span>，使用如下的方式</p>
+<ul>
+<li>令<span class="math inline">\(v_i\)</span>和<span class="math inline">\(v_j\)</span>表示按顺序排列的第q条边的两个点，比如<span class="math inline">\(o_q = (v_i,v_j)\)</span>。</li>
+<li>如果<span class="math inline">\(v_i\)</span>和<span class="math inline">\(v_j\)</span>在<span class="math inline">\(S^{q-1}\)</span>中连个不同的区域下，并且<span class="math inline">\(w(o_q)\)</span>比两个区域的内部差异都小，那么合并这连个区域，否则什么也不做。</li>
+<li>用公式来表达就是：
+<ul>
+<li>令<span class="math inline">\(C_{i}^{q-1}是S^{q-1}\)</span>的一个区域，它包含点<span class="math inline">\(v_i\)</span>；令<span class="math inline">\(C_{j}^{q-1}是S^{q-1}\)</span>的一个区域，它包含点<span class="math inline">\(v_j\)</span>。</li>
+<li>如果<span class="math inline">\(C_{i}^{q-1} \neq C_{j}^{q-1}\)</span> 并且<span class="math inline">\(w(o_q) \leq MInt(C_i^{q-1},C_j^{q-1})\)</span>，那么通过合并<span class="math inline">\(C_{i}^{q-1}\)</span>和<span class="math inline">\(C_{j}^{q-1}\)</span>得到了<span class="math inline">\(S^q\)</span>；</li>
+<li>否则的话<span class="math inline">\(S^q = S^{q-1}\)</span>，返回<span class="math inline">\(S = S^m\)</span></li>
+</ul></li>
+</ul></li>
+</ol>
+<p>图像分割结果如下</p>
+<figure>
+<img src="./img1.png" alt="图像分割" /><figcaption aria-hidden="true">图像分割</figcaption>
+</figure>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://patentimages.storage.googleapis.com/34/c0/df/3417293b1602a5/CN105468677A.pdf">一种基于图结构的日志聚类算法</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/78382376">常用聚类算法综述</a></li>
+<li><a target="_blank" rel="noopener" href="https://buptjz.github.io/2014/04/21/cluster">从层次聚类到Graph-based图像分割</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.jos.org.cn/1000-9825/19/48.pdf">聚类算法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=cxTmmasBiC8">35. Finding Clusters in Graphs-mit-youtube</a></li>
+<li>https://www.youtube.com/watch?v=esmzYhuFnds</li>
+<li>https://en.wikipedia.org/wiki/Spectral_clustering</li>
 </ol>
 
       
@@ -579,7 +492,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/59/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/59/">59</a><span class="page-number current">60</span><a class="page-number" href="/page/61/">61</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/61/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/59/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/59/">59</a><span class="page-number current">60</span><a class="page-number" href="/page/61/">61</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/61/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -645,7 +558,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

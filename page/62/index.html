@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/14/timeseries/timeseries3_DeepAR/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/17/machine-learning/machine-learning_2-trees_2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/14/timeseries/timeseries3_DeepAR/" class="post-title-link" itemprop="url">时间序列3 深度学习模型DeepAR</a>
+            <a href="/2021/04/17/machine-learning/machine-learning_2-trees_2/" class="post-title-link" itemprop="url">chapter 2.2 树模型2-随机森林,Adaboost和GBDT</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-14 17:21:19" itemprop="dateCreated datePublished" datetime="2021-04-14T17:21:19+08:00">2021-04-14</time>
+              <time title="创建时间：2021-04-17 10:39:45" itemprop="dateCreated datePublished" datetime="2021-04-17T10:39:45+08:00">2021-04-17</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-26 11:33:07" itemprop="dateModified" datetime="2021-07-26T11:33:07+08:00">2021-07-26</time>
+                <time title="修改时间：2021-07-22 15:55:53" itemprop="dateModified" datetime="2021-07-22T15:55:53+08:00">2021-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">时间序列</span></a>
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
                 </span>
             </span>
 
@@ -219,150 +219,149 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="总结">总结</h2>
+          <blockquote>
+<p>boosting tree的代表是gbdt，以及一系列变形xgboost,catboost,下面重点介绍一下xgboost</p>
+</blockquote>
+<h1 id="何为bagging和boosting">何为bagging和boosting？</h1>
+<ol type="1">
+<li>Bagging是一种数据采样的方法，Blending是一种模型混合的方法.</li>
+<li>Blending的方法有几个：投票/线性blending/stacking。
 <ul>
-<li>DeepAR是一种时间序列预测算法，类似一个升级版的AR模型。</li>
-<li>DeepAR不做点估计，而是估计概率分布</li>
-<li>由于DeepAR输出的是概率分布，所以对未来一段时间的预测，需要采样递归生成，但是采样只是1个路径，如果希望得到期望，需要重复采样</li>
-<li>适用于噪声较大的数据：相较于点估计能提供更有用的信息，如方差，在金融领域这个值代表风险，价值的(比如var用于计算准备金)。</li>
-<li>在交易上的启发：构建基于波动率的策略，风险大的情况下不交易。</li>
+<li>如果每个base estimator一样重要，就对他们采用uniform的aggregation方式。</li>
+<li>如果有的base estimator特别重要，可以将estimator当成特征转换器使用，然后将不同estimator的输出做一个线性映射，得到最终的结果，这个也叫线性blending。</li>
+<li>如果想让这个aggregation更加复杂，也就是说，想要这个模型实现，在不同的condition下，不同的estimator发挥的重要性不一样，这个时候就要基于不同estimator的输出构建一个非线性映射。这个也叫stacking</li>
 </ul>
-<h2 id="deepar原理">DeepAR原理</h2>
+<ol start="3" type="1">
+<li>投票追求的是公平稳定，其他两种追求高效。</li>
+</ol></li>
+<li>也可以一边构建base estimator，一边决定模型blending的方法。
 <ul>
-<li>怎么得到条件概率分布，或后验概率，即p（z｜x），训练的时候分两步走</li>
-<li>第一步：先确定概率分布的函数族，比如高斯分布，或者二项分布，那么使用参数&lt; <span class="math inline">\(\mu, \sigma\)</span>&gt; 来定义这个分布。</li>
-<li>第二步：估计这个分布的参数&lt; <span class="math inline">\(\mu, \sigma\)</span>​&gt;, 使用一个神经网络来拟合这个概率分布，具体来说
-<ul>
-<li>构建一个神经网络，该神经网络的输入为x，输出为&lt; <span class="math inline">\(\mu, \sigma\)</span>​&gt;</li>
-<li>使用最大似然估计的方法来训练这个神经网络：<span class="math inline">\(\mathcal{L}=-\sum\limits_{i=1}^{N} \sum\limits_{t=t_{0}}^{T} \log \ell\left(z_{i, t} \mid \theta\left(\mathbf{h}_{i, t}\right)\right)\)</span>
-<ul>
-<li>模型输出的分布参数为&lt;<span class="math inline">\(\mu, \sigma\)</span>&gt; , ground truth为y，loss为likelihood取negtive log：<span class="math inline">\(-log Prob(\mu,\sigma,y)\)</span>​， -log Prob就是反馈信号，取值越大当前参数不好，还要调整</li>
-</ul></li>
-</ul></li>
-<li>做推断的时候，输入x，得到后验概率&lt;<span class="math inline">\(\mu, \sigma\)</span>&gt;，进行采样，得到预测值</li>
-<li>使用likelihood 和 y 来度量输出的&lt;<span class="math inline">\(\mu, \sigma\)</span>&gt; 质量好不好。有点像，有个人号称 他的理论知识渊博&lt;<span class="math inline">\(\mu, \sigma\)</span>​&gt; (覆盖了y空间中所有的案例），现在要检验他的方法论对不对，就拿实际数据验证下，看他的理论能否解释事实。</li>
+<li>uniform aggregation的代表是Bagging Tree/随机森林</li>
+<li>AdaBoost通过改变样本权重的方式得到不一样的base estimator，一边根据他们的表现决定给每个estimator多少票。</li>
+<li>在不同条件下找到最优的base estimator的代表算法是决策树，回想一下，在决策树里面，不同的路径使用的是不同的叶子（在决策树的场景中，一个叶子就是一个base estimator）。</li>
+<li>gradient boost是一种线性blending的方法，只不过，构建新的base estimator时，不是像AdaBoost那样重新对样本赋予权重，而是，直接去最小化残差，然后根据学到的结果，赋予当前base estimator一个权重。</li>
+<li>boosting-like的算法最受到欢迎，即aAdaBoost和GradientBoost，还有xgboost和catboost</li>
 </ul>
-<h2 id="附录">附录</h2>
-<h3 id="deepar的模型结构">DeepAR的模型结构</h3>
-<ul>
-<li><p><span class="math inline">\(z_{i,t}\)</span>: 第i个时间序列在t时刻的值</p></li>
-<li><p><span class="math inline">\(P\left(\mathbf{z}_{i, t_{0}: T} \mid \mathbf{z}_{i, 1: t_{0}-1}, \mathbf{x}_{i, 1: T}\right)\)</span>: 模型输出</p></li>
-<li><p>condition range： <span class="math inline">\(t_0\)</span>表示历史依赖长度</p></li>
-<li><p>prediction range：预测区间</p></li>
-<li><p><span class="math inline">\(\mathbf{Z}_{i, t_{0}: T}\)</span>: 预测区间内，Z的取值</p>
+<img src="./img_2.png" title="fig:" alt="img_2.png" /></li>
+<li>为什么对模型做aggregation之后，效果变好了？相当于对特征做了非线性变换，整体表达能力更强；多个estimator求共识，相当于做了正则化，模型效果更稳定。</li>
+<li>不同的blending方法中，有的方法解决overfitting，有的适合解决underfitting。</li>
+<li>boosting是多个base estimtor进行aggregate的一种方法，并且每个estimator都有一个自己的权重，GBDT和AdaBoosting要解决的就是一个问题。 boosting相对于uniform的方式，多了n个待估参数，复杂度更高，如何求解这个高维的优化问题？衍生出了两种算法，第一种是像adaboost，使用一个reweighted的样本去构建一个新的estimator，并使用其预测准确率作为权重。 GBDT则是基于前面所有的estimator的学习成果，做增量学习。</li>
+</ol>
+<h1 id="随机森林adaboost和-gbdt">随机森林，Adaboost和 GBDT</h1>
+<h2 id="随机森林">随机森林</h2>
+<ol type="1">
+<li><p>bootstrap是什么？是一种抽样的方法，通过多次有放回的抽样，得到多份独立的样本集，获得统计量。</p></li>
+<li><p>Bagging是什么？通过bootstrap的方式抽样得到多份样本。Bagging的特点是，可以降低整体的模型预测的不稳定性，通过让多个base estimator投票或者取均值的方式。</p></li>
+<li><p>decision tree非常不稳定，训练数据稍微有一点变化，分支条件就会改变，从而整个树都长得不一样了。</p></li>
+<li><p>bagging trees 是什么？针对单个决策树方差过大的问题，bagging trees 利用bootstrap，提取B份独立的样本集，分别估计出预测值<span class="math inline">\(\hat{f}^{1}(x), \hat{f}^{2}(x), \ldots, \hat{f}^{B}(x)\)</span> ，然后将结果取平均，就可以得到一个方差更小的预测模型，通过多次实验获得多个regression tree或者classification tree，对每一个input，会产生多个输出，regression tree的输出是K个树的输出取average。classification tree是采用投票的方法，大多数相同的那一类就是输出的那一类 。</p></li>
+<li><p>Bagging + decision tree综合起来构建随机森林。 <img src="img_1.png" alt="img_1.png" /></p></li>
+<li><p>Bagging的部分可以并行化，从而可以更加有效地处理更大的训练数据。</p></li>
+<li><p>构建base estimator时，除了对样本采样，还可以对特征采样，随机森林的原始论文作者建议，在构建cart的每个分支条件时，都随机采样一个特征子空间，在这个子空间中找一个最优的分割点。</p></li>
+<li><p>随机森林论文的作者还建议，可个对特征作随机组合，即构建投影矩阵，将原始的训练数据映射到一个低维的特征空间。</p></li>
+<li><p>random forest是bagging tree的加强版本，因为他考虑到了tree之间的de correlates，使得组合后结果的variance更小。构造树过程如下：consider 每一个split的时候，会从p个predictors中<strong>随机</strong>的挑<span class="math inline">\(m = \sqrt p\)</span>）个作为split candidate，</p></li>
+<li><p>boosting跟bagging tree不一样的地方在于，trees are grown sequentially: each tree is grown using information from previously grown trees. Boosting不涉及每个bootstrap采样。</p></li>
+</ol>
+<h2 id="adaboost">Adaboost</h2>
 <figure>
-<img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FjTfoJccA7q.png?alt=media&amp;token=6850c357-b303-4053-81b8-2756678deb58" alt="DeepAR训练过程（左边）和 预测过程（右边）" /><figcaption aria-hidden="true">DeepAR训练过程（左边）和 预测过程（右边）</figcaption>
+<img src="./img.png" alt="adaboost" /><figcaption aria-hidden="true">adaboost</figcaption>
+</figure>
+<ol type="1">
+<li><p>AdaBoost通过改变样本权重的方式得到不一样的base estimator，一边根据他们的表现决定给每个estimator多少票。</p></li>
+<li><p>adaboosting的思路是，先训练出一个base estimator，根据预测结果的准确率，对样本的权重进行调整，预测不准的样本调高权重，预测准的样本调低权重，然后让下一个base estimmtor来学习。这样，原来base estimator搞不定的样本，在后续的学习中，得到更多的关注，最终的预测模型，是所有base estimator预测结果的线性组合，权重表示对应base estimator的预测准确率。</p></li>
+</ol>
+<h2 id="gbdt">GBDT</h2>
+<ol type="1">
+<li><p>GBDT是将一个优化问题，拆解成一系列子优化问题，每个子优化问题要解决的问题是，在当前学习成果的基础上查漏补缺，从而更加逼近target variable。即当前的base estimator的优化目标是最小化target和截止当前的预测值之间的差，也叫residual。 <img src="img_4.png" alt="img_4.png" /> h是当前的base estimator，<span class="math inline">\(\eta\)</span>表示权重</p></li>
+<li><p>怎么求这个优化问题？先求里层的优化问题，再求外层的优化问题。里面的优化问题是将err对当前prediction做一阶泰勒展开，其中一阶项（h，待学习的目标）的系数就是error相对当前prediction的一偏导数，也就是梯度。这里有一个问题，如果我已经知道要做regression，也就是当前的目标函数是关于h的二次函数，我直接求最优解不就好了，即令损失函数关于h的导数为0？其实是可以的，但是GBDT的野心很大，想推导出，任意形式的err对应的最优解h，随意下面的一阶近似方法是更具备通用性的。（想象一下如果err是absolute loss或者像交叉熵这种非convex，就不适用了。btw，xgboost是使用err的二阶泰勒展开去作为err的近似）</p>
+<blockquote>
+<p>回忆一下一阶泰勒展开： <span class="math display">\[f(x + \Delta x) = f(x) + \Delta x \partial f_x \]</span></p>
+</blockquote>
+<figure>
+<img src="img_5.png" alt="img_5.png" /><figcaption aria-hidden="true">img_5.png</figcaption>
 </figure></li>
-</ul>
-<h3 id="deepar做预测">DeepAR做预测</h3>
-<ol type="1">
-<li>由于DeepAR输出的是概率分布，所以对未来一段时间的预测，需要采样+递归预测，但是一次采样只能得到1个路径，如果希望得到期望和分布，需要重复采样多次</li>
+<li><p>里层的优化问题求解方法类似拉格朗日乘子法，先将h的大小限制到一定的范围内。然后经过各种变形之后，发现直接拟合residual就好。 <img src="img_7.png" alt="img_7.png" /></p></li>
+<li><p>如何使用GBDT做回归？将上面的error 设置为squared loss。</p></li>
+<li><p>AdaBoost是要根据不同样本的权重来找一一个拟合的最好的小g; GBDT是找一个能拟合当前残差最好的小g。</p></li>
 </ol>
-<h3 id="对不同scale曲线怎么处理的">对不同scale曲线怎么处理的？</h3>
+<h2 id="xgboost">xgboost</h2>
 <ol type="1">
-<li>不同曲线怎么做归一化和逆归一化？缺失值多&amp;方差变化大
-<ul>
-<li>context-length内的所有z求平均值，作为scale来归一化原始输入并且记下来，模型输出的u和sigma 再 使用这个scale来逆归一化回去。</li>
-<li>相当于在第一层做了layer Normalization</li>
-</ul></li>
-<li>不同曲线的长度和重要性不一样，如果是按照曲线id来均匀采样，会导致重要的曲线学的不够（underfit）
-<ul>
-<li>不做均匀采样，而是做加权采样--使用1里面计算得到的scale作为权重</li>
-</ul></li>
-</ol>
-<h3 id="在交易上的启发">在交易上的启发</h3>
+<li><p>除了Adaboost，GradientBoost，Boosting tree的另外一个代表是xgboost,简称为XGB</p></li>
+<li><p>相对GBDT用err的一阶泰勒展开做近似，XGB做了更逼近的近似--二阶近似，并且在err中加入了正则项，限制了base estimator的复杂度。</p></li>
+<li><p>为什么要使用二阶近似？</p>
 <ol type="1">
-<li>DeepAR输出的是概率分布，适用于噪声较大的数据：相较于点估计能提供更有用的信息，如方差，代表风险。</li>
-<li>进一步，基于预测风险，构建基于波动率的策略，风险大的情况下不交易。</li>
+<li>先回答为什么要用近似（不管是一阶还是二阶）？为了简化优化目标：让各种稀奇古怪的loss function都统一表达为关于f的二次函数，然后就可以使用同样的优化算法求最优的f了，不管loss长什么样都可以用一招方法。</li>
+<li>再回答为什么是二阶而不是一阶？二阶更精确啊。</li>
+</ol></li>
 </ol>
-<h3 id="关于deepar-的冷启动">关于DeepAR 的冷启动</h3>
-<p>DeepAR号称能解决冷启动的问题，然而在实验设置中，如果没有给出item 的特征数据，是不可能在冷启动item上得到靠谱结果的： 因为 压根没又数据可以 学item之间的相关性。 之前在想会不会因为不同曲线丢到1个模型训练，学习到混乱的模式，放到这里可以将问题进一步明确： 会不会导致 在曲线A上利用曲线B学到的模式进行预测？（然而A和B相差很大）</p>
-<p>为了避免这个现象，需要满足： - 目标1-训练阶段，模型能区别A和B两种模式 - 目标2-推断阶段，新样本匹配到它真正的模式（A或者B）</p>
-<p>有两种方法：</p>
+<h1 id="附录">附录</h1>
+<h2 id="xgboost的公式推导">xgboost的公式推导</h2>
+<h3 id="损失函数">损失函数</h3>
+<p>先看看，xgboost怎么定义ensemble tree的损失函数：</p>
+<p><span class="math display">\[\begin{array}{l}{\mathcal{L}(\phi)=\sum\limits_{i} l\left(\hat{y}_{i}, y_{i}\right)+\sum\limits_{k} \Omega\left(f_{k}\right)}\end{array}\]</span> <span class="math display">\[ \\{\Omega(f)=\gamma T+\frac{1}{2} \lambda\|w\|^{2}} \]</span></p>
 <ul>
-<li>方法1: 在训练阶段加入item的index信息（item元数据）</li>
-<li>方法2:在训练阶段加入item的特征信息（更general的item元数据）</li>
+<li><span class="math inline">\(\hat{y}_{i}=\phi\left(\mathbf{x}_{i}\right)=\sum^{K} f_{k}\left(\mathbf{x}_{i}\right), \quad f_{k} \in \mathcal{F}\)</span></li>
+<li>l是一个可微convex函数</li>
+<li>k表示第k棵树</li>
+<li>i表示第i个样本</li>
+<li>T is the number of leaves in the tree.</li>
+<li><span class="math inline">\(f_k\)</span>表示第k棵树的预测函数，</li>
+<li>q代表树的结构，w代表叶子节点的权重</li>
+<li><span class="math inline">\(\Omega(f_k)\)</span>表示第k棵树的复杂度</li>
 </ul>
-<p>方法1和方法2都能达到目标1，但是对于目标2，方法2更接近一些： 方法1只能对 index出现在训练阶段的item 做预测 方法2可以对index没有出现在训练阶段的item做预测，真正 有可能 解决冷启动问题。（也是有边界的，比如item 元数据是某个类别变量，那么类别只有在训练阶段出现过的item才能被预测，eg 训练集中 包含 衣服 和 书籍两种 商品类型，推断阶段 就只能预测 这两种类型的 新商品，）</p>
-<h3 id="关于曲线的混乱模式">关于曲线的混乱模式</h3>
-<p>喂入不同曲线，会让模型学习到 或者 匹配到 混乱模式。想了一下，即使学到了 混合的模式，未必是件坏事，要分两个层面看：</p>
+<h3 id="reformulate为一系列子优化问题">reformulate为一系列子优化问题</h3>
+<p>上面的优化问题的解，近似求一系列优化问题的解，如下</p>
+<p><span class="math inline">\(\min \mathcal{L}^{(t)}=\min\limits_{f_t}\sum\limits_{i=1}^{n} l\left(\hat{y}_{i}^{(t-1)}+f_{t}\left(\mathbf{x}_{i}\right), y_{i}\right)+\Omega\left(f_{t}\right)\)</span></p>
+<p><span class="math inline">\(\mathcal{L}^{(t)}\)</span>表示第t棵树的训练目标</p>
+<h3 id="将子优化问题做二阶近似">将子优化问题做二阶近似</h3>
+<p>跟GBDT一样，将l进一步简化，使用二阶展开</p>
+<p><span class="math inline">\(\mathcal{L}^{(t)} \simeq\sum\limits_{i=1}^{n}\left[l\left(y_{i}, \hat{y}^{(t-1)}\right)+g_{i} f_{t}\left(\mathbf{x}_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(\mathbf{x}_{i}\right)\right]+\Omega\left(f_{t}\right)\)</span></p>
+<p>这里</p>
+<ul>
+<li><p><span class="math inline">\(g_{i}=\partial_{\hat{y}^{(t-1) }}l\left(y_{i}, \hat{y}^{(t-1)}\right)\)</span>，即l对<span class="math inline">\(y^{(t-1)}\)</span>的一阶导数</p></li>
+<li><p><span class="math inline">\(h_{i}=\partial_{\hat y^{(t-1)}}^{2} l\left(y_{i}, \hat{y}^{(t-1)}\right)\)</span>，即l对<span class="math inline">\(y^{(t-1)}\)</span>的二阶导数</p></li>
+</ul>
+<p>进一步remove常数项，得到优化目标为：</p>
+<p><span class="math inline">\(min \sum\limits_{i=1}^{n}\left[g_{i} f_{t}\left(\mathbf{x}_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(\mathbf{x}_{i}\right)\right]+\Omega\left(f_{t}\right)\)</span></p>
+<h3 id="基于样本集重新定义损失函数">基于样本集重新定义损失函数</h3>
 <ol type="1">
-<li>混合是个好事：比如冷启动的商品或者缺失值过多的商品，如果能借鉴 模式相近（学出来的）的数据质量很好的其他商品 ，是比单独自己学 的效果好的。</li>
-<li>混合是个坏事：比如数据质量本身就很好，不用参考别人的学习资料（可能还会拖后腿） 所以，如果希望用一个global 模型一劳永逸对所有商品 建模，我觉得至少要考虑到 ，单个商品的 local模型 和 global 模型 要择优录取。</li>
+<li><p>更进一步，上面的优化目标可以转换为： <span class="math display">\[\min\limits_{\omega, q} \sum_{i=1}^{n}\left[g_{i} f_{t}\left(\mathbf{x}_{i}\right)+\frac{1}{2} h_{i} f_{t}^{2}\left(\mathbf{x}_{i}\right)\right]+\gamma T+\frac{1}{2} \lambda \sum_{j=1}^{T} w_{j}^{2} \]</span> 即： <span class="math display">\[\min\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right]+\gamma T \]</span></p>
+<ul>
+<li><span class="math inline">\(I_{j}=\left\{i | q\left(\mathbf{x}_{i}\right)=j\right\}\)</span>为叶子j对应的特征子空间</li>
+</ul>
+<p>也就是说，在构造第t个base estimator时，需满找到一个使得上面函数取得最小值的的base estimator，即找到最优<span class="math inline">\(w^{\star}\)</span>​和<span class="math inline">\(q^{\star}\)</span>​​对应的决策树。</p></li>
+<li><p>如何找到满足以上优化目标的决策树？拆解成两层优化问题，内层的优化问题确定叶子的预测值w，外层的优化问题确定分支q。</p>
+<p><span class="math display">\[\min_{q} （\min_{w}\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right] +  \gamma T） \]</span></p></li>
+<li><p>最优化叶子预测值w：对于某个给定分支(q)的决策树, <span class="math inline">\(I_{j}\)</span>​​​​​是确定，</p>
+<p><span class="math display">\[\min_{w}\sum_{j=1}^{T}\left[\left(\sum_{i \in I_{j}} g_{i}\right) w_{j}+\frac{1}{2}\left(\sum_{i \in I_{j}} h_{i}+\lambda\right) w_{j}^{2}\right]\]</span></p>
+<p>里面的优化问题是一个二次优化问题，直接令导数取0，即可得到最优解: <span class="math display">\[w_{j}^{*}=-(\sum_{i \in I_{j}} g_{i}) /(\sum_{i \in I_{j}} h_{i}+\lambda)\]</span>​​​​​​​</p></li>
+<li><p>最优化叶子分支q：将<span class="math inline">\(w_{j}^{*}\)</span>​​带入上面的目标函数，优化问题转换为：</p>
+<p><span class="math inline">\(\min\limits_q -\frac{1}{2} \sum\limits_{j=1}^{T} \frac{\left(\sum_{i \in I_{j}} g_{i}\right)^{2}}{\sum_{i \in I_{j}} h_{i}+\lambda}+\gamma T\)</span>​</p></li>
 </ol>
-<h3 id="关于评估">关于评估</h3>
+<p>可以使用构造决策树的方式--递归构造子树，使用该指标的下降来评价splitting的质量（cart使用entropy或者gini index对应的信息增益来衡量），当前的「信息增益」可以表达 <span class="math display">\[\mathcal{L}_{s p l i t}=\frac{1}{2}\left[\frac{\left(\sum_{i \in I_{L}} g_{i}\right)^{2}}{\sum_{i \in I_{L}} h_{i}+\lambda}+\frac{\left(\sum_{i \in I_{R}} g_{i}\right)^{2}}{\sum_{i \in I_{R}} h_{i}+\lambda}-\frac{\left(\sum_{i \in I} g_{i}\right)^{2}}{\sum_{i \in I} h_{i}+\lambda}\right]-\gamma\]</span>​​​</p>
+<p>其中，<span class="math inline">\(I=I_{L} \cup I_{R}\)</span></p>
+<h3 id="切分点查找算法">切分点查找算法</h3>
+<p>最朴素的算法，遍历所有特征的所有的切分值，找出最佳的。</p>
+<p>目前大部分单机的机器学习库都是采用的这种算法。</p>
+<figure>
+<img src="./image-20200107161207967.png" alt="image-20200107161207967" /><figcaption aria-hidden="true">image-20200107161207967</figcaption>
+</figure>
+<h2 id="最佳实践">最佳实践</h2>
+<ul>
+<li>number of trees:太大会造成过拟合，一般用cross validation去挑最好的参数</li>
+<li>shrinkage parameter:迭代步长，通常取0.01或者0.001，较小的lambda会需要很大的B来取得较好的效果。</li>
+<li>number of split d:通常d=1效果就比较好了。d表示的interation depth，就是交叉项的深度。</li>
+</ul>
+<h1 id="参考资料">参考资料</h1>
 <ol type="1">
-<li><p>输出的概率分布，怎么评估模型效果？</p>
-<p>可以使用pinball loss是用来评估分位数预测的 准确性的</p>
-<ul>
-<li>例子1：
-<ul>
-<li>小A预测明天股价小于110的概率为75%</li>
-<li>小B预测明天股价小于105的概率为75%</li>
-<li>而第二天 股价为100，我们说小B预测的更准， 小A的分位数损失值 是 2.5，小B的分位数损失值是 1.25</li>
-</ul></li>
-<li>例子2
-<ul>
-<li>小A预测明天股价跌破95的概率为25%</li>
-<li>小B预测明天股价跌破90的概率为25%， 跌破95的概率为50%，</li>
-<li>而第二天 股价为100，我们说小A预测的更准</li>
-</ul></li>
-<li>综合上面的两次预测，我们说小A和小B的预测能力差不多准</li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FQG2JiB0Z1u.png?alt=media&amp;token=770f3265-bf08-4355-9ece-7fdb7afc9465" /></li>
-</ul></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=ATM3sH0D45s&amp;list=RDCMUC9Wi1Ias8t4u1OosYnHhi0Q&amp;index=9">Random Forest Algorithm-Hsuan-Tien Lin</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.csie.ntu.edu.tw/~htlin/mooc/doc/208_present.pdf">Adaptive Boosting linxuantian</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=2xudPOBz-vs">youtube-gbdt</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1603.02754.pdf">xgboost</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://static1.squarespace.com/static/5ff2adbe3fe4fe33db902812/t/6062a083acbfe82c7195b27d/1617076404560/ISLR%2BSeventh%2BPrinting.pdf">An Introduction to Statistical Learning</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=F_EuNXhS9js&amp;list=RDCMUC9Wi1Ias8t4u1OosYnHhi0Q&amp;index=4">Gradient Boosted Decision Tree :: Gradient Boosting</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=3T1mdvzRAF0&amp;list=RDCMUC9Wi1Ias8t4u1OosYnHhi0Q&amp;index=6">Blending and Bagging :: Bagging (Bootstrap Aggregation)- Tien Lin</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1603.02754.pdf">xgboost</a></p></li>
 </ol>
-<h3 id="从paper-到-落地">从paper 到 落地</h3>
-<p>以DeepAR为例，探索从论文到demo再到落地的过程</p>
-<ul>
-<li>Student： 网上找到了pytorch版本的deepAR版（发于2017年4月），训练过程很慢要7个小时，虽然paper里面也号称要7个小时，是优化效率还是直接上线呢？</li>
-<li>Teacher： 生产环境，这种性能实在不能接受。既然amazon将DeepAR作为时序预测场景的主推算法方案，这种性能肯定拿不出手，后续肯定做了的优化，去查一下近3年的amazon关于DeepAR相关的资料，看看有没有更优秀的实现方案。</li>
-<li>Student：找到了一个开源项目--基于MXNET的gluon-ts（于2019年6月发表），mxnet在electricty上的训练和预测时间大概是10min左右。</li>
-<li>Teacher： nice！</li>
-</ul>
-<p>最开始把gluon-ts实现的DeepAR算法当黑盒用的时候，发现效果很神奇，不调参，换不同数据进去效果都还挺好，周期性和趋势性都还能学到。这就很奇怪，按照自己构建RNN的经验，调参要反反复复好多次，效果还不一定好。并且gluon-TS默认的网络结构很简单，不太可能过拟合.</p>
-<p>看了源代码之后发现，代码中包含了<strong>非常多的数据处理的小trick</strong>，论文中没有提及。</p>
-<p>按照paper所说，整个网络结构非常之简单，1层rnn + 1层 dense层（输出分布参数），构成2层rnn，大概十几行代码。 但是，<strong>真正大量的代码都在做预处理以及 模型训练的一些小trick。 这些小trick，对提升模型效果非常有帮助，但是paper里面是没有的，应该是工程团队总结出的最佳实践</strong>：</p>
-<ul>
-<li>最佳实践1: 把每个样本（历史依赖）的scale 取对数，放入样本。（因为所有的lags项在归一化之后已经丢失了scale信息，为了避免这个信息的丢失，还是要把log scale 放入特征，用于区别不同来源的曲线，原文没有提到）</li>
-<li>最佳实践2: 在rnn中，每一层rnn后都接了一个residual和一个dropout。（residual为了降低学习难度，dropout为了降低过拟合概率，原文没有提到）</li>
-<li>最佳实践3: 为了学习到数据的周期性模式，除了context，代码还会跳着取lag , 类似空洞卷积。这些lag项代表了时序的周期性，比如年/月/日的周期性，是硬编码在代码里的。（原文没有提到）</li>
-</ul>
-<p>（怀疑论文的作者不知道这些小trick，因为作者自己写的pytorch版本，没有见到相关的处理，并且训练时长是gluon-TS的100倍以上）</p>
-<h3 id="对于aiops建设的启发">对于AIOps建设的启发</h3>
-<p><strong>完成论文demo和完成一个业界可用方案，两者的工作量 ，可能是0到1再到100的距离。</strong></p>
-<p>对于根因分析，日志关联等大部分场景，业界没有可参考的工具，转而求助学术界，可参考论文以及比赛等。</p>
-<p>但是要注意，这些方案只是demo，没有在工业界的数据和真实需求上验证过，真实业务环境会比做实验要复杂得多。</p>
-<p>从调研demo到完成一个业务 可用的方案，有大量的优化工作。评估时间的时候，需要预留buffer，来验证和调优，甚至需要迭代多轮，有很大不确定性。</p>
-<h3 id="从paper到工程落地卡住的几个原因">从paper到工程落地卡住的几个原因</h3>
-<ul>
-<li>实验室方案不能直接搬到 真实业务的 几个原因：
-<ul>
-<li>样本数据不一致：
-<ul>
-<li>标记标准不一致：实验室的标记标准和业务上的标准不一致</li>
-<li>数据来源不一致：实验室的数据来源和真实业务可能不一致。</li>
-<li>真实环境中数据质量差：历史数据不够，缺失值多，特别是有用特征有缺失</li>
-</ul></li>
-<li>评估指标不一致
-<ul>
-<li>实验室只能基于已有的封闭数据集，业务上的指标是跟业务运营相关的</li>
-</ul></li>
-<li>性能要求不一致：
-<ul>
-<li>实验室方案运行效率到不到真实环境的标准，eg，kaggle比赛常用模型ensemble方案，在工业界就很少会用，因为计算效率的问题</li>
-</ul></li>
-</ul></li>
-<li>正常的开发流程是：
-<ul>
-<li>理解论文原理</li>
-<li>复现论文：开发demo，</li>
-<li>工程优化（beta）：初步上线，demo性能优化，覆盖现实中可能的异常</li>
-<li>稳定上线（正式）： 在真实环境上测试一段时间。</li>
-<li>产品化：给其他无背景的人用</li>
-</ul></li>
-</ul>
-<h2 id="参考资料">参考资料</h2>
-<p>段易通：概率自回归预测——DeepAR模型浅析 GluonTS - Probabilistic Time Series Modeling Probabilistic Demand Forecasting at Scale</p>
 
       
     </div>
@@ -382,7 +381,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/13/reading_notes/reality/sam-altman-idea-generation/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/16/machine-learning/machine-learning_2-trees_1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -396,7 +395,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/13/reading_notes/reality/sam-altman-idea-generation/" class="post-title-link" itemprop="url">创业点子</a>
+            <a href="/2021/04/16/machine-learning/machine-learning_2-trees_1/" class="post-title-link" itemprop="url">chapter 2.1 树模型-决策树介绍</a>
         </h2>
 
         <div class="post-meta">
@@ -406,14 +405,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-13 08:22:53" itemprop="dateCreated datePublished" datetime="2021-04-13T08:22:53+08:00">2021-04-13</time>
+              <time title="创建时间：2021-04-16 20:56:02" itemprop="dateCreated datePublished" datetime="2021-04-16T20:56:02+08:00">2021-04-16</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-01 21:19:38" itemprop="dateModified" datetime="2021-05-01T21:19:38+08:00">2021-05-01</time>
+                <time title="修改时间：2021-07-22 15:55:48" itemprop="dateModified" datetime="2021-07-22T15:55:48+08:00">2021-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -421,7 +420,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
                 </span>
             </span>
 
@@ -436,23 +435,131 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="总结">总结</h2>
+          <h1 id="总结">总结</h1>
+<h2 id="决策树">决策树</h2>
 <ol type="1">
-<li>选择合适的环境和合适的团队，团队成员乐观，smart in a creative way，不设置条条框框，不会嘲笑你的任何新奇的想法。</li>
-<li>远离厌世者 和 轻视你志向的人，要知道这个是世界的常态。他们活在过去，你活在未来.</li>
-<li>将自己映射到20年以后，然后往回看，专注做这个事情。</li>
-<li>想一想当前，社会发生的最重要的变革是什么？例如，最近一次的大变革是2008-2012年移动设备大爆发。</li>
-<li>世界变化的如此之快，巨头通常被敏捷和专注的创业公司打败。（或者共存，阿里vs拼多多）</li>
-<li>区分真正的趋势和虚假的趋势：前者例如小部分用户高频使用，后者例如很多用户低频使用。</li>
-<li>有哪些事情是今年才发生，而去年不可能的，关注这些突变事件。这可能是一个伟大的创业火苗，拖到明年就晚了。</li>
-<li>"我很确定这个会发生，但是不确定是不是由我们来完成"，这是一个好的思路。uber是一个例子，我第一次坐车之后，很确定，我们此后不久，就不会用出租车了，但是我不是很确定，是不是就是Uber最终会赢下这个市场。</li>
-<li>尽可能早地问自己"如果这个想法是对的，这个生意可以做大吗？"，世界上有很多想法，但是极少想法能让一个创业公司持续取得成功，也就是连续地获得优势。当扩大规模时，大部分业务都没有累积优势（例如滴滴，P2P，我们现在做的这个️）。越早想通这个越好，最显著的例子是Facebook or Airbnb。</li>
-<li>找到你适合做什么也很重要，这个很难通过单纯自省得到，你可以问下mentor，或者一些人，跟你在你擅长的领域一起合作的人。我坚信，创始人匹配公司 和 产品匹配市场 同等重要。</li>
-<li>可以通过一个测试来验证你的想法：如果你可以清晰地表述，为什么大部分人都认为这是一个坏的想法，而你能理解你它好在哪里。</li>
+<li>决策树是一个预测算法，是使用贪婪的递归的方法来找到最优的预测结构。</li>
+<li>构建一个决策树需要确定分支条件以及每个分支的预测值。构建分支条件即把特征空间划分为多个distinct and non-overlapping regions,<span class="math inline">\(R_1,\dots,R_J\)</span>；第二步，对每个region定义一个response variable，作为该region的值。</li>
+<li>构建好了一个决策树，想要使用决策树做预测，步骤也分为两步：第一步是按照分支条件将新样本路由到指定的叶子结点，第二步将叶子结点对应的responsible varible作为该样本的预测值。</li>
+<li>怎么得到分支条件呢？有三类构建决策树的算法：ID3，C4.5和cart。前两者可以构造多叉树，cart只能构造二叉树。 因为cart效果最好，现在通常就用它（例如sklean）。</li>
+<li>ID3，C4.5和cart三类算法的大致思路一样，分为两步：第一步是将feature space切成多个boxes。为什么不是切成多个球？因为球没法填充整个feature space.</li>
+<li>如何找到最优的切割boxes的方式，如果去遍历每一组partition of feature space，计算量太大了，通常采用greedy的方法。</li>
+<li>构建决策树的过程中需要确定的参数：分支的个数，条件分支的条件，终止条件，叶子结点的值。</li>
 </ol>
-<h2 id="参考">参考</h2>
+<h2 id="决策树算法-cart">决策树算法-CART</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://blog.samaltman.com/idea-generation">idea-generation</a></li>
+<li>cart的特色是构建的一个binary tree，每次分支条件都是将一个空间以分为2，变成2个子空间，每个叶子结点的值，即response variable都是一个常数，是这么的到的：</li>
+</ol>
+<ul>
+<li>如果target var是一个连续变量，求落入该region的训练集的response均值，即<span class="math inline">\({y_n}\)</span>的均值，其实这个均值对应的是最小化suqared error。 构建一个决策树，主要是要确定partition，或者说分支条件，以及每个落入每个partition（或者说）中对应的预测值。</li>
+<li>如果target var是一个离散变量，求众数对应的那个类别。</li>
+</ul>
+<ol start="2" type="1">
+<li>怎么确定分支条件？找一个decision stump，使用纯度（purify）来衡量分支的质量，如果左边的data set 和右边的dataset 纯度 都很高，（其中的大部分样本的label很接近），就说切分的很好。对应到计算上面，就是找一个让平均不纯度最小的切分方式（decision stump）。</li>
+<li>如何确定分支/切割的不纯度？
+<ul>
+<li>如果target var是一个连续变量，使用squared loss来描述impurity，（跟样本子集的均值比），</li>
+<li>如果target var是一个离散变量，使用不一致样本比例来描述impurity，（跟样本子集的众数币），多分类的时候，不纯度常用giniindex</li>
+<li>如果是多分类，经常使用Gini index来刻画不纯度。</li>
+</ul></li>
+<li>什么时候会停下来？当满足下面的条件时，也叫fully grown tree：
+<ul>
+<li>落入某个分支的样本的target都一样，不纯度取到最小了，</li>
+<li>落入某个分支的样本的x都一样，没有decision stupms了。</li>
+</ul></li>
+<li>为何要剪枝(pruning)? a very bushy tree has got high variances,ie, over-fitting the data</li>
+</ol>
+<h1 id="附录">附录</h1>
+<h2 id="基本概念">基本概念</h2>
+<ul>
+<li>信息增益: 衡量切分前后，样本纯度的提升or混乱度的下降。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IG = information before splitting (parent) — information after splitting (children)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>具体的，有两个衡量纯度/混乱度的指标：Entropy 和 Gini Impurity
+<ul>
+<li>基尼系数（<strong>gini index</strong>）: <span class="math display">\[I_{G}=1-\sum_{j=1}^{c} p_{j}^{2}\]</span>
+<ul>
+<li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li>
+<li>如果所有样本都属于某一类c，gini系数最小，为0。</li>
+</ul></li>
+<li>熵（entropy）：<span class="math display">\[I_{H}=-\sum_{j=1}^{c} p_{j} \log _{2}\left(p_{j}\right)\]</span>
+<ul>
+<li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li>
+<li>如果所有样本都属于某一类c，熵最小，为0。</li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="决策树算法-id3">决策树算法-ID3</h2>
+<p>ID3, was the first of three Decision Tree implementations developed by Ross Quinlan</p>
+<p>It builds a decision tree for the given data in a top-down fashion. each node of the tree, one feature is tested based on 最大熵降, and the results are used to split the sample set. This process is recursively done until the set in a given sub-tree is homogeneous (i.e. it contains samples belonging to the same category). The ID3 algorithm uses a greedy search.</p>
+<p>Disadvantages:</p>
+<ul>
+<li>Data may be over-fitted or over-classified, if a small sample is tested.</li>
+<li>Only one attribute at a time is tested for making a decision.</li>
+<li>Does not handle numeric attributes and missing values.</li>
+</ul>
+<h2 id="决策树算法-c4.5">决策树算法-C4.5</h2>
+<p>Improved version on ID 3 . The new features (versus ID3) are:</p>
+<ul>
+<li><ol type="i">
+<li>accepts both continuous and discrete features;</li>
+</ol></li>
+<li><ol start="2" type="i">
+<li>handles incomplete data points;</li>
+</ol></li>
+<li><ol start="3" type="i">
+<li>solves over-fitting problem by (very clever) bottom-up technique usually known as "pruning"; and</li>
+</ol></li>
+<li><ol start="4" type="i">
+<li>different weights can be applied the features that comprise the training data.</li>
+</ol></li>
+</ul>
+<p>Disadvantages</p>
+<ul>
+<li>Over fitting happens when model picks up data with uncommon features value, especially when data is noisy.</li>
+</ul>
+<h2 id="决策树算法-cart-1">决策树算法-CART</h2>
+<p>ID3 和 C4.5是使用基于Entropy-最大信息增益的特征作为节点。</p>
+<p>CART代表分类树和回归树，使用基于entropy和ginix index计算信息增益。</p>
+<p>Disadvantages</p>
+<ul>
+<li>It can split on only one variable</li>
+<li>Trees formed may be unstable</li>
+</ul>
+<p>cart的原理就是，构造一颗大树<span class="math inline">\(T_0\)</span>，然后去剪枝（也叫做cost complexity pruning/the weakest link pruning）, 下面以regression tree 和 classification tree举例说明</p>
+<blockquote>
+<p>如果response var是imbalance, 全部预测为label占比更多的类，怎么办？</p>
+</blockquote>
+<h3 id="regression-tree">regression tree</h3>
+<p>regression tree的cost function 是RSS加上正则项</p>
+<p><span class="math display">\[\min\limits_{T\in T_0} \sum\limits_{m=1}^{|T|}\sum\limits_{x_i\in R_m}(y_i - \hat y_{R_m})^2+\alpha|T|\]</span></p>
+<ul>
+<li><span class="math inline">\(|T|\)</span>是叶子节点的个数。</li>
+<li>m表示第m个叶子</li>
+<li><span class="math inline">\(R_m\)</span>表示第m个partition region</li>
+<li><span class="math inline">\(y_i\)</span>表示第i个样本的真实值</li>
+<li><span class="math inline">\(y_{R_m}\)</span>表示第m个partition region的预测值</li>
+</ul>
+<p>可以使用一个递归的方法来构建一个决策树，主要是要确定partition，或者说分支条件，以及每个落入每个partition（或者说）中对应的预测值。</p>
+<figure>
+<img src="./img.png" alt="regression tree 构造流程" /><figcaption aria-hidden="true">regression tree 构造流程</figcaption>
+</figure>
+<h3 id="classification-tree">classification tree</h3>
+<p>classification tree切分节点时，参考信息增益，其他流程和构建回归树是一样的</p>
+<h1 id="参考">参考</h1>
+<ol type="1">
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=s9Um2O7N7YM">决策树算法-linxuantian</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.csie.ntu.edu.tw/~htlin/mooc/doc/209_present.pdf">决策树-linxuantian</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://static1.squarespace.com/static/5ff2adbe3fe4fe33db902812/t/6062a083acbfe82c7195b27d/1617076404560/ISLR%2BSeventh%2BPrinting.pdf">An Introduction to Statistical Learning</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.quora.com/Why-is-entropy-used-instead-of-the-Gini-index">Why-is-entropy-used-instead-of-the-Gini-index</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/dozercodes/DecisionTree">github-id3的实现1</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/SebastianMantey/Decision-Tree-from-Scratch/blob/master/notebooks/decision_tree_functions.py">github-id3的实现2</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Information_gain_in_decision_trees">wiki-Information_gain_in_decision_trees</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/auto_examples/tree/plot_unveil_tree_structure.html#sphx-glr-auto-examples-tree-plot-unveil-tree-structure-py">sklearn-decisiontree</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.quora.com/What-are-the-differences-between-ID3-C4-5-and-CART">quora-ID3-C4-5-and-CART的区别？</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=2xudPOBz-vs">youtube-gbdt</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1603.02754.pdf">xgboost</a></p></li>
 </ol>
 
       
@@ -472,7 +579,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/61/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><span class="page-number current">62</span><a class="page-number" href="/page/63/">63</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/63/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/61/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><span class="page-number current">62</span><a class="page-number" href="/page/63/">63</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/63/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -538,7 +645,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

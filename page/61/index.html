@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/15/machine-learning/machine-learning_1-basic/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/18/reading_notes/computer/information-theory/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/15/machine-learning/machine-learning_1-basic/" class="post-title-link" itemprop="url">chapter 1 机器学习基本概念</a>
+            <a href="/2021/04/18/reading_notes/computer/information-theory/" class="post-title-link" itemprop="url">信息论</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-15 16:00:28" itemprop="dateCreated datePublished" datetime="2021-04-15T16:00:28+08:00">2021-04-15</time>
+              <time title="创建时间：2021-04-18 11:19:24" itemprop="dateCreated datePublished" datetime="2021-04-18T11:19:24+08:00">2021-04-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 15:55:37" itemprop="dateModified" datetime="2021-07-22T15:55:37+08:00">2021-07-22</time>
+                <time title="修改时间：2021-07-12 08:27:44" itemprop="dateModified" datetime="2021-07-12T08:27:44+08:00">2021-07-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
                 </span>
             </span>
 
@@ -219,185 +219,28 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="机器学习的基本概念">机器学习的基本概念</h2>
-<ol type="1">
-<li><p>机器学习是一个多领域交叉的学科，但是总结起来，关注的核心点都在于：如何从历史经验（数据）中获取知识或者规律（模型），并将知识应用到新的类似的场景中。</p></li>
-<li><p>机器学习的三个要素：假设函数空间；学习策略or目标函数；优化算法。</p></li>
-<li><p>机器学习的流程一般要经历几个阶段：收集样本（大部分场景都要人工标注），特征提取，定义预测函数（也叫假设函数空间，线性的还是非线性的），定义损失函数/目标函数，选择优化算法。</p>
-<blockquote>
-<p>使用sklearn的时候，后面三步骤写一行命令就完成了。</p>
-</blockquote>
-<ul>
-<li>定义损失函数：给定预测模型之后，让他去预测训练数据中的每一个输入样本，为了让预测模型学的越来越准，我们需要设置一个奖惩机制：当模型预测对了，就给一个高分，预测错了就给一个低分。负责对预测函数打分的组建就是这个损失函数，当然，他只会惩罚错误的预测结果，即，预测错了就跟一个很严重的惩罚分数，这样我们的目的就变成，希望找到一个惩罚分数最低的预测函数。怎么找呢？这个就涉及到最优化的知识，当损失函数是个连续可导的函数，更甚至是一个凸函数时，比如误差平方和交叉熵函数，我们就可以利用导数的方法来求最优的参数</li>
-<li>选择优化方法：当有了损失函数和训练数据之后，我们就可以定义一个优化问题--最小化所有训练数据的总体预测误差，通常也称之为经验风险，通过合适的优化方法去求解这个最优化问题，就可以得到最佳的预测函数。优化方法有很多，比如梯度下降，牛顿法等，能否找到全局最优解，取决于损失函数的复杂程度，如果损失函数是一个凸函数，很容易找到全局最优，否则，大部分情况都只能找到局部最优。</li>
-</ul></li>
-</ol>
-<h2 id="机器学习的细分方向">机器学习的细分方向</h2>
-<p>从预测函数的类别来看，可以分为回归，分类，排序，有结构的预测</p>
-<p>从复杂度来看，可以分为线性和非线性；浅层和深度</p>
-<ul>
-<li>线性：线性回归/逻辑回归，线性支持向量机。</li>
-<li>非线性：树模型，深度神经网络（全链接神经网络，卷积神经网络，循环神经网络）</li>
-</ul>
-<p>从模型功能，可以分为生成模型和判别模型</p>
-<ul>
-<li>生成模型的学习目标是mle，关注特征和标签的联合概率，它要学习的概率分布很复杂，但是适用场景多，eg分类，概率密度估计，样本生成。</li>
-<li>判别模型的学习目标是最大化条件概率或者后验概率，不关注特征和标签的联合概率，直接对后验概率建模，学习效率高，不过只能做分类。</li>
-</ul>
-<h3 id="常用的机器学习模型">常用的机器学习模型</h3>
-<h3 id="线性模型逻辑回归">线性模型/逻辑回归</h3>
-<ol type="1">
-<li><p>线性模型是最简单的机器学习模型，这个模型假设预测结果是特征的线性组合。</p></li>
-<li><p>线性模型可以预测连续变量，如果要预测离散变量呢？需要将特征的线性组合结果使用对数几率函数进行变换 ，因为其值域是0～1，所以一般用来对概率建模，基于概率的预测结果，配合对数似然损失或者交叉熵损失，可以定义训练目标。</p>
-<p><span class="math display">\[g(x ; w)=\frac{1}{1+\exp \left(-w^{T} x\right)}\]</span></p></li>
-<li><p>线性模型可解释性强，但是不能表达特征之间复杂的非线性组合关系。所以，一般在使用线性摸模型之前，会配合复杂的特征工程：比如单特征取指数，对数，多项式变换，以及特征之间交叉乘积，或者使用核方法，将原特征隐式映射到一个高维的非线性空间，然后在高维空间里面构建线性模型，eg 支持向量机。</p></li>
-</ol>
-<h3 id="支持向量机">支持向量机</h3>
-<ol type="1">
-<li><p>核方法的基本思想，通过一个非线性变换，把输入数据映射到高维度的希尔伯特空间，在高维空间中，原先线性不可分的问题，变得很好解决。</p></li>
-<li><p>使用核方法时，理论上，计算高维空间中两个向量的距离要分两步走：1.先将输入向量映射到高维空间，2. 然后再计算高维空间中向量之间的距离，但是，在已知<span class="math inline">\(\phi\)</span>的表达式时，可以直接推导出两个低维向量在高维空间的距离函数<span class="math inline">\(k(x_1, x_2)\)</span></p></li>
-</ol>
-<p><span class="math inline">\(x_1\)</span>--&gt; <span class="math inline">\(\phi(x_1)\)</span></p>
-<p><span class="math inline">\(x_2\)</span>--&gt; <span class="math inline">\(\phi(x_2)\)</span></p>
-<p><span class="math inline">\(dist(\phi(x_1), \phi(x_2)) = k(x_1, x_2)\)</span></p>
-<ol start="3" type="1">
-<li>举几个例子核函数的例子：</li>
-</ol>
-<ul>
-<li>自由度为d的多项式核函数:<span class="math inline">\(k(x,y) = (x^\mathsf{T} y + c)^{d}\)</span></li>
-</ul>
-<blockquote>
-<p>假设d=2对应的映射函数：$ (x) = x_n^2, , x_1^2,  x_n x_{n-1}, ,  x_n x_1,  x_{n-1} x_{n-2}, ,  x_{n-1} x_{1}, ,  x_{2} x_{1},  x_n, ,  x_1, c $</p>
-</blockquote>
-<ul>
-<li><p>RBF核函数或者高斯核函数：<span class="math inline">\(k(\mathbf{x}, \mathbf{y})=e^{-\gamma\|\mathbf{x}-\mathbf{y}\|^{2}}, \gamma&gt;0\)</span></p></li>
-<li><p>sigmoid核函数: <span class="math inline">\(\tanh \left(\gamma\left\langle x, x^{\prime}\right\rangle+r\right)\)</span></p></li>
-</ul>
-<blockquote>
-<p>注意，核函数中的参数如<span class="math inline">\(\gamma\)</span>是需要人工设定的，所以最好做归一化</p>
-</blockquote>
-<ol start="4" type="1">
-<li><p>核方法的典型的应用之一就是支持向量机。支持向量机的基本思想是，通过核函数将原始输入映射为一个高维向量，在高维度空间里面寻找一个超平面，将正负样本分开，即寻找一个最大间隔的超平面。</p>
-<p><span class="math display">\[\min \hat{l}_{n}(w)=\frac{1}{2}\left\|_{w}\right\|^{2}+\sum\limits_{i=1}^{n} \max \left\{0,1-y_{i}\left(w^{T} \phi\left(x_{i}\right)\right)\right\}\]</span></p>
-<p>使用拉格朗日乘子法，转化为求其对偶问题：</p>
-<p><span class="math display">\[\max _{\alpha} \sum_{i=1}^{n} \alpha_{i}-\frac{1}{2} \sum_{i=1}^{n} \sum_{j=1}^{n} \alpha_{i} \alpha_{j} y_{i} y_{j} \phi\left(x_{i}\right)^{T} \phi\left(x_{j}\right)\]</span></p>
-<p>这是一个二次规划问题。</p></li>
-<li><p>核函数的选择：需满足核矩阵(n*n)半正定，这样总能找到隐含的映射<span class="math inline">\(\phi\)</span></p>
-<blockquote>
-<p>一个核矩阵隐式定义了一个映射<span class="math inline">\(\phi\)</span>，称之为再生核希尔伯特空间（reproducing kernel hilvert space, RKHS）</p>
-</blockquote></li>
-</ol>
-<h3 id="树模型">树模型</h3>
-<ol type="1">
-<li>决策树也是一个常见的机器学习模型，基本思想是，根据特征构造出树结构的预测模型</li>
-<li>一个决策树包含一个根节点，若干内部节点以及叶子节点。</li>
-<li>叶子节点对应最终的决策结果，其他节点针对数据的某个属性进行判断和分支：在该节点中，会根据数据的某个特征的值进行判断，一局判断结果将样本划分到某个子树之中，</li>
-<li>通过决策树，可以从根节点出发，把一个具体的样本最终分配到某个叶子节点上，实现预测的目的。</li>
-<li>因为每个节点上的分支操作是非线性的，因此决策树可以实现比较复杂的非线性映射，</li>
-<li>决策树算法的目的是，根据训练数据，学习处一颗泛化能力较强的树，能够很精准的把位置样本分到对应的叶子节点上。</li>
-<li>树模型的优势在于可解释性，但是很难兼顾准确性和泛化性，</li>
-<li>常见的决策树算法包括：分类回归树（CART），ID3算法，C4.5算法，决策树桩（Decision Stump）。总结起来，这些算法的流程都包括分支和剪枝两个步骤。</li>
-<li>分支的目的是，找到一个划分条件（一般是某个特征满足某个条件），使得划分之后能够提升样本的纯度。</li>
-<li>剪枝要解决的问题是减少过拟合，有两种剪枝的技术：预剪枝和后剪枝。
-<ol type="1">
-<li>预剪枝是指，在决策树生成过程中，对每个节点在划分前使用验证集来估计，该划分能否带来决策树泛化性能提升，如果没有提升则将当前节点标记为叶子结点；</li>
-<li>后剪枝是指，从训练集中生成一颗完整的决策树，然后自下而上的考察去掉每个节点是否提升了泛化能力（将该节点及其子树合并成一个叶子节点），没有提升的话就进行剪枝。</li>
-</ol></li>
-<li>有些情况下数据中隐含的模式比较复杂，那么单个决策树的表达性能不够，通常会使用集成学习来提升树的表达能力。将多棵树进行组合，有不同的方式组合，如bagging/boosting等。</li>
-<li>adaboosting的思路是，先训练出一个base estimator，根据预测结果的准确率，对样本的权重进行调整，预测不准的样本调高权重，预测准的样本调低权重，然后让下一个base estimmtor来学习。这样，原来base estimator搞不定的样本，在后续的学习中，得到更多的关注，最终的预测模型，是所有base estimator预测结果的线性组合，权重表示对应base estimator的预测准确率。</li>
-<li>boosting在抵抗过拟合方面效果很好，随着训练的推进的，即使在训练机已经把误差降到0，更多的迭代还可以提高测试机上的准确率，可以用间隔定理（Margine Theory）来解释这个现象：随着迭代的推进，训练样本上的分类置信度（即每个样本点上的间隔）仍在不断变大。</li>
-</ol>
-<h3 id="神经网络">神经网络</h3>
-<ol type="1">
-<li>神经网络是一类典型的非线性模型，它的结构设计受到生物神经网络的启发。对大脑生理机制研究发现，其基本单元是神经元，每个神经元通过树突从上游的神经元那里获取输入信号，经过自身加工处理，当能量达到一定强度，就会激活产生一个新的信号，并将这个信号通过轴突传递给下游神经元。</li>
-<li>设计人工神经网络时，并没有参考生物系统的激活机制，因为生物系统的激活机制相当于是阶跃函数，这个函数不连续，因此不能使用基于梯度的方法来更新参数。取而代之的是更平滑的激活函数，比如sigmoid函数，双曲正切函数（tanh），relu。</li>
-</ol>
+          <h1 id="熵">熵</h1>
+<h2 id="信息">信息</h2>
+<p>信息即information,衡量的是一个event发生了，带给我们的惊奇程度</p>
+<p>I = -logP(x)</p>
+<p>比如今天播报一条新闻，深圳7月下雪，那么我们说这个信息I很大，因为其跟常识偏差很大，可以用概率代表常识，跟常识偏离很远即概率很小。 比如今天新闻说，深圳7月下雨，那么这个信息I很小，因为根据常识也能知道会发生这个事情。</p>
+<h2 id="熵-1">熵</h2>
+<p>熵即entropy, 衡量的是一个随机变量取不同的值的平均信息量，</p>
+<p><span class="math display">\[Entropy = - \sum PlogP\]</span></p>
+<p>均匀分布的随机变量， 其平均信息很小，熵很小，这是一个平庸的随机变量；</p>
+<p>极端分布的随机变量，其平均信息很大，熵很大，这是一个不甘平庸的随机变量。</p>
+<h2 id="交叉熵">交叉熵</h2>
+<p>交叉熵表示，拥有信念Q的人，在观察到真实分布P后，他的惊讶程度。</p>
+<p>这个绝对惊讶程度 可以拆解为 一个baseline（真实分布P的熵） + 一个相对差距（P和Q的距离）</p>
 <figure>
-<img src="./dl0_basic.png" alt="dl0_basic" /><figcaption aria-hidden="true">dl0_basic</figcaption>
+<img src="./img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption>
 </figure>
-<ol start="3" type="1">
-<li><p>全连接神经网络：</p></li>
-<li><p>卷积神经网络：研究发现每个视觉细胞只对图像中的局部区域敏感，大量视觉细胞平铺开来，可以利用图像的空间局部上的相关性，受到生物系统的启发，卷积神经网络也引进了局部连接的概念，并且在空间上平铺多个卷积核/滤波器，这些卷积核之间有很大的重叠区域，相当有个滑动窗口，当窗口滑倒不同空间位置时，对窗口内的信息使用同样的滤波器进行分析。经过卷积操作之后，会得到一个和原图像类似大小的新图层，其中的每个点都是卷积核在局部区域的作用结果，对应于更加高级的语义信息，得到的新图层也叫特征映射（feature map），对于一副图，可以在一个卷积层里使用多个不同的卷积核，从而得到多维的feature map；也可以把多个卷积层stack起来，不断抽取越来越高级的语义信息。除了卷积，池化也是卷积神经网络的重要部分，池化的目的是，对特征映射进行压缩，体现平移不变性，并且有效扩大后续卷机操作的感受野。池化没有参数，只是对局部区域求一下汇总信息，如平均值/中位数/最大值/最小值。</p></li>
-<li><p>实际中，设计cnn时，经常把卷积层和池化层交易级联，从而实现不断抽取高层语义特征的目的，最后一层可以加上一个全连接层，对高层的语义特征进行预测。</p>
-<figure>
-<img src="./image-20210720201740269.png" alt="image-20210720201740269" /><figcaption aria-hidden="true">image-20210720201740269</figcaption>
-</figure></li>
-<li><p>人们在imagenet数据集上不断通过增加网络深度刷新错误率，2015年来自微软的152层的Resnet网络，在Image数据机上取得了3.75%的top5的错误率。</p></li>
-<li><p>随着卷积神经网络变得越来越深，梯度消失的问题越来越严重，给模型的训练带来了很大的难度，为了解决这个问题，提出了许多新的方法，比如残差学习，高密度网络，实验表明：这些方法可以有效把训练误差传递到靠近输入层的地方。<img src="./image-20210720204128001.png" alt="image-20210720204128001" /></p></li>
-</ol>
-<p>循环神经网络</p>
-<ol type="1">
-<li><p>循环神经网络也有很强的仿生学基础，人类是如何阅读看报呢？每读到一个词，都会想一想刚刚读到的文字在脑袋中形成的记忆，记忆能够帮我们更好地理解当前看到的文字，当看下一个文字时，当前文字和历史记忆又会共同成为新的记忆，并对理解下一个文字提供帮助。</p></li>
-<li><p>循环神经网络的设计也是参考了这个思想，用<span class="math inline">\(s_t\)</span>表示t时刻的记忆，是由t时刻看到的输入<span class="math inline">\(x_t\)</span>和t-1时刻的记忆<span class="math inline">\(s_{t-1}\)</span>共同作用产生的，这个过程可以表示为：</p>
-<p><span class="math inline">\(s_t = \Psi(Ux_t + W s_{t-1})\)</span>,</p>
-<p><span class="math inline">\(o_t = V s_t\)</span></p></li>
-<li><p>这个式子蕴含着对于记忆单元<span class="math inline">\(s_t\)</span>的循环迭代，在实际应用中，无现场时间的循环迭代是没有意义的，比如我们阅读文字时，每个句子的平均长度可能只有十几个词，因此，可以把循环神经网络在时域上展开，然后在展开的网络上利用梯度下降来更新参数矩阵UVW，称之为时域反向传播（Back Propagation Through Time，BPTT）</p></li>
-<li><p>和全连接神经网络，卷积神经网络类似，循环神经网络时间域展开后，也会遇到梯度消失的问题，为了解决这个问题，提出了一套依靠控制门来控制信息流通的方法。也就是说，在循环神经网络的两层之间，同时存在线性和非线性通路，哪个通路开/关，开多大程度？取决于一组控制们，这个控制门是带参数的，两种使用较多的方法是LSTM和GRU。GRU更简单些，，LSTM有3个控制门，GRU有两个控制们，二者在实际中的效果类似，但是GRU的训练速度要快些。</p></li>
-<li><p>在使用基于循环神经网络的seq2seq模型做机器翻译时，实践中会遇到一个问题，输出端的翻译结果中，某个词是对于输入端每个词语依赖程度不一样，通过吧整个输入句子编码到一个向量来驱动输出的句子，会导致信息粒度太粗糙，或者长期的依赖关系被忽视。为了解决这个问题，在标准的seq2seq基础上，引入了“注意力机制”，输出端每次输出之前，都会重新回归一下输入的每个单词，并且会计算每个单词的重要性，从而具备更细粒度的表达能力。</p></li>
-</ol>
-<h2 id="常用的优化方法">常用的优化方法</h2>
-<ol type="1">
-<li>远在机器学习之前，梯度下降就已经被提出，还有共轭梯度法，坐标下降法，牛顿法，拟牛顿法，Frank-Wolfe方法，Nesterov加速方法，内点法，对偶方法他确定性优化算法。</li>
-<li>确定性优化算法从算法使用的信息的角度可以分为一阶和二阶方法，
-<ul>
-<li>一阶：只用到了目标函数的一阶导数信息</li>
-<li>二阶：用到了二阶导数，如嗨森矩阵</li>
-</ul></li>
-<li>随着大数据的兴起，确定性优化算法的效率成为瓶颈。为了减少优化过程中每次迭代的计算复杂度，开始关注随机优化算法，比如随机梯度下降，随机坐标下降等。这些算法的基本思想是，每次迭代不使用全部样本或者全部特征，而是随机抽样一个/或者一组样本，或者一个/一组特征，再利用这些抽象的信息来计算一阶或者二阶导数，对目标函数进行优化。很多情况下，随机优化可以看成是确定性算法的无偏估计，但是，有时候也会带来较大方差，需要使用新的技术手段去控制方差，比如SVRG。</li>
-<li>上面的优化算法在求解凸优化问题时，理论性质是比较清楚的，但是深度神经网络引入了非凸优化问题，以上的算法在该问题域还存在很大的理论空白，例如：
-<ol type="1">
-<li>优化算法的收敛性在非凸问题能否保持？</li>
-<li>有没有什么加速的方法？</li>
-</ol></li>
-<li>专门针对深度神经网络的优化算法被发明，例如，带冲量的速记梯度下降，ada梯度，rmsprop，ada delta</li>
-</ol>
-<ul>
-<li>带动量的随机梯度下降，对所有历史的梯度，按照时间衰减为权重，一起决定下一步的更新方向</li>
-<li>ada梯度：在上面的基础上，还考虑了根据历史梯度大小调整了学习步长</li>
-<li>rmsprop：带动量的sgd和ada的结合</li>
-<li>ada delta：在rmsprop基础行，进一步对步长调整</li>
-<li>adam：</li>
-</ul>
-<h2 id="机器学习理论">机器学习理论</h2>
-<p>机器学习最关注的是泛化能力，反映了机器能否抓住问题本质，获得处理未知样本的能力</p>
-<ol type="1">
-<li><p>机器学习算法的最终目标是最小化损失的期望，但是我们不知道真实分布，所以将目标转为，最小化经验风险，同时，会给函数空间添加适当的约束，比如只允许搜索那些范数小于c的函数子空间，成学习问题为正则经验风险最小化，我们希望学习到的模型的期望风险尽可能小，并将其定义为机器学习的泛化误差。</p></li>
-<li><p>希望算法的泛化误差尽可能小，即，算法输出的模型和最优的模型对应的期望风险之差尽可能小，这个差距也称为泛化误差，可以分解为三部分：</p>
-<ol type="1">
-<li>优化误差：迭代出来的算法与精确的最小经验风险的模型的差别，这个误差是由优化算法的局限性带来的，与选用的优化算法，数据量大小，迭代轮数，以及函数空间有关。</li>
-<li>估计误差：最小经验风险模型和最小期望风险模型的差距。这个误差主要是训练数据的局限性带来的。</li>
-<li>近似误差：与函数空间的表达能力有关</li>
-</ol></li>
-<li><p>基于容度的估计误差的上界：估计误差可以被函数族中的所有函数的经验风险和期望风险的一致上界控制，通常被称为一致估计偏差。一致估计偏差，被函数族G的容度控制。</p>
-<blockquote>
-<p>容度描述了函数族G在多个输入数据上所产生的输出的多样性，比如VC维告诉我们某个函数族最多能打散多少个样本点。</p>
-</blockquote></li>
-</ol>
-<h2 id="附录">附录</h2>
-<h2 id="基本概念">基本概念</h2>
-<ul>
-<li>信息增益: 衡量切分前后，样本纯度的提升or混乱度的下降。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IG = information before splitting (parent) — information after splitting (children)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>具体的，有两个衡量纯度/混乱度的指标：Entropy 和 Gini Impurity
-<ul>
-<li>基尼系数（<strong>gini index</strong>）: <span class="math display">\[I_{G}=1-\sum_{j=1}^{c} p_{j}^{2}\]</span>
-<ul>
-<li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li>
-<li>如果所有样本都属于某一类c，gini系数最小，为0。</li>
-</ul></li>
-<li>熵（entropy）：<span class="math display">\[I_{H}=-\sum_{j=1}^{c} p_{j} \log _{2}\left(p_{j}\right)\]</span>
-<ul>
-<li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li>
-<li>如果所有样本都属于某一类c，熵最小，为0。</li>
-</ul></li>
-</ul></li>
-</ul>
+<h2 id="kl">KL</h2>
+<p>KL（q||p）衡量的是分布p相对于分布q的距离，是一种非对称的local 距离。</p>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li>分布式机器学习</li>
-<li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/svm.html#svm-kernels">sklearn-kernel</a></li>
+<li><a target="_blank" rel="noopener" href="https://d2l.ai/chapter_appendix-mathematics-for-deep-learning/information-theory.html#cross-entropy">交叉熵</a></li>
+<li>https://www.youtube.com/watch?v=ErfnhcEV1O8&amp;list=WL&amp;index=17&amp;t=85s</li>
 </ol>
 
       
@@ -418,7 +261,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/14/reading_notes/reality/nava-joerogan-show/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/18/reading_notes/reality/dl-framework/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -432,7 +275,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/14/reading_notes/reality/nava-joerogan-show/" class="post-title-link" itemprop="url">joerogan访谈nava</a>
+            <a href="/2021/04/18/reading_notes/reality/dl-framework/" class="post-title-link" itemprop="url">模型推断的框架</a>
         </h2>
 
         <div class="post-meta">
@@ -442,14 +285,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-14 18:27:20" itemprop="dateCreated datePublished" datetime="2021-04-14T18:27:20+08:00">2021-04-14</time>
+              <time title="创建时间：2021-04-18 08:53:17" itemprop="dateCreated datePublished" datetime="2021-04-18T08:53:17+08:00">2021-04-18</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-06 09:40:45" itemprop="dateModified" datetime="2021-05-06T09:40:45+08:00">2021-05-06</time>
+                <time title="修改时间：2021-07-14 16:50:16" itemprop="dateModified" datetime="2021-07-14T16:50:16+08:00">2021-07-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -473,38 +316,64 @@
 
       
           <blockquote>
-<p>人生只有一次，尽最大可能让他精彩。</p>
+<p>解答了一直以来，关于模型部署的疑惑</p>
 </blockquote>
-<h2 id="摘要">摘要</h2>
+<h2 id="关于模型部署">关于模型部署</h2>
 <ul>
-<li><p>what you do, who you do with, how you do it, weight more important than how hard you work</p></li>
-<li><p>outputs are nonlinear based on the quality of the work that you put in</p></li>
-<li><p>the right way that work is like a lion, you and i are not like cows, we are not meant to graze all day right.</p></li>
-<li><p>一个公司的规模，取决于内部和外部的交易成本（transaction costs）对比。信息时代带来的最大的便利就是，让外部交易变得更便捷；现在的趋势是公司的最优规模在锐减。</p>
-<blockquote>
-<p>chiechie：会有越来越多的敏捷和有创意的小公司</p>
-<p>大公司的问题：每个小模块有自己的KPI，生产链路长。多任务并发的时候，经常会遇到性能瓶颈。</p>
-<p>根本原因可能是大公司的官僚式管理制度问题？每个模块只用对生产链路中，自己这一环的kpi负责，而不是对整个业务的最终效果负责，根本就违背了「风险共担」。</p>
-</blockquote></li>
-<li><p>现阶段ai是什么阶段？low ai，即模式识别。</p></li>
-<li><p>为什么短时间内通用ai不可能？人连大脑的运行机制都不懂。根据摩尔定律，我们要再花50年，算力才能赶上一个cell内部的计算速度.</p></li>
-<li><p>bankers是不是洗劫了社会的财富？其实他们也冒了很大的风险，赌输了也会破产。</p></li>
-</ul>
-<h2 id="关于资本主义-和-社会主义">关于资本主义 和 社会主义</h2>
+<li>1 为什么说模型部署难？
 <ul>
-<li><p>“资本主义”其实大部分时候说的是“自由市场”。</p></li>
-<li><p>“社会主义”强调结果公平，伴随的一定有violence--暴力重分配</p></li>
-<li><p>许多人年轻的时候是社会主义（heart），长大后是资本主义（head）</p></li>
-<li><p>taleb说，对我的家人，我是一个communist；对我最亲密的朋友来说，我是一个社会主义者；在我的state-level的政治中，我是一个democrat；higher levels的政治中我是一个republican；在federal level政治中，我是一个libertarian</p></li>
-<li><p>一个组织或者群体的规模越大，群体内利益差异就越大，相互之间的信任的可能就越少，会产生更多的cheating，为了让这个系统运作的越好 就需要 匹配的 激励机制，将激励机制发挥到极致的例子就是资本主义。</p>
-<blockquote>
-<p>管理小团队，like family；管理大团队，要奖惩机制。</p>
-</blockquote></li>
-<li><p>群体的规模越小，比如对待家人，成为一个社会主义，会让你更幸福，但是对陌生人不行。</p></li>
+<li>因为部署的环境不一样，所以需要许多定制化的工作</li>
+</ul></li>
+<li><ol start="2" type="1">
+<li>tensorflow和pytorch这两个框架不能直接用于推理吗？</li>
+</ol>
+<ul>
+<li>可以，但是性能不佳。推理阶段相对训练阶段对模型服务的性能要求更高，比如模型稳定性，响应延迟等，。</li>
+<li>tensorflow和pytorch本身是训练框架，拿来兼做推理框架其实不可以。</li>
+<li>但是在推理阶段，如果业务要求模型服务 高可用，训练框架就显得过于臃肿了而不合时宜了，需要更轻量的框架，如pytorch，tensorRT等。 <img src="../../deeplearning/dl-framework/img.png" alt="img.png" /></li>
+</ul></li>
+<li><ol start="3" type="1">
+<li>DL框架产业现状？</li>
+</ol>
+<ul>
+<li>训练框架是标准品</li>
+<li>推理框架是定制品：这里提到了一点就是使用场景没有<strong>网络效应</strong>，我理解就是规模效应，客观环境决定了，“推理框架”相对于“训练框架” 而言，不是一个好摘的果子
+<ul>
+<li>客观环境（部署依赖整个生产链路的环境，包括硬件厂商，应用服务）导致了没有统一的条件</li>
+</ul></li>
+</ul></li>
 </ul>
+<h2 id="深度学习框架2大方向">深度学习框架2大方向</h2>
+<ol type="1">
+<li>深度学习框架有两个派别：一派是从分布式系统的人来做的，另外一派是从做算法的人来做的。tensorflow属于系统派，而pytorch属于算法派。</li>
+<li>不同的人的背景不同，所以做这个事情的角度也会不同，要解决的问题也不同，从而产生不同门派。</li>
+<li>系统派聚焦于解决大数据大模型的计算问题，扩展到任意大的深度模型的框架，所以往往会把系统设计的更具可扩展性，避免重构带来的巨大成本。
+<ol type="1">
+<li>系统框架的优点--适合很多领域的建模流程：系统派系统希望构建一个系统，能够把视觉，语音，语言等多种模型能够一同训练，这个就是tensorflow这样系统构造的时候的原始想法，把整个计算构成一个Tensor的Flow图。</li>
+<li>系统框架的优点--支持大规模模型训练：因为分布式本身就很复杂，需要处理各种节点交互的数据，以及执行中的各种依赖关系。这些事情由人来写代码，太繁琐且容易出错，所以自然地，就会想到让系统来负责这种依赖关系。这也就是为什么希望整个分布式执行的计划是一个静态图，然后系统再根据用户指定的或者系统智能的决定的placement进行分图，并在这些分图中添加合适的Send-Recv的Op从而构成一个分布式的执行计划。</li>
+<li>系统派框架的缺陷-控制流代码也要op化：同但是这样的设计理念也会带来一些困恼，在模型训练时候有些类似控制图的部分，必须要把这些控制流图的代码也op化，然后把这些op也整体串联在Tensor的Flow执行图中，这种方式会使得一些习惯单机开发的研究人员觉得比较晦涩。</li>
+<li>系统派框架的缺陷-不好debug：同时也是因为分布式的原因，做系统的很自然会把模型的开发过程分成构图和执行两个阶段。构图的时候只是生成一个逻辑执行计划，然后通过显式方式的提交（或者execute）过程进行执行。这种方式让研究人员觉得不能一边写代码一边就能够马上看到代码片段的结果，所以这也造成很多人诟病TensorFlow的模式不太容易debug自己的模型程序，其实这也是因为分布式带来负担。但是也是因为TensorFlow是静态图的方式，其可以做到训推一体，在训练出来的模型能够导出模型图，并且在这个图上进行系统化的推理优化从而能够非常方便部署到线上。这个系统性化的方法带来另外一个优势。</li>
+</ol></li>
+<li>算法派要解决的是一个小得多的任务：基于数据并行的可提供自动梯度的框架。
+<ol type="1">
+<li>因为感知类模型（图像，语音，语言类）训练，一般都是同步训练，然后“分布式训练”也不是那么复杂（tensorflow的设想是分布式执行图是异构的，即每个分布式节点的执行逻辑可以不同），然后 数据并行，这样我们就可以利用MPI的AllReduce的通讯源语来进行梯度的汇集计算。</li>
+<li>算法同学需要是一种丰富的，可扩展的，在GPU上能够很好运行的，能够很好进行自动梯度的算子库。因为面向是数据并行的场景，这样话在神经网络部分其实都是单机程序，从而可以利用任何python的语法糖去构建任何的动态的训练控制逻辑（大家也把这种称作动态图），对于算法研究人员来讲，这种方式写代码比较随性也方便debug，所以在研究界pytorch得到大量的关注和使用。</li>
+</ol></li>
+<li>TensorFlow从设计之初就在考虑可以超大模型分布式训练的场景，但是没有预想到硬件的发展也非常迅速，显存越来越大以及训练技术的发展，还有非常精细化优化显存的工作，比如DeepSpeed等把optimizer所需要的显存sharding化掉，使得除了超大规模稀疏模型训练外，感知类的SOTA模型一直可以利用数据并行的方式来进行训练。从而使得TensorFlow这种设计理念看上去有overdesign的嫌疑。</li>
+<li>随着transformer的出现，终于可以把多种数据（视觉的，文字的）合在一起训练多模态的模型，从而产生了大规模模训练的需求。所以支持模型并行的深度学习框架再度火热，比如OneFlow，MindSpore，PaddlePaddle，Mesh Tensorflow，GShard，以及阿里的Whale框架。</li>
+<li>从设计理念来看，模型并行是TensorFlow的设计初衷，只是当时模型并行的需求不够，没有必要提供比较好高层自动分布式的抽象，写模型的人可以自己精细化去构造每个计算节点的子图，整体上TensorFlow的框架只是负责把这些子图能够自动通过Send-Recv进行连接，并且在Runtime能够合法的进行计算。</li>
+<li>现在算法迭代需求增多，导致需要一种高层次的自动分布式框架，从而使得算法同学能够快速简单通过构造一个逻辑图的方式去构造神经网络，而由系统层来帮助他来进行复杂模型并行。TensorFlow的设计理念正好就是为这个考虑的，用户利用静态图以逻辑性去描述一个网络训练，然后在执行时，进行系统化的分图和分布式训练。</li>
+<li>系统派的框架和算法派的框架也在进行一定的融合：
+<ol type="1">
+<li>TensorFlow提出了Eager模式，通过TF.function在eager模式下可能单步执行计算，得到Tensor来提高可调式性；</li>
+<li>Pytorch通过Trace或者Parse的方式转化为TorchScript的图描述，从而能够更好支持训练到推理的工程化。但是这种动静结合其实只是在一定层次的，比如如果考虑分布式，Trace的方式去得到TorchScript就不足够。需要进一步去限制构图能够使用的API，这也是像NV的megatron以及微软DeepSpeed在Pytorch上去支持分布式所带来的一些约束。</li>
+</ol></li>
+</ol>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=3qHkcs3kG44">Joe Rogan Experience #1309 - Naval Ravikants</a></li>
+<li>file:///Users/stellazhao/Desktop/深度学习框架-2020-0630-Qlearning分享-Turbo-PPT.pdf</li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/375634204">关于深度学习框架的一些自己见解-zhihu</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/IN281OPUEOI12ge3hOvvTw">GPT-3难以复现，为什么说PyTorch走上了一条“大弯路”？</a></li>
 </ol>
 
       
@@ -524,7 +393,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/60/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><span class="page-number current">61</span><a class="page-number" href="/page/62/">62</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/62/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/60/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><span class="page-number current">61</span><a class="page-number" href="/page/62/">62</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/62/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -590,7 +459,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

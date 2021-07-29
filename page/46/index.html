@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/27/reading_notes/computer/python_regrex/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/28/reinforcement_learning/rl10_gym/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/27/reading_notes/computer/python_regrex/" class="post-title-link" itemprop="url">使用python进行正则操作</a>
+            <a href="/2021/04/28/reinforcement_learning/rl10_gym/" class="post-title-link" itemprop="url">强化学习10 使用gym规划出租车行车路线的demo</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-27 10:51:56" itemprop="dateCreated datePublished" datetime="2021-04-27T10:51:56+08:00">2021-04-27</time>
+              <time title="创建时间：2021-04-28 20:33:14" itemprop="dateCreated datePublished" datetime="2021-04-28T20:33:14+08:00">2021-04-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-07 08:17:56" itemprop="dateModified" datetime="2021-06-07T08:17:56+08:00">2021-06-07</time>
+                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
                 </span>
             </span>
 
@@ -220,25 +220,56 @@
 
       
           <blockquote>
-<p>正则表达式一直都迷糊的很，现在要做日志聚类了，看看吧</p>
+<p>看完了强化学习的理论，现在来动手试一试</p>
 </blockquote>
-<h2 id="re.compile-和-split">re.compile 和 split</h2>
-<p><img src="max-common-subsequence/img.png" alt="img.png" /> re.compile: 将字符串的正则表达式，转换为pattern对象。</p>
-<p>pattern对象，有点像re的中间数据对象，它有很多方法，like</p>
+<h2 id="场景介绍">场景介绍</h2>
+<p>以出租车司机路线规划为背景，下面演示一下如何由强化学习解决这个问题</p>
+<p>为了将问题进一步简化，基于已有的强化学习框架gym，我就可以更关注在策略实现了</p>
+<p>首先强化学习将问题建模为两个部分：环境（environment）和 决策主体（agent）。 环境基于state，action给出反馈（reward），以及下一个时刻的reward。 agent基于state，给出最佳的action。</p>
+<p>对于「出租车路线规划问题」，state就是给定区域：出租车坐标，行人坐标，行人目的地，障碍物（墙）的坐标，出租车当前是否已经载人</p>
+<p>action就4个方向（东南西北），2个动作（载人，下客）</p>
+<h2 id="开始编程实现啦">开始编程实现啦</h2>
+<h3 id="step1-加载出租车路线规划这个环境">step1: 加载「出租车路线规划」这个环境</h3>
+<p>因为gym已经带有这个环境，直接可用</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"></span><br><span class="line">env = gym.make(<span class="string">&quot;Taxi-v3&quot;</span>)</span><br><span class="line">env.reset()</span><br><span class="line"><span class="comment"># visulize current state</span></span><br><span class="line">env.render()</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="img.png" alt="environment" /><figcaption aria-hidden="true">environment</figcaption>
+</figure>
+<p>上图环境渲染的图中</p>
 <ul>
-<li>Object.split</li>
+<li>黄色方块代表出租车当前的位置</li>
+<li>“|”代表一堵墙，不能穿透</li>
+<li>蓝色的字母表示载人地方</li>
+<li>紫色的字母表示下客的地方</li>
+<li>出租车接到人之后会编程绿色</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; some_text &#x3D; &#39;a,b,,,,c d&#39;</span><br><span class="line">&gt;&gt;&gt; reObj &#x3D; re.compile(&#39;[, ]+&#39;)</span><br><span class="line">&gt;&gt;&gt; reObj.split(some_text)</span><br><span class="line">[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;]</span><br></pre></td></tr></table></figure>
-<p>也可以不用先转换为pattern对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text &#x3D; &#39;a,b,,,,c d&#39;</span><br><span class="line">&gt;&gt;&gt; re.split(&#39;[, ]+&#39;,some_text)</span><br><span class="line">[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;]</span><br></pre></td></tr></table></figure>
-<h2 id="re.sub">re.sub</h2>
-<p>re.sub：将某些固定的模式，替换为指定的格式。 比如 将连续空格转换为"-"</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text &#x3D; &#39;a,  b,,,  ,c    d&#39;</span><br><span class="line">&gt;&gt;&gt; re.sub(r&#39;\s+&#39;, &quot;-&quot;, some_text)</span><br><span class="line">a,-b,,,-,c-d</span><br></pre></td></tr></table></figure>
-<h2 id="str.strip">str.strip</h2>
-<p>去除首字符 和 尾字符</p>
+<p>注意，这些颜色，形状只是方便人理解，算法内部只关心有5个状态</p>
+<h3 id="step2-看一下action的6个状态">step2： 看一下action的6个状态</h3>
+<p>看一下action的6个状态， down (0), up (1), right (2), left (3), pick-up (4), and drop-off (5). <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">print(env.action_space)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">10</span>):</span><br><span class="line">    print(env.action_space.sample())</span><br></pre></td></tr></table></figure> <img src="img_1.png" alt="img_1.png" /></p>
+<h3 id="step3-跟env交互一次">step3: 跟env交互一次</h3>
+<p>跟env交互一次，拿到反馈和最新的状态</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">state, reward, done, info = env.step(action=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p><img src="img_3.png" alt="img_3.png" /> 注意：每个Gym环境的step方法都返回state, reward, done, info这四个变量，输入某个action</p>
+<h3 id="step4-使用某个简单策略随机策略">step4： 使用某个简单策略（随机策略）</h3>
+<p>使用某个简单策略（随机策略），让出租车跑完一轮</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">state = env.reset()</span><br><span class="line">env.render()</span><br><span class="line">n = <span class="number">0</span></span><br><span class="line">r = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">    state, reward, done, info = env.step(action=env.action_space.sample())</span><br><span class="line">    r += reward</span><br><span class="line">    n = n + <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> done:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">print(<span class="string">&quot;totally make %d decisions&quot;</span> % (n+<span class="number">1</span>), <span class="string">&quot;total reward&quot;</span>, r)</span><br><span class="line">env.render()</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="img_4.png" alt="img_4.png" /><figcaption aria-hidden="true">img_4.png</figcaption>
+</figure>
+<h3 id="step5-升级策略-q-table-跑多轮">step5: 升级策略-Q-table, 跑多轮</h3>
+<p>Q-table使用bellman方程迭代更新策略，并且存放到一张表中（这个表就是Q-table），即每个状态，每个action对应的Q-value</p>
+<p><span class="math display">\[Q_{t+1}\left(s_{t}, a_{t}\right)=\underbrace{Q_{t}\left(s_{t}, a_{t}\right)}_{\text {old value }}+\underbrace{\alpha_{t}\left(s_{t}, a_{t}\right)}_{\text {learning rate }} \times[\overbrace{\underbrace{R_{t+1}}_{\text {reward }}+\underbrace{\gamma}_{\text {discount factor }} \underbrace{\max _{a} Q_{t}\left(s_{t+1}, a_{t}\right)}_{\text {estimate of optimal future value }}}^{\text {learned value }}-\underbrace{Q_{t}\left(s_{t}, a_{t}\right)}_{\text {old value }}]\]</span></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">n_state = env.observation_space.n</span><br><span class="line">n_action = env.action_space.n</span><br><span class="line">Q_table = np.zeros((n_state, n_action))</span><br><span class="line">alpha = <span class="number">0.615</span></span><br><span class="line">gamma = <span class="number">0.9</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> episode <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1000</span>):</span><br><span class="line">    state = env.reset()</span><br><span class="line">    <span class="comment">#env.render()</span></span><br><span class="line">    n = <span class="number">0</span></span><br><span class="line">    r = <span class="number">0</span></span><br><span class="line">    done = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">while</span> done <span class="keyword">is</span> <span class="literal">False</span>:</span><br><span class="line">        best_action = np.argmax(Q_table[state, :])</span><br><span class="line">        state2, reward, done, info = env.step(action=best_action)</span><br><span class="line">        Q_table[state, best_action] = Q_table[state, best_action] + alpha *(reward + gamma * np.<span class="built_in">max</span>(Q_table[state2]) - Q_table[state, best_action])</span><br><span class="line">        r += reward</span><br><span class="line">        n = n + <span class="number">1</span></span><br><span class="line">        <span class="comment"># 别漏了</span></span><br><span class="line">        state = state2 </span><br><span class="line">    <span class="keyword">if</span> episode % <span class="number">50</span> == <span class="number">0</span>:</span><br><span class="line">        print(<span class="string">&#x27;Episode &#123;&#125; Total Reward: &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(episode,r))</span><br></pre></td></tr></table></figure>
+<figure>
+<img src="img_6.png" alt="img_6.png" /><figcaption aria-hidden="true">img_6.png</figcaption>
+</figure>
+<h2 id="遗留问题">遗留问题</h2>
+<ol type="1">
+<li>策略函数要设置约束，比如不能撞墙</li>
+</ol>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.programiz.com/python-programming/regex">怎么写正则表达式</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.oreilly.com/radar/introduction-to-reinforcement-learning-and-openai-gym/">强化学习环境框架-gym</a>)</li>
 </ol>
 
       
@@ -259,7 +290,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/27/reading_notes/investment/about-cryptocurrency/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/28/machine-learning/machine-learning_4-dl9_lvm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -273,7 +304,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/27/reading_notes/investment/about-cryptocurrency/" class="post-title-link" itemprop="url">关于区块链和加密货币</a>
+            <a href="/2021/04/28/machine-learning/machine-learning_4-dl9_lvm/" class="post-title-link" itemprop="url">chapter 4.9 非监督学习</a>
         </h2>
 
         <div class="post-meta">
@@ -283,14 +314,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-27 08:47:47" itemprop="dateCreated datePublished" datetime="2021-04-27T08:47:47+08:00">2021-04-27</time>
+              <time title="创建时间：2021-04-28 18:20:08" itemprop="dateCreated datePublished" datetime="2021-04-28T18:20:08+08:00">2021-04-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
+                <time title="修改时间：2021-07-22 15:58:42" itemprop="dateModified" datetime="2021-07-22T15:58:42+08:00">2021-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -298,7 +329,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84/" itemprop="url" rel="index"><span itemprop="name">投资</span></a>
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
                 </span>
             </span>
 
@@ -313,78 +344,169 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>chiechie的粗浅见解先抛出来，过一段时间再来验一验</p>
-</blockquote>
-<h2 id="区块链">区块链</h2>
+          <h2 id="非监督学习">非监督学习</h2>
 <ol type="1">
-<li>区块链的本质是一个分布式账本，这个账本是去中心化的。基于这个基础设施可以孵化很多应用</li>
-<li>第一代区块链应用是加密货币，代表是比特币，想变成国际支付货币。</li>
-<li>第二代区块链应用是智能合约，代表是以太坊。</li>
-<li>第三代区块链应用是去中心化金融，代表是DeFI和NFT，可能重塑金融行业。</li>
-</ol>
-<h2 id="第一代应用-去中心化数字货币">第一代应用-去中心化数字货币</h2>
-<h3 id="加密货币">加密货币</h3>
+<li><p>非监督学习是指，从原始数据中学习rich模式，以一种label free的方式。</p></li>
+<li><p>非监督学习又分为两类：生成模型和自监督学习。</p></li>
+<li><p>生成模型指的是, 学习原始数据的分布，例如基于高斯分布的异常检测</p></li>
+<li><p>自监督学习指的是, 学到关于原始输入的一些reprentation，可以做到语意理解，可能在未来的有一些任务中会有用，有点像做题训练（puzzle）。例如， Bert训练需要解决两个puzzle：遮挡词预测；下一个句子预测。再例如，对图像翻转90度/180度，喂给neural network，让nn来预测对应的操作（90/180），这个似乎在监督学习中用的很多</p></li>
+<li><p>非监督学习有哪些应用？</p>
 <ol type="1">
-<li>比特币是一个去中心化货币，是众多虚拟加密货币的老祖宗。</li>
-<li>比特币是价值存储的载体之一。价值就是财富，类似数据，水，食物等资源，暂时用不完，希望存起来，后面有需要的时候再用，但是存储财富的载体，经常会被政府操纵，比如人们把财富藏于房产中，股票中，货币中，政府可以操控房子的价格，股票的价格，货币的数量。政府可以不费吹灰之力，凭空创造财富（最常见的手段就是印钞，稀释钞票中的财富；打工人可以增加财富的绝对数字，但it is in vain，政府下一步就可以控制财富分配的比例。</li>
-<li>加密货币的最直接的需求方，比如国际支付，洗钱。</li>
-<li>加密货币是理想主义者（密码学家和自由主义者）的一种信仰。</li>
-<li>加密货币跟政府权利存在竞争关系，政府不乐意将印钱权利拱手送人。世界上其他国家可能借助加密货币的力量，联合起来制衡美元。（但是之后竞争仍然存在.）</li>
-<li>加密货币的风险？机构做空，政府监管（政府宣布交易违法，关闭交易所），都会导致币存储的财富缩水。</li>
-<li>现实世界的资产大概有几类：
-<ul>
-<li>有抵押或者信用担保的债务，如国债（政府背书），公司债券（企业自己背书），股票</li>
-<li>有使用价值的资产：住房</li>
-<li>收藏品类的资产：是一个圈子的共识和信仰，茅台，钻石，泡沫时期的荷兰郁金香，重点是稀缺性</li>
-</ul>
-比特币短期和长期都具备收藏品的属性。</li>
-<li>成为货币的前提是，所有人达成共识--这个货币代表的财富不会缩水。迄今为止，只有黄金和美元能保持这种地位。美元是基于美国的政治经济军事各方面实力。比特币代表的加密货币除了信徒们的情怀，还有什么能支持长期的市值？</li>
-</ol>
-<h3 id="黄金相对于货币的优势">黄金相对于货币的优势？</h3>
-<p>黄金作为价值载体的价格，主要靠自由市场来决定，政府不能凭空创造黄金。</p>
+<li><p>生成正常数据，比如生成回测中的合成数据</p></li>
+<li><p>条件的合成技术,包括WaveNet和GAN-pix2pix，比如talktotranfomer.com</p></li>
+<li><p>数据压缩</p></li>
+<li><p>【最重要】在监督学习之前做自监督学习可以提升下游任务的准确率。</p>
 <blockquote>
-<p>全世界当前黄金还有20%没有被开采，政府们纷纷放弃金本位，不是因为担心黄金不够造成的通货紧缩（早得很），是迫不及待想扩大手中的权利。</p>
-<p>比如发债券，可以像庞氏骗局一样，到期了就续期。</p>
-</blockquote>
-<p>但是政府可以凭空创造货币，比如发国债，让下一任的政府来还，本质来说，就是在发行货币（央行和财政部唱双簧，央行用发的货币来购买了财政部发的国债）</p>
-<h3 id="加密货币相对于黄金的优势">加密货币相对于黄金的优势？</h3>
-<p>政府可以控制黄金在市场上流通，因为黄金太个头太大了，很容易被监控到。</p>
-<p>政府没法控制加密货币，首先，是虚拟资产，第二，公共账本被全世界的节点在维护着 第三，资产的匿名性，公共账本虽然会记录交易双方比特币账户的地址，但是账户在真实世界的身份是不得而知的。这三点都会导致政府的监管成本极高。</p>
-<h2 id="第二代应用-智能合约">第二代应用-智能合约</h2>
+<p>这个技术在工业界已经有应用了：谷歌搜索是由bert支持的</p>
+</blockquote></li>
+</ol></li>
+<li><p>What is true now,but not true ayear before?</p>
+<blockquote>
+<p>以前自监督的预训练比监督模型在检测和识别中效果更差，现在效果赶超有监督了</p>
+</blockquote></li>
+<li><p>目前已经成熟的技术：语言生成模型（GPT3），图像生成模型（VIT），预训练的语言模型（Bert），预训练的图像模型。</p></li>
+<li><p>目前还没有研究成熟的方向：自回归密度模型（AgressiveRgression Density Modelings），Flows，VAE，UnsupervisedLearning for RL。</p></li>
+</ol>
+<h2 id="生成模型0-summary">生成模型0-summary</h2>
 <ol type="1">
-<li>智能合约拓展了btc的去中心化货币的功能，合约可以用代码来定义，代码接口符合特定的标准即可。</li>
-<li>现实中的合同执行要法院判决，警察强力保证执行。智能合约本质就是一个合同，只不过比现实中的合同更好执行，code is law。</li>
+<li><p>简单的生成模型比如直方图/高斯分布。复杂的生成模型比如自回归模型（Autoregressive Models）</p></li>
+<li><p>自回归模型的技术关键词有参数化分布（Parameterized distributions） 和最大似然（maximum likelihood）。</p></li>
+<li><p>常见的两个自回归模型有循环神经网络（Recurrent Neural Nets）和遮挡模型（Masking-based Models）</p></li>
+<li><p>基于likelihood的模型要解决的任务是什么？</p></li>
+<li><p>生成数据：合成的图像，合成的语音，合成的文本，合成的视频</p></li>
+<li><p>数据压缩：对原始文件高效编码，原始数据的entropy越大，压缩比例就越低，怎么知道当前数据的entropy有多大从而使用合适的压缩比例呢？需要去学习一个模型，这个模型可以输出当前数据的信息含量。</p></li>
+<li><p>异常检测：比如在自动驾驶的场景中，如果遇到了一个训练样本中未见过的样本，就不一样让机器强行决策，正确的方法是，使用异常检测--将该场景先和训练样本先对比一下--如果该场景是异常的，就让人来接手。</p></li>
+</ol>
+<pre><code>&gt; Good!!!可以用在回测中</code></pre>
+<ol start="5" type="1">
+<li><p>基于likelihood的模型怎么实现？从样本数据中估计出样本分布的参数。</p></li>
+<li><p>The field of deep generative models is concerned with jointly designing these ingredients to train <em>flexible and powerful</em> models <span class="math display">\[p_\theta\]</span> capable of approximating distributions over high-dimensional data <span class="math display">\[\mathbf{x}\]</span>.</p></li>
+<li><p>怎么设计分布函数？effectively represent complex joint distributions over x,并且yet remain easy to train</p></li>
+<li><p>设计好分布函数族后（一般假设是高斯分布），使用相应的训练方法hand-in-hand去估计参数，损失函数=真实分布和拟合分布的距离：</p></li>
+<li><p>MLE的损失函数为样本的对数概率的相反数，记为：</p></li>
+</ol>
+<p>​ <span class="math display">\[\arg \min _{\theta} \operatorname{loss}\left(\theta, \mathbf{x}^{(1)}, \ldots, \mathbf{x}^{(n)}\right)=\frac{1}{n} \sum_{i=1}^{n}-\log p_{\theta}\left(\mathbf{x}^{(i)}\right)\]</span></p>
+<p>等价于 <span class="math display">\[
+  \arg \min _{\theta} \mathbb{E}_{\mathbf{x} \sim \hat{p}_{\text {data }}}\left[-\log p_{\theta}(\mathbf{x})\right]
+  \]</span> 可以用神经网络对<span class="math inline">\(p_{\theta}\)</span>建模，并使用SGD求解.</p>
+<ol start="13" type="1">
+<li>如何设计一个神经网络来代替<span class="math inline">\(p_{\theta}\)</span>,主要想法是这样的：先把生成数据的过程中，变量间的关系表达为一个贝叶斯网络（ <strong>Bayes net</strong>），并且使用神经网络来对条件概率分布建模（边）。</li>
+<li>于是将最小化logO**转换为，学习一个可以输出条件概率的nn，输入条件变量（一个变量就是一个节点）的值输，输出另外一个变量的概率分布。就是构建一个nn去拟合边的属性---即在条件变量取不同的值时，相应的变量的概率分布是如何变化的。</li>
 </ol>
 <figure>
-<img src="./img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
+<img src="./K1rwN9LAHJs509x8IvCcix_7CkI6u8c5YsPUT0R1eoxuP2WvACnAQTVQQVAuqoWMtO5JIflxLnrNl_eFPnF1F3XBT658a6wyLfOSaynjAjyyWf5nFBwSww-TDvy7oYpwNCD3bRHo3Rc.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
 </figure>
-<h2 id="第三代应用-defi和nft">第三代应用-DeFi和NFT</h2>
-<ol type="1">
-<li><p>NFT的本质是商品，更具体的说，是一个收藏品，NFT可以是一条具有纪念意义的twitter，可以是电子画作。NFT的成交价格是市场关于这个商品的价值达成的共识，跟前几个世纪的稀有的贝壳，白银作为货币一样。</p>
-<blockquote>
-<p>NFT的概念其实很早就出现了，就是腾讯的Q币，只是中心化的。现在不管是名人、宣传还是NFT都是在为市场扩圈，币圈与非币圈之间也已经没有明显的界限了，而 NFT会把这个现象推向更高的高潮。</p>
-</blockquote></li>
+<ol start="11" type="1">
+<li><p>跟最大似然等价的问题为最小KL--经验分布和拟合分布的距离</p>
+<p>经验分布假设样本来自iid，则每个观测值的分布都为1（就是直方图）</p>
+<p><span class="math display">\[\hat{p}_{\text {data }}(\mathbf{x})=\frac{1}{n} \sum_{i=1}^{n} \mathbf{1}\left[\mathbf{x}=\mathbf{x}^{(i)}\right]\]</span></p>
+<p>那么经验分布和猜想分布<span class="math inline">\(p_{\theta}\)</span>之间的kl divergence为：</p>
+<p><span class="math display">\[\mathrm{KL}\left(\hat{p}_{\mathrm{data}} \| p_{\theta}\right)=\mathbb{E}_{\mathbf{x} \sim \hat{p}_{\mathrm{data}}}\left[-\log p_{\theta}(\mathbf{x})\right]-H\left(\hat{p}_{\mathrm{data}}\right)\]</span></p></li>
 </ol>
-<h2 id="第四代应用-元宇宙">第四代应用-元宇宙</h2>
+<h2 id="生成模型1--自回归模型">生成模型1- 自回归模型</h2>
 <ol type="1">
-<li>看法还不成熟，先hold下。</li>
+<li>给定贝叶斯网络，将条件概率分布设置为nn, 会得到一个可处理的对数likelihood和梯度，很好训练,</li>
 </ol>
-<h2 id="chiechie的预测">chiechie的预测</h2>
+<p><span class="math display">\[\log p_\theta(\mathbf{x}) = \sum_{i} \log p_\theta(x_i \,|\, \mathrm{parents}(x_i))\]</span></p>
+<ol start="2" type="1">
+<li><p>但是用nn建模出来的条件概率的表达能力够强吗？任何联合概率分布都可以表达为条件概率的乘积。</p></li>
+<li><p>自回归模型(<strong>autoregressive model</strong>): <span class="math display">\[
+\log p(\mathbf{x})=\sum_{i=1}^{d} \log p\left(x_{i} \mid \mathbf{x}_{1: i-1}\right)
+\]</span> 一个使用nn预测条件概率的表达充分的贝叶斯网络，可以对p(x)构建一个表达充分的模型，同时也很好训练</p></li>
+<li><p>一个简单的自回归模型：</p>
+<p>两个随机变量: x1, x2</p>
+<p>对联合分布建模：Model: p(x1, x2) = p(x1) p(x2|x1)</p>
+<p>边际概率分布分布p(x1)是一个直方图</p>
+<p>条件概率分布p(x2|x1)是一个mlp，输入是<span class="math inline">\(x_1\)</span>, 输出是<span class="math inline">\(x_2\)</span>的logits</p></li>
+<li><p>如何让不同的边--即不同的标间概率之间共享信息？RNN和masking方法</p></li>
+<li><p>[Karpathy, 2015]提出char-rnn方法</p>
+<figure>
+<img src="./image-20210710152800599.png" alt="image-20210710152800599" /><figcaption aria-hidden="true">image-20210710152800599</figcaption>
+</figure></li>
+</ol>
+<h2 id="生成模型2-隐变量模型">生成模型2-隐变量模型</h2>
 <ol type="1">
-<li><p>全世界范围内，政府（除美国）短期不会打压数字货币，甚至还会推动数字货币的发展，直到世界格局改变。</p>
+<li><p>为什么需要latent variable模型?对比下自回归模型：采样的计算量太大了，采样只能按照顺序进行。</p></li>
+<li><p>latent varible只依赖latent varible，采样效率更高，相对于ar模型。</p></li>
+<li><p>如果知道生成数据的因果过程，就可以设计一个latent varible了。</p></li>
+<li><p>一般来说，我们不知道隐变量是什么，以及这些latent variables是怎么跟observation进行互动的。 确定隐变量的最好的方法，仍未有定论。</p></li>
+<li><p>latent variable模型更像是一种更抽象的层次更高的认知。</p></li>
+<li><p>隐变量模型的一个例子：如下，Z是一个K维度的随机向量，X是一个L维的随机变量</p>
+<p>对Z抽样得到一个K维的0/1向量z，通过一个函数（DNN）映射为一个参数<span class="math inline">\(\theta\)</span>, X的分布变为一个参数为<span class="math inline">\(\theta\)</span>的bernoulli分布，从该分布中采样得到一个L维的0/1向量x。举例子，z代表股市是牛市/熊市，X代表股票上涨/下跌，牛市时X的分布的均值要高于熊市时X的分布均值</p>
+<figure>
+<img src="./image-20210709233421079.png" alt="image-20210709233421079" /><figcaption aria-hidden="true">image-20210709233421079</figcaption>
+</figure></li>
+<li><p>如何训练上面的DNN？最大似然估计，再往前可以追朔到亚里士多德的三段论，大前提，小前提==&gt; 结论。</p>
+<p>大前提：我们观测到的一系列<span class="math inline">\(x^{(i)}\)</span>, 是客观存在的，不是伪造的</p>
+<p>小前提：有一个隐变量X，服从某个bernouli分布，有一个可观测的随机变量X服从某个bernouli分布，并且该bernouli分布的参数跟X有关</p>
+<p>结论: 一系列<span class="math inline">\(x^{(i)}\)</span>的概率很大</p>
+<p>为了使得三段论成立，我们希望找到一个最优的DNN，使得<span class="math inline">\(x^{(i)}\)</span>的likelihood尽可能大。</p>
+<p>其实，即使likelihood很大，也不能一定保证小前提成立，这里只是折中罢了。</p>
+<figure>
+<img src="./image-20210709234327994.png" alt="image-20210709234327994" /><figcaption aria-hidden="true">image-20210709234327994</figcaption>
+</figure></li>
+<li><p>求最大似然的时候，z的维度太多了怎么办？采样。</p></li>
+<li><p>如果z的分布p很难采样怎么办？分布变换：将分布p转换为一个简单的分布q（q中也有待估计的参数，经常把q设计成一个高斯分布），然后在q中采样，这就是变分法,。「变分」强行理解成「改变分布」。</p>
+<figure>
+<img src="./image-20210710154905312.png" alt="image-20210710154905312" /><figcaption aria-hidden="true">image-20210710154905312</figcaption>
+</figure></li>
+<li><p>求解Inference问题,相当于积分掉无关变量，求边际分布。如果变量维度过高，积分非常困难。一般来说，有两种方法，一种是蒙特卡洛模拟，一种是变分推断。前者是unbiased &amp;&amp;high variance，后者是biased-low&amp;&amp; variance。举个例子，求P(z|x)时，使用贝叶斯公式，可以转换为联合分布除以P(x), 求P(x)涉及到对z求多重积分，特别困难。</p>
 <blockquote>
-<p>2021年6月9日，萨尔瓦多正式通过立法将BTC做为法定货币。这标志着数字资产进入一个新的纪元。</p>
+<p>还有一些技术如（mean field）可将复杂的多元积分变成简单的多个一元积分的乘积，从而使得求多重积分变得可行。</p>
+</blockquote>
+<p>下面看一下有偏差的低方差的方法---变分推断。。</p></li>
+</ol>
+<h3 id="变分推断">变分推断</h3>
+<blockquote>
+<p>Any procedure which uses optimization to approximate a density can be termed ``variational inference''.---Jordan (2008) 对 Variational Inference 的定义</p>
+</blockquote>
+<ol type="1">
+<li>简单来说，变分就是用简单的分布q去近似复杂的分布p。</li>
+</ol>
+<figure>
+<img src="./image-20210710155220160.png" alt="image-20210710155220160" /><figcaption aria-hidden="true">image-20210710155220160</figcaption>
+</figure>
+<ol start="2" type="1">
+<li>如何找到满意的<span class="math inline">\(q_{\phi}\)</span>？对于每个样本<span class="math inline">\(x^{(i)}\)</span>, q测量的z的分布都跟p测量的z的后验分布很接近。也就是说，希望找到一个q使得，n个KL之和最小。</li>
+</ol>
+<figure>
+<img src="./image-20210710171726674.png" alt="image-20210710171726674" /><figcaption aria-hidden="true">image-20210710171726674</figcaption>
+</figure>
+<ol start="3" type="1">
+<li><p>由于KL(q, p) + 变分下界(VLB) =logP(x) , 不管q如何变化，KL+ELBP是固定的，所以最小化KL等价于最大化$ ELBO<span class="math inline">\(。KL因为含有后验分布\)</span>p_{z|x}$不好优化所以转为优化ELBO。</p>
+<blockquote>
+<p>为什么要叫lower bound，因为KL&gt;=0, 所以VLB&lt;=logP(x), 所以VLB是logP(x)的一个下界，所以叫Lower bound</p>
 </blockquote></li>
-<li><p>各种去中心化数字货币成为国际流通货币的可能性很小，但是有较大可能演变成一个收藏品，比特币会成为其中的顶级收藏品。</p></li>
-<li><p>狗狗币?帮助加速加密货币出圈。不论是动物币、狗狗币还是shib，都成功用娱乐的形式把外面的客户引流进来,有点像娱乐圈的IP。如果只是一本正经地推广比特币，人们可能会觉得没有意思</p></li>
+<li><p>至此，vae的损失函数(ELBO)等价于两部分=重构误差+正则项，</p></li>
+</ol>
+<p><span class="math display">\[E L B O=\mathbb{E}_q\left[\log p\left(x \mid z\right)\right]-\mathbb{K} \mathbb{L}\left(q\left(z \mid x\right) \| p(z)\right)\]</span></p>
+<p><img src="https://miro.medium.com/max/1400/1*Q5dogodt3wzKKktE0v3dMQ@2x.png" alt="img" /> 5. 其中正则项(regularity)是为了保证 latent space 更regular，即，希望生成模型实现连续性（<strong>continuity</strong>）和完备性（completness，不能胡说八道）。如果没有正则项，就跟auto-encoder一样专注于最小化重构误差，很有可能过拟合，没有泛化性。 <img src="https://miro.medium.com/max/2000/1*83S0T8IEJyudR_I5rI9now@2x.png" alt="img" /></p>
+<ol start="6" type="1">
+<li><p>auto-encoder和variational autoencoders的区别：注意decoder，vae的decoder将z映射为x，是确定性的，不是随机的。随机性之存在于对encoder的结果（u, sigma）中采样出z。</p>
+<figure>
+<img src="https://miro.medium.com/max/2000/1*ejNnusxYrn1NRDZf4Kg2lw@2x.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure></li>
+<li><p>训练好了VAE后，单独拿decoder出来做生成模型。</p>
+<blockquote>
+<p>KL衡量的是p相对于q的距离，是一种非对称的local 距离。</p>
+</blockquote></li>
+<li><p>将pathwise derivative应用到变分推断，得到VAE</p>
+<figure>
+<img src="./image-20210710180433539.png" alt="image-20210710180433539" /><figcaption aria-hidden="true">image-20210710180433539</figcaption>
+</figure>
+<figure>
+<img src="./I0yVIbKz1a-74JbNr5P31z5ePUf1g7NBzEtvk5K3chlmwzySQPyvzqx1umTDG_1ynr1IiYA9t1cwI38vSvmLda_EeQA8Q5gbjZ9J_Ej1NCwkIDSnMo8HJAhoVBA5Mjliy4V_185bk5Y.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure></li>
 </ol>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.chainnews.com/articles/503060403039.htm">对话 DODO 雷达熊：DeFi 有太多反逻辑，应创造无需许可的产品并发挥价值</a></li>
-<li><a target="_blank" rel="noopener" href="https://assets.coingecko.com/books/how-to-defi/How_to_DeFi_Chinese.pdf">How_to_DeFi-中文</a></li>
-<li><a target="_blank" rel="noopener" href="https://tokeninsight.com/zh/report/2708">report</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Oz9zw7-_vhM">youtube-nft</a></li>
+<li>https://sites.google.com/view/berkeley-cs294-158-sp20/home</li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=V9Roouqfu-M">L1 Introduction--CS294-158-SP20-youtube</a></li>
+<li><a target="_blank" rel="noopener" href="https://drive.google.com/file/d/1zWvkB5BNFs1IzyXarsf6ItXpfEc2OfZc/view">L1 Introduction--CS294-158-SP20-slide</a></li>
+<li>https://www.youtube.com/watch?v=V9Roouqfu-M</li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=iyEOk8KCRUw">L2 Autoregressive Models -- CS294-158-SP20-youtube</a></li>
+<li>https://www.zhihu.com/question/41765860</li>
+<li>https://www.youtube.com/watch?v=uaaqyVS9-rM</li>
 </ol>
 
       
@@ -404,7 +526,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/45/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><span class="page-number current">46</span><a class="page-number" href="/page/47/">47</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/47/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/45/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><span class="page-number current">46</span><a class="page-number" href="/page/47/">47</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/47/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -470,7 +592,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

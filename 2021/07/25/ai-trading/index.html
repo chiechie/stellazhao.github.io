@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chiechie.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Denny Britz的一篇blog，翻译下   交易是一个multi agent问题。 有效市场假设（ Efficient Market Hypothesis， EMH）在现实中不成立。构建一个赚钱的交易系统是可能的，虽然套利机会最终会消失，但是市场反应时间通常要几个月&#x2F;几年，（就作者的经验来说有12个月）这个时间内可以寻找新的机会。 选择什么视角看待市场？经济学？No！博弈论（Game Th">
+<meta property="og:type" content="article">
+<meta property="og:title" content="人工智能交易系统">
+<meta property="og:url" content="https://chiechie.github.io/2021/07/25/ai-trading/index.html">
+<meta property="og:site_name" content="Chiechie&#39;s Mini World">
+<meta property="og:description" content="Denny Britz的一篇blog，翻译下   交易是一个multi agent问题。 有效市场假设（ Efficient Market Hypothesis， EMH）在现实中不成立。构建一个赚钱的交易系统是可能的，虽然套利机会最终会消失，但是市场反应时间通常要几个月&#x2F;几年，（就作者的经验来说有12个月）这个时间内可以寻找新的机会。 选择什么视角看待市场？经济学？No！博弈论（Game Th">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-25T06:43:08.000Z">
+<meta property="article:modified_time" content="2021-07-28T08:06:26.973Z">
+<meta property="article:author" content="Chiechie">
+<meta property="article:tag" content="量化">
+<meta property="article:tag" content="强化学习">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://chiechie.github.io/2021/07/25/ai-trading/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>人工智能交易系统 | Chiechie's Mini World</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Chiechie's Mini World</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Set your course by the stars, not by the lights of passing ships. —— Omar Bradley</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/25/ai-trading/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          人工智能交易系统<a href="https://github.com/chiechie/chiechie.github.io/tree/master/source/_posts/ai-trading.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-25 14:43:08" itemprop="dateCreated datePublished" datetime="2021-07-25T14:43:08+08:00">2021-07-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-28 16:06:26" itemprop="dateModified" datetime="2021-07-28T16:06:26+08:00">2021-07-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p><strong>Denny Britz</strong>的一篇blog，翻译下</p>
+</blockquote>
+<ol type="1">
+<li><p>交易是一个multi agent问题。</p></li>
+<li><p>有效市场假设（ Efficient Market Hypothesis， EMH）在现实中不成立。构建一个赚钱的交易系统是可能的，虽然套利机会最终会消失，但是市场反应时间通常要几个月/几年，（就作者的经验来说有12个月）这个时间内可以寻找新的机会。</p></li>
+<li><p>选择什么视角看待市场？经济学？No！博弈论（Game Theory ）或者强化学习视角。</p></li>
+<li><p>「市场」是一个虚构的概念，多个agents为了最大化自己的目标，在environment中采取相应行动，涌现出来的结果。每个agent的目标都不一样，有的为了卖掉期权中获得的股票，有的为了快速获利而套利，有的试图根据新闻来预测短期走势。有的基金经理基于基本面而长期投资。有的做市商，为特定资产或交易所提供流动性，以换取费用。</p></li>
+<li><p>科技从业者更看重“绝对性”，交易更看重“相对性”。</p></li>
+<li><p>科技从业者使用开源工具，不自己造轮子，而交易则最好自己造轮子。因为，如果你和其他人使用同样的技术，就没有优势可言。每一种可以定制化的技术都是一个击败竞争对手的机会。通过混合云可以减少延迟。通过高效的二进制存储数据，可以节省序列化时间，从而在生产中实现更快的预测。通过创建与交易所的自定义接口，而不是使用现成的 api，您可以使用其他人无法获得的特定订单类型，或者通过处理特定交易所的信息获得信息优势。诸如此类。</p></li>
+<li><p>一个常见的想法是：想构建一个更聪明的模型，能够做出更好的预测。现实中并不work。</p></li>
+<li><p>人工智能相当商品化。我想说，它比优秀的基础设施工程、数据收集或来自领域知识的归纳偏见更为商品化。您可轻松下载最先进的模型并在数据上运行它们，除了一些非常前沿的研究。不太可能仅仅通过训练一个更好的模型就获得显著的优势。</p></li>
+<li><p>当人们意识到他们幻想的ai模型建立在蹩脚的基础设施上，用蹩脚的数据训练(这也是每个人都在使用的)不起作用时，他们就放弃了。人工智能可以给你一个优势，但不是一个如此巨大的优势，以至于你可以忽略其他因素。您仍然需要构建良好的基础设施，获得良好的数据，拥有良好的延迟等等。很少有人愿意花时间在这些unsexy的事情上。把每一个想象成一个倍增器。如果一个接近于零，那么你的人工智能模型有多好并不重要。这些倍增器是什么呢？：</p>
+<ol type="1">
+<li>市场：选择合适的市场进行交易。不要选择那些每个人都会默认选择的显而易见的选择。无论是从法律上还是从技术上讲，进入一个市场的难度越大，你就越有可能找到机会。流动性较差的市场可能会被成熟的基金忽视，因为它们的资产管理规模不够大。同样，对于追求“好的 api”的工程师来说，这通常是违反直觉的——好的 api 通常意味着流行。大众化通常意味着商品化</li>
+<li>数据：考虑其他人无法访问或不愿意访问的数据源。例如，由于限制 IP 禁令，可能有数据难以被爬虫。大多数人会放弃这里。这对你来说是个机会。对流行的 api 和开源软件持怀疑态度。这些数据和其他人使用的数据是一样的</li>
+<li>延迟：你可能不打算与高频交易商竞争(坏主意) ，但这并不意味着你可以完全忽略延迟。更好的延迟可能会导致更容易的执行，减少延误。注意将系统驻留在何处，如何发送数据，如何序列化数据等等</li>
+<li>模型：一般来说，更好的数据比更好的模型更重要，但更好的模型也可以给你一个优势。请注意，您经常在模型复杂性和延迟之间进行权衡</li>
+<li>执行：如果不能执行，一个好模型就是0。收集的历史数据可能与交易所实际发生的情况非常不同。尽快开始交易！</li>
+</ol></li>
+<li><p>强化学习交易是市场交易的正确方法吗？是的，然而有很多技巧是必要的。强化学习的主要好处是你不需要建立一个可微损失函数。相反，你可以在一段时间内直接优化盈亏。通过构建一个良好的simulation，模型可以学会对延迟、抖动以及在真实市场中可能发生的其他事情保持稳定。</p></li>
+<li><p>监督式学习？很难work，有许多超参数需要设置好---以什么时间范围来学习？优化目标(对数收益？头寸大小?)？什么时候平仓？如何处理来自延迟、拒绝订单、API issues等带来的随机性？如何处理非 iid 数据？诸如此类。我相信如果你真的很努力的话，你可以做到这一点，但是依靠 simulation-based的方法似乎是一个更有原则的解决方案。</p></li>
+<li><p>强化学习仍然有一些问题需要客服：</p>
+<ol type="1">
+<li>稀疏的正反馈: 仅依靠随机的探索和rewards回报，不太可能发现好的策略</li>
+<li>需要推广到未来的数据。研究人员容易忽视泛化性，在“在训练集上测试”</li>
+<li>有了一个好的simulator，environment可以提供许多随机性，如延迟、抖动、 API 问题、slippage等等</li>
+<li>非平稳性：市场数据分布随着时间的推移而变化，agent须学会处理它</li>
+<li>观测信号中的低信噪比</li>
+</ol></li>
+<li><p>大多数市场的inefficienc都是转瞬即逝的，因为其他agent会适应你的策略。多么短暂？这要看情况。根据交易的地点和方式，它们可能持续几毫秒、几秒、几分钟、几小时、几天、几周或几个月。持续盈利的方法就是持续善于发现转瞬即逝的机会。这是元学习。</p></li>
+<li><p>在训练模型时优化外循环的速度。在发现新策略和调整您的模型和基础设施方面，您可以迭代得越快越好。围绕这个建立你的基础设施。查询和装载大容量历史数据来玩应该尽可能快。特别注意反序列化成本。在构建与引擎匹配的市场模拟器时，要进行广泛的基准测试。最小化 RPC 和网络往返次数。我们现在谈论的是数量级。我的第一个模拟器比最近的模拟器慢50倍。由于模型是在模拟中训练的，这意味着在训练时迭代速度要快50倍。自动化数据可视化管理，这样当你得到意想不到的结果时，你可以很容易地查看它们。</p></li>
+<li><p>当市场下跌时，你不能赚钱？No。一个常见的错误观点，我很幸运，因为市场在上涨而获得了利润。</p></li>
+<li><p>不用做空任何东西，很少有市场一直下跌的情况。当人们说市场下跌时，他们谈论的是一个特定的时间尺度。市场可能按日或小时的比例绘制下跌图表。这并不意味着在更短的时间尺度上只有向下的运动。它可能会大幅波动。一旦你开始放大到秒和毫秒，总会出现你在小时、每日或每月图表上看不到的上下波动。我们仍然有可能从中获利，而不用做空任何东西。</p></li>
+<li><p>就个人而言，我总是在下降趋势(每小时或每天的规模)比上升趋势做得更多。我不知道为什么会这样。这可能是因为市场的这一边有更多的流动性，或者是因为当价格开始下跌时，更多不知情的交易者提交了幼稚的指令进入市场。</p></li>
+<li><p>研究论文也是如此。我订阅了 <a target="_blank" rel="noopener" href="https://arxiv.org/list/q-fin.TR/recent">arXiv</a>。但是，与机器学习等领域相比，论文质量相当低。偶尔也会有一些有趣的想法，但绝大多数都是人们试图找到工作并在简历上写点什么的实验——在现实世界中，这些都是行不通的。显然，运营着一个盈利系统的人没有任何动机去发表论文。像《交易和交易所: 从业者的市场微观结构》和《Advances in Financial Machine Learning》是很好起点，但是根据我的经验，没有什么比在实践中学习或者找到一个导师更好的了。</p></li>
+</ol>
+<h1 id="参考">参考</h1>
+<ol type="1">
+<li><p><a target="_blank" rel="noopener" href="http://www.wildml.com/2018/02/introduction-to-learning-to-trade-with-reinforcement-learning/">applying Reinforcement Learning to the markets</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=bM9bYOBuKF4">关于有效市场假说的争论</a></p></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%87%8F%E5%8C%96/" rel="tag"># 量化</a>
+              <a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" rel="tag"># 强化学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/24/timeseries/timeseries4-1_ml-prediction/" rel="prev" title="时间序列4-1 基于机器学习的时间序列预测方法">
+      <i class="fa fa-chevron-left"></i> 时间序列4-1 基于机器学习的时间序列预测方法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/25/timeseries/timeseries4-2_dl-DeepAR/" rel="next" title="时间序列4-2 基于深度学习的时间序列预测方法-DeepAR">
+      时间序列4-2 基于深度学习的时间序列预测方法-DeepAR <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Chiechie</p>
+  <div class="site-description" itemprop="description">a reader & thinker</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">210</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chiechie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chiechie" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:328499034@qq.com" title="E-Mail → mailto:328499034@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/chiechie" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;chiechie" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chiechie</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/10/math/svd-and-coding/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/23/timeseries/timeseries3_classic-prediction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/07/10/math/svd-and-coding/" class="post-title-link" itemprop="url">SVD和compression</a>
+            <a href="/2021/07/23/timeseries/timeseries3_classic-prediction/" class="post-title-link" itemprop="url">时间序列2 统计分析模型</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-07-10 11:40:31" itemprop="dateCreated datePublished" datetime="2021-07-10T11:40:31+08:00">2021-07-10</time>
+              <time title="创建时间：2021-07-23 08:25:11" itemprop="dateCreated datePublished" datetime="2021-07-23T08:25:11+08:00">2021-07-23</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 08:53:04" itemprop="dateModified" datetime="2021-07-22T08:53:04+08:00">2021-07-22</time>
+                <time title="修改时间：2021-07-27 20:33:37" itemprop="dateModified" datetime="2021-07-27T20:33:37+08:00">2021-07-27</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">数学</span></a>
+                  <a href="/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">时间序列</span></a>
                 </span>
             </span>
 
@@ -219,32 +219,96 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <blockquote>
-<p>大矩阵怎么存？最简单的方式就是矩阵分块, 然后分chunk存/读/算，下一个chunk覆盖上一个chunk，始终占用一个chunk的内存。</p>
-<p>如果还想去噪，可以用svd，下面推演一下用svd可以节省多少空间</p>
-</blockquote>
-<p>SVD技术可以应用于信号压缩</p>
-<p>SVD是这样的, 随意一个矩阵A可以做如下分解</p>
-<p><span class="math display">\[A = U\Lambda V^T\]</span>==&gt;<span class="math display">\[U^T A = \Lambda V^T  \]</span></p>
-<p>可以把<span class="math inline">\(U^T\)</span>看成是encoding, <span class="math inline">\(U\)</span>看成是decoding, 压缩之后的信号是<span class="math inline">\(\Lambda V^T\)</span></p>
+          <h2 id="总结">总结</h2>
+<ol type="1">
+<li><p>随机过程，由一系列按照时间排序的随机变量组成。</p></li>
+<li><p>序列的随机行为，由概率密度函数定义，如果能穷举出所有finite时间索引集合的概率分布，就可以确定该随机过程。</p>
+<blockquote>
+<p>随机过程的定义并没有提到平移不变性。</p>
+</blockquote></li>
+<li><p>平移不变性是指，移动一个时间步之后，概率分布保持不变。</p></li>
+<li><p>严格平稳性，表示一个随机过程的所有finite时间索引集合对应的概率分布，都满足平移不变性。</p>
+<blockquote>
+<p>随机过程如果有了平移不变性，就可以用更简洁的pdf来表达。</p>
+</blockquote></li>
+<li><p>弱平稳性，也叫协方差平稳性，表示一个随机过程的所有2维时间索引集合对应的概率分布, 都满足平移不变性。</p></li>
+<li><p>满足弱平稳性的随机过程比仅满足强平稳行的随机过程多的多。</p></li>
+<li><p>满足协方差平稳性的随机过程满足表示定理(wold representation):</p></li>
+<li><p>什么是好的模型？p尽可能小，或者ma中的q尽可能小。</p></li>
+<li><p>弱平稳随机过程<span class="math inline">\({X_t}\)</span>的脉冲响应函数（impulse response function）表示某个时刻的噪声（innovation）怎么影响后面的随机过程，即the impact of the innovation on the process。</p>
+<blockquote>
+<p>脉冲响应函数，有点像这个因子的能量衰减函数，总能量(long-run cumalative response)=1, 每过一段时间，这个因子释放一点能量，从而对观测值造成影响，释放能量随时间逐渐疲乏，趋近于0.</p>
+</blockquote></li>
+<li><p><span class="math inline">\(\psi\)</span>和<span class="math inline">\(\psi^{-1}\)</span>类似收集能量（或者innovation造成的影响）和消除能量（或者innovation造成的影响）。</p></li>
+<li><p>对<span class="math inline">\(X_t\)</span>进行消除能量操作（历史innovation的影响）之后，就只剩下当下时刻的innovation带来的影响了。</p>
+<p>如果<span class="math inline">\(\psi\)</span>的逆存在，那么原始的ma过程等价于ar过程。即一个随机过程，既可以表达为从历史innovation中收集能量的过程，也可以表达为，对历史观测值中剔除能量的过程，观测值的系数就是自回归系数。</p></li>
+<li><p>经典的时序分析模型ARMA(p, q) 表示，对观测变量的多项式滞后操作+对噪声的多项式滞后操作，噪声<span class="math inline">\(\eta_t\)</span>是一个维纳过程</p></li>
+<li><p>随机游走就是一个一阶自回归模型，但是非平稳.</p></li>
+<li><p>自回归模型如果满足，特征方程的p个根（复数），都在单位元外面，该随机过程是平稳的。本质上是对回归函数的逆函数施加的收敛性约束。</p></li>
+<li><p>如何对非平稳随机过程建模？先差分，那几个非平稳的例子验一验，比如随时间线性增长+白噪声，再比如</p></li>
+<li><p>金融数据大部分都是非平稳的，像随机游走，box和jenkins想出来了一种移除非平稳趋势的方法--差分</p></li>
+<li><p>平稳性测试：H0是平稳的，检验方法有KPSS测试</p>
+<p>非平稳性测试，H0假设是非平稳的，常用来检测非平稳性的方法单位根检验方法，例如Dickey-Fuller测试</p></li>
+<li><p>DF测试是一种单位根检测，它的流程是这样的，先假设随机过程服从AR（1）模型，拟合一个AR（1）的模型，然后定义一个根<span class="math inline">\(\phi\)</span>相关的统计量，</p>
+<ol type="1">
+<li>如果 <span class="math inline">\(\phi=1\)</span>, 那就应该观察到t服从一个DF分布，对应的随机过程就是是随机游走，是一个非平稳的随机过程。</li>
+<li>如果<span class="math inline">\(|\phi|=1\)</span>,那么估计量和真实<span class="math inline">\(\phi\)</span>的差值就近似一个正态分布，以真实<span class="math inline">\(\phi^2\)</span>为方差。</li>
+</ol></li>
+</ol>
+<h2 id="附录">附录</h2>
+<ol type="1">
+<li><p>相关系数：两个随机变量标准化到均值=0，方差=1之后的，求协方差。</p></li>
+<li><p>wold representation定理</p>
 <figure>
-<img src="./奇异值分解.png" alt="奇异值分解" /><figcaption aria-hidden="true">奇异值分解</figcaption>
+<img src="./image-20210715091517366.png" alt="wold representation" /><figcaption aria-hidden="true">wold representation</figcaption>
+</figure></li>
+</ol>
+<h3 id="representation定理">representation定理</h3>
+<p>使用滞后算子表述representation定理</p>
+<figure>
+<img src="./image-20210715101032432.png" alt="image-20210715101032432" /><figcaption aria-hidden="true">image-20210715101032432</figcaption>
 </figure>
-<p>detail</p>
-<p>假设<span class="math inline">\(A \in R^{n*m}, U\in R^{n*n}, \Lambda \in R^{n*m}, V \in R^{m*m}\)</span></p>
-<p><span class="math inline">\(\Lambda\)</span>中的元素从大到小排列，前面k个元素绝对值大于0</p>
-<p>对三个矩阵分块，图中的阴影部分是我们要存储的部分</p>
-<p><span class="math display">\[\Lambda = [\Lambda_k, \mathbf{0_{m-k}}], \Lambda_k \in R^{n * k}, \Lambda_{(m-k)} \in R^{n * (m-k)}\]</span></p>
-<p><span class="math display">\[V = [ \mathbf{v_k},  \mathbf{v_{m-k}}],  \mathbf{v_k} \in R^{m*k},  \mathbf{v_k} \in R^{m*(m-k)} \]</span></p>
-<p><span class="math display">\[\Lambda V^T = [\Lambda_k, \mathbf{0_{m-k}}].[v_k, v_{m-k}]^T = \Lambda_k.v_k^T \]</span></p>
-<p>经过U做encoding之后的信息仅有 <span class="math inline">\(\Lambda_k\)</span>和<span class="math inline">\(v_k\)</span></p>
-<p>其中<span class="math inline">\(\Lambda_k\)</span>可以存为稀疏矩阵，含k个非零元素</p>
-<p><span class="math inline">\(v_k \in R^{m*k}\)</span>占用空间m*k</p>
-<p>U做类似的分解占用空间n*k</p>
-<p>一起需要存储的元素个数为<span class="math inline">\(k + m*k + n*k\)</span></p>
-<p>不做encoding的话，需要存储m * n 个元素</p>
-<p>总结一下:用了压缩算法之后，空间复杂度从O(n*m)降低到O(m)或O(n)</p>
-<p>当m,n很大，又很容冗余信息（k很小），svd分解能大量降低矩阵存储空间</p>
+<h3 id="representation定理的应用--估计时间序列背后的分布">representation定理的应用--估计时间序列背后的分布</h3>
+<p>表示定义的应用-给定一个时间序列，希望确定背后的分布：</p>
+<ol type="1">
+<li><p>假设：背后的随机过程由两部分构成，历史信息 + 白噪声，历史信息是过去p段时间的信息的线性变换，白噪声是的平稳的随机过程</p></li>
+<li><p>参数估计：使用最小二乘估计出线形变换</p></li>
+<li><p>模型诊断：基于假设+数据，推断出一些其他的统计量，将这些统计量带回假设，检验一致性。</p>
+<blockquote>
+<p>观测值减去历史信息，就是白噪声的观测值，接下来检测，这个白噪声是否如step1的 假设所描述</p>
+</blockquote>
+<ol type="1">
+<li>正交性检验：测试白噪声是否跟p个变量的相关性为0，不为0的话，就要将p的值变大，重新做实验。</li>
+<li>检验是否是白噪声 : 不是白噪声的话，要么调整ma模型，要么在线性变换中加入更多的lag项，或者其他的确定性变量</li>
+</ol></li>
+</ol>
+<figure>
+<img src="./image-20210715095528794.png" alt="image-20210715095528794" /><figcaption aria-hidden="true">image-20210715095528794</figcaption>
+</figure>
+<h3 id="arma模型">ARMA模型</h3>
+<figure>
+<img src="./image-20210715140721430.png" alt="image-20210715140721430" /><figcaption aria-hidden="true">image-20210715140721430</figcaption>
+</figure>
+<ol start="3" type="1">
+<li><p>AR（p）模型的平稳条件：</p>
+<figure>
+<img src="./image-20210715145052508.png" alt="image-20210715145052508" /><figcaption aria-hidden="true">image-20210715145052508</figcaption>
+</figure></li>
+<li><p>yuler walker方程：AR（P）的协方差<span class="math inline">\(\gamma\)</span>和<span class="math inline">\(\phi\)</span>满足的某个方程</p></li>
+<li><p>有了协方差矩阵的估计量，求yuler walker方程，就可以得出AR（p）的p个参数，再就可以算出波动率。</p></li>
+<li><figure>
+<img src="./image-20210715153433604.png" alt="image-20210715153433604" /><figcaption aria-hidden="true">image-20210715153433604</figcaption>
+</figure>
+<ol type="1">
+<li>使用原始的p阶自回归过程，</li>
+</ol></li>
+</ol>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=uBeM1FUk4Ps&amp;t=362s">Time Series Analysis I--youtube</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://ocw.mit.edu/courses/mathematics/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/">Time Series Analysis---slide</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://ocw.mit.edu/courses/mathematics/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/">Topics in Mathematics with Applications in Finance-open course</a></p></li>
+</ol>
 
       
     </div>
@@ -264,7 +328,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/09/data_structure/ds1_linear-data-structure/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/22/timeseries/timeseries2_ts-prepare/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -278,7 +342,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/07/09/data_structure/ds1_linear-data-structure/" class="post-title-link" itemprop="url">数据结构1 线性数据结构</a>
+            <a href="/2021/07/22/timeseries/timeseries2_ts-prepare/" class="post-title-link" itemprop="url">时间序列 数据合成</a>
         </h2>
 
         <div class="post-meta">
@@ -288,14 +352,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-07-09 12:13:11" itemprop="dateCreated datePublished" datetime="2021-07-09T12:13:11+08:00">2021-07-09</time>
+              <time title="创建时间：2021-07-22 22:04:02" itemprop="dateCreated datePublished" datetime="2021-07-22T22:04:02+08:00">2021-07-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-12 10:50:05" itemprop="dateModified" datetime="2021-07-12T10:50:05+08:00">2021-07-12</time>
+                <time title="修改时间：2021-07-28 16:07:04" itemprop="dateModified" datetime="2021-07-28T16:07:04+08:00">2021-07-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -303,7 +367,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
+                  <a href="/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">时间序列</span></a>
                 </span>
             </span>
 
@@ -318,99 +382,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="总结">总结</h1>
+          <h2 id="时间序列的特征生成">时间序列的特征生成</h2>
 <ol type="1">
-<li>数组（array），链表（linked list），栈（stack），队列（queue）是最常用的线性的数据结构。</li>
-<li>数组是一片连续的存储空间中，链表在物理空间中不是连续地存在一起的。</li>
+<li>蒙特卡洛采样可以生成iid的样本，但是要生成有依赖关系的样本就不行了，可以使用马尔可夫链。</li>
 </ol>
-<h1 id="通用的数据结构">通用的数据结构</h1>
-<h2 id="数组array">数组(array)</h2>
+<h2 id="参考">参考</h2>
 <ol type="1">
-<li><p>数组是一个很基本的数据结构，使用数组和pointer可以构建出所有的数据结构</p></li>
-<li><p>数组分为静态数组（static array）和动态数组（dynamic array）两种.静态数组大小固定，动态数组可以扩展。</p>
-<blockquote>
-<p>wangshusen的视频里面分别叫array和向量vector，下面还是以动/静为标准。</p>
-</blockquote></li>
-<li><p>静态数组(static array)是一个固定长度的容器（container），包含了n个元素，每个元素有一个索引，索引值从[0,n-1]</p></li>
-<li><p>动态数组（dynamic array）的大小可以增加或者减少。</p></li>
-<li><p>indexable是什么意思？数组中的每一个槽位(slot)/索引(index)，都能关联到（be referenced with）一个数字。索引就好像给每个元素取的名字，是一个阿拉伯数字。</p></li>
-<li><p>静态数组是存储在内存中的一片连续的区域。</p></li>
-<li><p>什么时候使用静态数组：</p>
-<ul>
-<li>依次（sequentially）存储元素/读取（accessing）元素</li>
-<li>在读入/输出流式数据的时候，一次性读入数据量太大，所以分chunk读入数据，并且用buffer去读取每个chunk的数据，buffer就是用array实现的</li>
-<li>在lookuptable中，也会用到数组，因为可以按照index读取数据</li>
-<li>如果某个函数只允许返回1个，但是有多个信息需要返回，可以使用array构造一个workaround，将多个信息打包成一个array，然后返回这个array的指针或者reference</li>
-<li>动态规划：用于缓存子问题的answer，例如背包问题（knapsack problem）和 应变变换问题。</li>
-</ul></li>
-<li><p>静态数组和动态数组的时间复杂度</p>
-<ul>
-<li>读取的时间复杂度: 都是O(1)，因为数组是indexable的</li>
-<li>查找的时间复杂度：都是O（n），有可能查找的值找不到</li>
-<li>插入某个元素的时间复杂度：静态数组不允许插入（记住，他是一个长度固定的容器），动态数组插入的时间复杂度是O（n）- 添加的时间复杂度：</li>
-<li>删除：</li>
-</ul></li>
-<li><p>获取静态数组中元素的唯一方式，就是通过index去reference（数组的成员只对外暴露他们的index编号）。</p></li>
-<li><p>operations on 动态数组：静态数组上能做的操作，动态数组都能做，还能做的更多，比如增，删。</p></li>
-<li><p>怎么实现一个动态数组？</p>
-<ul>
-<li>方法1--使用静态数组实现：
-<ul>
-<li>初始化：创建一个静态数组，有一个初始容量，此后一遍增加元素一遍跟踪容器中元素的个数。</li>
-<li>添加新元素时，如果容器没满，直接加入； 如果容器满了，自动扩容--创建一个新的静态数组，大小为当前容量的2倍，将老的静态数组的元素复制到新的静态数组中，然后加入该元素。</li>
-</ul></li>
-</ul></li>
-</ol>
-<h2 id="链表linked-list">链表(linked list)</h2>
-<ol type="1">
-<li>链表上相邻的元素在物理存储上并不是相邻的，每个元素的物理未知只存在于他的上下游节点中。</li>
-<li>链表分为单链表（singly linked lists）和双链表(doubly linked lists）。</li>
-<li>按顺序查找链表也很快。</li>
-<li>链表是一种数组的组织形式，将数据组织成一个有序的一系列节点（nodes）的形式，每个节点（node）代表一个数据，每个节点都指向其他代表数据的节点。</li>
-<li>下面是一个单链表（singly linked），每个节点都包含一个数据，同时包含一个指针，指向他的邻居节点。最后一个节点的指针是空的。</li>
-</ol>
-<p><img src="img.png" alt="img.png" /> 6. 在哪里会用到链表？ - 需要实现某个抽象数据类型时会用到链表，比如要实现列表（lists），队列（Queue）和 栈（Stack），因为这些抽象数据类型需要频繁操作adding和remocving，而这两个操作对于链表来说是相当拿手的。 - 链表很容易对现实事物建模，如火车 - 创建循环列表时很有用，可以让链表的最后一个节点的指针指向第一个节点，训练列表对于建模重复事件循环很有用， - 实现哈希表通常使用链表处理冲突的问题。 7. 链表的几个关键元素： - head：指向链表的第一个节点的pointer， - tail：指向表示链表的最后一个节点的pointer， - pointer表示邻居节点的指针， - node：表示一个包含数据和指针的对象。在实现时，每个节点也可以被表示为structures，或者classes 8. 单链表和双链表的区别，单链表的每个节点只存储下一个邻居的pointer，双向链表的每个节点存储两个指针，分别是上一个邻居节点和下一个邻居节点。前者占用的内存是后者的1/2，缺点是不知道当前节点的前一个节点是什么，要找的话，只能从head开始遍历。如果要删除某个元素，双链表的时间复杂度是常数，单链表是线性的，因为他要重新遍历以找到上家，然后修改它的指针。 <img src="img_1.png" alt="单链表vs双链表-优缺点对比" /> 9. 链表中，同时存链表的第一个节点和最后一个节点，是为了更快速的添加和删除元素。 10. 链表中的复杂度分析： - 搜索某个值在链表中的位置：单链表和双链表的复杂度是O(n) - 在链表头部/尾部插入某个元素：单链表和双链表的复杂度是O(1) - 删除头部的元素：单链表和双链表的复杂度是O(1) - 删除尾部的元素：单链表的复杂度O(n)，双链表的复杂度是O(1) - 删除中间元素：单链表的时间复杂度为复杂度O(n)，双链表的复杂度是O(n)</p>
-<h2 id="栈stack">栈（stack）</h2>
-<ol type="1">
-<li><p>栈是一种线性的数据结构，栈的一端是固定的，跟现实世界中的stack一样，stack有两个主要的操作：入栈（push）和出栈（pop）。</p></li>
-<li><p>栈中有一个top指针指向栈的顶端。以为对栈的操作主要是集中在顶端。</p></li>
-<li><p>数据出栈（pop）和入栈（push）符合后进先出的顺序，也叫LIFO/</p>
-<figure>
-<img src="/Users/shihuanzhao/research_space/chiechie.github.io/source/_posts/data_structure/image-20210711073942878.png" alt="image-20210711073942878" /><figcaption aria-hidden="true">image-20210711073942878</figcaption>
-</figure></li>
-<li><p>可以使用数组或者链表来实现一个栈。</p></li>
-<li><p>什么时候用到栈：括号匹配/撤销操作/汉诺塔/图遍历中的深度优先搜索。（DFS）</p></li>
-</ol>
-<h2 id="队列">队列</h2>
-<ol type="1">
-<li><p>队列是一个线性的数据结构，有两个主要的操作，入队（enqueue/adding/offering）和出队（dequeue/polling）。入队就是添加数据到队尾添，出队就是删除队头的数据。</p></li>
-<li><p>数据入队和出队，符合后进后出的顺序。（LILO）</p>
-<figure>
-<img src="/Users/shihuanzhao/research_space/chiechie.github.io/source/_posts/data_structure/image-20210711085139955.png" alt="image-20210711085139955" /><figcaption aria-hidden="true">image-20210711085139955</figcaption>
-</figure></li>
-<li><p>queue可以用于对排队场景建模；跟踪最新添加的k个数据；web server请求管理--谁先来就服务谁/图遍历中的广度优先搜索（BFS）。</p></li>
-<li><p>可以用链表来实现队列。</p></li>
-<li><p>使用队列实现BFS。 <img src="./image-20210711091627179.png" alt="image-20210711091627179" /></p></li>
-</ol>
-<h1 id="python中的数据结构">python中的数据结构</h1>
-<ol type="1">
-<li><p>在python中，list就是一个动态的数组，append有时候效率很低。</p></li>
-<li><p>在python中，collections.deque是一个double-ended queue，两端固定的队列，基于双向链表实现的插入效率更高一些。但是按照序号查找某个元素，效率不高。</p></li>
-<li><p>在python中怎么实现一个栈？</p>
-<ol type="1">
-<li>使用python内置的对象list，其自带的append和pop方法可以实现push和pop</li>
-<li>使用collections.deque，其自带的append和pop方法可以实现push和pop</li>
-</ol></li>
-</ol>
-<h1 id="参考">参考</h1>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://github.com/akzare/Algorithms">algorithm-python-github</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=gXgEDyodOJU">youtube</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=V_TulH374hw">Graph-theoretic Models</a></li>
-<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/13965757/what-is-the-difference-between-an-abstract-data-typeadt-and-a-data-structure">the difference-between-ADT和DS</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.csie.ntu.edu.tw/~htlin/course/dsa21spring/">数据结构和算法</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=RBSGKlAvoiM&amp;t=102s">Data Structures Easy to Advanced Course</a></li>
-<li>https://realpython.com/how-to-implement-python-stack/#implementing-a-python-stack</li>
+<li><a target="_blank" rel="noopener" href="https://ipfs.io/ipfs/bafykbzaceajhmnmehz7amkjofpsxmsymk5u6ph4mrzytlp5zq7wf7ouhqkre2?filename=Aileen%20Nielsen%20-%20Practical%20Time%20Series%20Analysis_%20Prediction%20with%20Statistics%20and%20Machine%20Learning-O’Reilly%20Media%20(2019).pdf">practical time series:prediction with statistic &amp; machine learning</a></li>
 </ol>
 
       
@@ -430,7 +408,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -496,7 +474,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

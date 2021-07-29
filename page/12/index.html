@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/06/22/data_structure/ds3-1_graph-basic/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/06/30/reading_notes/computer/fenbushi/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/06/22/data_structure/ds3-1_graph-basic/" class="post-title-link" itemprop="url">图数据基础</a>
+            <a href="/2021/06/30/reading_notes/computer/fenbushi/" class="post-title-link" itemprop="url">基于Ray的融合计算框架</a>
         </h2>
 
         <div class="post-meta">
@@ -189,168 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-06-22 11:42:17" itemprop="dateCreated datePublished" datetime="2021-06-22T11:42:17+08:00">2021-06-22</time>
+              <time title="创建时间：2021-06-30 14:39:39" itemprop="dateCreated datePublished" datetime="2021-06-30T14:39:39+08:00">2021-06-30</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 16:53:10" itemprop="dateModified" datetime="2021-07-22T16:53:10+08:00">2021-07-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="总结">总结</h2>
-<ol type="1">
-<li><p>图数据是一种数据结构，对于图数据有一些常见的任务，比如单源最短路径，等。</p></li>
-<li><p>当图数据的点和边具备一定的含义，如边代表概率，这个时候就是一个概率图模型。</p></li>
-<li><p>概率图通常用于对多个变量之间的因果关系或者相关关系进行建模。</p></li>
-<li><p>概率图模型可以细分为有向图和无向图。有向图比如贝叶斯网络，无向图比条件随机场（CRF）。</p></li>
-<li><p>有向图又可进一步细分，如果边的方向代表因果关系，就是一个因果图，通常因果图都是需要专家构建的。</p></li>
-<li><p>图不仅仅通过边存储静态的信息，还能基于边，inference更多的信息。</p></li>
-</ol>
-<h2 id="真实世界中的网络">真实世界中的网络</h2>
-<ol type="1">
-<li>计算机网络--互联网</li>
-<li>交通网络（铁路网，公路网）</li>
-<li>金融网络</li>
-<li>下水道网络</li>
-<li>政治网络</li>
-<li>犯罪网络</li>
-</ol>
-<h2 id="图的表示">图的表示</h2>
-<ol type="1">
-<li><p>传统的空间都是定义在欧几里得空间（Euclidean Space）的，在该空间定义的距离被称为欧式距离。 音频，图像，视频等都是定义在欧式空间下的欧几里得结构化数据，然而对于社交网络等数据，使用欧几里得空间进行定义并不合适，所以将这一类的数据所处的空间称为非欧几里得空间。</p></li>
-<li><p>非欧空间下最有代表的结构就是图（Graph）结构， 每一个图都有对应的4个矩阵：incidence matrix,A/degree matrix/adjacency matrix/拉普拉斯矩阵（laplacian matrix， L）</p></li>
-</ol>
-<p>incidence matrix:<span class="math inline">\(A \ in R^{m *n}\)</span>, m 是边的个数，n是节点的个数 每一行代表一条边的起点（也叫parent）和终点（也叫children）</p>
-<figure>
-<img src="./img_2.png" alt="img_2.png" /><figcaption aria-hidden="true">img_2.png</figcaption>
-</figure>
-<h3 id="邻接矩阵adjacency-matrix">邻接矩阵（Adjacency matrix）</h3>
-<p>邻接矩阵是一个NxN的矩阵，对于有权图，其值为权重或0，对于无权图，其值为0和1，该矩阵定义如下： <span class="math display">\[A \in R^{N \times N}, A_{i j}=\left\{\begin{array}{ll}a_{i j} \neq 0 &amp; e_{i j} \in E \\ 0 &amp; \text { othersize }\end{array}\right.\]</span></p>
-<h3 id="度矩阵degree-matrix">度矩阵（Degree matrix）</h3>
-<p>度矩阵D是一个对角矩阵，其定义为：</p>
-<p><span class="math display">\[D \in R^{N \times N}, D_{i i}=\sum_{j} A_{i j}\]</span></p>
-<h3 id="邻域neighborhood">邻域（Neighborhood）</h3>
-<p>邻域表示与某个顶点有连接的点集，其定义为：<span class="math display">\[N\left(v_{i}\right)=\left\{v_{j} \mid e_{i j} \in E\right\}\]</span></p>
-<h3 id="谱spectral">谱（Spectral）</h3>
-<h3 id="拉普拉斯矩阵lapalcian-matrix">拉普拉斯矩阵（Lapalcian matrix）</h3>
-<h4 id="谱分解spectral-factorization">谱分解(Spectral Factorization)</h4>
-<p>什么是spectrum？ 矩阵的spectrum就是矩阵的特征根。 只有方阵才有谱概念，方阵作为线性算子，其所有特征值的集合称为方阵的谱。方阵的谱半径为其最大的特征值，谱分解就是特征分解。</p>
-<p>谱分解(Spectral Factorization)又叫特征值分解，实际上就是对n维方阵做特征分解. 只有含有n个线性无关的特征向量的n维方阵才可以进行特征分解.</p>
-<p>spectral定理用公式表达：对于一个对称矩阵S，其特征根<span class="math inline">\(\Lambda\)</span>都是实数, 特征向量都正交<span class="math inline">\(Q\)</span></p>
-<p><span class="math display">\[S = Q\Lambda Q^T\]</span>​</p>
-<p>graph laplacian 矩阵：connection of 线性代数和图论</p>
-<p>拉普拉斯矩阵（laplacian matrix），<span class="math inline">\(L \ in R^{n *n}\)</span> <span class="math display">\[L = A^T A= D-B\]</span></p>
-<p>degree matrix：<span class="math inline">\(D \ in R^{n*n}\)</span>，代表了每个节点有多少degree adjaceny matrix：<span class="math inline">\(B \ in R^{n*n}\)</span>，代表了任意两个点是否有link</p>
-<p>拉普拉斯矩阵是半正定矩阵,其特征根从小到达排序 1. 第一个特征根为0，<span class="math inline">\(\lambda_1 = 0\)</span>, 即DIM(null space) = 1，对应的特种向量为常熟向量 2. 第二个特征根（最小的正的特征根）叫fiedler， 对应的特征向量叫fiedler vector</p>
-<p>graph的laplacian矩阵和laplace方程（有限差分方法）的关系：</p>
-<p>laplace方程也叫微分方程，其微分形式 跟一个网格图的laplacian矩阵（n*n）就是离散形式。</p>
-<ol start="3" type="1">
-<li>实对称矩阵,有n个线性无关的特征向量;</li>
-<li>其特征向量可以进行正交单位化;</li>
-<li>所有的特征值非负;</li>
-</ol>
-<p><span class="math display">\[L=U\left(\begin{array}{ccc}\lambda_{1} &amp; &amp; \\ &amp; \ddots &amp; \\ &amp; &amp; \lambda_{n}\end{array}\right) U^{-1}=U\left(\begin{array}{ccc}\lambda_{1} &amp; &amp; \\ &amp; \ddots &amp; \\ &amp; &amp; \lambda_{n}\end{array}\right) U^{T}\]</span></p>
-<p>有时，使用的都是正规拉普拉斯矩阵（Symmetric Normalized Laplacian matrix）: <span class="math display">\[L^{s y s}=D^{-1 / 2} L D^{-1 / 2}=I-D^{-1 / 2} A D^{-1 / 2}\]</span></p>
-<h2 id="图的算法">图的算法</h2>
-<p>基于这个网络，可以做一些什么分析呢？聚类分析，</p>
-<p>即，找到一些cluster，内部的距离很小，之间的距离很大，这个可以抽象成求最大割或者最小流问题 通常还有一些其他的基于图的问题：</p>
-<p>比如，给定一个图，任意两个元素之间是否存在一个link？如果存在，最快捷的路径是什么？</p>
-<p>还有一个经典的问题--'图分割'（graph partition）</p>
-<h3 id="s-t-cut">S-T Cut</h3>
-<p>S-T Cut 就是把一个图切成了两个子图，S和T</p>
-<figure>
-<img src="img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
-</figure>
-<p>S-T cut的容量，就是链接S,C的变（图中红色的边）的权重求和，</p>
-<figure>
-<img src="img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption>
-</figure>
-<h3 id="最小割">最小割</h3>
-<p>最小割（min -cut），就是容量最小的那个S-T cut</p>
-<figure>
-<img src="img_2.png" alt="img_2.png" /><figcaption aria-hidden="true">img_2.png</figcaption>
-</figure>
-<p>最小割是指去掉图中的一些边，在使得图从连通图变为不连通图，并且尽可能保证去除的边对应的权重很小。</p>
-<p>最小割可能并不唯一</p>
-<p>对于相似性图来说，最小割就是要去除一些很弱的相似性，把数据点从一个连通的大图切割成多个独立的连通小图。</p>
-<h2 id="参考">参考</h2>
-<ol type="1">
-<li>https://zhuanlan.zhihu.com/p/84271169</li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=V_TulH374hw">Graph-theoretic Models</a></li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/06/21/reading_notes/zhexue/hongloumengxishuo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Chiechie">
-      <meta itemprop="description" content="a reader & thinker">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chiechie's Mini World">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/06/21/reading_notes/zhexue/hongloumengxishuo/" class="post-title-link" itemprop="url">细说红楼梦</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-06-21 10:02:37" itemprop="dateCreated datePublished" datetime="2021-06-21T10:02:37+08:00">2021-06-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-06-22 14:21:25" itemprop="dateModified" datetime="2021-06-22T14:21:25+08:00">2021-06-22</time>
+                <time title="修改时间：2021-07-01 19:56:15" itemprop="dateModified" datetime="2021-07-01T19:56:15+08:00">2021-07-01</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -373,52 +219,185 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="第一回">第一回</h2>
-<p>空空道人有批注：“因空见色，由色生情，传情入色，自色悟空，遂易名为情僧……”</p>
-<p>“因空见色”，是说本来就白茫茫一片，什么都没有，（六祖慧能：本来无一物），因为我们的幻觉，看到好多好多的现象，“由色生情”，情多了就会陷进去，陷进了更深的色的幻觉，“传情入色”，要经过多少彻悟之后，再从里面出来，“自色悟空”，再回到白茫茫一片真干净。</p>
-<p>甄士隐经了这许多人生起伏，有一天突然又看见跛足道士来了，口里唱一首《好了歌》：</p>
-<blockquote>
-<p>世人都晓神仙好，惟有功名忘不了！古今将相在何方？荒冢一堆草没了。世人都晓神仙好，只有金银忘不了！终朝只恨聚无多，及到多时眼闭了。世人都晓神仙好，只有姣妻忘不了！君生日日说恩情，君死又随人去了。世人都晓神仙好，只有儿孙忘不了！痴心父母古来多，孝顺儿孙谁见了？</p>
+          <blockquote>
+<p>看到阿里在2021发表的一个演讲--《新一代的计算基础设施-对于Ray的融合计算》，做一些笔记</p>
 </blockquote>
-<p>甄士隐说：“你唱什么？我只听见‘好’‘了’、‘好’‘了’两个字。道人说：</p>
-<blockquote>
-<p>好便是了，了便是好。若不了，便不好；若要好，须是了。</p>
-</blockquote>
-<p>跛足道人讲的是道家的哲学，对儒家社会秩序，有很大的颠覆性。儒家修身齐家治国平天下这一套道理，要建立的是稳定的社会秩序（social order），鼓励人入世，求功名、利禄、妻子、儿女，儒家宗法社会下面，大概就是这些。</p>
-<p>跛足道人给了很大的一个警告，好就是了，了就是好，等于给恋恋在红尘中的人临头棒喝、醍醐灌顶。</p>
-<p>人大概都经过几个阶段：年轻的时候，大家都是入世哲学，儒家那一套，要求功名利禄。到了中年，大概受了些挫折，于是道家来了，点你一下，有所醒悟。到了最后，要超脱人生境界的时候，佛家就来了。</p>
-<p>所以过去的中国人，从儒道释，大致都经过这么三个阶段，有意思的是这三个阶段不冲突。在同一个人身上，这三样哲学都有。所以中国人既出世又入世的态度，常常造成整个文化的一种紧张，也就是说，我们的人生态度在这之间常常有一种徘徊迟疑，我想，这就是文学的起因。</p>
-<p>文学写什么呢？写一个人求道提升，讲他的目标求道，讲这一生多么地艰难，往往很多人没有求到，在半路已经失败。不管是爱情也好，理想也好，各种的失败，我想，文学写的就是这些。《红楼梦》写的也是这些。</p>
-<p>甄士隐对《好了歌》的注解：</p>
-<blockquote>
-<p>陋室空堂，当年笏满床；衰草枯杨，曾为歌舞场。蛛丝儿结满雕梁，绿纱今又糊在蓬窗上。说什么脂正浓、粉正香，如何两鬓又成霜？昨日黄土陇头送白骨，今宵红灯帐底卧鸳鸯。金满箱，银满箱，展眼乞丐人皆谤。正叹他人命不长，那知自己归来丧！训有方，保不定日后作强梁。择膏粱，谁承望流落在烟花巷！因嫌纱帽小，致使锁枷扛；昨怜破袄寒，今嫌紫蟒长：乱烘烘你方唱罢我登场，反认他乡是故乡。甚荒唐，到头来都是为他人作嫁衣裳！</p>
-</blockquote>
-<p>人生不就是个大舞台，一个人唱完下来，第二个人上去唱，唱完又一鞠躬下台，又换个人上去唱，“乱烘烘你方唱罢我登场”，然后“反认他乡是故乡”。</p>
-<p>佛家说，我们以为这是我们自己的故乡，其实也靠不住，一下子一把火就整个烧掉了。道家说，要醒悟这一点，才找到你真正理想的地方。甚荒唐！到头来都是为他人做嫁衣裳。讲起来，整个一生是白忙一场，都为他人做嫁衣裳，所有事情都是为他人做的。</p>
-<p>甄士隐、贾雨村，一个代表出世，一个代表入世。后来甄士隐变成道士，贾雨村经过好多官宦历程的折腾，到了书结束的时候，这两人又碰到一起。甄士隐想要度化贾雨村，贾雨村还是迷恋红尘。各走各的路，两个分歧，自己去看，自己去选择。</p>
-<h2 id="第二章">第二章</h2>
-<p>贾政，自觉是遵从儒家理想的一个人。他非常正直，也想用儒家那一套思想道德来持家，但是太过守法，太过拘束了。中国社会能够生存下来，光靠儒家思想、书生之见是不够的，还需要别种哲学，譬如很要紧的法家，很实在的、很现实的顶在后边。儒家的很多理想不一定都能实现，碰到了现实问题，常常不能解决。不过儒家也很重要，它是一种道德力量（moral force），没有它也不行，但光是有它也不行，所以，还要配合别的东西。</p>
-<p>贾雨村听冷子兴讲了半天贾宝玉这个怪人，也发表了一篇言论：</p>
-<p>“天地生人，除大仁大恶两种，馀者皆无大异。若大仁者，则应运而生，大恶者，则应劫而生。运生世治，劫生世危。尧、舜、禹、汤、文、武、周、召、孔、孟、董、韩、周、程、张、朱，皆应运而生者。蚩尤、共工、桀、纣、始皇、王莽、曹操、桓温、安禄山、秦桧等，皆应劫而生者。大仁者，修治天下；大恶者，挠乱天下。清明灵秀，天地之正气，仁者之所秉也；残忍乖僻，天地之邪气，恶者之所秉也。今当运隆祚永之朝，太平无为之世，清明灵秀之气所秉者，上至朝廷，下及草野，比比皆是。所馀之秀气，漫无所归，遂为甘露、为和风，洽然溉及四海。彼残忍乖僻之邪气，不能荡溢于光天化日之中，遂凝结充塞于深沟大壑之内，偶因风荡，或被云摧，略有摇动感发之意，一丝半缕误而泄出者，偶值灵秀之气适过，正不容邪，邪复妒正，两不相下，亦如风水雷电，地中既遇，既不能消，又不能让，必至搏击掀发后始尽。故其气亦必赋人，发泄一尽始散。使男女偶秉此气而生者，在上则不能成仁人君子，下亦不能为大凶大恶。置之于万万人中，其聪俊灵秀之气，则在万万人之上；其乖僻邪谬不近人情之态，又在万万人之下。若生于公侯富贵之家，则为情痴情种；若生于诗书清贫之族，则为逸士高人；纵再偶生于薄祚寒门，断不能为走卒健仆，甘遭庸人驱制驾驭，必为奇优名娼。如前代之许由、陶潜、阮籍、嵇康、刘伶、王谢二族、顾虎头、陈后主、唐明皇、宋徽宗、刘庭芝、温飞卿、米南宫、石曼卿、柳耆卿、秦少游，近日之倪云林、唐伯虎、祝枝山，再如李龟年、黄幡绰、敬新磨、卓文君、红拂、薛涛、崔莺、朝云之流，此皆易地则同之人也。”</p>
-<h2 id="第四章">第四章</h2>
-<p>再看看贾雨村这个人，他也是有高度象征性的一个人，象征这个世界上每一个为求功名利禄不择手段往上爬的凡俗之人。</p>
-<p>贾雨村刚刚做官，还不太清楚。葫芦僧就讲，贾、王、史、薛这四大家族是互相牵连、互相庇护的，你一动薛家，其他家族就暗中使力，根本没法去办他们。的确是！后来薛蟠又打死人，贾家去讲讲情也就过了。</p>
-<p>为官为政的这些人，像贾雨村者也是很典型的，一旦发迹，若从前是贫贱出身，他不愿意人家知道他的过去，哪个不长心眼儿的去碰他的过去的话，砍掉！因为他要维持现在的形象，掩掉过去。后来贾家没落的时候，贾雨村果然对有恩的贾家加踹一脚，这正是官场反复无情的写照。</p>
-<h2 id="第五章">第五章</h2>
-<p>无常，我们看起来好像是个悲剧，在佛家看，人所有的一切就是如此。佛教很理性地看待人生，看待一切的事物，没有永远存在的东西，因为时间会破坏一切、会毁灭一切，有时间的转动，春夏秋冬的转动，就会有无常现象。人生无常，什么都无常。所以，“生关死劫谁能躲？闻说道，西方宝树唤婆娑，上结着长生果。”这是惜春的醒悟！佛教的传说，佛陀释迦牟尼圆寂的时候，是在两棵宝树中间，那两棵宝树叫作“娑罗”。佛教对“婆娑”两字另有所解，长生果，佛家讲修成正果，要悟道了以后，从而解脱。最后惜春出家了，她是找到解脱最彻底的一个人物。</p>
-<p>王熙凤，机关算尽太聪明，她最精明，涉入红尘也最深，《好了歌》讲：“世人都晓神仙好，只有金银忘不了！”等到聚多之时缘尽了。凤姐放高利贷，到处攒钱，聚敛多时，一下子抄家抄得精光，一场空欢喜！她在贾府最得宠，掌大权，抄家的原因之一是她放高利贷给抄出来了，一世的颜面丢得精光。“反算了卿卿性命”，后来王熙凤的下场也很悲惨。</p>
-<p>对照一下，惜春走一条路，王熙凤走另外一条路，一个出世，一个入世，两种不同的道路。甄士隐跟贾雨村，也是出世和入世的辩证。曹雪芹从未批判哪方，他只是写出各人选的道路。儒家的入世在《红楼梦》的结局也很重要，贾府衰败，王熙凤死了，也还有接班人，谁呢？薛宝钗，她把贾府重新扛起来，这就是人生。</p>
-<p>中国人的人生，常常有三种哲学的循环。年轻的时候有所求，中年醒悟，晚年一切看开。有这三种哲学，才是完整的中国文化，三者相克相生，互用互补。 《红楼梦》曲最后收尾的曲子：</p>
-<blockquote>
-<p>为官的，家业凋零；富贵的，金银散尽；有恩的，死里逃生；无情的，分明报应。欠命的，命已还；欠泪的，泪已尽。冤冤相报实非轻，分离聚合皆前定。欲知命短问前生，老来富贵也真侥幸。看破的，遁入空门；痴迷的，枉送了性命。好一似食尽鸟投林，落了片白茫茫大地真干净！</p>
-</blockquote>
-<h2 id="第16回">第16回</h2>
-<p>儒家跟道家人生观，宇宙、社会的看法，互相冲突。《红楼梦》的悲剧，并不是一个突发性的意外，而是人生必然的过程，</p>
-<h2 id="第22回">第22回</h2>
-<p>宝玉出的灯谜：南面而坐，北面而朝，“象忧亦忧，象喜亦喜”。 佛家有一句话说镜花水月，一切都是幻象。宝玉看到的一切，由色入空，一切都是幻象。</p>
+<ol type="1">
+<li>举一个复杂的业务的例子，用户支付流程：</li>
+</ol>
+<ul>
+<li>先选择支付场景--线上/线下/，</li>
+<li>选择支付方式--</li>
+<li>选择交易网络--银联/第三方</li>
+<li>选择银行</li>
+</ul>
+<figure>
+<img src="./img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption>
+</figure>
+<p>整个流程需要秒级响应。</p>
+<ol start="2" type="1">
+<li>要是大家都开始用统一的计算平台，AIOps也可以用同一套方案了</li>
+</ol>
+<figure>
+<img src="./img_2.png" alt="img_2.png" /><figcaption aria-hidden="true">img_2.png</figcaption>
+</figure>
+<ol start="3" type="1">
+<li>业务需求之一是，复杂的业务逻辑计算存在单机性能瓶颈，需要支持分布式无范式的分布式开发。</li>
+<li>现在的基础设计在单一用途的组件上，已经做的比较成熟了，专门做流式计算的计算引擎有flink，专门做深度学习的计算引擎有tensorflow，专门做批处理的有spark。</li>
+<li>但是，考虑到一个复杂的应用场景，完成1个任务需要用到多种计算模式，统一计算平台 能够让这几种计算模式实现状态共享，中间结果共享。在这种场景下，统一计算平台，相较于多个独立的计算组件 效率更高。</li>
+<li>要不要搞统一计算平台，取决于需求的复杂性，如果是一个很pure很纯粹的任务，搞这个的意义就不大。但是可以作为预研嘛，万一以后业务变得越来越复杂，也有准备。</li>
+</ol>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li>https://weread.qq.com/web/reader/3c432fc05d0f283c488450e</li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1gh411Y7qf?t=1">Ray Forward Meetup 2021-面向金融决策场景的在线计算系统-bilibili</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/06/29/reading_notes/qukuailian/zkp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/06/29/reading_notes/qukuailian/zkp/" class="post-title-link" itemprop="url">零知识量证明</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-06-29 23:54:57" itemprop="dateCreated datePublished" datetime="2021-06-29T23:54:57+08:00">2021-06-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-05 11:28:18" itemprop="dateModified" datetime="2021-07-05T11:28:18+08:00">2021-07-05</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="基本概念">基本概念</h2>
+<ol type="1">
+<li><p>零知识证明(ZKP)的定义为：证明者（prover）能够在不向验证者（verifier）提供任何有用的信息的情况下，使验证者（verifier）相信某个论断是正确的。</p></li>
+<li><p>零知识证明具有三个重要的性质：</p>
+<ul>
+<li>完备性（Completeness）：只要证明者拥有相应的知识，那么就能通过验证者的验证，即证明者有足够大的概率使验证者确信。---验证者的问题是可解的。</li>
+<li>可靠性（Soundness）：如果证明者没有相应的知识，则无法通过验证者的验证，即证明者欺骗验证者的概率可以忽略。---验证者的问题是有难度的。</li>
+<li>零知识性（Zero-Knowledge）：证明者在交互过程中仅向验证者透露是否拥有相应知识的陈述，不会泄露任何关于知识的额外信息。---验证者是无不要知道解答过程的，它只在另外一个问题空间验证。</li>
+</ul></li>
+<li><p>零知识证明是一种基于概率的验证方式，验证者（verifier）向证明者（prover)提出多个随机问题，如果证明者都能给出正确回答，则说明证明者大概率拥有他所声称的“知识”。零知识证明并不是数学意义上的证明，因为它存在小概率的误差，欺骗的证明者有可能通过虚假的陈诉骗过验证者，但是，可通过技术手段将误差降低到可以忽略的值。</p></li>
+</ol>
+<h2 id="应用场景">应用场景</h2>
+<p>零知识证明在区块链上的两大应用场景：隐私和扩容。</p>
+<p>隐私：在隐私场景中，我们可以借助零知识证明的“不泄露信息”特性，在不泄漏交易的细节（接收方，发送方，交易余额）的情况下证明区块链上的资产转移是有效的。</p>
+<p>扩容：在扩容场景中，我们不太需要关注零知识证明技术的“不泄露信息”这个特性，我们的关注重点是它的“证明论断有效”这个特性，由于链上资源是有限的，所以我们需要把大量的计算迁移到链下进行，因此需要有一种技术能够证明这些在链下发生的动作是可信的，零知识证明正好可以帮助我们做链下可信计算的背书。</p>
+<p>目前，使用零知识证明技术的应用有隐私币(例如zcash)，以太坊上的混币合约，链下扩容技术zkRollup。</p>
+<h3 id="隐私">隐私</h3>
+<h4 id="为什么需要隐私币">为什么需要隐私币？</h4>
+<ol type="1">
+<li><p>举个生活中的例子：游客向庙里功德箱中仍香火钱，所有的游客仍的都是同一个年份的一元硬币，这时有一个第三方在一旁观察，他可以知道谁在什么时间扔进去多少个硬币。但是当小沙弥从功德箱中取钱的时候，他无法分别取出的硬币是由谁扔进去的。这里功德箱就起到一个混币的功能.同理，为了保证区块链上交易的隐私性，也可以进行混币。</p></li>
+<li><p>混币的目的是切断加密货币交易中发送方与接受方的联系，发送方利用混币系统将自己的钱与其他人的钱进行混合，接受方(Verifier)利用零知识证明来证明有某一个混币的所有权，从而进行转账交易。</p></li>
+<li><p>需要隐私币的第一个理由：隐私币能实现匿名且不可追踪。</p>
+<ul>
+<li>目前公链（比特币）的匿名只起到假名的作用，例如现实生活中的人可以生成任意多的公私钥对，用这些公钥在链上发送或接受每笔交易，这些公钥就充当他们的假名。如果外界不知道你和公钥的关系，他们就无法把你和你的交易历史关联起来，只要有人能把你跟公钥联系起来，就可以顺藤摸瓜找到你过去的交易历史。目前不没有办法阻止第三方将我们和我们的公钥联系起来。</li>
+</ul></li>
+<li><p>需要隐私币的第二个理由：由于隐私币无法查看货币的交易记录，所以减少了货币不可互换的问题。</p>
+<ul>
+<li>流通性使货币具有了内在可互换性,但是加密货币具有极度透明性，我们可以追踪到与某一特定货币的所有相关历史交易，这样一来，人们一旦发现某个货币是“污点”货币（俗称“黑钱”）就可以拒绝接受这种货币。如果这种情况大规模发生，加密货币将不再是可互换的因为“干净”的货币比“污点”货币具有更大价值。</li>
+<li>不可互换的货币会给用户带来额外的负担，用户为了避免不小心买入“污点”货币，那么用户就会被迫检查他们购买的每笔货币的交易历史。</li>
+</ul></li>
+<li><p>下图是使用零知识证明的一般过程，在circuit中会执行一些约束，这些约束是与要解决的问题是相关的。Private input的值只有Prover自己知道,Public input的值是Prover与Verifier共享的。该过程可以总结为，Prover在不揭露Private input 的情况下向Verifier证明自己知道一个值能满足（x+3=5)。</p>
+<figure>
+<img src="./img.png" alt="基于circuit的零知识证明" /><figcaption aria-hidden="true">基于circuit的零知识证明</figcaption>
+</figure></li>
+</ol>
+<h4 id="zk-snark的流程图">zk-SNARK的流程图</h4>
+<p>下图是zk-SNARK的流程图，zk-SNARK不能直接用于解决计算问题，必须先把问题转换成正确的“形式”（即"quadratic arithmetic problem"，QAP)，在转换为QAP的同时，可以用Private input和Public input创建一个对应的解，称为QAP的witness。只有Prover用这个witness来生成proof。</p>
+<figure>
+<img src="./img_1.png" alt="zk-Snark流程图" /><figcaption aria-hidden="true">zk-Snark流程图</figcaption>
+</figure>
+<p>整个过程如下：</p>
+<ul>
+<li>首先得有一个计算问题，这个问题一般是NP问题</li>
+<li>然后将计算问题做一个等价转换变成QAP，步骤如下：
+<ul>
+<li>将计算问题拍平（flatten）变成circuit</li>
+<li>把circuit转化成 R1CS(rank-1 constraint system，一阶约束系统)。R1CS 是一个由三向量组 (a,b,c) 组成的序列，R1CS 有个解向量s（就是witness），s 必须满足符号表示向量的内积运算 a.s * b.s - c.s = 0</li>
+<li>将R1CS转化成QAP形式，这两者的区别是QAP使用多项式来代替点积运算，他们所实现的逻辑完全相同。</li>
+</ul></li>
+<li>trusted setup会生成两个值PK，VK，truseted setup的目的是实现零交互验证，它生成的PK，VK相当于是一个“上帝”,由它来帮我们验证Prover。</li>
+<li>Prover用PK生成一个Proof交给Verifier</li>
+<li>Verifier拿到这个Proof会用VK做校验，这一步发生在链上，由链上的节点或智能合约来做校验。 &gt; PK就像一个query word，VK是该query word对应的answer，CRS相当于是一个生成了一个&lt;question，answer&gt;，拿Prover的答案跟正确的已知的答案进行对比，从而验证Prover是qualified</li>
+</ul>
+<h3 id="扩容">扩容</h3>
+<ol type="1">
+<li>17年出现了一款非常火爆的Dapp应用叫加密猫，加密猫曾造成以太坊主网大规模的拥堵，造成拥堵的原因是以太坊当时的TPS只有15，这意味着以太坊每秒只能处理15笔交易，如此低的TPS严重限制了区块链应用的大规模落地，所以有人开始研究区块链扩容的问题，目的就是为了提高链上的TPS。</li>
+<li>但区块链扩容受到Vitalik提出的不可能三角的限制(区块链系统设计无法兼顾可扩展性，去中心化和安全性).但我们必须知道，一切事物都有自己的边界，公链不应该做所有的事情，公链应该做它该做的事情：“公链是以最高效率达成共识的工具，能够以最低成本来构建信任”。</li>
+<li>作为共识的工具，信任的引擎，公链不应该为了可扩展性放弃去中心化与安全性。那么公链的TPS这么低，该怎么使用呢？可以将大量的工作放到链下去解决，仅仅将最重要的数据提交到区块链主链上，让所有节点都能够验证这些链下的工作都是准确可靠的.</li>
+<li>社会的发展带来的是更精细化的分工，区块链的技术发展也是如此，在底层区块链（Layer1）上构建一个扩展层（Layer2)，Layer1来保证安全和去中心化，绝对可靠、可信；它能做到全球共识，并作为“加密法院”，通过智能合约设计的规则进行仲裁，以经济激励的形式将信任传递到Layer2上，而Layer2追求极致的性能，它只能做到局部共识，但是能够满足各类商业场景的需求。</li>
+</ol>
+<h2 id="发展历史">发展历史</h2>
+<ol type="1">
+<li>1985 年，零知识证明Zero-Knowledge Proof - 由 S.Goldwasser、 S.Micali 及 C.Rackoff 首次提出。</li>
+<li>2010年，Groth实现了首个基于椭圆曲线双线性映射全能的，常数大小的非交互式零知识证明协议。后来这个协议经过不断优化，最终成为区块链著名的零知识证明协议SNARKs。</li>
+<li>2013年，Pinocchio协议实现了分钟级别证明，毫秒级别验证，证明大小不到300字节，将零知识证明从理论带到了应用。后来Zcash使用的SNARKs正是基于Pinocchio的改进版。</li>
+<li>2014 年，名为Zerocash的加密货币则使用了一种特殊的零知识证明工具zk-SNARKs （ Zero-Knowledge Succinct Non-interactive Arguments of Knowledge ) 实现了对交易金额、交易双方的完全隐藏，更注重于隐私，以及对交易透明的可控性。</li>
+<li>2017 年， Zerocash 团队提出将 zk-SNARKs 与智能合约相互结合的方案，使交易能在众目睽睽下隐身，打造保护隐私的智能合约。</li>
+</ol>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/152065162">零知识证明介绍-zhihu</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.notboring.co/p/zero-knowledge">Zero Knowledge, from not boring</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/_IrI8SJLo1Ht51nJfI4V_Q">十分钟开发一个混币-原理篇</a></li>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/8OkwqNXIkUz2PBURoghRJQ">十分钟开发零知识证明之混币</a></li>
 </ol>
 
       
@@ -438,7 +417,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -504,7 +483,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

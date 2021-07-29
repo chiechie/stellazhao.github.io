@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/26/reinforcement_learning/rl8_continous-action/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/27/reading_notes/computer/python_regrex/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/26/reinforcement_learning/rl8_continous-action/" class="post-title-link" itemprop="url">强化学习8 连续控制</a>
+            <a href="/2021/04/27/reading_notes/computer/python_regrex/" class="post-title-link" itemprop="url">使用python进行正则操作</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-26 20:46:57" itemprop="dateCreated datePublished" datetime="2021-04-26T20:46:57+08:00">2021-04-26</time>
+              <time title="创建时间：2021-04-27 10:51:56" itemprop="dateCreated datePublished" datetime="2021-04-27T10:51:56+08:00">2021-04-27</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
+                <time title="修改时间：2021-06-07 08:17:56" itemprop="dateModified" datetime="2021-06-07T08:17:56+08:00">2021-06-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
                 </span>
             </span>
 
@@ -219,117 +219,26 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="离散控制与随机控制介绍">离散控制与随机控制介绍</h2>
+          <blockquote>
+<p>正则表达式一直都迷糊的很，现在要做日志聚类了，看看吧</p>
+</blockquote>
+<h2 id="re.compile-和-split">re.compile 和 split</h2>
+<p><img src="max-common-subsequence/img.png" alt="img.png" /> re.compile: 将字符串的正则表达式，转换为pattern对象。</p>
+<p>pattern对象，有点像re的中间数据对象，它有很多方法，like</p>
 <ul>
-<li>这节课讨论离散控制与连续控制的区别、连续控制的难点、以及连续动作空间的离散化。</li>
-<li>之前讲的强化学习方法 都是来 处理离散控制变量的场景的：策略梯度 和 DQN</li>
-<li>那么对连续控制变量这种场景如何处理呢？
-<ol type="1">
-<li>将连续空间网格化，套上离散控制变量的方法。但是输出向量的长度随着控制变量的个数呈指数增加。</li>
-<li>使用更适合连续控制变量的方法：
-<ul>
-<li>确定的策略网络</li>
-<li>随机的策略网络</li>
-</ul></li>
-</ol></li>
+<li>Object.split</li>
 </ul>
-<h2 id="确定策略梯度dpg">确定策略梯度DPG</h2>
-<ul>
-<li>DPG是一种actor cirtic方法</li>
-<li>DPG的策略网络输出1个实数（机械手臂只有1个关节）或者1个向量（机械手臂又多个关节），但是输出是确定的没有随机性的</li>
-<li>流程：
-<ul>
-<li>结构：</li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FFFnC_ZZDfS.png?alt=media&amp;token=b76bce5a-44cb-4967-8831-9ad7e3bac627" /></li>
-<li>更新价值网络</li>
-<li>更新策略网络
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F1lO0oHsg0f.png?alt=media&amp;token=4624994e-3a30-4a5d-9ea3-7ecc419516e1" /></li>
-</ul></li>
-</ul></li>
-<li>缺点，bootstrap带来的估计偏差（一开始TD target估高了，就会持续高估）
-<ul>
-<li>bootstrap的解释：使用自己的更新至来更新自己</li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FckUhWapL92.png?alt=media&amp;token=56166270-8cad-42fc-a94e-f88f329c6c41" /></li>
-</ul></li>
-<li>改进方法-target networks：基本思路，使用别的网络来计算TD target
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F6lBqZiXi9f.png?alt=media&amp;token=17ff418c-0a8d-437f-8b82-7848a8cfa243" /></li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FkSbwop1R3_.png?alt=media&amp;token=9dd29838-a62a-4a89-8717-7e1972f3da74" /></li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FKrdc65AdRE.png?alt=media&amp;token=3d72f27f-a8be-468c-8910-df0ad025f5da" /></li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FnLzNJ8bG14.png?alt=media&amp;token=fe8f8570-8304-4c5e-bd16-0649684ecaf7" /></li>
-</ul></li>
-<li>还有一些其他的DPG的改进方法：
-<ul>
-<li>target network</li>
-<li>经验回放（experience replace）</li>
-<li>multi-step TD target</li>
-</ul></li>
-<li>随机策略网络和确定策略网络对比
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FRDz29hZbP4.png?alt=media&amp;token=52f95ad5-5f13-4974-87f8-c52d8c734836" /></li>
-</ul></li>
-</ul>
-<h2 id="用随机策略做连续控制">用随机策略做连续控制</h2>
-<h3 id="基本概念">基本概念</h3>
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fza5rJJXnoe.png?alt=media&amp;token=48526a35-cc19-486c-b91b-3a0ef9df1edc" /></li>
-<li>策略梯度：--谁对谁的梯度？（状态价值函数 关于策略网络参数的梯度）
-<ul>
-<li><span class="math inline">\(\frac{\partial V_{\pi}(s)}{\partial \boldsymbol{\theta}}=\mathbb{E}_{A \sim \pi}\left[\frac{\partial \ln \pi(A \mid s ; \boldsymbol{\theta})}{\partial \boldsymbol{\theta}} \cdot Q_{\pi}(s, A)\right]\)</span></li>
-</ul></li>
-<li>随机策略梯度
-<ul>
-<li><span class="math inline">\(\mathbf{g}(a)=\frac{\partial \ln \pi(a \mid s ; \boldsymbol{\theta})}{\partial \boldsymbol{\theta}} \cdot Q_{\pi}(s, a), \text { where } a \sim \pi(\cdot \mid s ; \boldsymbol{\theta})\)</span></li>
-</ul></li>
-</ul>
-<h3 id="连续控制问题-怎么设计方案">连续控制问题 怎么设计方案？</h3>
-<p>chiechie的思索：第一反应是 使用回归模型，即策略网络是将state 映射到一个确定的action（比如机械臂转动多少度），但是从贝叶斯角度来理解现实问题的话，刚刚的处理方式是明显不合理的， 因为永远 不存在唯一的正确答案。（贝叶斯认为正确答案 是一个随机变量，只不过在不同区间的概率分布不一样）。</p>
-<p>接下来看看wang给的方案：</p>
-<ul>
-<li>将连续的决策空间离散化为网格空间，但是会带来维树灾难</li>
-<li>使用确定性的梯度算法：上一节讲的内容，对于给定的状态，输出的action是唯一确定的。（这不就是我上面的想法吗？似乎不是，这个随机策略梯度更像是一种数值算法，类似sgd）</li>
-<li>使用随机策略网络，也就是本节要讲的内容</li>
-</ul>
-<p>【核心】构建一个输出pi的概率分布的策略网络：</p>
-<ul>
-<li>如何训练？ --使用随机策略梯度
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F-HeYISazuj.png?alt=media&amp;token=0d3ebe9c-6f04-4867-b2cb-553503e9a523" /></li>
-</ul></li>
-<li>策略梯度的第一个部分使用 辅助神经网络，第二部分使用 reinforce 或者 actor2critic来计算
-<ul>
-<li>step1- 辅助神经网络：就是算实际action的似然概率，以此作为反馈信号，往后传播策略网络参数的梯度。
-<ul>
-<li>往前传播
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FF3rR0gy8Su.png?alt=media&amp;token=32c8deac-e6ed-4c36-8490-682457bd96cf" /></li>
-</ul></li>
-<li>往后传播
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FqKuN1X6D_b.png?alt=media&amp;token=aa379ddd-eb64-4674-a1c9-136f77996250" /></li>
-</ul></li>
-</ul></li>
-<li>step2-计算Q value：然是在计算策略梯度的时候，又遇到了一个问题，就是如何计算Qvalue？又两种方法：
-<ul>
-<li>reinforce： 玩完一局，然后那观测到的ut去近似</li>
-<li>actior-critic：使用价值网络来近似Q，
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F1OdWlyBP_B.png?alt=media&amp;token=4e37f7bb-e85d-4e0b-afb3-bbf99f3bb628" /></li>
-</ul></li>
-<li>还有更高级的方法--策略梯度with baseline:
-<ul>
-<li>reinforce==&gt; [[策略梯度中的Baseline 2/4-REINFORCE with Baseline]]</li>
-<li>actor-critic==&gt; [[策略梯度中的Baseline 3/4-A2C 方法]]</li>
-</ul></li>
-</ul></li>
-</ul></li>
-</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; some_text &#x3D; &#39;a,b,,,,c d&#39;</span><br><span class="line">&gt;&gt;&gt; reObj &#x3D; re.compile(&#39;[, ]+&#39;)</span><br><span class="line">&gt;&gt;&gt; reObj.split(some_text)</span><br><span class="line">[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;]</span><br></pre></td></tr></table></figure>
+<p>也可以不用先转换为pattern对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text &#x3D; &#39;a,b,,,,c d&#39;</span><br><span class="line">&gt;&gt;&gt; re.split(&#39;[, ]+&#39;,some_text)</span><br><span class="line">[&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;d&#39;]</span><br></pre></td></tr></table></figure>
+<h2 id="re.sub">re.sub</h2>
+<p>re.sub：将某些固定的模式，替换为指定的格式。 比如 将连续空格转换为"-"</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text &#x3D; &#39;a,  b,,,  ,c    d&#39;</span><br><span class="line">&gt;&gt;&gt; re.sub(r&#39;\s+&#39;, &quot;-&quot;, some_text)</span><br><span class="line">a,-b,,,-,c-d</span><br></pre></td></tr></table></figure>
+<h2 id="str.strip">str.strip</h2>
+<p>去除首字符 和 尾字符</p>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li>https://www.youtube.com/watch?v=rRIjgdxSvg8</li>
-<li>https://www.youtube.com/watch?v=cmWejKRWLA8</li>
-<li>https://www.youtube.com/watch?v=McqFyl_W5Wc</li>
+<li><a target="_blank" rel="noopener" href="https://www.programiz.com/python-programming/regex">怎么写正则表达式</a></li>
 </ol>
 
       
@@ -350,7 +259,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/26/machine-learning/machine-learning_4-dl7_bert/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/27/reading_notes/investment/about-cryptocurrency/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -364,7 +273,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/26/machine-learning/machine-learning_4-dl7_bert/" class="post-title-link" itemprop="url">chapter 4.7  深度学习7 Bert</a>
+            <a href="/2021/04/27/reading_notes/investment/about-cryptocurrency/" class="post-title-link" itemprop="url">关于区块链和加密货币</a>
         </h2>
 
         <div class="post-meta">
@@ -374,14 +283,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-26 11:50:30" itemprop="dateCreated datePublished" datetime="2021-04-26T11:50:30+08:00">2021-04-26</time>
+              <time title="创建时间：2021-04-27 08:47:47" itemprop="dateCreated datePublished" datetime="2021-04-27T08:47:47+08:00">2021-04-27</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 15:58:34" itemprop="dateModified" datetime="2021-07-22T15:58:34+08:00">2021-07-22</time>
+                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -389,7 +298,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                  <a href="/categories/%E6%8A%95%E8%B5%84/" itemprop="url" rel="index"><span itemprop="name">投资</span></a>
                 </span>
             </span>
 
@@ -404,83 +313,78 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>为什么有了word2vec还不够？还需要bert干嘛？因为一词多义，同样的词在不同的上下文中表达的意思不一样，而word2vec的表示是静态的。 所以我们需要一个能对上下文编码的动态的embedding方法，bert就应运而生了。</p>
-<h1 id="总结">总结</h1>
+          <blockquote>
+<p>chiechie的粗浅见解先抛出来，过一段时间再来验一验</p>
+</blockquote>
+<h2 id="区块链">区块链</h2>
+<ol type="1">
+<li>区块链的本质是一个分布式账本，这个账本是去中心化的。基于这个基础设施可以孵化很多应用</li>
+<li>第一代区块链应用是加密货币，代表是比特币，想变成国际支付货币。</li>
+<li>第二代区块链应用是智能合约，代表是以太坊。</li>
+<li>第三代区块链应用是去中心化金融，代表是DeFI和NFT，可能重塑金融行业。</li>
+</ol>
+<h2 id="第一代应用-去中心化数字货币">第一代应用-去中心化数字货币</h2>
+<h3 id="加密货币">加密货币</h3>
+<ol type="1">
+<li>比特币是一个去中心化货币，是众多虚拟加密货币的老祖宗。</li>
+<li>比特币是价值存储的载体之一。价值就是财富，类似数据，水，食物等资源，暂时用不完，希望存起来，后面有需要的时候再用，但是存储财富的载体，经常会被政府操纵，比如人们把财富藏于房产中，股票中，货币中，政府可以操控房子的价格，股票的价格，货币的数量。政府可以不费吹灰之力，凭空创造财富（最常见的手段就是印钞，稀释钞票中的财富；打工人可以增加财富的绝对数字，但it is in vain，政府下一步就可以控制财富分配的比例。</li>
+<li>加密货币的最直接的需求方，比如国际支付，洗钱。</li>
+<li>加密货币是理想主义者（密码学家和自由主义者）的一种信仰。</li>
+<li>加密货币跟政府权利存在竞争关系，政府不乐意将印钱权利拱手送人。世界上其他国家可能借助加密货币的力量，联合起来制衡美元。（但是之后竞争仍然存在.）</li>
+<li>加密货币的风险？机构做空，政府监管（政府宣布交易违法，关闭交易所），都会导致币存储的财富缩水。</li>
+<li>现实世界的资产大概有几类：
 <ul>
-<li>Bert也是是一个对词语生成词语向量的方法。</li>
-<li>Bert可以认为是一个预训练Transformer的encoder部分</li>
-<li>Bert的全称是Bidirectional Encoder Representations from Transformers，双向encoder表示</li>
-<li>Bert的目的是预训练transformer模型的encoder网络，</li>
-<li>Bert的学习目标是怎么设定的呢？bert用以下两个任务来预训练transformer中的encoder网络
-<ul>
-<li>任务1-预测遮挡词（Predict Masked Words）： 随机遮挡上下文，让encoder根据上下文来预测被遮挡的单词，大概随机遮挡挡15%的单词</li>
-<li>任务2-预测下一个句子（Predict the Next Sentence）： 把两个句子放在一起，让encoder判断两句话是不是原文里面相邻的两句话，正样本摘自原文，负样本是随机选择50%。</li>
-</ul></li>
-<li>Bert学习的时候，把上面两个任务结合起来</li>
-<li>假如有两个词被遮挡，就要训练三个任务，2个预测遮挡词任务，1个预测是否邻近的任务。前面两个是一个multi-class分类；后面一个是一个二分类。前两个任务的损失函数是cross entropy，第三个任务的损失函数是binary-entropy。</li>
-<li>最终的目标函数，是上面三个损失函数的求和，把最终的目标函数关于模型参数求梯度，然后使用梯度下降来求参数。</li>
-<li>Bert的优点：不需要人工标注数据，训练数据可以从wiki/网页等，长度为2.5billion单词</li>
-<li>Bert可以利用海量数据训练一个超级大的模型</li>
-<li>Bert想法简单有效，计算大家大，bert有两个版本
-<ul>
-<li>base： 1.1yi参数, 16个tpu训练4days，不算调参数，该参数是公开的</li>
-<li>large：2.35yi参数，64个tpu训练4days，不算调参数，该参数是公开的</li>
-</ul></li>
-<li>想用transformer直接下载徐训练好的bert模型就好，拿到参数就可以对英文编码了</li>
-<li>RoBERTa建议只用masking，而且是动态masking,</li>
+<li>有抵押或者信用担保的债务，如国债（政府背书），公司债券（企业自己背书），股票</li>
+<li>有使用价值的资产：住房</li>
+<li>收藏品类的资产：是一个圈子的共识和信仰，茅台，钻石，泡沫时期的荷兰郁金香，重点是稀缺性</li>
 </ul>
-<h1 id="附录">附录</h1>
-<h2 id="bert模型原理">bert模型原理</h2>
-<figure>
-<img src="https://images.prismic.io/peltarionv2/e69c6ec6-50d9-43e9-96f0-a09bb338199f_BERT_model.png?auto=compress%2Cformat&amp;rect=0%2C0%2C2668%2C3126&amp;w=1980&amp;h=2320" alt="bert模型可视化" /><figcaption aria-hidden="true">bert模型可视化</figcaption>
-</figure>
-<h3 id="任务一--预测遮挡词">任务一--预测遮挡词</h3>
-<p>任务可以描述为： 输入： “The _____ sat on the mat” 输出： What is the masked word?</p>
+比特币短期和长期都具备收藏品的属性。</li>
+<li>成为货币的前提是，所有人达成共识--这个货币代表的财富不会缩水。迄今为止，只有黄金和美元能保持这种地位。美元是基于美国的政治经济军事各方面实力。比特币代表的加密货币除了信徒们的情怀，还有什么能支持长期的市值？</li>
+</ol>
+<h3 id="黄金相对于货币的优势">黄金相对于货币的优势？</h3>
+<p>黄金作为价值载体的价格，主要靠自由市场来决定，政府不能凭空创造黄金。</p>
+<blockquote>
+<p>全世界当前黄金还有20%没有被开采，政府们纷纷放弃金本位，不是因为担心黄金不够造成的通货紧缩（早得很），是迫不及待想扩大手中的权利。</p>
+<p>比如发债券，可以像庞氏骗局一样，到期了就续期。</p>
+</blockquote>
+<p>但是政府可以凭空创造货币，比如发国债，让下一任的政府来还，本质来说，就是在发行货币（央行和财政部唱双簧，央行用发的货币来购买了财政部发的国债）</p>
+<h3 id="加密货币相对于黄金的优势">加密货币相对于黄金的优势？</h3>
+<p>政府可以控制黄金在市场上流通，因为黄金太个头太大了，很容易被监控到。</p>
+<p>政府没法控制加密货币，首先，是虚拟资产，第二，公共账本被全世界的节点在维护着 第三，资产的匿名性，公共账本虽然会记录交易双方比特币账户的地址，但是账户在真实世界的身份是不得而知的。这三点都会导致政府的监管成本极高。</p>
+<h2 id="第二代应用-智能合约">第二代应用-智能合约</h2>
+<ol type="1">
+<li>智能合约拓展了btc的去中心化货币的功能，合约可以用代码来定义，代码接口符合特定的标准即可。</li>
+<li>现实中的合同执行要法院判决，警察强力保证执行。智能合约本质就是一个合同，只不过比现实中的合同更好执行，code is law。</li>
+</ol>
 <figure>
 <img src="./img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
 </figure>
-<p>如何学习？</p>
-<ul>
-<li>e：one-hot vector of the masked word “cat”.</li>
-<li>𝐩: output probability distribution at the masked position.</li>
-<li>损失函数Loss = CrossEntropy(𝐞, 𝐩 )</li>
-<li>• Performing one gradient descent to update the model parameters.</li>
-</ul>
-<h3 id="任务二---predict-the-next-sentence">任务二-- Predict the Next Sentence</h3>
-<p>任务可以描述为：</p>
-<p>• Given the sentence: “calculus is a branch of math”. • Is this the next sentence? “it was developed by newton and leibniz” 可以表述为一个而分类问题 • 输入: [CLS] “calculus is a branch of math” [SEP] “it was developed by newton and leibniz” • Target: true</p>
-<p>• [CLS] is a token for classification. • [SEP] is for separating sentences.</p>
-<p>学习过程</p>
-<figure>
-<img src="./img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption>
-</figure>
-<h3 id="结合两个任务">结合两个任务</h3>
-<p>• Input: “[CLS] calculus is a [MASK] of math [SEP] it [MASK] developed by newton and leibniz”.</p>
-<p>• Targets: true, “branch”, “was”.</p>
-<h2 id="bert实践todo">Bert实践【todo】</h2>
-<p>如何使用BERT做迁移学习（Transfer Learning）？</p>
-<ul>
-<li>(demo数据)[https://www.kaggle.com/c/fake-news-pair-classification-challenge/data]</li>
-<li>预训练的中文bert模型：hugging face</li>
-</ul>
-<h2 id="要不要冻结bert的部分参数">要不要冻结BERT的部分参数？</h2>
-<p>Why not to freeze BERT？</p>
-<p>That said, BERT is meant to be fine-tuned. The paper talks about the feature-based (i.e., frozen) vs fine-tuning approaches in more general terms, but the module doc spells it out clearly: "fine-tuning all parameters is the recommended practice." This gives the final parts of computing the pooled output a better shot at adapting to the features that matter most for the task at hand.</p>
-<p>when you fine-tune BERT, you can choose whether to freeze the BERT layers or not. Do you want BERT to learn to embed the words in a slightly different way, based on your new data, or do you just want to learn to classify the texts in a new way (with the standard BERT embedding of the words)?</p>
-<p>I wanted to use BertViz visualisation to see what effect the classification tuning had on the attention heads, so I did fine-tuning with the first 8 layers of BERT frozen and the remaining 4 layers unfrozen.</p>
-<p>Some people suggest doing gradual unfreezing of the BERT layers, ie finetuning with BERT frozen, then finetuning a bit more with just one layer unfrozen, etc.</p>
-<h1 id="参考">参考</h1>
+<h2 id="第三代应用-defi和nft">第三代应用-DeFi和NFT</h2>
 <ol type="1">
-<li>Bahdanau, Cho, &amp; Bengio. Neural machine translation by jointly learning to align and translate. In ICLR, 2015.</li>
-<li>Cheng, Dong, &amp; Lapata. Long Short-Term Memory-Networks for Machine Reading. In EMNLP, 2016.</li>
-<li>Vaswani et al. Attention Is All You Need. In NIPS, 2017.</li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=UlC6AjQWao8&amp;t=26s">BERT (预训练Transformer模型)</a></li>
-<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1907.11692v1.pdf">RoBERTa</a></li>
-<li>Devlin, Chang, Lee, and Toutanova. BERT: Pre-training of deep bidirectional transformers for language understanding. In ACL, 2019.</li>
-<li><a target="_blank" rel="noopener" href="https://leemeng.tw/attack_on_bert_transfer_learning_in_nlp.html">attack_on_bert_transfer_learning_in_nlp-blog</a></li>
-<li><a target="_blank" rel="noopener" href="https://pytorch.org/hub/pytorch_fairseq_roberta/">ROBERTA-pytorch</a></li>
-<li><a target="_blank" rel="noopener" href="https://discuss.huggingface.co/t/fine-tune-bert-models/1554/2">huggingface</a></li>
-<li>https://medium.com/swlh/painless-fine-tuning-of-bert-in-pytorch-b91c14912caa</li>
+<li><p>NFT的本质是商品，更具体的说，是一个收藏品，NFT可以是一条具有纪念意义的twitter，可以是电子画作。NFT的成交价格是市场关于这个商品的价值达成的共识，跟前几个世纪的稀有的贝壳，白银作为货币一样。</p>
+<blockquote>
+<p>NFT的概念其实很早就出现了，就是腾讯的Q币，只是中心化的。现在不管是名人、宣传还是NFT都是在为市场扩圈，币圈与非币圈之间也已经没有明显的界限了，而 NFT会把这个现象推向更高的高潮。</p>
+</blockquote></li>
+</ol>
+<h2 id="第四代应用-元宇宙">第四代应用-元宇宙</h2>
+<ol type="1">
+<li>看法还不成熟，先hold下。</li>
+</ol>
+<h2 id="chiechie的预测">chiechie的预测</h2>
+<ol type="1">
+<li><p>全世界范围内，政府（除美国）短期不会打压数字货币，甚至还会推动数字货币的发展，直到世界格局改变。</p>
+<blockquote>
+<p>2021年6月9日，萨尔瓦多正式通过立法将BTC做为法定货币。这标志着数字资产进入一个新的纪元。</p>
+</blockquote></li>
+<li><p>各种去中心化数字货币成为国际流通货币的可能性很小，但是有较大可能演变成一个收藏品，比特币会成为其中的顶级收藏品。</p></li>
+<li><p>狗狗币?帮助加速加密货币出圈。不论是动物币、狗狗币还是shib，都成功用娱乐的形式把外面的客户引流进来,有点像娱乐圈的IP。如果只是一本正经地推广比特币，人们可能会觉得没有意思</p></li>
+</ol>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://www.chainnews.com/articles/503060403039.htm">对话 DODO 雷达熊：DeFi 有太多反逻辑，应创造无需许可的产品并发挥价值</a></li>
+<li><a target="_blank" rel="noopener" href="https://assets.coingecko.com/books/how-to-defi/How_to_DeFi_Chinese.pdf">How_to_DeFi-中文</a></li>
+<li><a target="_blank" rel="noopener" href="https://tokeninsight.com/zh/report/2708">report</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Oz9zw7-_vhM">youtube-nft</a></li>
 </ol>
 
       
@@ -500,7 +404,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/47/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><span class="page-number current">48</span><a class="page-number" href="/page/49/">49</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/49/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/47/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/47/">47</a><span class="page-number current">48</span><a class="page-number" href="/page/49/">49</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/49/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -566,7 +470,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

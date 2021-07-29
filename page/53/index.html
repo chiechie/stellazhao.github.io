@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/22/reinforcement_learning/rl4_policy-based/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/24/reinforcement_learning/rl6_advanced-value-based/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/22/reinforcement_learning/rl4_policy-based/" class="post-title-link" itemprop="url">强化学习4 基于策略的强化学习方法</a>
+            <a href="/2021/04/24/reinforcement_learning/rl6_advanced-value-based/" class="post-title-link" itemprop="url">强化学习6 价值学习高级技巧</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-22 20:33:30" itemprop="dateCreated datePublished" datetime="2021-04-22T20:33:30+08:00">2021-04-22</time>
+              <time title="创建时间：2021-04-24 20:40:17" itemprop="dateCreated datePublished" datetime="2021-04-24T20:40:17+08:00">2021-04-24</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-13 22:48:34" itemprop="dateModified" datetime="2021-07-13T22:48:34+08:00">2021-07-13</time>
+                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -219,115 +219,23 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="总结">总结</h1>
-<ol type="1">
-<li><p>强化学习的方向之一是基于策略学习的方法，即通过求解优化问题，得到一个最优的策略函数。</p></li>
-<li><p>可以使用一个神经网络来拟合这个策略函数，这个神经网络也叫策略网络。策略网络的输入是一个state，输出是每个action对应的概率向量。策略网络参数的初始值是随机的，利用agent跟环境之间的互动，收集state，action，reward，然后去更新策略网络参数。</p></li>
-<li><p>策略学习的目标函数是状态价值函数关于所有状态的期望: 如果策略越好，目标函数就越大 <span class="math display">\[
-\max\limits_{\theta} J(\boldsymbol{\theta})=\mathbb{E}_{S}\left[V_{\pi}(S)\right]
-\]</span></p></li>
-<li><p>目标函数关于策略的梯度记为「策略梯度」，可以使用梯度上升的策略去更新策略网络的参数 <span class="math display">\[
-\boldsymbol{\theta}_{\text {new }} \leftarrow \boldsymbol{\theta}_{\text {now }}+\beta \cdot \nabla_{\boldsymbol{\theta}} J\left(\boldsymbol{\theta}_{\text {now }}\right)
-\]</span></p></li>
-<li><p>又根据策略梯度证明定理，策略梯度等价于 <span class="math display">\[
-\nabla_{\boldsymbol{\theta}} J(\boldsymbol{\theta})=\mathbb{E}_{S}\left[\mathbb{E}_{A \sim \pi(\cdot \mid S ; \boldsymbol{\theta})}\left[Q_{\pi}(S, A) \cdot \nabla_{\boldsymbol{\theta}} \ln \pi(A \mid S ; \boldsymbol{\theta})\right]\right]
-\]</span></p></li>
-<li><p>策略梯度中包含两部分，动作价值函数和策略函数的梯度，策略函数的梯度好算，动作价值函数不好算，有两种方法可以对动作价值函数做近似，分别是reinforce和actor-critic。</p>
-<ol type="1">
-<li>reinforce：用实际观测的回报u去近似状态价值函数</li>
-<li>actor-critic方法：用神经网络去近似动作价值函数</li>
-</ol></li>
-<li><p>reinforce计算Qvalue的方法</p>
-<ol type="1">
-<li>从t时刻开始，agent每次完成一局（episode）游戏，观测并且记录所有reward，计算return，将其作为Q的一个观测值。</li>
-<li>将Q和对策略网络使用BP算出来的梯度相乘，得到策略梯度，更新策略网络参数。</li>
-</ol></li>
-<li><p>reinforce 是一种在线策略 (On-Policy) 方法，要求行为策略 (Behavior Policy) 与目标策略 (Target Policy) 相同，两者都必须是策略网络 <span class="math inline">\(\pi( a| s; \theta_{now} )\)</span>，其中$ _{now} $是策略网络当 前的参数。所以经验回放不适用于 REINFORCE。</p></li>
-<li><p>Actor-Critic 方法用神经网络近似Q</p></li>
-<li><p>A2C方法 的价值网络与DQN结构相同，但是意义不同，训练的算法也不同，</p>
-<ol type="1">
-<li>A2C的价值网络是对动作价值函数的近似DQN的价值网络是对最优动作价值函数<span class="math inline">\(Q^{\star}\)</span>的近似</li>
-<li>对A2C的价值网络训练使用的是SARSA算法，它是一种在线策略（on-policy），不能用经验回放（replay buffer）。DQN的训练使用的是Q-learning算法，它属于离线策略（off-policy），可以使用replay buffer</li>
-</ol></li>
-<li><p>训练策略网络：策略网络接受价值网络的评价，调整自己的权重，</p></li>
-<li><p>训练价值网络：价值网络也需要持续提升自己，不然评委固步自封，这样策略网络只会投其所好，不会学到真正的好的策略。怎么训练价值网络呢？使用SARSA算法更新价值网络参数，即用观测到的奖励<span class="math inline">\(r_t\)</span>来校准q，</p></li>
-<li><p>Actor-Critic 具体的训练流程如下：</p>
-<ol type="1">
-<li><p>观测到当前状态 <span class="math inline">\(s_t\)</span>，根据策略网络预测:<span class="math inline">\(a_t ∼ \pi( · | s_t; \theta_{now})\)</span>，并让agent执行动作<span class="math inline">\(a_t\)</span>。</p></li>
-<li><p>从环境中观测到奖励 <span class="math inline">\(r+t\)</span> 和新状态 <span class="math inline">\(s_{t+1}\)</span>。</p></li>
-<li><p>让策略网络预测：<span class="math inline">\(\tilde a_{t+1} ∼ π( · |s_{t+1}; \theta_{now})\)</span>，但不执行</p></li>
-<li><p>让价值网络预测: t和t+1时刻</p></li>
-<li><p>计算TD误差$_{t} $</p></li>
-<li><p>更新价值网络，损失函数为TD误差平方：</p>
-<p><span class="math display">\[\boldsymbol{w}_{\mathrm{new}} \leftarrow \boldsymbol{w}_{\mathrm{now}}-\alpha \cdot \delta_{t} \cdot \nabla_{\boldsymbol{w}} q\left(s_{t}, a_{t} ; \boldsymbol{w}_{\mathrm{now}}\right)\]</span></p></li>
-<li><p>更新策略网络:</p>
-<p><span class="math display">\[\boldsymbol{\theta}_{\mathrm{new}} \leftarrow \boldsymbol{\theta}_{\mathrm{now}}+\beta \cdot \widehat{q}_{t} \cdot \nabla_{\boldsymbol{\theta}} \ln \pi\left(a_{t} \mid s_{t} ; \boldsymbol{\theta}_{\mathrm{now}}\right)\]</span></p></li>
-</ol></li>
-</ol>
-<h1 id="附录">附录</h1>
-<h2 id="问题">问题</h2>
+          <ul>
+<li>经验回放(experience replay）： 就是把n条transition记录存下来(bufffer)，更新价值的时候，从里面抽样。好处是可以重复利用经验。</li>
+<li>技术发展路线
 <ul>
-<li>基于策略学习 的大致思路是怎么样的？
-<ul>
-<li>目的还是要让agent 实现最大的value，拆解为2步
-<ol type="1">
-<li>学习最优的策略（策略函数）</li>
-<li>根据最优策略作出决策</li>
-</ol></li>
+<li>93年提出「经验回放」的想法</li>
+<li>15年的DQN使用到了「经验回放」</li>
+<li>之后各种模型训练都会用到该技巧</li>
+<li>「经验回放」演化成了强化学习里面的标准方法</li>
 </ul></li>
-<li>难点在哪里？
+<li>「经验回放」的变体
 <ul>
-<li>state 太多，action 太多，</li>
+<li>最优「经验回放」： 给予极端场景更高的权重
+<ul>
+<li>增加transition采样的权重</li>
+<li>减少使用transition更新价值网络时的 learning rate</li>
 </ul></li>
-<li>深度学习技术是怎么帮助 实现策略学习的？
-<ul>
-<li>构造一个神经网络来拟合策略函数，这个神经网络 叫做策略网络</li>
 </ul></li>
-</ul>
-<h2 id="价值网络是什么">价值网络是什么？</h2>
-<figure>
-<img src="./image-20210713213113364.png" alt="image-20210713213113364" /><figcaption aria-hidden="true">image-20210713213113364</figcaption>
-</figure>
-<h2 id="策略网络是什么">策略网络是什么？</h2>
-<figure>
-<img src="./image-20210713204844974.png" alt="image-20210713204844974" /><figcaption aria-hidden="true">image-20210713204844974</figcaption>
-</figure>
-<p>输入：state，输出：多个action 下的概率，最后一层的激活函数用softmax。</p>
-<ul>
-<li>（input 和 output 的shape 和 DQ网络 一样）</li>
-<li><img src="./imgs%2Fapp%2Frf_learning%2FGqFFfS975r.png?alt=media&amp;token=71ba382a-432c-4c00-8759-692d84c03f3d.png" title="fig:" alt="策略网络" /></li>
-</ul>
-<h2 id="a2c中策略网络价值网络和环境的关系">A2C中策略网络，价值网络和环境的关系</h2>
-<figure>
-<img src="./image-20210713213534951.png" alt="image-20210713213534951" /><figcaption aria-hidden="true">image-20210713213534951</figcaption>
-</figure>
-<h2 id="为什么不把reward直接给策略网络而是给了价值网络呢">为什么不把reward直接给策略网络，而是给了价值网络呢？</h2>
-<p>为什么不直接把奖励 R 反馈给策略网络(演员)，而 要用价值网络(评委)这样一个中介呢?</p>
-<p>原因是这样的。</p>
-<p>策略学习的目标函数 J(θ) 是回 报 U 的期望，而不是奖励 R 的期望;注意回报 U 和奖励 R 的区别。</p>
-<p>虽然能观测到当前的奖励R，但是它对策略网络是毫无意义的; 训练策略网络(演员)需要的是回报 U ，也就是未来所有奖励的加权和。</p>
-<p>价值网络(评委)能够估算出回报 U 的期望，因此能帮助 训练策略网络(演员)。</p>
-<h2 id="状态价值函数是啥">状态价值函数是啥？</h2>
-<p>状态价值函数 ：基于某个策略，评价当下处境的好坏。state value function，对所有action求期望</p>
-<ul>
-<li>action-value function ： reward（env） + policy（agent）</li>
-<li>policy （agent）</li>
-<li>动作的随机性来自策略</li>
-<li>状态的随机性来自环境的状态转移</li>
-</ul>
-<h2 id="怎么计算策略梯度">怎么计算策略梯度？</h2>
-<p>利用策略梯度定理 简化策略梯度的计算</p>
-<figure>
-<img src="./image-20210713205711384.png" alt="image-20210713205711384" /><figcaption aria-hidden="true">image-20210713205711384</figcaption>
-</figure>
-<h2 id="策略梯度是啥">策略梯度是啥？</h2>
-<ul>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F-uknITMKCq.png?alt=media&amp;token=e1a97c61-4fef-4837-8983-f74ec86f3e5f" title="fig:" alt="策略梯度公式" /></li>
-</ul>
-<h2 id="策略网络的是怎么更新参数的">策略网络的是怎么更新参数的？</h2>
-<ul>
-<li>policy-gradient算法，目标是 求一个 最优策略，使得在这个策略下，几乎所有的状态价值 都是最大的（就是对状态 求期望）</li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FGvhdfoS3jM.png?alt=media&amp;token=52ed6dde-1bd6-4428-856b-e319d58800d1" title="fig:" alt="Update policy network using policy gradient" /></li>
 </ul>
 
       
@@ -348,7 +256,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/22/machine-learning/machine-learning_4-dl4_lstm/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/24/reading_notes/zhexue/bayes_zhexue/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -362,7 +270,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/22/machine-learning/machine-learning_4-dl4_lstm/" class="post-title-link" itemprop="url">chapter 4.3 循环神经网络2-长短期记忆网络（LSTM）</a>
+            <a href="/2021/04/24/reading_notes/zhexue/bayes_zhexue/" class="post-title-link" itemprop="url">关于概率哲学</a>
         </h2>
 
         <div class="post-meta">
@@ -372,14 +280,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-22 10:48:04" itemprop="dateCreated datePublished" datetime="2021-04-22T10:48:04+08:00">2021-04-22</time>
+              <time title="创建时间：2021-04-24 09:03:28" itemprop="dateCreated datePublished" datetime="2021-04-24T09:03:28+08:00">2021-04-24</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 15:53:38" itemprop="dateModified" datetime="2021-07-22T15:53:38+08:00">2021-07-22</time>
+                <time title="修改时间：2021-07-22 15:52:13" itemprop="dateModified" datetime="2021-07-22T15:52:13+08:00">2021-07-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -387,7 +295,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
                 </span>
             </span>
 
@@ -402,87 +310,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="总结">总结</h2>
-<ol type="1">
-<li>LSTM是一个循环神经网络，即RNN模型，是对Simple RNN的一种改进，可以避免梯度消失问题, 可以有比simple RNN更长的记忆。LSTM的论文在1997年就发表了。</li>
-<li>LSTM的结构比simple-RNN的结构复杂很多，Simple RNN有1个参数矩阵，LSTM有四个参数矩阵。</li>
-<li>LSTM也可以看成一个带状态的函数，输入当前词的embedding向量（维度为m）和上一个时刻的状态向量（h维）和上一个时刻的记忆单元向量（h + m 维），输出当前时刻的状态向量（h维）和当前时刻的记忆单元向量（h维）。</li>
-<li>LSTM通过引入一个传输带（conveyor belt）来缓解梯度消失的问题。过去的信息通过传输带到达下一个时刻，不会发生很大变化。</li>
-<li>LSTM的处理流程可以描述为，对长期记忆选择性遗忘，对短期记忆选择性保留，两个求和得到了新的长期记忆；将新的长期记忆选择性输出，得到新的短期记忆。</li>
-<li>LSTM有3个门，分别为输入门，输出门，遗忘门，也是三个权重向量，取值范围从0到1
+          <blockquote>
+<p>自然法则（law of nature）：根据简单性（simplicity）和信息量（informativeness）的平衡，我们从众多科学理论中选出最好的一套。</p>
+</blockquote>
+<h2 id="law和regularities">law和regularities</h2>
 <ul>
-<li><p>遗忘门：一个权重向量表示上一个时刻的传送带向量<span class="math inline">\(\mathbf{c}_{t-1}\)</span>需要遗忘多少信息</p></li>
-<li><p>输入门：一个权重向量，控制当前时刻的新的状态<span class="math inline">\(z\)</span>有多少信息要保留</p>
-<blockquote>
-<p>遗忘门 + 输入门共同作用的结果是，得到新的传送带向量</p>
-</blockquote></li>
-<li><p>输出门：控制当前传送带向量<span class="math inline">\(\tilde{\mathbf{c}}_{t}\)</span>有多少信息要输出给外部状态</p></li>
-</ul></li>
-</ol>
-<h2 id="lstm应用-情感判断">LSTM应用-情感判断</h2>
-<p><img src="./img_3.png" /></p>
-<figure>
-<img src="./image_1212.png" alt="使用keras实现lstm" /><figcaption aria-hidden="true">使用keras实现lstm</figcaption>
-</figure>
-<figure>
-<img src="./image_1213.png" alt="img_13.png" /><figcaption aria-hidden="true">img_13.png</figcaption>
-</figure>
-<h2 id="cnn-和-rnn视觉对比">cnn 和 rnn视觉对比</h2>
-<p>有两个图还蛮有意思的，</p>
-<figure>
-<img src="https://miro.medium.com/max/3058/1*W34PwVsbTm_3EbJozaWWdA.jpeg" alt="cnn" /><figcaption aria-hidden="true">cnn</figcaption>
-</figure>
-<figure>
-<img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FoIsH5iVKwV.png?alt=media&amp;token=05e8189e-dd5f-4781-910c-a46bb9fa4eaf" alt="rnn" /><figcaption aria-hidden="true">rnn</figcaption>
-</figure>
-<h2 id="cnn-vs-rnn-vs-attention">cnn vs rnn vs attention</h2>
-<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F_n2z_XQqI2.png?alt=media&amp;token=facfccac-e8ac-4895-a84c-7add43cd165a" /></p>
-<h2 id="附录">附录</h2>
-<h3 id="lstm的内部结构">LSTM的内部结构</h3>
+<li>科学界曾被认为是自然定律（Laws of Nature）的原则（principle）: 牛顿的万有引力定律（law of gravitation），他的三大运动定律（three laws of motion），理想气体定律，孟德尔定律，供需定律（,the laws of supply and demand,），等等。</li>
+<li>规律（regularities）被科学家认为(或仍然被认为)需要更坚实的基础。其中包括海洋潮汐的规律，水星轨道的近日点，光电效应，宇宙正在膨胀等等。</li>
+<li>科学家使用定律（laws）而不是其他规律（regularities）来推断出更可能的结论: 宇宙学家根据与爱因斯坦引力定律的一致性认识到我们的宇宙可能是封闭的，也可能是开放的(Maudlin，2007,7-8)。</li>
+<li>在统计力学中，基本物理理论的定律（laws）被用来确定系统状态空间中可能的动态轨迹。</li>
+</ul>
+<h2 id="两种概率学派">两种概率学派</h2>
 <ol type="1">
-<li><p>LSTM最重要的设计是一个传输带（conveyor belt），记为向量<span class="math inline">\(C_t\)</span>, 过去的信息通过传输带直接传到下一个时刻<span class="math inline">\(C_{t+1}\)</span> ，不会发生太大的变化。LSTM就是靠传输带来避免梯度小时的问题。</p></li>
-<li><p>遗忘门的输入是上一个时刻的状态<span class="math inline">\(h_{t-1}\)</span>和当前时刻的观测值<span class="math inline">\(x_t\)</span>，通过遗忘矩阵<span class="math inline">\(W^f\)</span>加上一个sigomid变换，得到一个概率向量。 <img src="./lstm.png" />。 <img src="./image_123.png" alt="img_3.png" /></p></li>
-<li><p>LSTM的遗忘门（forget gate）的作用是，让传输带上的信息有选择性的通过，选择性是由遗忘门向量控制的，通过遗忘门向量与传送带向量<span class="math inline">\(C_t\)</span>点乘来实现。 <img src="./image_122.png" alt="img_2.png" /></p></li>
-<li><p>输入门(input gate)的输入也是上一个时刻的状态<span class="math inline">\(h_{t-1}\)</span>和当前时刻的观测值<span class="math inline">\(x_t\)</span>。</p>
-<figure>
-<img src="./image_125.png" alt="img_5.png" /><figcaption aria-hidden="true">img_5.png</figcaption>
-</figure></li>
-<li><p>输入门的目的是，让上一个时刻的状态和最新的信息，能有选择性的通过。通过计算输入门向量跟<span class="math inline">\([h_{t-1}, x_{t}]\)</span>的双曲正切向量的点乘来实现。</p>
-<blockquote>
-<p>双曲正切函数可以把上一个时刻的状态和新的观测值组成的向量映射到【-1，1]之间，</p>
-</blockquote></li>
-<li><p>输出门(output gate)的输入也是上一个时刻的状态<span class="math inline">\(h_{t-1}\)</span>和当前时刻的观测值<span class="math inline">\(x_t\)</span></p></li>
+<li>概率有两种：主观概率和客观概率。主观概率的代表是贝叶斯学派，客观概率的代表有：原始派（Primitivism），频率派（Frequentism）。</li>
+<li>主观概率派认为，概率不是关于物理系统的，而是关于物理系统和我们之间的关系。他们并且用信念的强度（degrees of partial belief）来定义概率。</li>
+<li>客观概率派认为，概率是关于客观世界的，关于物理系统的，独立于人们对世界的信念。客观概率的代表有：原始派（Primitivism），频率派（Frequentism）。</li>
+<li>原始派认为：概率是单个物体或者系统的原始的属性，既可能是确定的，也可能是随机的，但是不管如何，都是由事物本身决定的。天体运动规律非常确定，符合牛顿定律，微观粒子做布朗运动。</li>
+<li>频率派：频率派直接将概率和频率化作等号。频率派下最被看好的一个分支：系统派（The Best-System View）/休谟式解释（the Humean Account）。</li>
+<li>系统派将概率和自然法则联系起来。对系统派来说，概率性的系统和确定性的系统没有区别，没有更深层次的属性可以来解释（原始派认为有，就是事物本身的属性）。系统派认为，概率法则和确定性法则，只不过是我们描述，归纳的不同方式罢了，本质都是在寻求简洁性和信息量的trade-off.</li>
 </ol>
-<figure>
-<img src="image_128.png" alt="img_8.png" /><figcaption aria-hidden="true">img_8.png</figcaption>
-</figure>
-<ol start="7" type="1">
-<li><p>输出门的目的是，让最新的长期记忆有选择性的输出，作为状态向量<span class="math inline">\(h_t\)</span>。计算状态向量, 将输出门向量<span class="math inline">\(o_t\)</span>跟传输带最新值<span class="math inline">\(c_t\)</span>的双曲正切映射进行点乘，得到新的状态向量<span class="math inline">\(h_t\)</span>。</p></li>
-<li><p>新的状态向量<span class="math inline">\(h_t\)</span>有两份copies，一份作为当前时刻的输出，一份作为下一个时刻lstm单元的输入。可以认为迄今为止，t个时刻的输入信息都被编码到了状态向量<span class="math inline">\(h_t\)</span>中。 <img src="image_129.png" alt="img_9.png" /></p></li>
-<li><p>LSTM有遗忘门，输入门，new value，输出门，一共对应4个参数矩阵。矩阵的行数是状态向量的长度，矩阵的列数是状态向量的长度+输入向量的长度。</p></li>
-</ol>
-<figure>
-<img src="./image_1210.png" alt="img_10.png" /><figcaption aria-hidden="true">img_10.png</figcaption>
-</figure>
-<ol start="10" type="1">
-<li>更新长期记忆-传送带向量</li>
-</ol>
-<p><img src="./img_1.png" /></p>
-<ol start="11" type="1">
-<li>更新短期机器-状态向量</li>
-</ol>
-<p><img src="./img_2.png" /></p>
-<ol start="12" type="1">
-<li>LSTM处理过程用数学公式表达 <img src="./img_5.png" alt="img_5.png" /> <img src="./img_4.png" alt="img_4.png" /></li>
-</ol>
-<h2 id="参考资料">参考资料</h2>
+<h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://towardsdatascience.com/a-comparison-of-dnn-cnn-and-lstm-using-tf-keras-2191f8c77bbe">a-comparison-of-dnn-cnn-and-lstm-using-tf-keras</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_recurrent-neural-networks/lstm.html">dive into deep learning-lstm</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Cc4ENs6BHQw&amp;list=PLvOO0btloRnuTUGN4XqO85eKPeFSZsEqK&amp;index=3">wangshusen-RNN-youtube</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/wangshusen/DeepLearning">RNN模型与NLP应用(4/9)：LSTM模型</a></li>
-<li><a target="_blank" rel="noopener" href="https://nndl.github.io/nndl-book.pdf">神经网络与深度学习</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/32085405">人人都能看懂的LSTM</a></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/26895086/answer/175050065">概率（Probability）的本质是什么？-知乎</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/20318246/answer/22309277">因果关系是否存在？</a></p></li>
+<li><p>https://plato.stanford.edu/entries/laws-of-nature/</p></li>
 </ol>
 
       
@@ -502,7 +353,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/52/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/52/">52</a><span class="page-number current">53</span><a class="page-number" href="/page/54/">54</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/54/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/52/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/52/">52</a><span class="page-number current">53</span><a class="page-number" href="/page/54/">54</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/54/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -568,7 +419,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
