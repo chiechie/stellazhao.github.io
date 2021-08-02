@@ -184,4 +184,5 @@ google提供了 测试数据 和 测试脚本
 1. [dive into deep learning](https://zh.d2l.ai/chapter_natural-language-processing/word2vec.html#%E8%BF%9E%E7%BB%AD%E8%AF%8D%E8%A2%8B%E6%A8%A1%E5%9E%8B)
 5. https://www.quora.com/Is-Word2vec-a-supervised-unsupervised-learning-algorithm
 6. [Sherlock：Self-Supervised Learning 入门介绍](https://zhuanlan.zhihu.com/p/108625273)
+6. [word2vecd代码](https://github.com/chiechie/EasyML/tree/master/nlp)
 7. https://d2l.ai/chapter_natural-language-processing-pretraining/word2vec-pretraining.html
