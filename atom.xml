@@ -6,7 +6,7 @@
   <link href="https://chiechie.github.io/atom.xml" rel="self"/>
   
   <link href="https://chiechie.github.io/"/>
-  <updated>2021-07-29T14:15:24.541Z</updated>
+  <updated>2021-07-30T03:46:42.505Z</updated>
   <id>https://chiechie.github.io/</id>
   
   <author>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>庄子-齐物论</title>
-    <link href="https://chiechie.github.io/2021/07/29/qiwulun/"/>
-    <id>https://chiechie.github.io/2021/07/29/qiwulun/</id>
+    <link href="https://chiechie.github.io/2021/07/29/zhexue/qiwulun/"/>
+    <id>https://chiechie.github.io/2021/07/29/zhexue/qiwulun/</id>
     <published>2021-07-29T13:55:31.000Z</published>
-    <updated>2021-07-29T14:15:24.541Z</updated>
+    <updated>2021-07-30T03:46:42.505Z</updated>
     
     
       
@@ -34,6 +34,14 @@
     
     
     
+    <category term="哲学" scheme="https://chiechie.github.io/categories/%E5%93%B2%E5%AD%A6/"/>
+    
+    
+    <category term="哲学" scheme="https://chiechie.github.io/tags/%E5%93%B2%E5%AD%A6/"/>
+    
+    <category term="道家" scheme="https://chiechie.github.io/tags/%E9%81%93%E5%AE%B6/"/>
+    
+    <category term="庄子" scheme="https://chiechie.github.io/tags/%E5%BA%84%E5%AD%90/"/>
     
   </entry>
   
@@ -102,7 +110,7 @@
     <link href="https://chiechie.github.io/2021/07/26/timeseries/timeseries6_anomalydetection/"/>
     <id>https://chiechie.github.io/2021/07/26/timeseries/timeseries6_anomalydetection/</id>
     <published>2021-07-26T15:12:28.000Z</published>
-    <updated>2021-07-29T00:49:47.042Z</updated>
+    <updated>2021-07-30T03:48:54.458Z</updated>
     
     
       
@@ -253,7 +261,7 @@
     <link href="https://chiechie.github.io/2021/07/23/timeseries/timeseries3_classic-prediction/"/>
     <id>https://chiechie.github.io/2021/07/23/timeseries/timeseries3_classic-prediction/</id>
     <published>2021-07-23T00:25:11.000Z</published>
-    <updated>2021-07-29T09:53:38.725Z</updated>
+    <updated>2021-08-02T08:57:40.395Z</updated>
     
     
       
@@ -377,11 +385,11 @@
     <category term="数据结构" scheme="https://chiechie.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     
+    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
+    
     <category term="编程" scheme="https://chiechie.github.io/tags/%E7%BC%96%E7%A8%8B/"/>
     
     <category term="数据结构" scheme="https://chiechie.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
     
   </entry>
   
@@ -435,11 +443,11 @@
     <category term="数据结构" scheme="https://chiechie.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     
+    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
+    
     <category term="编程" scheme="https://chiechie.github.io/tags/%E7%BC%96%E7%A8%8B/"/>
     
     <category term="数据结构" scheme="https://chiechie.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
     
   </entry>
   
@@ -464,11 +472,11 @@
     <category term="数据结构" scheme="https://chiechie.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     
+    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
+    
     <category term="编程" scheme="https://chiechie.github.io/tags/%E7%BC%96%E7%A8%8B/"/>
     
     <category term="数据结构" scheme="https://chiechie.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
     
   </entry>
   

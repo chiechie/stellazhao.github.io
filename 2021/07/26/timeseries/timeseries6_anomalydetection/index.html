@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"chiechie.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="I&#39;m not an outlier; I just haven&#39;t found my distribution yet!  key points  通用需求使用生成模型，长尾需求使用有监督或者策略。 有监督要求样本标记质量较高，需按照某个标准来标记，不可标准忽高忽低。  附录  何为异常？正常的反面即异常。如果我们可以定义正常，那么异常就是其反面，很容易判断。 如何定义正常？很多时间序列模型都">
+  <meta name="description" content="I&#39;m not an outlier; I just haven&#39;t found my distribution yet!  概览  通用需求使用生成模型，长尾需求使用有监督或者策略。 有监督要求样本标记质量较高，需按照某个标准来标记，不可标准忽高忽低。   未成乎心而有是非，是今日适越而昔至也。是以无有为有。无有为有，虽有神禹且不能知，吾独且奈何哉！--庄子.齐物论  附录  何为异常？正常的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="时间序列5 时序异常检测">
 <meta property="og:url" content="https://chiechie.github.io/2021/07/26/timeseries/timeseries6_anomalydetection/index.html">
 <meta property="og:site_name" content="Chiechie&#39;s Mini World">
-<meta property="og:description" content="I&#39;m not an outlier; I just haven&#39;t found my distribution yet!  key points  通用需求使用生成模型，长尾需求使用有监督或者策略。 有监督要求样本标记质量较高，需按照某个标准来标记，不可标准忽高忽低。  附录  何为异常？正常的反面即异常。如果我们可以定义正常，那么异常就是其反面，很容易判断。 如何定义正常？很多时间序列模型都">
+<meta property="og:description" content="I&#39;m not an outlier; I just haven&#39;t found my distribution yet!  概览  通用需求使用生成模型，长尾需求使用有监督或者策略。 有监督要求样本标记质量较高，需按照某个标准来标记，不可标准忽高忽低。   未成乎心而有是非，是今日适越而昔至也。是以无有为有。无有为有，虽有神禹且不能知，吾独且奈何哉！--庄子.齐物论  附录  何为异常？正常的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-07-26T15:12:28.000Z">
-<meta property="article:modified_time" content="2021-07-29T00:49:47.042Z">
+<meta property="article:modified_time" content="2021-07-30T03:48:54.458Z">
 <meta property="article:author" content="Chiechie">
 <meta property="article:tag" content="时间序列">
 <meta property="article:tag" content="不相容需求">
@@ -201,7 +201,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-29 08:49:47" itemprop="dateModified" datetime="2021-07-29T08:49:47+08:00">2021-07-29</time>
+                <time title="修改时间：2021-07-30 11:48:54" itemprop="dateModified" datetime="2021-07-30T11:48:54+08:00">2021-07-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -234,11 +234,14 @@
         <blockquote>
 <p>I'm not an outlier; I just haven't found my distribution yet!</p>
 </blockquote>
-<h2 id="key-points">key points</h2>
+<h2 id="概览">概览</h2>
 <ol type="1">
 <li>通用需求使用生成模型，长尾需求使用有监督或者策略。</li>
 <li>有监督要求样本标记质量较高，需按照某个标准来标记，不可标准忽高忽低。</li>
 </ol>
+<blockquote>
+<p>未成乎心而有是非，是今日适越而昔至也。是以无有为有。无有为有，虽有神禹且不能知，吾独且奈何哉！--庄子.齐物论</p>
+</blockquote>
 <h2 id="附录">附录</h2>
 <ol type="1">
 <li><p>何为异常？正常的反面即异常。如果我们可以定义正常，那么异常就是其反面，很容易判断。</p></li>
@@ -385,7 +388,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#key-points"><span class="nav-number">1.</span> <span class="nav-text">key points</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">附录</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%A7%88"><span class="nav-number">1.</span> <span class="nav-text">概览</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">附录</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -399,7 +402,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">197</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -412,7 +415,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">210</span>
+        <span class="site-state-item-count">211</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

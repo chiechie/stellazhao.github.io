@@ -20,25 +20,25 @@
     var CONFIG = {"hostname":"chiechie.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="总结  强化学习方法之一有价值学习方法，在价值学习中，如果我们能得到最优动作函数，就能知道agent在不同的state下该有如何的表现了。 如何学习最优动作价值函数呢？目前最有效的办法就是DQN，Deep Q Network。DQN通过构造一个神经网路去拟合最优行动价值函数，然后通过与环境互动获得训练数据，从而训练出一个神经网络版的先知，他知道在每一个state下，每个action能带来的长期的最">
+  <meta name="description" content="总结  强化学习方法之一有价值学习方法。在价值学习中，如果我们能得到最优动作函数，就能知道agent在不同的state下该有如何的表现了。 如何学习最优动作价值函数呢？目前最有效的办法就是DQN，Deep Q Network。DQN通过构造一个神经网路去拟合最优行动价值函数，然后通过与环境互动获得训练数据，从而训练出一个神经网络版的先知，他知道在每一个state下，每个action能带来的长期的最">
 <meta property="og:type" content="article">
 <meta property="og:title" content="强化学习3 基于价值的强化学习方法">
 <meta property="og:url" content="https://chiechie.github.io/2021/04/21/reinforcement_learning/rl3_value-based/index.html">
 <meta property="og:site_name" content="Chiechie&#39;s Mini World">
-<meta property="og:description" content="总结  强化学习方法之一有价值学习方法，在价值学习中，如果我们能得到最优动作函数，就能知道agent在不同的state下该有如何的表现了。 如何学习最优动作价值函数呢？目前最有效的办法就是DQN，Deep Q Network。DQN通过构造一个神经网路去拟合最优行动价值函数，然后通过与环境互动获得训练数据，从而训练出一个神经网络版的先知，他知道在每一个state下，每个action能带来的长期的最">
+<meta property="og:description" content="总结  强化学习方法之一有价值学习方法。在价值学习中，如果我们能得到最优动作函数，就能知道agent在不同的state下该有如何的表现了。 如何学习最优动作价值函数呢？目前最有效的办法就是DQN，Deep Q Network。DQN通过构造一个神经网路去拟合最优行动价值函数，然后通过与环境互动获得训练数据，从而训练出一个神经网络版的先知，他知道在每一个state下，每个action能带来的长期的最">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://chiechie.github.io/2021/04/21/reinforcement_learning/rl3_value-based/imgs%2Fapp%2Frf_learning%2FfsQADMgSRa.png?alt=media&amp;token=18bf844e-aa59-4016-85d6-8cdfc801a9ce.png">
-<meta property="og:image" content="https://chiechie.github.io/2021/04/21/reinforcement_learning/rl3_value-based/imgs%2Fapp%2Frf_learning%2FGqFFfS975r.png?alt=media&amp;token=71ba382a-432c-4c00-8759-692d84c03f3d.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/21/reinforcement_learning/rl3_value-based/imgs85d6-8cdfc801a9ce.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/21/reinforcement_learning/rl3_value-based/692d84c03f3d.png">
 <meta property="og:image" content="https://chiechie.github.io/2021/04/21/reinforcement_learning/rl3_value-based/image-20210713200249948.png">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FROMmZ-LTGx.png?alt=media&amp;token=dae7cba7-84e1-4e7f-8638-60eaa2b1c166">
 <meta property="og:image" content="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FEuWKISitjj.png?alt=media&amp;token=0427aa38-bad9-46f3-98bd-a1eb051df5cd">
 <meta property="article:published_time" content="2021-04-21T12:30:11.000Z">
-<meta property="article:modified_time" content="2021-07-14T01:23:25.305Z">
+<meta property="article:modified_time" content="2021-08-02T07:51:26.913Z">
 <meta property="article:author" content="Chiechie">
 <meta property="article:tag" content="人工智能">
 <meta property="article:tag" content="强化学习">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://chiechie.github.io/2021/04/21/reinforcement_learning/rl3_value-based/imgs%2Fapp%2Frf_learning%2FfsQADMgSRa.png?alt=media&amp;token=18bf844e-aa59-4016-85d6-8cdfc801a9ce.png">
+<meta name="twitter:image" content="https://chiechie.github.io/2021/04/21/reinforcement_learning/rl3_value-based/imgs85d6-8cdfc801a9ce.png">
 
 <link rel="canonical" href="https://chiechie.github.io/2021/04/21/reinforcement_learning/rl3_value-based/">
 
@@ -205,7 +205,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-14 09:23:25" itemprop="dateModified" datetime="2021-07-14T09:23:25+08:00">2021-07-14</time>
+                <time title="修改时间：2021-08-02 15:51:26" itemprop="dateModified" datetime="2021-08-02T15:51:26+08:00">2021-08-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,8 +237,12 @@
       
         <h1 id="总结">总结</h1>
 <ol type="1">
-<li><p>强化学习方法之一有价值学习方法，在价值学习中，如果我们能得到最优动作函数，就能知道agent在不同的state下该有如何的表现了。</p></li>
-<li><p>如何学习最优动作价值函数呢？目前最有效的办法就是DQN，Deep Q Network。DQN通过构造一个神经网路去拟合最优行动价值函数，然后通过与环境互动获得训练数据，从而训练出一个神经网络版的先知，他知道在每一个state下，每个action能带来的长期的最大价值。 &gt; 在离散的动作空间中，该价值网络输入的是state，输出每个action对应的Q值, &gt; &gt; 那么如果是连续的决策呢？</p></li>
+<li><p>强化学习方法之一有价值学习方法。在价值学习中，如果我们能得到最优动作函数，就能知道agent在不同的state下该有如何的表现了。</p></li>
+<li><p>如何学习最优动作价值函数呢？目前最有效的办法就是DQN，Deep Q Network。DQN通过构造一个神经网路去拟合最优行动价值函数，然后通过与环境互动获得训练数据，从而训练出一个神经网络版的先知，他知道在每一个state下，每个action能带来的长期的最大价值。</p>
+<blockquote>
+<p>在离散的动作空间中，该价值网络输入的是state，输出每个action对应的Q值,</p>
+<p>那么如果是连续的决策呢？</p>
+</blockquote></li>
 <li><p>如何训练价值网络？最根本的问题在于如何获得训练样本，这个样本的feature为state，label为每个action对应的Qvalue。这个label怎么获取呢？</p>
 <ol type="1">
 <li>通过玩很多局游戏，然后记录每个state下面的最优的</li>
@@ -263,11 +267,12 @@
 </ol></li>
 </ol></li>
 </ol>
-<h1 id="附录-自问自答">附录 （自问自答）</h1>
-<h2 id="几个问题">几个问题：</h2>
+<h1 id="附录">附录</h1>
 <ol type="1">
-<li><p>价值 指的是什么？</p>
-<p>「价值」 指的是 <strong>最优动作价值函数</strong>，即如果后续action都遵循<strong>最优策略</strong>，那么当前的&lt;state，action&gt;的得分。<strong>最优动作价值函数</strong> 相当于 一个 先知。</p></li>
+<li>价值 指的是什么？</li>
+</ol>
+<p>「价值」 指的是 <strong>最优动作价值函数</strong>，即如果后续action都遵循<strong>最优策略</strong>，那么当前的&lt;state，action&gt;的得分。<strong>最优动作价值函数</strong> 相当于 一个 先知。</p>
+<ol start="2" type="1">
 <li><p>怎么使用深度学习技术来求解这个问题？</p>
 <p>回到强化学习要解决的问题本身（MDP）--agent的目标是 打赢游戏（最大化total reward），那么我们将这个目标拆解为两个步骤，</p>
 <ol type="1">
@@ -293,12 +298,12 @@
 </ul>
 <p>不是啊，策略输出的是行为概率，Q是价值。量纲都不一样。</p></li>
 </ol>
-<h2 id="一图胜千言">一图胜千言</h2>
+<h2 id="价值网络和策略网络">价值网络和策略网络</h2>
 <ul>
-<li><p>价值网络 <img src="./imgs%2Fapp%2Frf_learning%2FfsQADMgSRa.png?alt=media&amp;token=18bf844e-aa59-4016-85d6-8cdfc801a9ce.png" alt="价值网络" /></p></li>
+<li><p>价值网络 <img src="./imgs85d6-8cdfc801a9ce.png" alt="价值网络" /></p></li>
 <li><p>策略网络</p>
 <figure>
-<img src="./imgs%2Fapp%2Frf_learning%2FGqFFfS975r.png?alt=media&amp;token=71ba382a-432c-4c00-8759-692d84c03f3d.png" alt="策略网络" /><figcaption aria-hidden="true">策略网络</figcaption>
+<img src="./692d84c03f3d.png" alt="策略网络" /><figcaption aria-hidden="true">策略网络</figcaption>
 </figure></li>
 </ul>
 <h2 id="时序差分算法td算法">时序差分算法（TD算法）</h2>
@@ -410,7 +415,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%E5%BD%95-%E8%87%AA%E9%97%AE%E8%87%AA%E7%AD%94"><span class="nav-number">2.</span> <span class="nav-text">附录 （自问自答）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="nav-number">2.1.</span> <span class="nav-text">几个问题：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E5%9B%BE%E8%83%9C%E5%8D%83%E8%A8%80"><span class="nav-number">2.2.</span> <span class="nav-text">一图胜千言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E7%AE%97%E6%B3%95td%E7%AE%97%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">时序差分算法（TD算法）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E7%AE%97%E6%B3%95%E7%9A%84%E5%85%B6%E4%BB%96%E8%B5%84%E6%96%99"><span class="nav-number">2.4.</span> <span class="nav-text">时序差分算法的其他资料</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%B7%E5%80%BC%E7%BD%91%E7%BB%9C%E5%92%8C%E7%AD%96%E7%95%A5%E7%BD%91%E7%BB%9C"><span class="nav-number">2.1.</span> <span class="nav-text">价值网络和策略网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E7%AE%97%E6%B3%95td%E7%AE%97%E6%B3%95"><span class="nav-number">2.2.</span> <span class="nav-text">时序差分算法（TD算法）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E5%BA%8F%E5%B7%AE%E5%88%86%E7%AE%97%E6%B3%95%E7%9A%84%E5%85%B6%E4%BB%96%E8%B5%84%E6%96%99"><span class="nav-number">2.3.</span> <span class="nav-text">时序差分算法的其他资料</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -424,7 +429,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">197</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -437,7 +442,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">210</span>
+        <span class="site-state-item-count">211</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

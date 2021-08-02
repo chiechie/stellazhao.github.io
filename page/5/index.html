@@ -196,7 +196,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-29 17:53:38" itemprop="dateModified" datetime="2021-07-29T17:53:38+08:00">2021-07-29</time>
+                <time title="修改时间：2021-08-02 16:57:40" itemprop="dateModified" datetime="2021-08-02T16:57:40+08:00">2021-08-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -227,12 +227,9 @@
 <p>随机过程的定义并没有提到平移不变性。</p>
 </blockquote></li>
 <li><p>平移不变性是指，移动一个时间步之后，概率分布保持不变。</p></li>
-<li><p>严格平稳性，表示一个随机过程的所有finite时间索引集合对应的概率分布，都满足平移不变性。</p>
-<blockquote>
-<p>随机过程如果有了平移不变性，就可以用更简洁的pdf来表达。</p>
-</blockquote></li>
-<li><p>弱平稳性，也叫协方差平稳性，表示一个随机过程的所有2维时间索引集合对应的概率分布, 都满足平移不变性。</p></li>
-<li><p>满足弱平稳性的随机过程比仅满足强平稳行的随机过程多的多。</p></li>
+<li><p>严格平稳性，表示一个随机过程的所有finite时间索引集合对应的概率分布，都满足平移不变性。</p></li>
+<li><p>弱平稳性，也叫协方差平稳性，表示一个随机过程的所有2维时间索引集合对应的概率分布, 都满足平移不变性。例如，白噪声（white noise）过程就是平稳的。但随机游走（random walk）过程是非平稳的。而随机游走过程的一阶差分（first difference）是平稳的。</p></li>
+<li><p>满足弱平稳性的随机过程比满足强平稳的随机过程多的多。</p></li>
 <li><p>满足协方差平稳性的随机过程满足表示定理(wold representation):</p></li>
 <li><p>什么是好的模型？p尽可能小，或者ma中的q尽可能小。</p></li>
 <li><p>弱平稳随机过程<span class="math inline">\({X_t}\)</span>的脉冲响应函数（impulse response function）表示某个时刻的噪声（innovation）怎么影响后面的随机过程，即the impact of the innovation on the process。</p>
@@ -247,15 +244,27 @@
 <li><p>自回归模型如果满足，特征方程的p个根（复数），都在单位元外面，该随机过程是平稳的。本质上是对回归函数的逆函数施加的收敛性约束。</p></li>
 <li><p>如何对非平稳随机过程建模？先差分，那几个非平稳的例子验一验，比如随时间线性增长+白噪声，再比如</p></li>
 <li><p>金融数据大部分都是非平稳的，像随机游走，box和jenkins想出来了一种移除非平稳趋势的方法--差分</p></li>
-<li><p>平稳性测试：H0是平稳的，检验方法有KPSS测试</p>
-<p>非平稳性测试，H0假设是非平稳的，常用来检测非平稳性的方法单位根检验方法，例如Dickey-Fuller测试</p></li>
-<li><p>DF测试是一种单位根检测，它的流程是这样的，先假设随机过程服从AR（1）模型，拟合一个AR（1）的模型，然后定义一个根<span class="math inline">\(\phi\)</span>相关的统计量，</p>
+<li><p>平稳性测试：H0是原始序列是平稳的，</p>
+<ol type="1">
+<li>KPSS测试</li>
+</ol></li>
+<li><p>非平稳性测试，H0假设是非平稳的，</p>
+<ol type="1">
+<li>Dickey-Fuller (DF) Test的原假设H0: 原始序列为单位根的非平稳序列</li>
+</ol></li>
+<li><p>DF测试是一种单位根检测，它的流程是这样的，先假设随机过程服从AR（1）模型，拟合一个AR（1）参数<span class="math inline">\(\phi\)</span>​得到<span class="math inline">\(\bar\phi\)</span>​，然后定义一个根<span class="math inline">\(\phi\)</span>​​相关的统计量，<span class="math inline">\(t_{\phi=1} = (\hat \phi - 1)/se(\hat \phi)\)</span></p>
 <ol type="1">
 <li>如果 <span class="math inline">\(\phi=1\)</span>, 那就应该观察到t服从一个DF分布，对应的随机过程就是是随机游走，是一个非平稳的随机过程。</li>
-<li>如果<span class="math inline">\(|\phi|=1\)</span>,那么估计量和真实<span class="math inline">\(\phi\)</span>的差值就近似一个正态分布，以真实<span class="math inline">\(\phi^2\)</span>为方差。</li>
+<li>如果<span class="math inline">\(|\phi|&lt;1\)</span>​,那么估计量和真实<span class="math inline">\(\phi\)</span>​的差值就近似一个正态分布，以真实<span class="math inline">\(\phi^2\)</span>​为方差。</li>
 </ol></li>
 </ol>
 <h2 id="附录">附录</h2>
+<h3 id="平稳性的本质是什么">平稳性的本质是什么？</h3>
+<p>时间序列分析中的平稳性，本质是时序数据的可预测性，即模型结果的靠谱程度。</p>
+<p>在机器学习中，没有这个概念，机器学习更多的是无脑地估计参数，和预测结果，至于结果靠不靠谱，不是很关系。</p>
+<p>现实中，很少有时间序列是平稳序列，要么周期波动，要么线性增长📈。</p>
+<p>当我们观测到这些固定模式之后，可以从原始序列中剥离掉这些模式，研究剩下的信号（也叫残差），是否是一个可预测的过程，如果剩下的信号就是一堆类似白噪声的平稳的序列，我们就说原始的信号 - 周期信号- 增长信号是平稳的，而 周期信号和 增长信号也是固定的可以用方程表达的，所以说原始信号也是可以预测的信号，这个就使得我们对预测原始序列充满了信息。</p>
+<p>当一个时序数据非平稳，比如有很明显的时间上的趋势时，</p>
 <ol type="1">
 <li><p>相关系数：两个随机变量标准化到均值=0，方差=1之后的，求协方差。</p></li>
 <li><p>wold representation定理</p>
@@ -305,9 +314,10 @@
 </ol>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=uBeM1FUk4Ps&amp;t=362s">Time Series Analysis I--youtube</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://ocw.mit.edu/courses/mathematics/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/">Time Series Analysis---slide</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://ocw.mit.edu/courses/mathematics/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/">Topics in Mathematics with Applications in Finance-open course</a></p></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=uBeM1FUk4Ps&amp;t=362s">Time Series Analysis I--youtube</a></li>
+<li><a target="_blank" rel="noopener" href="https://ocw.mit.edu/courses/mathematics/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/">Time Series Analysis---slide</a></li>
+<li><a target="_blank" rel="noopener" href="https://ocw.mit.edu/courses/mathematics/18-s096-topics-in-mathematics-with-applications-in-finance-fall-2013/">Topics in Mathematics with Applications in Finance-open course</a></li>
+<li>https://www.zhihu.com/search?type=content&amp;q=%E5%B9%B3%E7%A8%B3%E6%80%A7</li>
 </ol>
 
       
@@ -484,7 +494,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">197</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -497,7 +507,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">210</span>
+        <span class="site-state-item-count">211</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
