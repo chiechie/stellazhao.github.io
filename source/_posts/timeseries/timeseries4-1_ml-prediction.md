@@ -22,7 +22,7 @@ categories:
    - 不同曲线模式不一样（最显而易见的，scale不一样），而学习一个global model对nn来说挑战很大（nn擅长局部建模）
    - 预测概率分布
 2. 时序预测方法的分类：传统时间序列和深度神经网络。
-3. 传统时间序列模型：arma/arima/sarima/ arima/state space/exponential smoothing平稳性检验。
+3. 传统时许分析序列模型：arma/arima/sarima/ arima/state space/exponential smoothing平稳性检验。
 4. 深度神经网络模型：卷积神经网络/全连接神经网络/循环神经网络/基于Seq2Seq的模型，以及是否基于attention。
 
    1. 基于全连接网络的模型：MQ-DNN
@@ -46,8 +46,6 @@ categories:
 
 
 ## 附录
-
-
 
 
 ### 标准卷积

@@ -19,9 +19,9 @@ categories:
 
 1. LSTM是一个循环神经网络，即RNN模型，是对Simple RNN的一种改进，可以避免梯度消失问题, 可以有比simple RNN更长的记忆。LSTM的论文在1997年就发表了。
 
-2. LSTM的结构比simple-RNN的结构复杂很多，Simple RNN有1个参数矩阵，LSTM有四个参数矩阵。
+2. LSTM的结构比simple-RNN的结构复杂很多，Simple RNN有1个参数矩阵，LSTM有四个参数矩阵，每个矩阵的维度都是h * (h + m)。
 
-3. LSTM也可以看成一个带状态的函数：输入当前词的embedding向量（维度为m），上一个时刻的短期记忆向量（状态向量，h维），上一个时刻的长期记忆向量（h + m 维）；输出当前时刻的短期记忆向量（状态向量，h维）和当前时刻的长期记忆向量（h + m维）。
+3. LSTM也可以看成一个带状态的函数：输入当前词的embedding向量（维度为m），上一个时刻的短期记忆向量（状态向量，h维），上一个时刻的长期记忆向量（h维）；输出当前时刻的短期记忆向量（状态向量，h维）和当前时刻的长期记忆向量（h维）。
 
 4. LSTM通过引入长期记忆响亮（传输带，conveyor belt）来缓解梯度消失的问题。过去的信息通过是通过跟最新的信息求和的形式传输带到达下一个时刻，过去的信息不回随着时间的推近而影响弱化。
 
@@ -54,7 +54,7 @@ categories:
 
 ## cnn 和 rnn视觉对比
 
-有两个图还蛮有意思的，
+
 
 ![cnn](https://miro.medium.com/max/3058/1*W34PwVsbTm_3EbJozaWWdA.jpeg)
 
@@ -77,32 +77,30 @@ categories:
 
 3. LSTM的遗忘门（forget gate）的作用是，让传输带上的信息有选择性的通过，选择性是由遗忘门向量控制的，通过遗忘门向量与传送带向量$C_t$点乘来实现。
 ![img_2.png](./image_122.png)
-4. 输入门(input gate)的输入也是上一个时刻的状态$h_{t-1}$和当前时刻的观测值$x_t$。
+4. 遗忘门/输入门/输出门的输入也是上一个时刻的状态$h_{t-1}$​和当前时刻的观测值$x_t$​。
 
 
    ![img_5.png](./image_125.png)
 
-5. 输入门的目的是，让上一个时刻的状态和最新的信息，能有选择性的通过。通过计算输入门向量跟$[h_{t-1}, x_{t}]$的双曲正切向量的点乘来实现。
+5. 输入门的目的是，让上一个时刻的状态和最新的信息，能有选择性的通过。通过计算输入门向量跟临时短期记忆向量（参数矩阵跟$[h_{t-1}, x_{t}]$​的乘积再做双曲正切）的点乘来实现。
   
-   > 双曲正切函数可以把上一个时刻的状态和新的观测值组成的向量映射到【-1，1]之间，
+   > 双曲正切函数可以把上一个时刻的状态和新的观测值组成的向量映射到[-1，1]之间，
    
-6. 输出门(output gate)的输入也是上一个时刻的状态$h_{t-1}$和当前时刻的观测值$x_t$
+6. 输出门的目的是，让最新的长期记忆有选择性的输出，也就是最新的状态向量$h_t$。通过将输出门向量$o_t$跟最新的长期记忆向量（传输带最新值$c_t$）的双曲正切值进行点乘来实现​。
 
 ![img_8.png](image_128.png)
 
-7. 输出门的目的是，让最新的长期记忆有选择性的输出，作为状态向量$h_t$。计算状态向量, 将输出门向量$o_t$跟传输带最新值$c_t$的双曲正切映射进行点乘，得到新的状态向量$h_t$。
-8. 新的状态向量$h_t$有两份copies，一份作为当前时刻的输出，一份作为下一个时刻lstm单元的输入。可以认为迄今为止，t个时刻的输入信息都被编码到了状态向量$h_t$中。
-  ![img_9.png](image_129.png)
-  
-9. LSTM有遗忘门，输入门，new value，输出门，一共对应4个参数矩阵。矩阵的行数是状态向量的长度，矩阵的列数是状态向量的长度+输入向量的长度。
+7. 新的状态向量$h_t$有两份copies，一份作为当前时刻的输出，一份作为下一个时刻lstm单元的输入。可以认为迄今为止，t个时刻的输入信息都被编码到了状态向量$h_t$中。
+   ![img_9.png](image_129.png)
+8. LSTM有遗忘门，输入门，new value，输出门，一共对应4个参数矩阵。矩阵的行数是长期记忆向量的长度（h），矩阵的列数是短期状态向量的长度（h）+输入向量的长度（m）。
 
 ![img_10.png](./image_1210.png)
 
-10. 更新长期记忆-传送带向量
+9. 更新长期记忆-传送带向量
 
 ![](./img_1.png)
 
-11. 更新短期机器-状态向量
+10. 更新短期机器-状态向量
 
 ![](./img_2.png)
 
@@ -112,7 +110,7 @@ categories:
 ## 参考资料
 1. [a-comparison-of-dnn-cnn-and-lstm-using-tf-keras](https://towardsdatascience.com/a-comparison-of-dnn-cnn-and-lstm-using-tf-keras-2191f8c77bbe)
 2. [dive into deep learning-lstm](https://zh.d2l.ai/chapter_recurrent-neural-networks/lstm.html)
-3. [wangshusen-RNN-youtube](https://www.youtube.com/watch?v=Cc4ENs6BHQw&list=PLvOO0btloRnuTUGN4XqO85eKPeFSZsEqK&index=3)
-4. [RNN模型与NLP应用(4/9)：LSTM模型](https://github.com/wangshusen/DeepLearning)
+3. [RNN-youtube](https://www.youtube.com/watch?v=Cc4ENs6BHQw&list=PLvOO0btloRnuTUGN4XqO85eKPeFSZsEqK&index=3)
+4. [RNN-slide](https://github.com/wangshusen/DeepLearning)
 5. [神经网络与深度学习](https://nndl.github.io/nndl-book.pdf)
 6. [人人都能看懂的LSTM](https://zhuanlan.zhihu.com/p/32085405)
