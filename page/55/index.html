@@ -196,7 +196,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 15:53:38" itemprop="dateModified" datetime="2021-07-22T15:53:38+08:00">2021-07-22</time>
+                <time title="修改时间：2021-08-03 15:26:00" itemprop="dateModified" datetime="2021-08-03T15:26:00+08:00">2021-08-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -221,20 +221,25 @@
       
           <h2 id="总结">总结</h2>
 <ol type="1">
-<li>LSTM是一个循环神经网络，即RNN模型，是对Simple RNN的一种改进，可以避免梯度消失问题, 可以有比simple RNN更长的记忆。LSTM的论文在1997年就发表了。</li>
-<li>LSTM的结构比simple-RNN的结构复杂很多，Simple RNN有1个参数矩阵，LSTM有四个参数矩阵。</li>
-<li>LSTM也可以看成一个带状态的函数，输入当前词的embedding向量（维度为m）和上一个时刻的状态向量（h维）和上一个时刻的记忆单元向量（h + m 维），输出当前时刻的状态向量（h维）和当前时刻的记忆单元向量（h维）。</li>
-<li>LSTM通过引入一个传输带（conveyor belt）来缓解梯度消失的问题。过去的信息通过传输带到达下一个时刻，不会发生很大变化。</li>
-<li>LSTM的处理流程可以描述为，对长期记忆选择性遗忘，对短期记忆选择性保留，两个求和得到了新的长期记忆；将新的长期记忆选择性输出，得到新的短期记忆。</li>
-<li>LSTM有3个门，分别为输入门，输出门，遗忘门，也是三个权重向量，取值范围从0到1
+<li><p>LSTM是一个循环神经网络，即RNN模型，是对Simple RNN的一种改进，可以避免梯度消失问题, 可以有比simple RNN更长的记忆。LSTM的论文在1997年就发表了。</p></li>
+<li><p>LSTM的结构比simple-RNN的结构复杂很多，Simple RNN有1个参数矩阵，LSTM有四个参数矩阵。</p></li>
+<li><p>LSTM也可以看成一个带状态的函数：输入当前词的embedding向量（维度为m），上一个时刻的短期记忆向量（状态向量，h维），上一个时刻的长期记忆向量（h + m 维）；输出当前时刻的短期记忆向量（状态向量，h维）和当前时刻的长期记忆向量（h + m维）。</p></li>
+<li><p>LSTM通过引入长期记忆响亮（传输带，conveyor belt）来缓解梯度消失的问题。过去的信息通过是通过跟最新的信息求和的形式传输带到达下一个时刻，过去的信息不回随着时间的推近而影响弱化。</p></li>
+<li><p>LSTM的处理流程可以描述为：</p>
+<ol type="1">
+<li>对<strong>上个时刻的长期记忆</strong>选择性遗忘（遗忘门），对临时短期记忆选择性保留（输入门），两个向量求和得到了<strong>新的长期记忆</strong>；</li>
+<li>将<strong>新的长期记忆</strong>选择性输出（输出门），得到<strong>新的短期记忆</strong>。</li>
+</ol></li>
+<li><p>LSTM有3个门，分别为输入门，输出门，遗忘门，也是三个权重向量，取值范围从0到1</p>
 <ul>
-<li><p>遗忘门：一个权重向量表示上一个时刻的传送带向量<span class="math inline">\(\mathbf{c}_{t-1}\)</span>需要遗忘多少信息</p></li>
-<li><p>输入门：一个权重向量，控制当前时刻的新的状态<span class="math inline">\(z\)</span>有多少信息要保留</p>
+<li><p>遗忘门：控制上一个时刻的长期记忆（传送带向量<span class="math inline">\(\mathbf{c}_{t-1}\)</span>​）需要遗忘多少信息</p></li>
+<li><p>输入门：控制临时短期记忆需要保留多少信息</p>
 <blockquote>
-<p>遗忘门 + 输入门共同作用的结果是，得到新的传送带向量</p>
+<p>遗忘门 + 输入门的共同作用结果是，得到新的长期记忆响亮（传送带向量<span class="math inline">\(\mathbf{c}_{t}\)</span>）</p>
 </blockquote></li>
-<li><p>输出门：控制当前传送带向量<span class="math inline">\(\tilde{\mathbf{c}}_{t}\)</span>有多少信息要输出给外部状态</p></li>
+<li><p>输出门：控制<strong>新的长期记忆</strong>（传送带向量<span class="math inline">\(\tilde{\mathbf{c}}_{t}\)</span>​）需要输出多少信息，给<strong>新的短期记忆</strong>。​</p></li>
 </ul></li>
+<li><p>LSTM处理过程用数学公式表达 <img src="./img_5.png" alt="img_5.png" /> <img src="./img_4.png" alt="img_4.png" /></p></li>
 </ol>
 <h2 id="lstm应用-情感判断">LSTM应用-情感判断</h2>
 <p><img src="./img_3.png" /></p>
@@ -289,9 +294,6 @@
 <li>更新短期机器-状态向量</li>
 </ol>
 <p><img src="./img_2.png" /></p>
-<ol start="12" type="1">
-<li>LSTM处理过程用数学公式表达 <img src="./img_5.png" alt="img_5.png" /> <img src="./img_4.png" alt="img_4.png" /></li>
-</ol>
 <h2 id="参考资料">参考资料</h2>
 <ol type="1">
 <li><a target="_blank" rel="noopener" href="https://towardsdatascience.com/a-comparison-of-dnn-cnn-and-lstm-using-tf-keras-2191f8c77bbe">a-comparison-of-dnn-cnn-and-lstm-using-tf-keras</a></li>
