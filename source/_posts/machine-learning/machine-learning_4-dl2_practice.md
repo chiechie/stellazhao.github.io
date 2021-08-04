@@ -13,12 +13,29 @@ categories:
 
 
 
-## backpropagation
+## 反向传播（backpropagation）
+
+> ** The problem with Backpropagation is that it is a** [**leaky abstraction**](https://en.wikipedia.org/wiki/Leaky_abstraction)**.**---Andrej Karpathy
+
+![img](https://kratzert.github.io/images/bn_backpass/BNcircuit.png)
+
+1. 关于激活函数--sigmoid，另外一个容易忽视的事实是，其梯度在z=0.5时，达到最大--0.25，这意味着，每次梯度信号穿越过sigmoid门时，会衰减为1/4或者更多，如果使用基本 SGD，这会使网络的低层比高层的参数更新慢得多。
+
+3. 长话短说： 如果您在网络中使用 sigmoids 或者 tanh 作为激活函数，那么您应该警惕，初始化不会导致想训练过程完全饱和（ fully saturated）。
+
+4. 还有一个有趣的非线性函数ReLU，它从下面将神经元阈值为零。使用 ReLU 的完全连接层的向前和向后传递在核心包括:
+
+
+
+
+
+
+
+
 
 1. 损失函数是关于训练数据和网络权重的函数，其中训练数据是常数，权重是变量，我们可以控制的。因此，虽然算出损失关于训练数据的梯度很简单，（同样bp），但是我们也不会算这个梯度，而是算损失关于权重的梯度，从而使用这个梯度去更新权重。
 2. 损失函数关于样本的梯度也不是说完全没有用，他可以用来做可视化，解释模型当前学到了什么。
 3. 导数是什么？随着某个变量的变化，一个函数的变化量。表示函数对于当前变量值的敏感性。
-
 4. 考虑一个多层嵌套的函数f，对其应用链式法则，就可以到达终极变量的导数
 
 - f(x,y,z)=(x+y)z可以被分解为:q=x+y 和f=qz
@@ -129,3 +146,5 @@ model.load_weights(checkpoint_filepath)
 2. [keras-model_checkpoint-官网文档](https://keras.io/api/callbacks/model_checkpoint/)
 3. [concatenate](https://keras.io/api/layers/merging_layers/concatenate/)
 4. http://cs231n.github.io/optimization-2/#intuitive
+
+5. https://karpathy.medium.com/yes-you-should-understand-backprop-e2f06eab496b
