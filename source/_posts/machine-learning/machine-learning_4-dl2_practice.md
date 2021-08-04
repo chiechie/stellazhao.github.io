@@ -23,9 +23,11 @@ categories:
 
 3. 长话短说： 如果您在网络中使用 sigmoids 或者 tanh 作为激活函数，那么您应该警惕，初始化不会导致想训练过程完全饱和（ fully saturated）。
 
-4. 还有一个有趣的非线性函数ReLU，它从下面将神经元阈值为零。使用 ReLU 的完全连接层的向前和向后传递在核心包括:
+3. 还有一个有趣的非线性函数ReLU，当输入小于0时，导数也为0，此时没有梯度信号能通过激活函数，这个现象叫“dead ReLU” 问题。如果一个relu神经元不幸被初始化的
 
+   
 
+If you stare at this for a while you’ll see that if a neuron gets clamped to zero in the forward pass (i.e. **z**=0, it doesn’t “fire”), then its weights will get zero gradient. This can lead to what is called the “dead ReLU” problem, where if a ReLU neuron is unfortunately initialized such that it never fires, or if a neuron’s weights ever get knocked off with a large update during training into this regime, then this neuron will remain permanently dead. It’s like permanent, irrecoverable brain damage. Sometimes you can forward the entire training set through a trained network and find that a large fraction (e.g. 40%) of your neurons were zero the entire time.
 
 
 
