@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/22/machine-learning/machine-learning_4-dl4_lstm/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/23/reading_notes/reality/something-about-investment/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/22/machine-learning/machine-learning_4-dl4_lstm/" class="post-title-link" itemprop="url">chapter 4.3 循环神经网络2-长短期记忆网络（LSTM）</a>
+            <a href="/2021/04/23/reading_notes/reality/something-about-investment/" class="post-title-link" itemprop="url">《投资最重要的事》读书笔记</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-22 10:48:04" itemprop="dateCreated datePublished" datetime="2021-04-22T10:48:04+08:00">2021-04-22</time>
+              <time title="创建时间：2021-04-23 09:04:33" itemprop="dateCreated datePublished" datetime="2021-04-23T09:04:33+08:00">2021-04-23</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-03 15:26:00" itemprop="dateModified" datetime="2021-08-03T15:26:00+08:00">2021-08-03</time>
+                <time title="修改时间：2021-07-08 08:36:34" itemprop="dateModified" datetime="2021-07-08T08:36:34+08:00">2021-07-08</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -204,7 +204,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                  <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
                 </span>
             </span>
 
@@ -219,89 +219,60 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="总结">总结</h2>
+          <h2 id="第1章-序言">第1章 序言</h2>
 <ol type="1">
-<li><p>LSTM是一个循环神经网络，即RNN模型，是对Simple RNN的一种改进，可以避免梯度消失问题, 可以有比simple RNN更长的记忆。LSTM的论文在1997年就发表了。</p></li>
-<li><p>LSTM的结构比simple-RNN的结构复杂很多，Simple RNN有1个参数矩阵，LSTM有四个参数矩阵。</p></li>
-<li><p>LSTM也可以看成一个带状态的函数：输入当前词的embedding向量（维度为m），上一个时刻的短期记忆向量（状态向量，h维），上一个时刻的长期记忆向量（h + m 维）；输出当前时刻的短期记忆向量（状态向量，h维）和当前时刻的长期记忆向量（h + m维）。</p></li>
-<li><p>LSTM通过引入长期记忆响亮（传输带，conveyor belt）来缓解梯度消失的问题。过去的信息通过是通过跟最新的信息求和的形式传输带到达下一个时刻，过去的信息不回随着时间的推近而影响弱化。</p></li>
-<li><p>LSTM的处理流程可以描述为：</p>
+<li>宏观未来很难预测, 大部分人都不具备这个知识优势</li>
+<li>"知可知"：对于个别公司和股票，了解的细节越多，越<strong>有可能</strong>获得知识优势，但是对于整个市场的认知做到这一点就很难。</li>
+<li>弄清自己在周期和钟摆中所处的阶段</li>
+<li>找到某个细分的领域，某个公司，通过努力花时间，调研信息。</li>
+</ol>
+<h2 id="第2章-理解市场的有效性以及局限性">第2章 理解市场的有效性以及局限性</h2>
 <ol type="1">
-<li>对<strong>上个时刻的长期记忆</strong>选择性遗忘（遗忘门），对临时短期记忆选择性保留（输入门），两个向量求和得到了<strong>新的长期记忆</strong>；</li>
-<li>将<strong>新的长期记忆</strong>选择性输出（输出门），得到<strong>新的短期记忆</strong>。</li>
-</ol></li>
-<li><p>LSTM有3个门，分别为输入门，输出门，遗忘门，也是三个权重向量，取值范围从0到1</p>
+<li>有效市场假说可以优化为：市场可以迅速快捷地整合信息。</li>
+<li>资产价格能够迅速反映出人们对于信息含义的共识，但是这个共识不一定是对的。</li>
+<li>影响共识的两个因素：心理因素和基本面。前者有时候更重要。</li>
+</ol>
+<h2 id="第10章-抵御消极影响">第10章 抵御消极影响</h2>
+<ol type="1">
+<li>基本观点被转化为高价泡沫的例子--科技股热潮：最开始是有一个有客观吸引力的资产，随着重视程度提高，大家都想要持有这项资产，继而资本流入，价格上涨，资产更加具有吸引力，从而更多人买进，于是上涨进入爆发期。如果这种情况持续的时间足够长、积聚的力量足够大，投资就会变成泡沫。泡沫为善于思考的投资者提供了许多<strong>卖空</strong>的机会。 &gt; 很像平台运营的方式啊。</li>
+</ol>
+<h2 id="第12章-寻找便宜货">第12章 寻找便宜货</h2>
+<ol type="1">
+<li><p>人们通常不愿意挖掘最佳机会。</p></li>
+<li><p>构建投资组合的准备工作：</p>
 <ul>
-<li><p>遗忘门：控制上一个时刻的长期记忆（传送带向量<span class="math inline">\(\mathbf{c}_{t-1}\)</span>​）需要遗忘多少信息</p></li>
-<li><p>输入门：控制临时短期记忆需要保留多少信息</p>
-<blockquote>
-<p>遗忘门 + 输入门的共同作用结果是，得到新的长期记忆响亮（传送带向量<span class="math inline">\(\mathbf{c}_{t}\)</span>）</p>
-</blockquote></li>
-<li><p>输出门：控制<strong>新的长期记忆</strong>（传送带向量<span class="math inline">\(\tilde{\mathbf{c}}_{t}\)</span>​）需要输出多少信息，给<strong>新的短期记忆</strong>。​</p></li>
+<li>潜在投资清单：满足最低的<strong>绝对标准</strong>的股票。</li>
+<li>内在价值估计：要把未来多久的收益考虑进去呢？</li>
+<li>有多少价值price in到价格中了</li>
+<li>每个投资的风险，以及对整体组合的影响。</li>
 </ul></li>
-<li><p>LSTM处理过程用数学公式表达 <img src="./img_5.png" alt="img_5.png" /> <img src="./img_4.png" alt="img_4.png" /></p></li>
+<li><p>最低标准之一是风险可接受，包括超出投资者专业知识范围导致的不可预测（例如我跟风买比亚迪），以及行业不稳定或者公司财务的不透明导致无法预测。这两点风险都跟价格无关。</p></li>
+<li><p>价值股：高质量，高市值，eg腾讯，茅台，平安。</p></li>
+<li><p>找便宜货：潜在收益/风险 最高的股票，这个是一个<strong>相对标准</strong></p></li>
+<li><p>投资的过程是缜密和经过严格训练的。投资是相对的：不管价格低迷还是高涨，从现存的可能性中选择最好的。这就是相对决策。</p></li>
+<li><p>投资误区：不能区分好在产与好交易，误将客观优点当作投资机会。</p></li>
+<li><p>便宜股为什么收到冷落？</p>
+<ul>
+<li>客观上公司表现不好：资产类别可能存在缺陷；在业内较为落后（公司规模？）；资产负债表可能被过度杠杆化（没有能力没有钱）</li>
+<li>投资者非理性或者片面理解这个公司：没有透过表象全面了解资产，或未能克服某些不以价值为基础的传统、偏见或束缚。</li>
+<li>进一步下跌：大多数投资者会根据以往业绩而不是更可靠的均值回归来预测未来趋势。第一层次思维者倾向于将过去的价格疲软视为负担，而不是资产更为廉价的标志。</li>
+</ul></li>
+<li><p>怎么区分便宜货和垃圾？思索下，牛肉是不是一个被低估的赛道。</p></li>
 </ol>
-<h2 id="lstm应用-情感判断">LSTM应用-情感判断</h2>
-<p><img src="./img_3.png" /></p>
-<figure>
-<img src="./image_1212.png" alt="使用keras实现lstm" /><figcaption aria-hidden="true">使用keras实现lstm</figcaption>
-</figure>
-<figure>
-<img src="./image_1213.png" alt="img_13.png" /><figcaption aria-hidden="true">img_13.png</figcaption>
-</figure>
-<h2 id="cnn-和-rnn视觉对比">cnn 和 rnn视觉对比</h2>
-<p>有两个图还蛮有意思的，</p>
-<figure>
-<img src="https://miro.medium.com/max/3058/1*W34PwVsbTm_3EbJozaWWdA.jpeg" alt="cnn" /><figcaption aria-hidden="true">cnn</figcaption>
-</figure>
-<figure>
-<img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FoIsH5iVKwV.png?alt=media&amp;token=05e8189e-dd5f-4781-910c-a46bb9fa4eaf" alt="rnn" /><figcaption aria-hidden="true">rnn</figcaption>
-</figure>
-<h2 id="cnn-vs-rnn-vs-attention">cnn vs rnn vs attention</h2>
-<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F_n2z_XQqI2.png?alt=media&amp;token=facfccac-e8ac-4895-a84c-7add43cd165a" /></p>
-<h2 id="附录">附录</h2>
-<h3 id="lstm的内部结构">LSTM的内部结构</h3>
+<h2 id="第20章-最重要的事情">第20章 最重要的事情</h2>
 <ol type="1">
-<li><p>LSTM最重要的设计是一个传输带（conveyor belt），记为向量<span class="math inline">\(C_t\)</span>, 过去的信息通过传输带直接传到下一个时刻<span class="math inline">\(C_{t+1}\)</span> ，不会发生太大的变化。LSTM就是靠传输带来避免梯度小时的问题。</p></li>
-<li><p>遗忘门的输入是上一个时刻的状态<span class="math inline">\(h_{t-1}\)</span>和当前时刻的观测值<span class="math inline">\(x_t\)</span>，通过遗忘矩阵<span class="math inline">\(W^f\)</span>加上一个sigomid变换，得到一个概率向量。 <img src="./lstm.png" />。 <img src="./image_123.png" alt="img_3.png" /></p></li>
-<li><p>LSTM的遗忘门（forget gate）的作用是，让传输带上的信息有选择性的通过，选择性是由遗忘门向量控制的，通过遗忘门向量与传送带向量<span class="math inline">\(C_t\)</span>点乘来实现。 <img src="./image_122.png" alt="img_2.png" /></p></li>
-<li><p>输入门(input gate)的输入也是上一个时刻的状态<span class="math inline">\(h_{t-1}\)</span>和当前时刻的观测值<span class="math inline">\(x_t\)</span>。</p>
-<figure>
-<img src="./image_125.png" alt="img_5.png" /><figcaption aria-hidden="true">img_5.png</figcaption>
-</figure></li>
-<li><p>输入门的目的是，让上一个时刻的状态和最新的信息，能有选择性的通过。通过计算输入门向量跟<span class="math inline">\([h_{t-1}, x_{t}]\)</span>的双曲正切向量的点乘来实现。</p>
-<blockquote>
-<p>双曲正切函数可以把上一个时刻的状态和新的观测值组成的向量映射到【-1，1]之间，</p>
-</blockquote></li>
-<li><p>输出门(output gate)的输入也是上一个时刻的状态<span class="math inline">\(h_{t-1}\)</span>和当前时刻的观测值<span class="math inline">\(x_t\)</span></p></li>
+<li>怎么给一个公司估值？四个方面：账面现金&amp;有形资产价值，产生现金流能力，以及增值潜力。概括一下就是，现在有多少钱，现在能挣多少钱，以及未来可能挣多少钱。</li>
+<li>买入机会存在的原因：极少数人对便宜货有敏锐的洞察力，大部分人认知低下。</li>
+<li>优先级： 买便宜股 &gt; 成长股 &gt; 热门动量股</li>
+<li>韭菜心理学：
+<ul>
+<li>市场处于周期之中，但是大多数人相信惯性和动量。</li>
+<li>投资者的群体心理也呈现有规律的钟摆式波动——从乐观到悲观，从轻信到怀疑，从唯恐错失良机到害怕遭受损失，从急于买进到迫切卖出。</li>
+</ul></li>
 </ol>
-<figure>
-<img src="image_128.png" alt="img_8.png" /><figcaption aria-hidden="true">img_8.png</figcaption>
-</figure>
-<ol start="7" type="1">
-<li><p>输出门的目的是，让最新的长期记忆有选择性的输出，作为状态向量<span class="math inline">\(h_t\)</span>。计算状态向量, 将输出门向量<span class="math inline">\(o_t\)</span>跟传输带最新值<span class="math inline">\(c_t\)</span>的双曲正切映射进行点乘，得到新的状态向量<span class="math inline">\(h_t\)</span>。</p></li>
-<li><p>新的状态向量<span class="math inline">\(h_t\)</span>有两份copies，一份作为当前时刻的输出，一份作为下一个时刻lstm单元的输入。可以认为迄今为止，t个时刻的输入信息都被编码到了状态向量<span class="math inline">\(h_t\)</span>中。 <img src="image_129.png" alt="img_9.png" /></p></li>
-<li><p>LSTM有遗忘门，输入门，new value，输出门，一共对应4个参数矩阵。矩阵的行数是状态向量的长度，矩阵的列数是状态向量的长度+输入向量的长度。</p></li>
-</ol>
-<figure>
-<img src="./image_1210.png" alt="img_10.png" /><figcaption aria-hidden="true">img_10.png</figcaption>
-</figure>
-<ol start="10" type="1">
-<li>更新长期记忆-传送带向量</li>
-</ol>
-<p><img src="./img_1.png" /></p>
-<ol start="11" type="1">
-<li>更新短期机器-状态向量</li>
-</ol>
-<p><img src="./img_2.png" /></p>
-<h2 id="参考资料">参考资料</h2>
+<h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://towardsdatascience.com/a-comparison-of-dnn-cnn-and-lstm-using-tf-keras-2191f8c77bbe">a-comparison-of-dnn-cnn-and-lstm-using-tf-keras</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_recurrent-neural-networks/lstm.html">dive into deep learning-lstm</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Cc4ENs6BHQw&amp;list=PLvOO0btloRnuTUGN4XqO85eKPeFSZsEqK&amp;index=3">wangshusen-RNN-youtube</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/wangshusen/DeepLearning">RNN模型与NLP应用(4/9)：LSTM模型</a></li>
-<li><a target="_blank" rel="noopener" href="https://nndl.github.io/nndl-book.pdf">神经网络与深度学习</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/32085405">人人都能看懂的LSTM</a></li>
+<li><a target="_blank" rel="noopener" href="https://weread.qq.com/web/reader/e59329905e4245e59ebd7e1k3c5327902153c59dc0488e1">投资，最重要的事-微信读书</a></li>
 </ol>
 
       
@@ -322,7 +293,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/21/reinforcement_learning/rl3_value-based/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/22/reinforcement_learning/rl4_policy-based/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -336,7 +307,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/21/reinforcement_learning/rl3_value-based/" class="post-title-link" itemprop="url">强化学习3 基于价值的强化学习方法</a>
+            <a href="/2021/04/22/reinforcement_learning/rl4_policy-based/" class="post-title-link" itemprop="url">强化学习4 基于策略的强化学习方法</a>
         </h2>
 
         <div class="post-meta">
@@ -346,14 +317,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-21 20:30:11" itemprop="dateCreated datePublished" datetime="2021-04-21T20:30:11+08:00">2021-04-21</time>
+              <time title="创建时间：2021-04-22 20:33:30" itemprop="dateCreated datePublished" datetime="2021-04-22T20:33:30+08:00">2021-04-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-02 15:51:26" itemprop="dateModified" datetime="2021-08-02T15:51:26+08:00">2021-08-02</time>
+                <time title="修改时间：2021-07-13 22:48:34" itemprop="dateModified" datetime="2021-07-13T22:48:34+08:00">2021-07-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -378,100 +349,114 @@
       
           <h1 id="总结">总结</h1>
 <ol type="1">
-<li><p>强化学习方法之一有价值学习方法。在价值学习中，如果我们能得到最优动作函数，就能知道agent在不同的state下该有如何的表现了。</p></li>
-<li><p>如何学习最优动作价值函数呢？目前最有效的办法就是DQN，Deep Q Network。DQN通过构造一个神经网路去拟合最优行动价值函数，然后通过与环境互动获得训练数据，从而训练出一个神经网络版的先知，他知道在每一个state下，每个action能带来的长期的最大价值。</p>
-<blockquote>
-<p>在离散的动作空间中，该价值网络输入的是state，输出每个action对应的Q值,</p>
-<p>那么如果是连续的决策呢？</p>
-</blockquote></li>
-<li><p>如何训练价值网络？最根本的问题在于如何获得训练样本，这个样本的feature为state，label为每个action对应的Qvalue。这个label怎么获取呢？</p>
-<ol type="1">
-<li>通过玩很多局游戏，然后记录每个state下面的最优的</li>
-</ol></li>
-<li><p>Q-learning算法是一种时序差分算法（TD），是一种训练DQN的方法：</p>
-<ul>
-<li>TD error: 未来的我回到现在来做决策，优于现在的我做决策的程度。</li>
-<li>TD target：未来的我回到现在的世界来做决策，可以得多少分。</li>
-</ul></li>
-<li><p>轨迹 <strong>(Trajectory)</strong> 是指一回合 (Episode) 游戏中，智能体观测到的所有的状态、动作、奖励: s1,a1,r1, s2,a2,r2, s3,a3,r3, ···</p></li>
-<li><p>DQN 的训练可以分割成两个独立的部分:收集训练数据、更新参数 w。</p>
-<ol type="1">
-<li><p>收集训练数据：可以使用行为策略(Behaviour Policy)让agent根环境互动，将一条轨迹的数据分成多个<span class="math inline">\((s_t, a_t, r_t, s_{t+1})\)</span>四元组，将四元组统一存放到经验回放数组(Replay Buffer)</p></li>
-<li><p>更新DQN参数:从经验回放数组中取出一个四元组，使用时序差分（TD）算法更新参数</p>
-<ol type="1">
-<li><p>使用DQN计算当前时刻价值网络的预测值<span class="math inline">\(\hat q_j\)</span> ，下一个时刻价值网络的预测值 <span class="math inline">\(\hat q_{j+1}\)</span>。</p></li>
-<li><p>更新DQN参数的目标是为了让TD误差变小，所以可以将当前的学习目标设置为，最小化TD误差平方和，即： <span class="math display">\[
-\min L(\boldsymbol{w})=\frac{1}{2}\left[Q\left(s_{t}, a_{t} ; \boldsymbol{w}\right)-\widehat{y}_{t}\right]^{2}
+<li><p>强化学习的方向之一是基于策略学习的方法，即通过求解优化问题，得到一个最优的策略函数。</p></li>
+<li><p>可以使用一个神经网络来拟合这个策略函数，这个神经网络也叫策略网络。策略网络的输入是一个state，输出是每个action对应的概率向量。策略网络参数的初始值是随机的，利用agent跟环境之间的互动，收集state，action，reward，然后去更新策略网络参数。</p></li>
+<li><p>策略学习的目标函数是状态价值函数关于所有状态的期望: 如果策略越好，目标函数就越大 <span class="math display">\[
+\max\limits_{\theta} J(\boldsymbol{\theta})=\mathbb{E}_{S}\left[V_{\pi}(S)\right]
 \]</span></p></li>
-<li><p>更新DQN的参数：根据样本中的<span class="math inline">\(r_t\)</span>, 计算出TD误差<span class="math inline">\(\delta_{j}\)</span>，对 DQN 做反向传播，得到梯度<span class="math inline">\(\boldsymbol{g}_{j}=\nabla_{\boldsymbol{w}} Q\left(s_{j}, a_{j} ; \boldsymbol{w}_{\mathrm{now}}\right)\)</span></p>
-<p><span class="math inline">\(\boldsymbol{w}_{\mathrm{new}} \leftarrow \boldsymbol{w}_{\mathrm{now}}-\alpha \cdot \delta_{j} \cdot \boldsymbol{g}_{j}\)</span></p></li>
+<li><p>目标函数关于策略的梯度记为「策略梯度」，可以使用梯度上升的策略去更新策略网络的参数 <span class="math display">\[
+\boldsymbol{\theta}_{\text {new }} \leftarrow \boldsymbol{\theta}_{\text {now }}+\beta \cdot \nabla_{\boldsymbol{\theta}} J\left(\boldsymbol{\theta}_{\text {now }}\right)
+\]</span></p></li>
+<li><p>又根据策略梯度证明定理，策略梯度等价于 <span class="math display">\[
+\nabla_{\boldsymbol{\theta}} J(\boldsymbol{\theta})=\mathbb{E}_{S}\left[\mathbb{E}_{A \sim \pi(\cdot \mid S ; \boldsymbol{\theta})}\left[Q_{\pi}(S, A) \cdot \nabla_{\boldsymbol{\theta}} \ln \pi(A \mid S ; \boldsymbol{\theta})\right]\right]
+\]</span></p></li>
+<li><p>策略梯度中包含两部分，动作价值函数和策略函数的梯度，策略函数的梯度好算，动作价值函数不好算，有两种方法可以对动作价值函数做近似，分别是reinforce和actor-critic。</p>
+<ol type="1">
+<li>reinforce：用实际观测的回报u去近似状态价值函数</li>
+<li>actor-critic方法：用神经网络去近似动作价值函数</li>
 </ol></li>
+<li><p>reinforce计算Qvalue的方法</p>
+<ol type="1">
+<li>从t时刻开始，agent每次完成一局（episode）游戏，观测并且记录所有reward，计算return，将其作为Q的一个观测值。</li>
+<li>将Q和对策略网络使用BP算出来的梯度相乘，得到策略梯度，更新策略网络参数。</li>
+</ol></li>
+<li><p>reinforce 是一种在线策略 (On-Policy) 方法，要求行为策略 (Behavior Policy) 与目标策略 (Target Policy) 相同，两者都必须是策略网络 <span class="math inline">\(\pi( a| s; \theta_{now} )\)</span>，其中$ _{now} $是策略网络当 前的参数。所以经验回放不适用于 REINFORCE。</p></li>
+<li><p>Actor-Critic 方法用神经网络近似Q</p></li>
+<li><p>A2C方法 的价值网络与DQN结构相同，但是意义不同，训练的算法也不同，</p>
+<ol type="1">
+<li>A2C的价值网络是对动作价值函数的近似DQN的价值网络是对最优动作价值函数<span class="math inline">\(Q^{\star}\)</span>的近似</li>
+<li>对A2C的价值网络训练使用的是SARSA算法，它是一种在线策略（on-policy），不能用经验回放（replay buffer）。DQN的训练使用的是Q-learning算法，它属于离线策略（off-policy），可以使用replay buffer</li>
+</ol></li>
+<li><p>训练策略网络：策略网络接受价值网络的评价，调整自己的权重，</p></li>
+<li><p>训练价值网络：价值网络也需要持续提升自己，不然评委固步自封，这样策略网络只会投其所好，不会学到真正的好的策略。怎么训练价值网络呢？使用SARSA算法更新价值网络参数，即用观测到的奖励<span class="math inline">\(r_t\)</span>来校准q，</p></li>
+<li><p>Actor-Critic 具体的训练流程如下：</p>
+<ol type="1">
+<li><p>观测到当前状态 <span class="math inline">\(s_t\)</span>，根据策略网络预测:<span class="math inline">\(a_t ∼ \pi( · | s_t; \theta_{now})\)</span>，并让agent执行动作<span class="math inline">\(a_t\)</span>。</p></li>
+<li><p>从环境中观测到奖励 <span class="math inline">\(r+t\)</span> 和新状态 <span class="math inline">\(s_{t+1}\)</span>。</p></li>
+<li><p>让策略网络预测：<span class="math inline">\(\tilde a_{t+1} ∼ π( · |s_{t+1}; \theta_{now})\)</span>，但不执行</p></li>
+<li><p>让价值网络预测: t和t+1时刻</p></li>
+<li><p>计算TD误差$_{t} $</p></li>
+<li><p>更新价值网络，损失函数为TD误差平方：</p>
+<p><span class="math display">\[\boldsymbol{w}_{\mathrm{new}} \leftarrow \boldsymbol{w}_{\mathrm{now}}-\alpha \cdot \delta_{t} \cdot \nabla_{\boldsymbol{w}} q\left(s_{t}, a_{t} ; \boldsymbol{w}_{\mathrm{now}}\right)\]</span></p></li>
+<li><p>更新策略网络:</p>
+<p><span class="math display">\[\boldsymbol{\theta}_{\mathrm{new}} \leftarrow \boldsymbol{\theta}_{\mathrm{now}}+\beta \cdot \widehat{q}_{t} \cdot \nabla_{\boldsymbol{\theta}} \ln \pi\left(a_{t} \mid s_{t} ; \boldsymbol{\theta}_{\mathrm{now}}\right)\]</span></p></li>
 </ol></li>
 </ol>
 <h1 id="附录">附录</h1>
+<h2 id="问题">问题</h2>
+<ul>
+<li>基于策略学习 的大致思路是怎么样的？
+<ul>
+<li>目的还是要让agent 实现最大的value，拆解为2步
 <ol type="1">
-<li>价值 指的是什么？</li>
-</ol>
-<p>「价值」 指的是 <strong>最优动作价值函数</strong>，即如果后续action都遵循<strong>最优策略</strong>，那么当前的&lt;state，action&gt;的得分。<strong>最优动作价值函数</strong> 相当于 一个 先知。</p>
-<ol start="2" type="1">
-<li><p>怎么使用深度学习技术来求解这个问题？</p>
-<p>回到强化学习要解决的问题本身（MDP）--agent的目标是 打赢游戏（最大化total reward），那么我们将这个目标拆解为两个步骤，</p>
-<ol type="1">
-<li>找到最优动作价值函数</li>
-<li>在最优价值函数的指引下作出最优决策</li>
+<li>学习最优的策略（策略函数）</li>
+<li>根据最优策略作出决策</li>
 </ol></li>
-<li><p>使用深度学习技术来学习价值函数，难点在哪里？</p>
-<p>难点在于，谁都不知道先知（<strong>最优价值函数</strong>）长什么样子（股票的话，如果认为只有一条价格路径，可以算出来，如果只是众多路径中的一条，算不出来）, 不过只要有足够多的“经验”，就能训练出“先知”。</p></li>
-<li><p>DQN的主要思路是什么？</p>
-<p>DQN的想法就是，使用一个深度神经网络拟合 <strong>最优动作价值函数，</strong></p></li>
-<li><p>跟DQN并列的概念还有哪些？</p></li>
-<li><p>DQN网络的输入输出是什么？中间结构是什么？</p>
-<p>DQN的输入是state，输出是所有action对应的分数。</p></li>
-<li><p>DQN怎么更新参数？</p>
-<ul>
-<li><p>可以把一整局（episode）游戏玩完，搜集到反馈信号（total reward）再去更新DQN的参数。</p></li>
-<li><p>也可以玩一步，更新一下参数----就是TD算法</p></li>
 </ul></li>
-<li><p>Q函数 和 reward 函数 是不是可以相互转化？--是这样吗？</p>
+<li>难点在哪里？
 <ul>
-<li>Q 函数 == reward （来自 environment）+ 策略（来自 agent）</li>
-<li>Q * 函数 == reward （来自 environment）+ 最优策略（来自 agent）</li>
+<li>state 太多，action 太多，</li>
+</ul></li>
+<li>深度学习技术是怎么帮助 实现策略学习的？
+<ul>
+<li>构造一个神经网络来拟合策略函数，这个神经网络 叫做策略网络</li>
+</ul></li>
 </ul>
-<p>不是啊，策略输出的是行为概率，Q是价值。量纲都不一样。</p></li>
-</ol>
-<h2 id="价值网络和策略网络">价值网络和策略网络</h2>
-<ul>
-<li><p>价值网络 <img src="./imgs85d6-8cdfc801a9ce.png" alt="价值网络" /></p></li>
-<li><p>策略网络</p>
+<h2 id="价值网络是什么">价值网络是什么？</h2>
 <figure>
-<img src="./692d84c03f3d.png" alt="策略网络" /><figcaption aria-hidden="true">策略网络</figcaption>
-</figure></li>
-</ul>
-<h2 id="时序差分算法td算法">时序差分算法（TD算法）</h2>
-<ul>
-<li>优化目标--最小化TD误差： 由最优贝尔曼方程（Optimal Bellman Equations）推导出理想情况下，Qvalue应该满足的表达式：</li>
-</ul>
-<figure>
-<img src="./image-20210713200249948.png" alt="image-20210713200249948" /><figcaption aria-hidden="true">image-20210713200249948</figcaption>
+<img src="./image-20210713213113364.png" alt="image-20210713213113364" /><figcaption aria-hidden="true">image-20210713213113364</figcaption>
 </figure>
-<p>并且将最小化左边和右边的误差平方 作为优化目标，来求Q，</p>
+<h2 id="策略网络是什么">策略网络是什么？</h2>
+<figure>
+<img src="./image-20210713204844974.png" alt="image-20210713204844974" /><figcaption aria-hidden="true">image-20210713204844974</figcaption>
+</figure>
+<p>输入：state，输出：多个action 下的概率，最后一层的激活函数用softmax。</p>
 <ul>
-<li>TD error: 对于上一步&lt;<span class="math inline">\(s_{t-1}, a_{t-1}\)</span>&gt;的reward， 模型估值-真实值，有点像未来的我回到现在来做决策，优于现在的我做决策的程度。
-<ul>
-<li>模型作出的估计（模型对上一个状态估计的价值 - 模型对当前状态估计的价值） - 真实 reward （来自 environment）</li>
-</ul></li>
-<li>TD target： 对于上一步&lt;<span class="math inline">\(s_{t-1}, a_{t-1}\)</span>&gt;的长期value，未来的我回到现在的世界来做决策可以打多少分。
-<ul>
-<li>真实reward（来自 environment） + 折扣* 模型对当前状态估计的价值</li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FROMmZ-LTGx.png?alt=media&amp;token=dae7cba7-84e1-4e7f-8638-60eaa2b1c166" /></li>
-</ul></li>
-<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FEuWKISitjj.png?alt=media&amp;token=0427aa38-bad9-46f3-98bd-a1eb051df5cd" title="fig:" alt="时序差分算法" /></li>
+<li>（input 和 output 的shape 和 DQ网络 一样）</li>
+<li><img src="./imgs%2Fapp%2Frf_learning%2FGqFFfS975r.png?alt=media&amp;token=71ba382a-432c-4c00-8759-692d84c03f3d.png" title="fig:" alt="策略网络" /></li>
 </ul>
-<h2 id="时序差分算法的其他资料">时序差分算法的其他资料</h2>
-<ol type="1">
-<li>Sutton and others: A convergent O(n) algorithm for off-policy temporal-difference learning with linear function approximation. In NIPS, 2008.</li>
-<li>Sutton and others: Fast gradient-descent methods for temporal-difference learning with linear function approximation. In ICML, 2009.</li>
-</ol>
+<h2 id="a2c中策略网络价值网络和环境的关系">A2C中策略网络，价值网络和环境的关系</h2>
+<figure>
+<img src="./image-20210713213534951.png" alt="image-20210713213534951" /><figcaption aria-hidden="true">image-20210713213534951</figcaption>
+</figure>
+<h2 id="为什么不把reward直接给策略网络而是给了价值网络呢">为什么不把reward直接给策略网络，而是给了价值网络呢？</h2>
+<p>为什么不直接把奖励 R 反馈给策略网络(演员)，而 要用价值网络(评委)这样一个中介呢?</p>
+<p>原因是这样的。</p>
+<p>策略学习的目标函数 J(θ) 是回 报 U 的期望，而不是奖励 R 的期望;注意回报 U 和奖励 R 的区别。</p>
+<p>虽然能观测到当前的奖励R，但是它对策略网络是毫无意义的; 训练策略网络(演员)需要的是回报 U ，也就是未来所有奖励的加权和。</p>
+<p>价值网络(评委)能够估算出回报 U 的期望，因此能帮助 训练策略网络(演员)。</p>
+<h2 id="状态价值函数是啥">状态价值函数是啥？</h2>
+<p>状态价值函数 ：基于某个策略，评价当下处境的好坏。state value function，对所有action求期望</p>
+<ul>
+<li>action-value function ： reward（env） + policy（agent）</li>
+<li>policy （agent）</li>
+<li>动作的随机性来自策略</li>
+<li>状态的随机性来自环境的状态转移</li>
+</ul>
+<h2 id="怎么计算策略梯度">怎么计算策略梯度？</h2>
+<p>利用策略梯度定理 简化策略梯度的计算</p>
+<figure>
+<img src="./image-20210713205711384.png" alt="image-20210713205711384" /><figcaption aria-hidden="true">image-20210713205711384</figcaption>
+</figure>
+<h2 id="策略梯度是啥">策略梯度是啥？</h2>
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F-uknITMKCq.png?alt=media&amp;token=e1a97c61-4fef-4837-8983-f74ec86f3e5f" title="fig:" alt="策略梯度公式" /></li>
+</ul>
+<h2 id="策略网络的是怎么更新参数的">策略网络的是怎么更新参数的？</h2>
+<ul>
+<li>policy-gradient算法，目标是 求一个 最优策略，使得在这个策略下，几乎所有的状态价值 都是最大的（就是对状态 求期望）</li>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FGvhdfoS3jM.png?alt=media&amp;token=52ed6dde-1bd6-4428-856b-e319d58800d1" title="fig:" alt="Update policy network using policy gradient" /></li>
+</ul>
 
       
     </div>
@@ -490,7 +475,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/54/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/54/">54</a><span class="page-number current">55</span><a class="page-number" href="/page/56/">56</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/56/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/54/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/54/">54</a><span class="page-number current">55</span><a class="page-number" href="/page/56/">56</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/56/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -556,20 +541,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">197</span>
+          <span class="site-state-item-count">199</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">211</span>
+        <span class="site-state-item-count">212</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

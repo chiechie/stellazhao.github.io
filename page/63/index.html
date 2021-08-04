@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/13/reading_notes/reality/sam-altman-idea-generation/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/15/machine-learning/machine-learning_1-basic/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/13/reading_notes/reality/sam-altman-idea-generation/" class="post-title-link" itemprop="url">创业点子</a>
+            <a href="/2021/04/15/machine-learning/machine-learning_1-basic/" class="post-title-link" itemprop="url">chapter 1 机器学习基础</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,269 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-13 08:22:53" itemprop="dateCreated datePublished" datetime="2021-04-13T08:22:53+08:00">2021-04-13</time>
+              <time title="创建时间：2021-04-15 16:00:28" itemprop="dateCreated datePublished" datetime="2021-04-15T16:00:28+08:00">2021-04-15</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-05-01 21:19:38" itemprop="dateModified" datetime="2021-05-01T21:19:38+08:00">2021-05-01</time>
+                <time title="修改时间：2021-07-28 11:24:36" itemprop="dateModified" datetime="2021-07-28T11:24:36+08:00">2021-07-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="机器学习的基本概念">机器学习的基本概念</h2>
+<ol type="1">
+<li><p>机器学习是一个领域交叉的学科，涉及到统计学系，认知科学，最优化，信息论等学科，但无论从那个角度出发，关注的核心点都在于：如何从历史经验（数据）中获取知识，并将知识应用到新的类似的场景中。</p></li>
+<li><p>机器学习的三个要素：假设函数空间/预测函数族；学习策略/目标函数/损失函数；优化算法。</p></li>
+<li><p>机器学习的流程分为几个阶段：收集样本（mostly需要人工标注），特征提取，定义预测函数族/假设函数空间，定义损失函数/目标函数/学习策略，选择优化算法。</p>
+<ul>
+<li>定义损失函数：为了让预测模型预测得越来越准，需要设置一个奖惩机制：当模型预测错了就惩罚它，负责给预测函数打分就是损失函数。这样我们的目的就变成，找到一个惩罚分数最低的预测函数。具体来说，定义一个优化问题--最小化训练数据上的总体预测误差，即经验风险，通过优化算法去找到这个优化问题的解。</li>
+</ul></li>
+</ol>
+<ul>
+<li>选择优化算法：通过合适的优化方法去求解经验风险最小化问题，就可以得到最佳的预测函数。优化方法有很多，比如梯度下降，牛顿法等，能否找到全局最优解，取决于损失函数的复杂程度，如果损失函数是一个凸函数（比如误差平方和交叉熵函数），很容易找到全局最优，然而，大部分情况都只能找到局部最优。</li>
+</ul>
+<h2 id="机器学习的细分方向">机器学习的细分方向</h2>
+<p>从预测函数的类别来看，可以分为回归，分类，排序，有结构的预测</p>
+<p>从复杂度来看，可以分为线性和非线性；浅层和深度</p>
+<ul>
+<li>线性：线性回归/逻辑回归，线性支持向量机。</li>
+<li>非线性：树模型，深度神经网络（全链接神经网络，卷积神经网络，循环神经网络）</li>
+</ul>
+<p>从模型功能，可以分为生成模型和判别模型</p>
+<ul>
+<li>生成模型的学习目标是最大化似然概率(max P(x))，关注特征和标签的联合概率，它要学习的概率分布很复杂，但是适用场景多，eg分类，概率密度估计，样本生成。</li>
+<li>判别模型的学习目标是最大化条件概率或者后验概率(max P(y|x))，不关注特征和标签的联合概率，直接对后验概率建模，学习效率高，不过只能做分类。</li>
+</ul>
+<h3 id="常用的机器学习模型">常用的机器学习模型</h3>
+<h3 id="线性模型逻辑回归">线性模型/逻辑回归</h3>
+<ol type="1">
+<li><p>线性模型是最简单的机器学习模型，这个模型假设预测结果是特征的线性组合。</p></li>
+<li><p>线性模型可以预测连续变量，如果要预测离散变量呢？需要将特征的线性组合结果使用对数几率函数进行变换 ，因为其值域是0～1，所以一般用来对概率建模，基于概率的预测结果，配合对数似然损失或者交叉熵损失，可以定义训练目标。</p>
+<p><span class="math display">\[g(x ; w)=\frac{1}{1+\exp \left(-w^{T} x\right)}\]</span></p></li>
+<li><p>线性模型可解释性强，但是不能表达特征之间复杂的非线性组合关系。所以，一般在使用线性摸模型之前，会配合复杂的特征工程：比如单特征取指数，对数，多项式变换，以及特征之间交叉乘积，或者使用核方法，将原特征隐式映射到一个高维的非线性空间，然后在高维空间里面构建线性模型，eg 支持向量机。</p></li>
+</ol>
+<h3 id="支持向量机">支持向量机</h3>
+<ol type="1">
+<li><p>核方法的基本思想，通过一个非线性变换，把输入数据映射到高维度的希尔伯特空间，在高维空间中，原先线性不可分的问题，变得很好解决。</p></li>
+<li><p>使用核方法时，理论上，计算高维空间中两个向量的距离要分两步走：1.先将输入向量映射到高维空间，2. 然后再计算高维空间中向量之间的距离，但是，在已知<span class="math inline">\(\phi\)</span>的表达式时，可以直接推导出两个低维向量在高维空间的距离函数<span class="math inline">\(k(x_1, x_2)\)</span></p>
+<p><span class="math inline">\(x_1\)</span>--&gt; <span class="math inline">\(\phi(x_1)\)</span>，<span class="math inline">\(x_2\)</span>--&gt; <span class="math inline">\(\phi(x_2)\)</span>，<span class="math inline">\(dist(\phi(x_1), \phi(x_2)) = k(x_1, x_2)\)</span></p></li>
+<li><p>举几个例子核函数的例子：</p></li>
+</ol>
+<ul>
+<li><p>自由度为d的多项式核函数:<span class="math inline">\(k(x,y) = (x^\mathsf{T} y + c)^{d}\)</span></p>
+<p>假设d=2对应的映射函数：</p>
+<p>$ (x) = x_n^2, , x_1^2,  x_n x_{n-1}, ,  x_n x_1,  x_{n-1} x_{n-2}, ,  x_{n-1} x_{1}, ,  x_{2} x_{1},  x_n, ,  x_1, c $</p></li>
+<li><p>RBF核函数或者高斯核函数：<span class="math inline">\(k(\mathbf{x}, \mathbf{y})=e^{-\gamma\|\mathbf{x}-\mathbf{y}\|^{2}}, \gamma&gt;0\)</span></p></li>
+<li><p>sigmoid核函数: <span class="math inline">\(\tanh \left(\gamma\left\langle x, x^{\prime}\right\rangle+r\right)\)</span></p></li>
+</ul>
+<blockquote>
+<p>注意，核函数中的参数如<span class="math inline">\(\gamma\)</span>是需要人工设定的，所以最好做归一化</p>
+</blockquote>
+<ol start="4" type="1">
+<li><p>核方法的典型的应用之一就是支持向量机。支持向量机的基本思想是，通过核函数将原始输入映射为一个高维向量，在高维度空间里面寻找一个超平面，将正负样本分开，即寻找一个最大间隔的超平面。</p>
+<p><span class="math display">\[\min \hat{l}_{n}(w)=\frac{1}{2}\left\|_{w}\right\|^{2}+\sum\limits_{i=1}^{n} \max \left\{0,1-y_{i}\left(w^{T} \phi\left(x_{i}\right)\right)\right\}\]</span></p>
+<p>使用拉格朗日乘子法，转化为求其对偶问题：</p>
+<p><span class="math display">\[\max _{\alpha} \sum_{i=1}^{n} \alpha_{i}-\frac{1}{2} \sum_{i=1}^{n} \sum_{j=1}^{n} \alpha_{i} \alpha_{j} y_{i} y_{j} \phi\left(x_{i}\right)^{T} \phi\left(x_{j}\right)\]</span></p>
+<p>这是一个二次规划问题。</p></li>
+<li><p>核函数的选择：需满足核矩阵(n*n)半正定，这样总能找到隐含的映射<span class="math inline">\(\phi\)</span></p>
+<blockquote>
+<p>一个核矩阵隐式定义了一个映射<span class="math inline">\(\phi\)</span>，称之为再生核希尔伯特空间（reproducing kernel hilvert space, RKHS）</p>
+</blockquote></li>
+</ol>
+<h3 id="树模型">树模型</h3>
+<ol type="1">
+<li>决策树也是一个常见的机器学习模型，基本思想是，根据特征构造出树结构的预测模型</li>
+<li>一个决策树包含一个根节点，若干内部节点以及叶子节点。</li>
+<li>叶子节点对应最终的决策结果，其他节点针对数据的某个属性进行判断和分支：在该节点中，会根据数据的某个特征的值进行判断，一局判断结果将样本划分到某个子树之中，</li>
+<li>通过决策树，可以从根节点出发，把一个具体的样本最终分配到某个叶子节点上，实现预测的目的。</li>
+<li>因为每个节点上的分支操作是非线性的，因此决策树可以实现比较复杂的非线性映射，</li>
+<li>决策树算法的目的是，根据训练数据，学习处一颗泛化能力较强的树，能够很精准的把位置样本分到对应的叶子节点上。</li>
+<li>树模型的优势在于可解释性，但是很难兼顾准确性和泛化性，</li>
+<li>常见的决策树算法包括：分类回归树（CART），ID3算法，C4.5算法，决策树桩（Decision Stump）。总结起来，这些算法的流程都包括分支和剪枝两个步骤。</li>
+<li>分支的目的是，找到一个划分条件（一般是某个特征满足某个条件），使得划分之后能够提升样本的纯度。</li>
+<li>剪枝要解决的问题是减少过拟合，有两种剪枝的技术：预剪枝和后剪枝。
+<ol type="1">
+<li>预剪枝是指，在决策树生成过程中，对每个节点在划分前使用验证集来估计，该划分能否带来决策树泛化性能提升，如果没有提升则将当前节点标记为叶子结点；</li>
+<li>后剪枝是指，从训练集中生成一颗完整的决策树，然后自下而上的考察去掉每个节点是否提升了泛化能力（将该节点及其子树合并成一个叶子节点），没有提升的话就进行剪枝。</li>
+</ol></li>
+<li>有些情况下数据中隐含的模式比较复杂，那么单个决策树的表达性能不够，通常会使用集成学习来提升树的表达能力。将多棵树进行组合，有不同的方式组合，如bagging/boosting等。</li>
+<li>adaboosting的思路是，先训练出一个base estimator，根据预测结果的准确率，对样本的权重进行调整，预测不准的样本调高权重，预测准的样本调低权重，然后让下一个base estimmtor来学习。这样，原来base estimator搞不定的样本，在后续的学习中，得到更多的关注，最终的预测模型，是所有base estimator预测结果的线性组合，权重表示对应base estimator的预测准确率。</li>
+<li>boosting在抵抗过拟合方面效果很好，随着训练的推进的，即使在训练机已经把误差降到0，更多的迭代还可以提高测试机上的准确率，可以用间隔定理（Margine Theory）来解释这个现象：随着迭代的推进，训练样本上的分类置信度（即每个样本点上的间隔）仍在不断变大。</li>
+</ol>
+<h3 id="神经网络">神经网络</h3>
+<ol type="1">
+<li>神经网络是一类典型的非线性模型，它的结构设计受到生物神经网络的启发。对大脑生理机制研究发现，其基本单元是神经元，每个神经元通过树突从上游的神经元那里获取输入信号，经过自身加工处理，当能量达到一定强度，就会激活产生一个新的信号，并将这个信号通过轴突传递给下游神经元。</li>
+<li>设计人工神经网络时，并没有参考生物系统的激活机制，因为生物系统的激活机制相当于是阶跃函数，这个函数不连续，因此不能使用基于梯度的方法来更新参数。取而代之的是更平滑的激活函数，比如sigmoid函数，双曲正切函数（tanh），relu。</li>
+</ol>
+<figure>
+<img src="./dl0_basic.png" alt="dl0_basic" /><figcaption aria-hidden="true">dl0_basic</figcaption>
+</figure>
+<ol start="3" type="1">
+<li><p>全连接神经网络：</p></li>
+<li><p>卷积神经网络：研究发现每个视觉细胞只对图像中的局部区域敏感，大量视觉细胞平铺开来，可以利用图像的空间局部上的相关性，受到生物系统的启发，卷积神经网络也引进了局部连接的概念，并且在空间上平铺多个卷积核/滤波器，这些卷积核之间有很大的重叠区域，相当有个滑动窗口，当窗口滑倒不同空间位置时，对窗口内的信息使用同样的滤波器进行分析。经过卷积操作之后，会得到一个和原图像类似大小的新图层，其中的每个点都是卷积核在局部区域的作用结果，对应于更加高级的语义信息，得到的新图层也叫特征映射（feature map），对于一副图，可以在一个卷积层里使用多个不同的卷积核，从而得到多维的feature map；也可以把多个卷积层stack起来，不断抽取越来越高级的语义信息。除了卷积，池化也是卷积神经网络的重要部分，池化的目的是，对特征映射进行压缩，体现平移不变性，并且有效扩大后续卷机操作的感受野。池化没有参数，只是对局部区域求一下汇总信息，如平均值/中位数/最大值/最小值。</p></li>
+<li><p>实际中，设计cnn时，经常把卷积层和池化层交易级联，从而实现不断抽取高层语义特征的目的，最后一层可以加上一个全连接层，对高层的语义特征进行预测。</p>
+<figure>
+<img src="./image-20210720201740269.png" alt="image-20210720201740269" /><figcaption aria-hidden="true">image-20210720201740269</figcaption>
+</figure></li>
+<li><p>人们在imagenet数据集上不断通过增加网络深度刷新错误率，2015年来自微软的152层的Resnet网络，在Image数据机上取得了3.75%的top5的错误率。</p></li>
+<li><p>随着卷积神经网络变得越来越深，梯度消失的问题越来越严重，给模型的训练带来了很大的难度，为了解决这个问题，提出了许多新的方法，比如残差学习，高密度网络，实验表明：这些方法可以有效把训练误差传递到靠近输入层的地方。<img src="./image-20210720204128001.png" alt="image-20210720204128001" /></p></li>
+</ol>
+<p>循环神经网络</p>
+<ol type="1">
+<li><p>循环神经网络也有很强的仿生学基础，人类是如何阅读看报呢？每读到一个词，都会想一想刚刚读到的文字在脑袋中形成的记忆，记忆能够帮我们更好地理解当前看到的文字，当看下一个文字时，当前文字和历史记忆又会共同成为新的记忆，并对理解下一个文字提供帮助。</p></li>
+<li><p>循环神经网络的设计也是参考了这个思想，用<span class="math inline">\(s_t\)</span>表示t时刻的记忆，是由t时刻看到的输入<span class="math inline">\(x_t\)</span>和t-1时刻的记忆<span class="math inline">\(s_{t-1}\)</span>共同作用产生的，这个过程可以表示为：</p>
+<p><span class="math inline">\(s_t = \Psi(Ux_t + W s_{t-1})\)</span>,</p>
+<p><span class="math inline">\(o_t = V s_t\)</span></p></li>
+<li><p>这个式子蕴含着对于记忆单元<span class="math inline">\(s_t\)</span>的循环迭代，在实际应用中，无现场时间的循环迭代是没有意义的，比如我们阅读文字时，每个句子的平均长度可能只有十几个词，因此，可以把循环神经网络在时域上展开，然后在展开的网络上利用梯度下降来更新参数矩阵UVW，称之为时域反向传播（Back Propagation Through Time，BPTT）</p></li>
+<li><p>和全连接神经网络，卷积神经网络类似，循环神经网络时间域展开后，也会遇到梯度消失的问题，为了解决这个问题，提出了一套依靠控制门来控制信息流通的方法。也就是说，在循环神经网络的两层之间，同时存在线性和非线性通路，哪个通路开/关，开多大程度？取决于一组控制们，这个控制门是带参数的，两种使用较多的方法是LSTM和GRU。GRU更简单些，，LSTM有3个控制门，GRU有两个控制们，二者在实际中的效果类似，但是GRU的训练速度要快些。</p></li>
+<li><p>在使用基于循环神经网络的seq2seq模型做机器翻译时，实践中会遇到一个问题，输出端的翻译结果中，某个词是对于输入端每个词语依赖程度不一样，通过吧整个输入句子编码到一个向量来驱动输出的句子，会导致信息粒度太粗糙，或者长期的依赖关系被忽视。为了解决这个问题，在标准的seq2seq基础上，引入了“注意力机制”，输出端每次输出之前，都会重新回归一下输入的每个单词，并且会计算每个单词的重要性，从而具备更细粒度的表达能力。</p></li>
+</ol>
+<h2 id="常用的优化方法">常用的优化方法</h2>
+<ol type="1">
+<li><p>几十年前提出的模拟退火，贝叶斯优化虽可以解决低维度非凸，然而解决不了深度学习中的高维非凸。</p></li>
+<li><p>在深度学习中，虽然找到目标函数的全局最优解很难，但这并非必要。我深度学习中常用的优化算法，它们在很多实际问题中都能够训练出十分有效的深度学习模型, 例如，带动量的随机梯度下降，ada梯度，rmsprop，ada delta</p>
+<ul>
+<li><p>动量法：带动量的随机梯度下降， 对所有历史梯度，依据其远离当前时间的程度，以指数递减的权重，一起决定下一步模型的更新方向。动量法使用了指数加权移动平均的思想。它将过去时间步的梯度做了加权平均，且权重按时间步指数衰减。动量法使得相邻时间步的自变量更新在方向上更加一致。</p></li>
+<li><p>AdaGrad：在带动量的随机梯度下降基础上，还基于历史梯度大小调整学习步长。它根据自变量在每个维度的梯度值的大小来调整各个维度上的学习率，从而避免统一的学习率难以适应所有维度的问题</p></li>
+<li><p>rmsprop：带动量的sgd+ada</p></li>
+<li><p>AdaDelta算法：针对AdaGrad算法在迭代后期较难找到有用解的问题做了改进 ，AdaDelta算法没有学习率这一超参数。</p></li>
+<li><p>Adam算法：在RMSProp算法基础上对小批量随机梯度也做了指数加权移动平均。</p></li>
+</ul></li>
+<li><p>总结一下深度学习的优化算法的思想--ada系列算法：更新模型权重时，不仅依赖当前梯度，还要利用历史上所有的梯度信息，自适应（adaptively）调整步长。具体做法是，</p>
+<ol type="1">
+<li>对所有历史梯度，依据其远离当前时间的程度，以指数递减的权重，一起决定下一步模型的更新方向。</li>
+<li>根据历史梯度大小<strong>逐维</strong>调整步长，这样算法会照顾到当前梯度值较小，但是对搜索路径具有重要贡献的维度，更适合多局部极值和鞍点的模型。</li>
+</ol></li>
+</ol>
+<blockquote>
+<ol type="1">
+<li>远在机器学习之前，梯度下降就已经被提出，还有共轭梯度法，坐标下降法，牛顿法，拟牛顿法，Frank-Wolfe方法，Nesterov加速方法，内点法，对偶方法等确定性优化算法。确定性优化算法从算法使用的信息的角度可以分为一阶和二阶方法，
+<ol type="1">
+<li>一阶：只用到了目标函数的一阶导数信息</li>
+<li>二阶：用到了二阶导数，如海森矩阵</li>
+</ol></li>
+<li>随着大数据的兴起，确定性优化算法的效率成为瓶颈。为了减少优化过程中每次迭代的计算复杂度，人们开始关注随机优化算法，比如随机梯度下降，随机坐标下降等。这些算法的基本思想是，每次迭代不使用全部样本或者全部特征，而是随机抽样一个/或者一组样本，或者一个/一组特征，再利用这些抽样的信息来计算一阶或者二阶导数，对目标函数进行优化。很多情况下，随机优化可以看成是确定性算法的无偏估计，但是，有时候也会带来较大方差，需要使用新的技术手段去控制方差，比如SVRG。</li>
+<li>已有算法在非凸问题上的理论性质还不够完善：分析一个凸问题的优化算法的收敛性，是看其能否收敛到全局最优。但是对于更难的非凸问题，可能存在多个局部极值或者鞍点，可以放松「收敛」的要求：看其能否收敛到梯度为0的临界点。确定性优化算法和随机优化算法在求解凸优化问题时，理论性质是比较清楚的，但是深度神经网络引入了非凸优化问题，已有的优化算法在该类问题域还存在很大的理论空白，例如：
+<ol type="1">
+<li>优化算法的收敛性在非凸问题能否保持？</li>
+<li>有没有什么加速的方法？</li>
+</ol></li>
+</ol>
+</blockquote>
+<h2 id="机器学习理论">机器学习理论</h2>
+<p>机器学习最关注的是泛化能力，反映了机器能否抓住问题本质，获得处理未知样本的能力</p>
+<ol type="1">
+<li><p>机器学习算法的最终目标是最小化期望损失。由于真实概率分布未知，所以将目标转为，最小化经验风险，同时，给假设函数空间添加适当的约束，比如只允许搜索那些范数小于c的函数子空间，变成学习问题为正则经验风险最小化。</p></li>
+<li><p>我们希望算法输出的模型和最优的模型对应的期望风险之差尽可能小，这个差距也称为泛化误差，它来源3部分：</p>
+<ol type="1">
+<li>优化误差：迭代出来的算法与精确的最小经验风险的模型的差别，这个误差是由优化算法的局限性带来的，与选用的优化算法，数据量大小，迭代轮数，以及函数空间有关。</li>
+<li>估计误差：最小经验风险模型和最小期望风险模型的差距。这个误差主要是训练数据的局限性带来的。</li>
+<li>近似误差：与函数空间的表达能力有关</li>
+</ol></li>
+<li><p>基于容度的估计误差的上界：估计误差可以被函数族中的所有函数的经验风险和期望风险的一致上界控制，通常被称为一致估计偏差。一致估计偏差，被函数族G的容度控制。</p>
+<blockquote>
+<p>容度描述了函数族G在多个输入数据上所产生的输出的多样性，比如VC维告诉我们某个函数族最多能打散多少个样本点。</p>
+</blockquote></li>
+</ol>
+<h2 id="附录">附录</h2>
+<h2 id="基本概念">基本概念</h2>
+<ul>
+<li>信息增益: 衡量切分前后，样本纯度的提升or混乱度的下降。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IG = information before splitting (parent) — information after splitting (children)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>具体的，有两个衡量纯度/混乱度的指标：Entropy 和 Gini Impurity
+<ul>
+<li>基尼系数（<strong>gini index</strong>）: <span class="math display">\[I_{G}=1-\sum_{j=1}^{c} p_{j}^{2}\]</span>
+<ul>
+<li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li>
+<li>如果所有样本都属于某一类c，gini系数最小，为0。</li>
+</ul></li>
+<li>熵（entropy）：<span class="math display">\[I_{H}=-\sum_{j=1}^{c} p_{j} \log _{2}\left(p_{j}\right)\]</span>
+<ul>
+<li><span class="math inline">\(p_j\)</span>: 落入该节点的样本中，第j类样本的占比</li>
+<li>如果所有样本都属于某一类c，熵最小，为0。</li>
+</ul></li>
+</ul></li>
+</ul>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li>分布式机器学习</li>
+<li><a target="_blank" rel="noopener" href="https://scikit-learn.org/stable/modules/svm.html#svm-kernels">sklearn-kernel</a></li>
+<li>https://zh.d2l.ai/chapter_optimization/adam.html</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/14/reading_notes/reality/nava-joerogan-show/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/14/reading_notes/reality/nava-joerogan-show/" class="post-title-link" itemprop="url">joerogan访谈nava</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-14 18:27:20" itemprop="dateCreated datePublished" datetime="2021-04-14T18:27:20+08:00">2021-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-05-06 09:40:45" itemprop="dateModified" datetime="2021-05-06T09:40:45+08:00">2021-05-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -219,108 +474,40 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="总结">总结</h2>
-<ol type="1">
-<li>选择合适的环境和合适的团队，团队成员乐观，smart in a creative way，不设置条条框框，不会嘲笑你的任何新奇的想法。</li>
-<li>远离厌世者 和 轻视你志向的人，要知道这个是世界的常态。他们活在过去，你活在未来.</li>
-<li>将自己映射到20年以后，然后往回看，专注做这个事情。</li>
-<li>想一想当前，社会发生的最重要的变革是什么？例如，最近一次的大变革是2008-2012年移动设备大爆发。</li>
-<li>世界变化的如此之快，巨头通常被敏捷和专注的创业公司打败。（或者共存，阿里vs拼多多）</li>
-<li>区分真正的趋势和虚假的趋势：前者例如小部分用户高频使用，后者例如很多用户低频使用。</li>
-<li>有哪些事情是今年才发生，而去年不可能的，关注这些突变事件。这可能是一个伟大的创业火苗，拖到明年就晚了。</li>
-<li>"我很确定这个会发生，但是不确定是不是由我们来完成"，这是一个好的思路。uber是一个例子，我第一次坐车之后，很确定，我们此后不久，就不会用出租车了，但是我不是很确定，是不是就是Uber最终会赢下这个市场。</li>
-<li>尽可能早地问自己"如果这个想法是对的，这个生意可以做大吗？"，世界上有很多想法，但是极少想法能让一个创业公司持续取得成功，也就是连续地获得优势。当扩大规模时，大部分业务都没有累积优势（例如滴滴，P2P，我们现在做的这个️）。越早想通这个越好，最显著的例子是Facebook or Airbnb。</li>
-<li>找到你适合做什么也很重要，这个很难通过单纯自省得到，你可以问下mentor，或者一些人，跟你在你擅长的领域一起合作的人。我坚信，创始人匹配公司 和 产品匹配市场 同等重要。</li>
-<li>可以通过一个测试来验证你的想法：如果你可以清晰地表述，为什么大部分人都认为这是一个坏的想法，而你能理解你它好在哪里。</li>
-</ol>
+          <blockquote>
+<p>人生只有一次，尽最大可能让他精彩。</p>
+</blockquote>
+<h2 id="摘要">摘要</h2>
+<ul>
+<li><p>what you do, who you do with, how you do it, weight more important than how hard you work</p></li>
+<li><p>outputs are nonlinear based on the quality of the work that you put in</p></li>
+<li><p>the right way that work is like a lion, you and i are not like cows, we are not meant to graze all day right.</p></li>
+<li><p>一个公司的规模，取决于内部和外部的交易成本（transaction costs）对比。信息时代带来的最大的便利就是，让外部交易变得更便捷；现在的趋势是公司的最优规模在锐减。</p>
+<blockquote>
+<p>chiechie：会有越来越多的敏捷和有创意的小公司</p>
+<p>大公司的问题：每个小模块有自己的KPI，生产链路长。多任务并发的时候，经常会遇到性能瓶颈。</p>
+<p>根本原因可能是大公司的官僚式管理制度问题？每个模块只用对生产链路中，自己这一环的kpi负责，而不是对整个业务的最终效果负责，根本就违背了「风险共担」。</p>
+</blockquote></li>
+<li><p>现阶段ai是什么阶段？low ai，即模式识别。</p></li>
+<li><p>为什么短时间内通用ai不可能？人连大脑的运行机制都不懂。根据摩尔定律，我们要再花50年，算力才能赶上一个cell内部的计算速度.</p></li>
+<li><p>bankers是不是洗劫了社会的财富？其实他们也冒了很大的风险，赌输了也会破产。</p></li>
+</ul>
+<h2 id="关于资本主义-和-社会主义">关于资本主义 和 社会主义</h2>
+<ul>
+<li><p>“资本主义”其实大部分时候说的是“自由市场”。</p></li>
+<li><p>“社会主义”强调结果公平，伴随的一定有violence--暴力重分配</p></li>
+<li><p>许多人年轻的时候是社会主义（heart），长大后是资本主义（head）</p></li>
+<li><p>taleb说，对我的家人，我是一个communist；对我最亲密的朋友来说，我是一个社会主义者；在我的state-level的政治中，我是一个democrat；higher levels的政治中我是一个republican；在federal level政治中，我是一个libertarian</p></li>
+<li><p>一个组织或者群体的规模越大，群体内利益差异就越大，相互之间的信任的可能就越少，会产生更多的cheating，为了让这个系统运作的越好 就需要 匹配的 激励机制，将激励机制发挥到极致的例子就是资本主义。</p>
+<blockquote>
+<p>管理小团队，like family；管理大团队，要奖惩机制。</p>
+</blockquote></li>
+<li><p>群体的规模越小，比如对待家人，成为一个社会主义，会让你更幸福，但是对陌生人不行。</p></li>
+</ul>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://blog.samaltman.com/idea-generation">idea-generation</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=3qHkcs3kG44">Joe Rogan Experience #1309 - Naval Ravikants</a></li>
 </ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/12/reading_notes/investment/trading-strategies/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Chiechie">
-      <meta itemprop="description" content="a reader & thinker">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chiechie's Mini World">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/12/reading_notes/investment/trading-strategies/" class="post-title-link" itemprop="url">交易策略</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-12 12:00:14" itemprop="dateCreated datePublished" datetime="2021-04-12T12:00:14+08:00">2021-04-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84/" itemprop="url" rel="index"><span itemprop="name">投资</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="一些概念">一些概念</h2>
-<ul>
-<li>均值回归（mean reversion）：赌市场会回归理性。 &gt; 由于波动率最主要的特性是均值回归，故波动率的均值回归交易成为专业期权交易员最常见的一种交易方式</li>
-<li>动量策略（momentum）：赌市场会越来越疯狂</li>
-<li>方差溢价：指隐含波动率总是等于或者大于历史波动率</li>
-</ul>
-<h2 id="chiechies-reflection">chiechie's reflection</h2>
-<p>均值回归，动量策略（也叫惯性策略），都是识别出历史的模式后，假设模式在未来保持不变，然后构建策略。</p>
-<p>有一个问题，谁说过去的模式在未来就一定会保持了？还需要其他信息。</p>
-<p>对历史进行模式识别，没有意义，因为不能保证未来发生。 换句话说，历史的模式跟未来的模式没有因果关系。</p>
-<p>那么，具备哪些信息的时候，在外部的什么信息具备的时候，能很确定存在这个模式呢？这个算专家知识。</p>
 
       
     </div>
@@ -339,7 +526,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/62/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/62/">62</a><span class="page-number current">63</span><a class="page-number" href="/page/64/">64</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/64/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/62/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/62/">62</a><span class="page-number current">63</span><a class="page-number" href="/page/64/">64</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/64/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -405,20 +592,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">197</span>
+          <span class="site-state-item-count">199</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">211</span>
+        <span class="site-state-item-count">212</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

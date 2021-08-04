@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/21/machine-learning/machine-learning_4-dl3_attention/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/22/machine-learning/machine-learning_4-dl4_lstm/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -179,7 +179,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/21/machine-learning/machine-learning_4-dl3_attention/" class="post-title-link" itemprop="url">chapter 4.3 attention和self-attention是什么？</a>
+            <a href="/2021/04/22/machine-learning/machine-learning_4-dl4_lstm/" class="post-title-link" itemprop="url">chapter 4.3 循环神经网络2-长短期记忆网络（LSTM）</a>
         </h2>
 
         <div class="post-meta">
@@ -189,14 +189,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-21 15:43:10" itemprop="dateCreated datePublished" datetime="2021-04-21T15:43:10+08:00">2021-04-21</time>
+              <time title="创建时间：2021-04-22 10:48:04" itemprop="dateCreated datePublished" datetime="2021-04-22T10:48:04+08:00">2021-04-22</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 15:53:32" itemprop="dateModified" datetime="2021-07-22T15:53:32+08:00">2021-07-22</time>
+                <time title="修改时间：2021-08-03 15:45:29" itemprop="dateModified" datetime="2021-08-03T15:45:29+08:00">2021-08-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -219,33 +219,87 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="attention">attention</h2>
+          <h2 id="总结">总结</h2>
 <ol type="1">
-<li>seq2seq有两个神经网络，一个encoder一个decoder。</li>
-<li>最早提出attention的设计是在2015年，bengio的一片机器翻译的文章，该文章中使用的seq2seq做机器翻译，创新之处在于对encoder的多个输出增加关注度，从而让decoder知道应该关注encoder的哪个地方的输出， 从而解决了长输入序列遗忘的问题。缺点是计算量很大</li>
-<li>Simple-RNN+attention层的工作机制：encoder结束工作之后，所有时刻的状态都要保留下来，需要计算decoder当前状态相对于encoder的状态中，每一个状态的相关性，得到一个长度为m的权重向量，每个元素都大于0，求和等于1。</li>
-<li>怎么计算decoder当前状态跟encoder状态间的相关性呢？第一种方法是原始论文的方法，定义成两种状态的非线性函数--含有trainnable参数， <img src="./img_1.png" alt="img_1.png" /></li>
-<li>第二种方法根transformer类似，先定义两个参数矩阵<span class="math inline">\(W_k\)</span>和<span class="math inline">\(W_q\)</span>，分别对decoder的状态和encoder的状态做线形变换，得到k向量和q向量，求k向量和q向量的内积，然后使用softmax归一化，得到权重向量，attention得分，表示decoder的状态对encoder状态state关注的程度。 <img src="./img_2.png" alt="img_2.png" /></li>
-<li>计算好了长度为m的权重向量之后，然后作用于encoder的所有状态向量，于是得到了一个context vector，表示decoder状态对每个encoder状态的注意力大小。</li>
-<li>decoder输入context vector和上一个时刻的状态，最新的观测值，输出下一个时刻的状态，中间的处理逻辑是怎样的？ <img src="./img_3.png" alt="img_3.png" /></li>
-<li>可以看到decoder输出的新的状态依赖于context vector向量，而context vector包含了输入的长序列中的信息，因此长输入序列遗忘的问题就可以避免了。</li>
-<li>值得注意的是，当decoder再次计算新的状态时，上一次算的权重向量和context vector就报废了，必须根据最新的状态和encoder的相关性刷新权重向量和context vector，这样也就是对输出的不同位置，给予输入不同位置不同的关注度。</li>
-<li>权重计算的时间复杂度是 mt,m为encoder长度，t为decoder长度。时间复杂度挺高的。</li>
-<li>英译法，当decoder想要更新state时，拿当前state跟encoder的额所有state对比了一下，发现短距离area对应的state最近，因此context vector非常接近area对应的state，因此输出的新的状态也会跟area更予以接近。 <img src="./img_4.png" alt="img_4.png" /></li>
-<li>总结一下，标准的seq2seq模型中，decoder更新状态时，只看当前状态和最新的输入，这样产生的新状态可能已经忘记了encoder的部分输入。在seq2seq中加入attention之后，decoder每次更新state时，会先看一下encoder的所有状态。这样就知道encoder的完整信息，并不会遗忘。除了解决遗忘问题，attention还能告诉decoder应该更关注encoder的哪一个状态，这就是attention名字的由来。</li>
-<li>attention可以提升seq2seq的准确率，但是要付出更多的计算。</li>
+<li><p>LSTM是一个循环神经网络，即RNN模型，是对Simple RNN的一种改进，可以避免梯度消失问题, 可以有比simple RNN更长的记忆。LSTM的论文在1997年就发表了。</p></li>
+<li><p>LSTM的结构比simple-RNN的结构复杂很多，Simple RNN有1个参数矩阵，LSTM有四个参数矩阵，每个矩阵的维度都是h * (h + m)。</p></li>
+<li><p>LSTM也可以看成一个带状态的函数：输入当前词的embedding向量（维度为m），上一个时刻的短期记忆向量（状态向量，h维），上一个时刻的长期记忆向量（h维）；输出当前时刻的短期记忆向量（状态向量，h维）和当前时刻的长期记忆向量（h维）。</p></li>
+<li><p>LSTM通过引入长期记忆响亮（传输带，conveyor belt）来缓解梯度消失的问题。过去的信息通过是通过跟最新的信息求和的形式传输带到达下一个时刻，过去的信息不回随着时间的推近而影响弱化。</p></li>
+<li><p>LSTM的处理流程可以描述为：</p>
+<ol type="1">
+<li>对<strong>上个时刻的长期记忆</strong>选择性遗忘（遗忘门），对临时短期记忆选择性保留（输入门），两个向量求和得到了<strong>新的长期记忆</strong>；</li>
+<li>将<strong>新的长期记忆</strong>选择性输出（输出门），得到<strong>新的短期记忆</strong>。</li>
+</ol></li>
+<li><p>LSTM有3个门，分别为输入门，输出门，遗忘门，也是三个权重向量，取值范围从0到1</p>
+<ul>
+<li><p>遗忘门：控制上一个时刻的长期记忆（传送带向量<span class="math inline">\(\mathbf{c}_{t-1}\)</span>​）需要遗忘多少信息</p></li>
+<li><p>输入门：控制临时短期记忆需要保留多少信息</p>
+<blockquote>
+<p>遗忘门 + 输入门的共同作用结果是，得到新的长期记忆响亮（传送带向量<span class="math inline">\(\mathbf{c}_{t}\)</span>）</p>
+</blockquote></li>
+<li><p>输出门：控制<strong>新的长期记忆</strong>（传送带向量<span class="math inline">\(\tilde{\mathbf{c}}_{t}\)</span>​）需要输出多少信息，给<strong>新的短期记忆</strong>。​</p></li>
+</ul></li>
+<li><p>LSTM处理过程用数学公式表达 <img src="./img_5.png" alt="img_5.png" /> <img src="./img_4.png" alt="img_4.png" /></p></li>
 </ol>
-<h2 id="self-attention">self-attention</h2>
+<h2 id="lstm应用-情感判断">LSTM应用-情感判断</h2>
+<p><img src="./img_3.png" /></p>
+<figure>
+<img src="./image_1212.png" alt="使用keras实现lstm" /><figcaption aria-hidden="true">使用keras实现lstm</figcaption>
+</figure>
+<figure>
+<img src="./image_1213.png" alt="img_13.png" /><figcaption aria-hidden="true">img_13.png</figcaption>
+</figure>
+<h2 id="cnn-和-rnn视觉对比">cnn 和 rnn视觉对比</h2>
+<figure>
+<img src="https://miro.medium.com/max/3058/1*W34PwVsbTm_3EbJozaWWdA.jpeg" alt="cnn" /><figcaption aria-hidden="true">cnn</figcaption>
+</figure>
+<figure>
+<img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FoIsH5iVKwV.png?alt=media&amp;token=05e8189e-dd5f-4781-910c-a46bb9fa4eaf" alt="rnn" /><figcaption aria-hidden="true">rnn</figcaption>
+</figure>
+<h2 id="cnn-vs-rnn-vs-attention">cnn vs rnn vs attention</h2>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F_n2z_XQqI2.png?alt=media&amp;token=facfccac-e8ac-4895-a84c-7add43cd165a" /></p>
+<h2 id="附录">附录</h2>
+<h3 id="lstm的内部结构">LSTM的内部结构</h3>
 <ol type="1">
-<li>如何将attention剥离seq2seq，只用在一个rnn网络上，就叫self-attention</li>
-<li>提出self attetion的文章发表于2016年，把attention用在了lstm上面。 <img src="./img_5.png" alt="img_5.png" /></li>
-<li>self-attention可以解决rnn的容易遗忘的问题，比如电影评论的情感分类，如果评论太长rnn的最后一个状态就很记不住整个语句，不能有效利用整句话的信息。 self-attention可以解决rnn容易遗忘的问题，每次更新状态之前都会看一下所有状态的重要性，这样就不会遗忘掉重要信息。下面这个图是</li>
-<li>下面的图中，红色的词表明当前输入，蓝色的阴影表明关注度得分。 <img src="./img_6.png" alt="img_6.png" /></li>
+<li><p>LSTM最重要的设计是一个传输带（conveyor belt），记为向量<span class="math inline">\(C_t\)</span>, 过去的信息通过传输带直接传到下一个时刻<span class="math inline">\(C_{t+1}\)</span> ，不会发生太大的变化。LSTM就是靠传输带来避免梯度小时的问题。</p></li>
+<li><p>遗忘门的输入是上一个时刻的状态<span class="math inline">\(h_{t-1}\)</span>和当前时刻的观测值<span class="math inline">\(x_t\)</span>，通过遗忘矩阵<span class="math inline">\(W^f\)</span>加上一个sigomid变换，得到一个概率向量。 <img src="./lstm.png" />。 <img src="./image_123.png" alt="img_3.png" /></p></li>
+<li><p>LSTM的遗忘门（forget gate）的作用是，让传输带上的信息有选择性的通过，选择性是由遗忘门向量控制的，通过遗忘门向量与传送带向量<span class="math inline">\(C_t\)</span>点乘来实现。 <img src="./image_122.png" alt="img_2.png" /></p></li>
+<li><p>遗忘门/输入门/输出门的输入也是上一个时刻的状态<span class="math inline">\(h_{t-1}\)</span>​和当前时刻的观测值<span class="math inline">\(x_t\)</span>​。</p>
+<figure>
+<img src="./image_125.png" alt="img_5.png" /><figcaption aria-hidden="true">img_5.png</figcaption>
+</figure></li>
+<li><p>输入门的目的是，让上一个时刻的状态和最新的信息，能有选择性的通过。通过计算输入门向量跟临时短期记忆向量（参数矩阵跟<span class="math inline">\([h_{t-1}, x_{t}]\)</span>​的乘积再做双曲正切）的点乘来实现。</p>
+<blockquote>
+<p>双曲正切函数可以把上一个时刻的状态和新的观测值组成的向量映射到[-1，1]之间，</p>
+</blockquote></li>
+<li><p>输出门的目的是，让最新的长期记忆有选择性的输出，也就是最新的状态向量<span class="math inline">\(h_t\)</span>。通过将输出门向量<span class="math inline">\(o_t\)</span>跟最新的长期记忆向量（传输带最新值<span class="math inline">\(c_t\)</span>）的双曲正切值进行点乘来实现​。</p></li>
 </ol>
-<h2 id="参考">参考</h2>
+<figure>
+<img src="image_128.png" alt="img_8.png" /><figcaption aria-hidden="true">img_8.png</figcaption>
+</figure>
+<ol start="7" type="1">
+<li>新的状态向量<span class="math inline">\(h_t\)</span>有两份copies，一份作为当前时刻的输出，一份作为下一个时刻lstm单元的输入。可以认为迄今为止，t个时刻的输入信息都被编码到了状态向量<span class="math inline">\(h_t\)</span>中。 <img src="image_129.png" alt="img_9.png" /></li>
+<li>LSTM有遗忘门，输入门，new value，输出门，一共对应4个参数矩阵。矩阵的行数是长期记忆向量的长度（h），矩阵的列数是短期状态向量的长度（h）+输入向量的长度（m）。</li>
+</ol>
+<figure>
+<img src="./image_1210.png" alt="img_10.png" /><figcaption aria-hidden="true">img_10.png</figcaption>
+</figure>
+<ol start="9" type="1">
+<li>更新长期记忆-传送带向量</li>
+</ol>
+<p><img src="./img_1.png" /></p>
+<ol start="10" type="1">
+<li>更新短期机器-状态向量</li>
+</ol>
+<p><img src="./img_2.png" /></p>
+<h2 id="参考资料">参考资料</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=XhWdv7ghmQQ&amp;t=183s">RNN模型与NLP应用(8/9)：Attention (注意力机制)</a></li>
-<li><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1601.06733">Long Short-Term Memory-Networks for Machine Reading</a></li>
+<li><a target="_blank" rel="noopener" href="https://towardsdatascience.com/a-comparison-of-dnn-cnn-and-lstm-using-tf-keras-2191f8c77bbe">a-comparison-of-dnn-cnn-and-lstm-using-tf-keras</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.d2l.ai/chapter_recurrent-neural-networks/lstm.html">dive into deep learning-lstm</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Cc4ENs6BHQw&amp;list=PLvOO0btloRnuTUGN4XqO85eKPeFSZsEqK&amp;index=3">RNN-youtube</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wangshusen/DeepLearning">RNN-slide</a></li>
+<li><a target="_blank" rel="noopener" href="https://nndl.github.io/nndl-book.pdf">神经网络与深度学习</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/32085405">人人都能看懂的LSTM</a></li>
 </ol>
 
       
@@ -266,7 +320,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/21/reading_notes/investment/didi/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/21/reinforcement_learning/rl3_value-based/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -280,7 +334,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/21/reading_notes/investment/didi/" class="post-title-link" itemprop="url">对滴滴的分析</a>
+            <a href="/2021/04/21/reinforcement_learning/rl3_value-based/" class="post-title-link" itemprop="url">强化学习3 基于价值的强化学习方法</a>
         </h2>
 
         <div class="post-meta">
@@ -290,14 +344,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-04-21 10:00:14" itemprop="dateCreated datePublished" datetime="2021-04-21T10:00:14+08:00">2021-04-21</time>
+              <time title="创建时间：2021-04-21 20:30:11" itemprop="dateCreated datePublished" datetime="2021-04-21T20:30:11+08:00">2021-04-21</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
+                <time title="修改时间：2021-08-02 15:51:26" itemprop="dateModified" datetime="2021-08-02T15:51:26+08:00">2021-08-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -305,7 +359,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%95%E8%B5%84/" itemprop="url" rel="index"><span itemprop="name">投资</span></a>
+                  <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
                 </span>
             </span>
 
@@ -320,22 +374,101 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="reflection">reflection</h2>
+          <h1 id="总结">总结</h1>
 <ol type="1">
-<li><p>网约车行业到底挣钱不挣钱？终归是拼价格，要降价抢市场就亏钱；要涨价谋利润，等于将市场拱手让给竞争对手。</p>
+<li><p>强化学习方法之一有价值学习方法。在价值学习中，如果我们能得到最优动作函数，就能知道agent在不同的state下该有如何的表现了。</p></li>
+<li><p>如何学习最优动作价值函数呢？目前最有效的办法就是DQN，Deep Q Network。DQN通过构造一个神经网路去拟合最优行动价值函数，然后通过与环境互动获得训练数据，从而训练出一个神经网络版的先知，他知道在每一个state下，每个action能带来的长期的最大价值。</p>
 <blockquote>
-<p>Lyft作为全球首家上市的网约车公司，上市第二天就跌破发行价，截至7月22日，Lyft市值仅为93亿美元，较最高市值跌去60%。</p>
-<p>Uber上市后同样遭遇血洗，首日破发报收42美元，如今市值只有568亿美元，远低于Uber最后一轮私募融资时的760亿美元，这意味着解禁后，投资人将血本无归。</p>
+<p>在离散的动作空间中，该价值网络输入的是state，输出每个action对应的Q值,</p>
+<p>那么如果是连续的决策呢？</p>
 </blockquote></li>
-<li><p>滴滴现在挣钱不挣钱？滴滴的主营业务是快车，但是主要盈利的业务是顺风车，专车，但是盘子太小，总的来说是亏钱。</p></li>
-<li><p>滴滴未来有没有可能做大做强？不可能，因为没有护城河, 用户没有忠诚度。同时，竞争对手很强，其他平台方具备资金优势，地方政府关系过硬，在合规上更胜一筹。</p></li>
-<li><p>网约车是一门社会价值大于商业价值的生意，还是政府来主导比较好。</p></li>
-</ol>
-<h2 id="参考">参考</h2>
+<li><p>如何训练价值网络？最根本的问题在于如何获得训练样本，这个样本的feature为state，label为每个action对应的Qvalue。这个label怎么获取呢？</p>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/t-ISF-ptH7tP4TFygqDyig">王川：Uber 上市会引爆硅谷的泡沫破灭吗?</a></li>
-<li><a target="_blank" rel="noopener" href="https://weread.qq.com/web/reader/62e321a071a486b862ee729kb6d32b90216b6d767d2f0dc">商业的本质和互联网</a></li>
-<li><a target="_blank" rel="noopener" href="https://tech.qq.com/a/20200722/014719.htm">等不到IPO这一天，投资人正在抛弃滴滴？</a></li>
+<li>通过玩很多局游戏，然后记录每个state下面的最优的</li>
+</ol></li>
+<li><p>Q-learning算法是一种时序差分算法（TD），是一种训练DQN的方法：</p>
+<ul>
+<li>TD error: 未来的我回到现在来做决策，优于现在的我做决策的程度。</li>
+<li>TD target：未来的我回到现在的世界来做决策，可以得多少分。</li>
+</ul></li>
+<li><p>轨迹 <strong>(Trajectory)</strong> 是指一回合 (Episode) 游戏中，智能体观测到的所有的状态、动作、奖励: s1,a1,r1, s2,a2,r2, s3,a3,r3, ···</p></li>
+<li><p>DQN 的训练可以分割成两个独立的部分:收集训练数据、更新参数 w。</p>
+<ol type="1">
+<li><p>收集训练数据：可以使用行为策略(Behaviour Policy)让agent根环境互动，将一条轨迹的数据分成多个<span class="math inline">\((s_t, a_t, r_t, s_{t+1})\)</span>四元组，将四元组统一存放到经验回放数组(Replay Buffer)</p></li>
+<li><p>更新DQN参数:从经验回放数组中取出一个四元组，使用时序差分（TD）算法更新参数</p>
+<ol type="1">
+<li><p>使用DQN计算当前时刻价值网络的预测值<span class="math inline">\(\hat q_j\)</span> ，下一个时刻价值网络的预测值 <span class="math inline">\(\hat q_{j+1}\)</span>。</p></li>
+<li><p>更新DQN参数的目标是为了让TD误差变小，所以可以将当前的学习目标设置为，最小化TD误差平方和，即： <span class="math display">\[
+\min L(\boldsymbol{w})=\frac{1}{2}\left[Q\left(s_{t}, a_{t} ; \boldsymbol{w}\right)-\widehat{y}_{t}\right]^{2}
+\]</span></p></li>
+<li><p>更新DQN的参数：根据样本中的<span class="math inline">\(r_t\)</span>, 计算出TD误差<span class="math inline">\(\delta_{j}\)</span>，对 DQN 做反向传播，得到梯度<span class="math inline">\(\boldsymbol{g}_{j}=\nabla_{\boldsymbol{w}} Q\left(s_{j}, a_{j} ; \boldsymbol{w}_{\mathrm{now}}\right)\)</span></p>
+<p><span class="math inline">\(\boldsymbol{w}_{\mathrm{new}} \leftarrow \boldsymbol{w}_{\mathrm{now}}-\alpha \cdot \delta_{j} \cdot \boldsymbol{g}_{j}\)</span></p></li>
+</ol></li>
+</ol></li>
+</ol>
+<h1 id="附录">附录</h1>
+<ol type="1">
+<li>价值 指的是什么？</li>
+</ol>
+<p>「价值」 指的是 <strong>最优动作价值函数</strong>，即如果后续action都遵循<strong>最优策略</strong>，那么当前的&lt;state，action&gt;的得分。<strong>最优动作价值函数</strong> 相当于 一个 先知。</p>
+<ol start="2" type="1">
+<li><p>怎么使用深度学习技术来求解这个问题？</p>
+<p>回到强化学习要解决的问题本身（MDP）--agent的目标是 打赢游戏（最大化total reward），那么我们将这个目标拆解为两个步骤，</p>
+<ol type="1">
+<li>找到最优动作价值函数</li>
+<li>在最优价值函数的指引下作出最优决策</li>
+</ol></li>
+<li><p>使用深度学习技术来学习价值函数，难点在哪里？</p>
+<p>难点在于，谁都不知道先知（<strong>最优价值函数</strong>）长什么样子（股票的话，如果认为只有一条价格路径，可以算出来，如果只是众多路径中的一条，算不出来）, 不过只要有足够多的“经验”，就能训练出“先知”。</p></li>
+<li><p>DQN的主要思路是什么？</p>
+<p>DQN的想法就是，使用一个深度神经网络拟合 <strong>最优动作价值函数，</strong></p></li>
+<li><p>跟DQN并列的概念还有哪些？</p></li>
+<li><p>DQN网络的输入输出是什么？中间结构是什么？</p>
+<p>DQN的输入是state，输出是所有action对应的分数。</p></li>
+<li><p>DQN怎么更新参数？</p>
+<ul>
+<li><p>可以把一整局（episode）游戏玩完，搜集到反馈信号（total reward）再去更新DQN的参数。</p></li>
+<li><p>也可以玩一步，更新一下参数----就是TD算法</p></li>
+</ul></li>
+<li><p>Q函数 和 reward 函数 是不是可以相互转化？--是这样吗？</p>
+<ul>
+<li>Q 函数 == reward （来自 environment）+ 策略（来自 agent）</li>
+<li>Q * 函数 == reward （来自 environment）+ 最优策略（来自 agent）</li>
+</ul>
+<p>不是啊，策略输出的是行为概率，Q是价值。量纲都不一样。</p></li>
+</ol>
+<h2 id="价值网络和策略网络">价值网络和策略网络</h2>
+<ul>
+<li><p>价值网络 <img src="./imgs85d6-8cdfc801a9ce.png" alt="价值网络" /></p></li>
+<li><p>策略网络</p>
+<figure>
+<img src="./692d84c03f3d.png" alt="策略网络" /><figcaption aria-hidden="true">策略网络</figcaption>
+</figure></li>
+</ul>
+<h2 id="时序差分算法td算法">时序差分算法（TD算法）</h2>
+<ul>
+<li>优化目标--最小化TD误差： 由最优贝尔曼方程（Optimal Bellman Equations）推导出理想情况下，Qvalue应该满足的表达式：</li>
+</ul>
+<figure>
+<img src="./image-20210713200249948.png" alt="image-20210713200249948" /><figcaption aria-hidden="true">image-20210713200249948</figcaption>
+</figure>
+<p>并且将最小化左边和右边的误差平方 作为优化目标，来求Q，</p>
+<ul>
+<li>TD error: 对于上一步&lt;<span class="math inline">\(s_{t-1}, a_{t-1}\)</span>&gt;的reward， 模型估值-真实值，有点像未来的我回到现在来做决策，优于现在的我做决策的程度。
+<ul>
+<li>模型作出的估计（模型对上一个状态估计的价值 - 模型对当前状态估计的价值） - 真实 reward （来自 environment）</li>
+</ul></li>
+<li>TD target： 对于上一步&lt;<span class="math inline">\(s_{t-1}, a_{t-1}\)</span>&gt;的长期value，未来的我回到现在的世界来做决策可以打多少分。
+<ul>
+<li>真实reward（来自 environment） + 折扣* 模型对当前状态估计的价值</li>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FROMmZ-LTGx.png?alt=media&amp;token=dae7cba7-84e1-4e7f-8638-60eaa2b1c166" /></li>
+</ul></li>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FEuWKISitjj.png?alt=media&amp;token=0427aa38-bad9-46f3-98bd-a1eb051df5cd" title="fig:" alt="时序差分算法" /></li>
+</ul>
+<h2 id="时序差分算法的其他资料">时序差分算法的其他资料</h2>
+<ol type="1">
+<li>Sutton and others: A convergent O(n) algorithm for off-policy temporal-difference learning with linear function approximation. In NIPS, 2008.</li>
+<li>Sutton and others: Fast gradient-descent methods for temporal-difference learning with linear function approximation. In ICML, 2009.</li>
 </ol>
 
       
@@ -355,7 +488,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/55/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/55/">55</a><span class="page-number current">56</span><a class="page-number" href="/page/57/">57</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/57/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/55/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/55/">55</a><span class="page-number current">56</span><a class="page-number" href="/page/57/">57</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/57/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -421,20 +554,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">197</span>
+          <span class="site-state-item-count">199</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">211</span>
+        <span class="site-state-item-count">212</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

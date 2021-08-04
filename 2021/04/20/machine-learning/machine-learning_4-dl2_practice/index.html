@@ -20,24 +20,25 @@
     var CONFIG = {"hostname":"chiechie.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="backpropagation  损失函数是关于训练数据和网络权重的函数，其中训练数据是常数，权重是变量，我们可以控制的。因此，虽然算出损失关于训练数据的梯度很简单，（同样bp），但是我们也不会算这个梯度，而是算损失关于权重的梯度，从而使用这个梯度去更新权重。 损失函数关于样本的梯度也不是说完全没有用，他可以用来做可视化，解释模型当前学到了什么。 导数是什么？随着某个变量的变化，一个函数的变化量。">
+  <meta name="description" content="反向传播（backpropagation）  ** The problem with Backpropagation is that it is a** leaky abstraction.---Andrej Karpathy   img   关于激活函数--sigmoid，另外一个容易忽视的事实是，其梯度在z&#x3D;0.5时，达到最大--0.25，这意味着，每次梯度信号穿越过sigmoid门时，会衰减">
 <meta property="og:type" content="article">
 <meta property="og:title" content="chapter 4.2 backpropagation和训练小技巧">
 <meta property="og:url" content="https://chiechie.github.io/2021/04/20/machine-learning/machine-learning_4-dl2_practice/index.html">
 <meta property="og:site_name" content="Chiechie&#39;s Mini World">
-<meta property="og:description" content="backpropagation  损失函数是关于训练数据和网络权重的函数，其中训练数据是常数，权重是变量，我们可以控制的。因此，虽然算出损失关于训练数据的梯度很简单，（同样bp），但是我们也不会算这个梯度，而是算损失关于权重的梯度，从而使用这个梯度去更新权重。 损失函数关于样本的梯度也不是说完全没有用，他可以用来做可视化，解释模型当前学到了什么。 导数是什么？随着某个变量的变化，一个函数的变化量。">
+<meta property="og:description" content="反向传播（backpropagation）  ** The problem with Backpropagation is that it is a** leaky abstraction.---Andrej Karpathy   img   关于激活函数--sigmoid，另外一个容易忽视的事实是，其梯度在z&#x3D;0.5时，达到最大--0.25，这意味着，每次梯度信号穿越过sigmoid门时，会衰减">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://kratzert.github.io/images/bn_backpass/BNcircuit.png">
 <meta property="og:image" content="https://miro.medium.com/max/2073/1*Y117iNR_CnBtBh8MWVtUDg.png">
 <meta property="og:image" content="https://miro.medium.com/max/3058/1*W34PwVsbTm_3EbJozaWWdA.jpeg">
 <meta property="og:image" content="https://chiechie.github.io/2021/04/20/machine-learning/machine-learning_4-dl2_practice/img.png">
 <meta property="article:published_time" content="2021-04-20T02:17:31.000Z">
-<meta property="article:modified_time" content="2021-07-22T08:05:13.212Z">
+<meta property="article:modified_time" content="2021-08-04T11:18:28.410Z">
 <meta property="article:author" content="Chiechie">
 <meta property="article:tag" content="深度学习">
 <meta property="article:tag" content="low level">
 <meta property="article:tag" content="最佳实践">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://miro.medium.com/max/2073/1*Y117iNR_CnBtBh8MWVtUDg.png">
+<meta name="twitter:image" content="https://kratzert.github.io/images/bn_backpass/BNcircuit.png">
 
 <link rel="canonical" href="https://chiechie.github.io/2021/04/20/machine-learning/machine-learning_4-dl2_practice/">
 
@@ -204,7 +205,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 16:05:13" itemprop="dateModified" datetime="2021-07-22T16:05:13+08:00">2021-07-22</time>
+                <time title="修改时间：2021-08-04 19:18:28" itemprop="dateModified" datetime="2021-08-04T19:18:28+08:00">2021-08-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -234,8 +235,17 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="backpropagation">backpropagation</h2>
+        <h2 id="反向传播backpropagation">反向传播（backpropagation）</h2>
+<blockquote>
+<p>** The problem with Backpropagation is that it is a** <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Leaky_abstraction"><strong>leaky abstraction</strong></a><strong>.</strong>---Andrej Karpathy</p>
+</blockquote>
+<figure>
+<img src="https://kratzert.github.io/images/bn_backpass/BNcircuit.png" alt="img" /><figcaption aria-hidden="true">img</figcaption>
+</figure>
 <ol type="1">
+<li><p>关于激活函数--sigmoid，另外一个容易忽视的事实是，其梯度在z=0.5时，达到最大--0.25，这意味着，每次梯度信号穿越过sigmoid门时，会衰减为1/4或者更多，如果使用基本 SGD，这会使网络的低层比高层的参数更新慢得多。</p></li>
+<li><p>长话短说： 如果您在网络中使用 sigmoids 或者 tanh 作为激活函数，那么您应该警惕，初始化不会导致想训练过程完全饱和（ fully saturated）。</p></li>
+<li><p>还有一个有趣的非线性函数ReLU，它从下面将神经元阈值为零。使用 ReLU 的完全连接层的向前和向后传递在核心包括:</p></li>
 <li><p>损失函数是关于训练数据和网络权重的函数，其中训练数据是常数，权重是变量，我们可以控制的。因此，虽然算出损失关于训练数据的梯度很简单，（同样bp），但是我们也不会算这个梯度，而是算损失关于权重的梯度，从而使用这个梯度去更新权重。</p></li>
 <li><p>损失函数关于样本的梯度也不是说完全没有用，他可以用来做可视化，解释模型当前学到了什么。</p></li>
 <li><p>导数是什么？随着某个变量的变化，一个函数的变化量。表示函数对于当前变量值的敏感性。</p></li>
@@ -306,10 +316,11 @@
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 设置loss，优化算法</span></span><br><span class="line">model.<span class="built_in">compile</span>(loss=..., optimizer=...,</span><br><span class="line">              metrics=[<span class="string">&#x27;accuracy&#x27;</span>])</span><br><span class="line"></span><br><span class="line">EPOCHS = <span class="number">10</span></span><br><span class="line">checkpoint_filepath = <span class="string">&#x27;/tmp/checkpoint&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 定义回调函数</span></span><br><span class="line">model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(</span><br><span class="line">    filepath=checkpoint_filepath,</span><br><span class="line">    save_weights_only=<span class="literal">True</span>,</span><br><span class="line">    monitor=<span class="string">&#x27;val_accuracy&#x27;</span>,</span><br><span class="line">    mode=<span class="string">&#x27;max&#x27;</span>,</span><br><span class="line">    save_best_only=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Model weights are saved at the end of every epoch, if it&#x27;s the best seen</span></span><br><span class="line"><span class="comment"># so far.</span></span><br><span class="line"><span class="comment"># 3.在fit中传入回调函数，模型会一边训练一边存储</span></span><br><span class="line">model.fit(epochs=EPOCHS, callbacks=[model_checkpoint_callback])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 从缓存路径中加载模型</span></span><br><span class="line"><span class="comment"># The model weights (that are considered the best) are loaded into the model.</span></span><br><span class="line">model.load_weights(checkpoint_filepath)</span><br></pre></td></tr></table></figure>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li>Hands-On Machine Learning with Scikit-Learn and TensorFlow, P334</li>
-<li><a target="_blank" rel="noopener" href="https://keras.io/api/callbacks/model_checkpoint/">keras-model_checkpoint-官网文档</a></li>
-<li><a target="_blank" rel="noopener" href="https://keras.io/api/layers/merging_layers/concatenate/">concatenate</a></li>
-<li>http://cs231n.github.io/optimization-2/#intuitive</li>
+<li><p>Hands-On Machine Learning with Scikit-Learn and TensorFlow, P334</p></li>
+<li><p><a target="_blank" rel="noopener" href="https://keras.io/api/callbacks/model_checkpoint/">keras-model_checkpoint-官网文档</a></p></li>
+<li><p><a target="_blank" rel="noopener" href="https://keras.io/api/layers/merging_layers/concatenate/">concatenate</a></p></li>
+<li><p>http://cs231n.github.io/optimization-2/#intuitive</p></li>
+<li><p>https://karpathy.medium.com/yes-you-should-understand-backprop-e2f06eab496b</p></li>
 </ol>
 
     </div>
@@ -396,7 +407,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#backpropagation"><span class="nav-number">1.</span> <span class="nav-text">backpropagation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#layer%E7%9A%84%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="nav-number">2.</span> <span class="nav-text">layer的输入输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#layer%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%E5%88%9D%E5%A7%8B%E5%8C%96%E6%9D%83%E9%87%8D"><span class="nav-number">3.</span> <span class="nav-text">layer如何设置初始化权重？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E8%BF%87%E7%A8%8B%E5%A4%AA%E9%95%BF"><span class="nav-number">4.</span> <span class="nav-text">训练过程太长？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%ADbackpropagation"><span class="nav-number">1.</span> <span class="nav-text">反向传播（backpropagation）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#layer%E7%9A%84%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="nav-number">2.</span> <span class="nav-text">layer的输入输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#layer%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AE%E5%88%9D%E5%A7%8B%E5%8C%96%E6%9D%83%E9%87%8D"><span class="nav-number">3.</span> <span class="nav-text">layer如何设置初始化权重？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83%E8%BF%87%E7%A8%8B%E5%A4%AA%E9%95%BF"><span class="nav-number">4.</span> <span class="nav-text">训练过程太长？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -410,20 +421,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">197</span>
+          <span class="site-state-item-count">199</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">211</span>
+        <span class="site-state-item-count">212</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
