@@ -11,10 +11,6 @@ categories:
 
 
 
-
-
-
-
 ## 总结
 
 - NLP 的第一步是语料预处理，语料预处理的流程为：分词(tokenization),  词干提取（Stemming），词性还原（Lemmatisation）。
@@ -61,10 +57,7 @@ cities，children，teeth 这些词需要词干提取转换为 city，child，to
 
 
 
-
-
 ![词干提取](https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-cigan.png)
-
 
 
 
@@ -72,7 +65,6 @@ cities，children，teeth 这些词需要词干提取转换为 city，child，to
 ##  词形还原 – Lemmatisation
 
 词形还原是基于词典，将单词的复杂形态转变成最基础的形态，而不仅仅是简单地将前后缀去掉，比如「drove」会转换为「drive」，dive就是原形。
-
 
 
 does，done，doing，did 通过词性还原恢复成 do。
