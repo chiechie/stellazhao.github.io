@@ -1,0 +1,157 @@
+---
+title: 提升研究taste小练习
+author: chiechie
+mathjax: true
+date: 2021-08-06 09:51:11
+tags:
+- 研究哲学
+categories: 
+- 哲学
+---
+
+
+
+> 原文来自，https://colah.github.io/notes/taste/
+
+
+
+一个研究人员成长过程中最重要的一个方面就是提升研究品味---- 即，就是选择好问题的能力。培养研究品味没有显式的路径，不过可进行一些可行的练习。
+
+Before we start with exercises, it's worth think about why it's hard to develop research taste. I think the fundamental issue is that actually testing whether a research idea you come up with is good is very expensive. Often it takes months, so you only really get a few pieces of feedback on your taste every year. Many of the following exercises are really strategies for getting (proxy) feedback on more research ideas faster. The feedback you get is generally lower quality than actually executing the idea yourself, but these aim to get you orders of magnitude more of this noisy feedback.
+
+在我们开始练习之前，值得思考一下为什么很难培养研究品味。我认为最根本的问题是，实际测试你的研究想法是否好是非常昂贵的。通常需要几个月的时间，所以你每年只能得到一些关于你品味的反馈。下面的许多练习实际上是更快地获得(代理)对更多研究想法的反馈的策略。你得到的反馈通常比你自己实际执行想法的质量要低，但是这些反馈的目的是让你从这些嘈杂的反馈中获得更多的数量级。
+
+Take all these exercises and suggestions with a grain of salt. I think I have better taste than I used to and doing some things like this helped. I also think these exercises have also helped the occasional person I mentored or managed. But I'm hardly an expert. If you have better ways to build resarch taste, please share them in the comments or [on twiter!](https://twitter.com/ch402/status/1347970296234479617)
+
+对所有这些练习和建议都持保留态度。我认为我比以前有更好的品味，做一些像这样的事情是有帮助的。我还认为这些练习也帮助了我偶尔指导或管理的人。但我不是专家。如果你有更好的方法来建立研究品味，请在评论或者 twitter 上分享它们！
+
+One other point: I don't recommend forcing yourself to work on something you don't find exciting, even if you intellectually think it's more important. You'll be a lot less effective. Ideally, you want to get to a point where the problems you think are most important also feel most exciting.
+
+还有一点: 我不建议你强迫自己去做一些你不觉得刺激的事情，即使你理智上认为它更重要。你的工作效率就会大大降低。理想情况下，你希望达到这样一种境界: 你认为最重要的问题同时也是最令人兴奋的问题。
+
+## 提升taste的小练习
+
+练习1: 写下研究主题的清单。找一个导师，让他给每个想法打1-10分。对于不一致的观点讨论。
+
+测试一个想法通常要几个月的时间，所以，请一位导师是性价比最高的方案。
+
+
+
+练习2: 当别人在尝试你的ideas时要注意，他的结果是否符合你的预期？
+
+想法不值钱，如果你沉醉于头脑风暴，你可能会有数十甚至数百个研究想法。
+
+当别人发表的结果跟你的想法一致时，情感上你可能会感到不舒服，但这是一个获得反馈的免费机会。
+
+
+
+练习3:  采访身边的研究员，了解他们的taste。他们为何要解决当下的问题？他们是如何挑选问题的？关于研究他们的big picture是什么？
+
+
+
+练习4: 阅读有关科学史（history of science）的书籍。反思为什么一些研究人员可以找到一些重要的方向，而他们的同龄人（contemporaries）却忽略了。
+
+>  (推荐 Kuhn的《The Structure of Scientific Revolutions》）
+
+
+
+
+
+练习5: 对自己的研究taste进行批判性分析，以及你所属群体的taste。你的taste很可能受到你所属群体(合作者等)的影响。
+
+
+
+在过去的几年里，你自己的研究taste或者你所属群体taste在哪些方面是错误的？
+
+相似的领域，是否存在显著不同的研究taste？如果存在，试着表达他们观点中最强烈的一个版本，以及你为什么同意或不同意。
+
+你在哪些方面不同意自己群体的研究品味？哪些方面你认为你的群体可能是错误的，即使你对这种观点不自信？
+
+
+
+你的研究品味的深层次目标是什么？最简答的回答是：更深入地理解或者获得研究乐趣。
+
+但是你也可以通过一些方法让这个世界变得更美好。你正在处理的问题(或者你认为有趣的问题)是否与这些目标有关？
+
+
+
+## 研究失败模式
+
+
+
+有一些研究失败案例：
+
+
+
+失败模式1: 过分依赖一个研究方向/陷入沉没成本（sunk costs）
+
+许多研究人员开始研究一个问题通常是由于环境原因，而不是经过深思熟虑（contemplated）的决定 ，然后发现很难继续下去。
+
+可能的解药（Potential Antidote）: 留出一两个星期的时间step back，列出你认为最promissing的其他研究方向(查看新的研究，与他人交流等)。然后问问自己，如果从头开始，你想探索哪个方向。根据需要每1-2年重复一次。
+
+
+
+失败模式2: 研究知识/intimacy的匮乏。
+
+
+
+理论知识是研究品味的基座（table stakes），你不能在真空中拥有研究品味。
+
+有时候人们会陷入一个误区：在弄脏自己的双手之前，试图挑选出最完美的问题，或者有一个很好的洞察力。然而事实是，你不可能在真空中有研究品味。你需要理论知识和 [research intimacy](https://twitter.com/ch402/status/1295063684545314818).。
+
+
+
+可能的解药: 在你感兴趣的领域帮助别人完成他们的项目。你会学到很多东西并且get your hands dirty ，也不会过度投入到长期的工作中。理想情况下，不主导项目，压力也比较小。或者，做你自己的短期项目来get your hands dirty.
+
+
+
+失败模式3: 环境与你的兴趣不一致。
+
+
+
+我有时会和那些与导师兴趣不同的博士生交谈，他们试图把他们的研究兴趣扭曲成导师会感兴趣的东西。
+
+然而，通常产生的是次优的研究方向，浪费了建立品味的机会。
+
+即使你周围的人名义上支持你做你感兴趣的事情，这种情况也会发生。当你周围的人缺乏热情的时候，你坚持追求一个方向是很有挑战性的。
+
+可能的解药: 要么(1)换一个环境--一个与你的兴趣相符的环境，要么(2)暂时buy into你团队的兴趣点，并试着在这些兴趣范围内练习培养好的品味。
+
+一旦你对自己感兴趣的东西思考了很多，并且有了自己非常感兴趣的东西，我通常会支持你转移到另一个环境。
+
+
+
+## 其他的建议
+
+In the [twitter discussion](https://twitter.com/ch402/status/1347970296234479617) (and especially, a [thread by Andy Matuschak](https://twitter.com/andy_matuschak/status/1348001750221946882)), a number of people suggested other ideas. Note all of these are quite "exercises for building taste" (many are more "strategies for exercising good taste"), but I think they're very interesting:
+
+在 twitter 上的讨论 exercises for building taste中，一些人提出了其他的想法
+
+- [**Rachel Prudden suggests **](https://twitter.com/RachelPrudden/status/1347973143990829056)
+  启发性思维：想象另一个小组已经发表的论文跟你心中所想一致，你是否对阅读它感到兴奋？*
+
+- [**Andy Matuschak suggests**](https://twitter.com/andy_matuschak/status/1348001750221946882)
+  就你的idea问一个anti-Hamming：在你的领域什么是最有趣(不是最重要)的问题？你为什么不继续研究呢？*
+
+- [**Andy also shares a failure mode: 安迪还分享了一种失败模式:**](https://twitter.com/andy_matuschak/status/1348002769085419520)
+  一个想法看起来容易实现，就动手去实现它。有一个可行的方法是令人兴奋的ーー让我想去实现它！但是如果我坚持一个想法的时间更长，我通常可以进化出一个更深层次的变体，并且实现一个更靠谱的idea。
+
+- **Michael Nielsen's 迈克尔 · 尼尔森[Principles of Effective Resarch 有效研究原则](https://michaelnielsen.org/blog/archive/000114.html) ([via Shrey Jain 通过 Shrey Jain](https://twitter.com/shreydjain13/status/1348023976275161089))** notes the  关注混乱（mess）的价值:当你发现这样的混乱时，许多人的自然倾向是回避，去找一些更容易理解的东西。但是一个混乱的领域实际上是一个机会，深度的统一和简化概念仍有待别人——也许是你——去理解和发展*。
+
+- [**Arthur Allshire 阿瑟 · 阿尔希尔**](https://twitter.com/arthurallshire/status/1348024259214516231)
+  你的领域的瓶颈问题是什么？在许多强化学习的研究中，很多都集中在对算法的细微调整上，但最大的改进来自于对 RL 的模拟的改进
+
+- [**Preetum Nakkiran 普里特姆 · 纳克基兰**](https://twitter.com/PreetumNakkiran/status/1348049533436129281)
+  我发现，写短期的“项目建议书”（project proposals），写长期的“研究报告/计划”（research statements/plans），都是思考动机和目标的好练习，在不同时间尺度。“项目建议书”是指: 一旦你决定在接下来的一个月内做某件事，写几页纸解释: 为什么这个问题很有趣，为什么这个答案很有价值，以及你希望找到什么(最初的证据)。然后去搜集反馈。 另外，还可以向你遇到的每个人询问他们研究目标的big picture。论文中不会设涉及，但是更有趣/更重要*
+
+- [**Christian Szegedy 克里斯蒂安 · 塞格迪**](https://twitter.com/ChrSzegedy/status/1348055991565262849)
+  事后（hindsight）看来，我研究中的大多数错误都是在听取我尊敬的导师们的批评时犯下的，而我做的大多数很酷的事情，最初都被大家称为无用、无趣或“好运!”一般来说，研究中的思想要么领先于其他思想，要么挑战传统智慧。属于后一种阵营需要的技能较少，但需要更多勇气。
+  不过，要注意倖存者偏差，不同的人在职业生涯的不同阶段可能有不同程度的科学成熟/品味。在早期，让一个研究院制定自己的研究议程非常具有挑战性，其他人可能会茁壮成长（thrive）。
+
+- [**Sergey Gorbunov 谢尔盖 · 戈尔布诺夫**](https://twitter.com/sergey_nog/status/1348049950630928387)
+  对于研究生和初级研究员，我唯一的建议就是不要听从你的导师/有经验的研究人员... ... 研究生院是唯一一个你可以尝试和失败多少次的地方。研究生应该提出创新的问题/解决方案。(成熟的研究人员有自己的agendas/思维方式)。这个建议同样可以用来颠覆自己。🧐*
+
+- [**Boaz Barak 博阿兹 · 巴拉克**](https://twitter.com/boazbaraktcs/status/1348097776551407618)
+
+  我喜欢“20/80”的项目，即你要做80% 的工作才能达到20% 的目标，而不是问“我用最小的努力能得到什么最酷的结果?”问: “即使最终结果不酷，我能提炼出阻碍项目的核心问题吗？
+
