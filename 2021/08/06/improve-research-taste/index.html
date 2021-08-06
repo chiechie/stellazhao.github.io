@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"chiechie.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="原文来自，https:&#x2F;&#x2F;colah.github.io&#x2F;notes&#x2F;taste&#x2F;  一个研究人员成长过程中最重要的一个方面就是提升研究品味---- 即，就是选择好问题的能力。培养研究品味没有显式的路径，不过可进行一些可行的练习。 Before we start with exercises, it&#39;s worth think about why it&#39;s hard to develop res">
+<meta property="og:type" content="article">
+<meta property="og:title" content="提升研究taste小练习">
+<meta property="og:url" content="https://chiechie.github.io/2021/08/06/improve-research-taste/index.html">
+<meta property="og:site_name" content="Chiechie&#39;s Mini World">
+<meta property="og:description" content="原文来自，https:&#x2F;&#x2F;colah.github.io&#x2F;notes&#x2F;taste&#x2F;  一个研究人员成长过程中最重要的一个方面就是提升研究品味---- 即，就是选择好问题的能力。培养研究品味没有显式的路径，不过可进行一些可行的练习。 Before we start with exercises, it&#39;s worth think about why it&#39;s hard to develop res">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-06T01:51:11.000Z">
+<meta property="article:modified_time" content="2021-08-06T03:44:29.971Z">
+<meta property="article:author" content="Chiechie">
+<meta property="article:tag" content="研究哲学">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://chiechie.github.io/2021/08/06/improve-research-taste/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>提升研究taste小练习 | Chiechie's Mini World</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Chiechie's Mini World</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Set your course by the stars, not by the lights of passing ships. —— Omar Bradley</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/08/06/improve-research-taste/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          提升研究taste小练习<a href="https://github.com/chiechie/chiechie.github.io/tree/master/source/_posts/improve-research-taste.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pencil-alt"></i></a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-06 09:51:11 / 修改时间：11:44:29" itemprop="dateCreated datePublished" datetime="2021-08-06T09:51:11+08:00">2021-08-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%93%B2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">哲学</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>原文来自，https://colah.github.io/notes/taste/</p>
+</blockquote>
+<p>一个研究人员成长过程中最重要的一个方面就是提升研究品味---- 即，就是选择好问题的能力。培养研究品味没有显式的路径，不过可进行一些可行的练习。</p>
+<p>Before we start with exercises, it's worth think about why it's hard to develop research taste. I think the fundamental issue is that actually testing whether a research idea you come up with is good is very expensive. Often it takes months, so you only really get a few pieces of feedback on your taste every year. Many of the following exercises are really strategies for getting (proxy) feedback on more research ideas faster. The feedback you get is generally lower quality than actually executing the idea yourself, but these aim to get you orders of magnitude more of this noisy feedback.</p>
+<p>在我们开始练习之前，值得思考一下为什么很难培养研究品味。我认为最根本的问题是，实际测试你的研究想法是否好是非常昂贵的。通常需要几个月的时间，所以你每年只能得到一些关于你品味的反馈。下面的许多练习实际上是更快地获得(代理)对更多研究想法的反馈的策略。你得到的反馈通常比你自己实际执行想法的质量要低，但是这些反馈的目的是让你从这些嘈杂的反馈中获得更多的数量级。</p>
+<p>Take all these exercises and suggestions with a grain of salt. I think I have better taste than I used to and doing some things like this helped. I also think these exercises have also helped the occasional person I mentored or managed. But I'm hardly an expert. If you have better ways to build resarch taste, please share them in the comments or <a target="_blank" rel="noopener" href="https://twitter.com/ch402/status/1347970296234479617">on twiter!</a></p>
+<p>对所有这些练习和建议都持保留态度。我认为我比以前有更好的品味，做一些像这样的事情是有帮助的。我还认为这些练习也帮助了我偶尔指导或管理的人。但我不是专家。如果你有更好的方法来建立研究品味，请在评论或者 twitter 上分享它们！</p>
+<p>One other point: I don't recommend forcing yourself to work on something you don't find exciting, even if you intellectually think it's more important. You'll be a lot less effective. Ideally, you want to get to a point where the problems you think are most important also feel most exciting.</p>
+<p>还有一点: 我不建议你强迫自己去做一些你不觉得刺激的事情，即使你理智上认为它更重要。你的工作效率就会大大降低。理想情况下，你希望达到这样一种境界: 你认为最重要的问题同时也是最令人兴奋的问题。</p>
+<h2 id="提升taste的小练习">提升taste的小练习</h2>
+<p>练习1: 写下研究主题的清单。找一个导师，让他给每个想法打1-10分。对于不一致的观点讨论。</p>
+<p>测试一个想法通常要几个月的时间，所以，请一位导师是性价比最高的方案。</p>
+<p>练习2: 当别人在尝试你的ideas时要注意，他的结果是否符合你的预期？</p>
+<p>想法不值钱，如果你沉醉于头脑风暴，你可能会有数十甚至数百个研究想法。</p>
+<p>当别人发表的结果跟你的想法一致时，情感上你可能会感到不舒服，但这是一个获得反馈的免费机会。</p>
+<p>练习3: 采访身边的研究员，了解他们的taste。他们为何要解决当下的问题？他们是如何挑选问题的？关于研究他们的big picture是什么？</p>
+<p>练习4: 阅读有关科学史（history of science）的书籍。反思为什么一些研究人员可以找到一些重要的方向，而他们的同龄人（contemporaries）却忽略了。</p>
+<blockquote>
+<p>(推荐 Kuhn的《The Structure of Scientific Revolutions》）</p>
+</blockquote>
+<p>练习5: 对自己的研究taste进行批判性分析，以及你所属群体的taste。你的taste很可能受到你所属群体(合作者等)的影响。</p>
+<p>在过去的几年里，你自己的研究taste或者你所属群体taste在哪些方面是错误的？</p>
+<p>相似的领域，是否存在显著不同的研究taste？如果存在，试着表达他们观点中最强烈的一个版本，以及你为什么同意或不同意。</p>
+<p>你在哪些方面不同意自己群体的研究品味？哪些方面你认为你的群体可能是错误的，即使你对这种观点不自信？</p>
+<p>你的研究品味的深层次目标是什么？最简答的回答是：更深入地理解或者获得研究乐趣。</p>
+<p>但是你也可以通过一些方法让这个世界变得更美好。你正在处理的问题(或者你认为有趣的问题)是否与这些目标有关？</p>
+<h2 id="研究失败模式">研究失败模式</h2>
+<p>有一些研究失败案例：</p>
+<p>失败模式1: 过分依赖一个研究方向/陷入沉没成本（sunk costs）</p>
+<p>许多研究人员开始研究一个问题通常是由于环境原因，而不是经过深思熟虑（contemplated）的决定 ，然后发现很难继续下去。</p>
+<p>可能的解药（Potential Antidote）: 留出一两个星期的时间step back，列出你认为最promissing的其他研究方向(查看新的研究，与他人交流等)。然后问问自己，如果从头开始，你想探索哪个方向。根据需要每1-2年重复一次。</p>
+<p>失败模式2: 研究知识/intimacy的匮乏。</p>
+<p>理论知识是研究品味的基座（table stakes），你不能在真空中拥有研究品味。</p>
+<p>有时候人们会陷入一个误区：在弄脏自己的双手之前，试图挑选出最完美的问题，或者有一个很好的洞察力。然而事实是，你不可能在真空中有研究品味。你需要理论知识和 <a target="_blank" rel="noopener" href="https://twitter.com/ch402/status/1295063684545314818">research intimacy</a>.。</p>
+<p>可能的解药: 在你感兴趣的领域帮助别人完成他们的项目。你会学到很多东西并且get your hands dirty ，也不会过度投入到长期的工作中。理想情况下，不主导项目，压力也比较小。或者，做你自己的短期项目来get your hands dirty.</p>
+<p>失败模式3: 环境与你的兴趣不一致。</p>
+<p>我有时会和那些与导师兴趣不同的博士生交谈，他们试图把他们的研究兴趣扭曲成导师会感兴趣的东西。</p>
+<p>然而，通常产生的是次优的研究方向，浪费了建立品味的机会。</p>
+<p>即使你周围的人名义上支持你做你感兴趣的事情，这种情况也会发生。当你周围的人缺乏热情的时候，你坚持追求一个方向是很有挑战性的。</p>
+<p>可能的解药: 要么(1)换一个环境--一个与你的兴趣相符的环境，要么(2)暂时buy into你团队的兴趣点，并试着在这些兴趣范围内练习培养好的品味。</p>
+<p>一旦你对自己感兴趣的东西思考了很多，并且有了自己非常感兴趣的东西，我通常会支持你转移到另一个环境。</p>
+<h2 id="其他的建议">其他的建议</h2>
+<p>In the <a target="_blank" rel="noopener" href="https://twitter.com/ch402/status/1347970296234479617">twitter discussion</a> (and especially, a <a target="_blank" rel="noopener" href="https://twitter.com/andy_matuschak/status/1348001750221946882">thread by Andy Matuschak</a>), a number of people suggested other ideas. Note all of these are quite "exercises for building taste" (many are more "strategies for exercising good taste"), but I think they're very interesting:</p>
+<p>在 twitter 上的讨论 exercises for building taste中，一些人提出了其他的想法</p>
+<ul>
+<li><p><a target="_blank" rel="noopener" href="https://twitter.com/RachelPrudden/status/1347973143990829056"><strong>Rachel Prudden suggests </strong></a> 启发性思维：想象另一个小组已经发表的论文跟你心中所想一致，你是否对阅读它感到兴奋？*</p></li>
+<li><p><a target="_blank" rel="noopener" href="https://twitter.com/andy_matuschak/status/1348001750221946882"><strong>Andy Matuschak suggests</strong></a> 就你的idea问一个anti-Hamming：在你的领域什么是最有趣(不是最重要)的问题？你为什么不继续研究呢？*</p></li>
+<li><p><a target="_blank" rel="noopener" href="https://twitter.com/andy_matuschak/status/1348002769085419520"><strong>Andy also shares a failure mode: 安迪还分享了一种失败模式:</strong></a> 一个想法看起来容易实现，就动手去实现它。有一个可行的方法是令人兴奋的ーー让我想去实现它！但是如果我坚持一个想法的时间更长，我通常可以进化出一个更深层次的变体，并且实现一个更靠谱的idea。</p></li>
+<li><p><strong>Michael Nielsen's 迈克尔 · 尼尔森<a target="_blank" rel="noopener" href="https://michaelnielsen.org/blog/archive/000114.html">Principles of Effective Resarch 有效研究原则</a> (<a target="_blank" rel="noopener" href="https://twitter.com/shreydjain13/status/1348023976275161089">via Shrey Jain 通过 Shrey Jain</a>)</strong> notes the 关注混乱（mess）的价值:当你发现这样的混乱时，许多人的自然倾向是回避，去找一些更容易理解的东西。但是一个混乱的领域实际上是一个机会，深度的统一和简化概念仍有待别人——也许是你——去理解和发展*。</p></li>
+<li><p><a target="_blank" rel="noopener" href="https://twitter.com/arthurallshire/status/1348024259214516231"><strong>Arthur Allshire 阿瑟 · 阿尔希尔</strong></a> 你的领域的瓶颈问题是什么？在许多强化学习的研究中，很多都集中在对算法的细微调整上，但最大的改进来自于对 RL 的模拟的改进</p></li>
+<li><p><a target="_blank" rel="noopener" href="https://twitter.com/PreetumNakkiran/status/1348049533436129281"><strong>Preetum Nakkiran 普里特姆 · 纳克基兰</strong></a> 我发现，写短期的“项目建议书”（project proposals），写长期的“研究报告/计划”（research statements/plans），都是思考动机和目标的好练习，在不同时间尺度。“项目建议书”是指: 一旦你决定在接下来的一个月内做某件事，写几页纸解释: 为什么这个问题很有趣，为什么这个答案很有价值，以及你希望找到什么(最初的证据)。然后去搜集反馈。 另外，还可以向你遇到的每个人询问他们研究目标的big picture。论文中不会设涉及，但是更有趣/更重要*</p></li>
+<li><p><a target="_blank" rel="noopener" href="https://twitter.com/ChrSzegedy/status/1348055991565262849"><strong>Christian Szegedy 克里斯蒂安 · 塞格迪</strong></a> 事后（hindsight）看来，我研究中的大多数错误都是在听取我尊敬的导师们的批评时犯下的，而我做的大多数很酷的事情，最初都被大家称为无用、无趣或“好运!”一般来说，研究中的思想要么领先于其他思想，要么挑战传统智慧。属于后一种阵营需要的技能较少，但需要更多勇气。 不过，要注意倖存者偏差，不同的人在职业生涯的不同阶段可能有不同程度的科学成熟/品味。在早期，让一个研究院制定自己的研究议程非常具有挑战性，其他人可能会茁壮成长（thrive）。</p></li>
+<li><p><a target="_blank" rel="noopener" href="https://twitter.com/sergey_nog/status/1348049950630928387"><strong>Sergey Gorbunov 谢尔盖 · 戈尔布诺夫</strong></a> 对于研究生和初级研究员，我唯一的建议就是不要听从你的导师/有经验的研究人员... ... 研究生院是唯一一个你可以尝试和失败多少次的地方。研究生应该提出创新的问题/解决方案。(成熟的研究人员有自己的agendas/思维方式)。这个建议同样可以用来颠覆自己。🧐</p></li>
+<li><p><a target="_blank" rel="noopener" href="https://twitter.com/boazbaraktcs/status/1348097776551407618"><strong>Boaz Barak 博阿兹 · 巴拉克</strong></a></p>
+<p>我喜欢“20/80”的项目，即你要做80% 的工作才能达到20% 的目标，而不是问“我用最小的努力能得到什么最酷的结果?”问: “即使最终结果不酷，我能提炼出阻碍项目的核心问题吗？</p></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%A0%94%E7%A9%B6%E5%93%B2%E5%AD%A6/" rel="tag"># 研究哲学</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/04/nlp/nlp-summary/" rel="prev" title="nlp-summary">
+      <i class="fa fa-chevron-left"></i> nlp-summary
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%90%E5%8D%87taste%E7%9A%84%E5%B0%8F%E7%BB%83%E4%B9%A0"><span class="nav-number">1.</span> <span class="nav-text">提升taste的小练习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A0%94%E7%A9%B6%E5%A4%B1%E8%B4%A5%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">研究失败模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%9A%84%E5%BB%BA%E8%AE%AE"><span class="nav-number">3.</span> <span class="nav-text">其他的建议</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Chiechie</p>
+  <div class="site-description" itemprop="description">a reader & thinker</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">213</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/chiechie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;chiechie" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:328499034@qq.com" title="E-Mail → mailto:328499034@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/chiechie" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;chiechie" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chiechie</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    <script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

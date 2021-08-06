@@ -20,18 +20,18 @@
     var CONFIG = {"hostname":"chiechie.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="总结  NLP 的第一步是语料预处理，语料预处理的流程为：分词(tokenization), 词干提取（Stemming），词性还原（Lemmatisation）。   词干提取和词形还原在 NLP 中在什么位置  分词 分词的方法大致分为3类：  基于词典匹配：将待分词的中文文本根据一定规则切分和调整，然后跟词典中的词语进行匹配，匹配成功则按照词典的词分词，匹配失败通过调整或者重新选择，如此反复">
+  <meta name="description" content="总结  NLP 的第一步是语料预处理，语料预处理的流程为：分词(tokenization), 词干提取（Stemming），词性还原（Lemmatisation）。   词干提取和词形还原在 NLP 中在什么位置   中英语处理的区别：  英文单词有多种形态，所以需要做词干提取和词性还原， 中文有多种分词方式，并且有多种粒度   分词（Tokenization）  目前中文分词没有统一的标准，也没">
 <meta property="og:type" content="article">
 <meta property="og:title" content="文本的预处理">
 <meta property="og:url" content="https://chiechie.github.io/2021/08/03/nlp/nlp-preprocess/index.html">
 <meta property="og:site_name" content="Chiechie&#39;s Mini World">
-<meta property="og:description" content="总结  NLP 的第一步是语料预处理，语料预处理的流程为：分词(tokenization), 词干提取（Stemming），词性还原（Lemmatisation）。   词干提取和词形还原在 NLP 中在什么位置  分词 分词的方法大致分为3类：  基于词典匹配：将待分词的中文文本根据一定规则切分和调整，然后跟词典中的词语进行匹配，匹配成功则按照词典的词分词，匹配失败通过调整或者重新选择，如此反复">
+<meta property="og:description" content="总结  NLP 的第一步是语料预处理，语料预处理的流程为：分词(tokenization), 词干提取（Stemming），词性还原（Lemmatisation）。   词干提取和词形还原在 NLP 中在什么位置   中英语处理的区别：  英文单词有多种形态，所以需要做词干提取和词性还原， 中文有多种分词方式，并且有多种粒度   分词（Tokenization）  目前中文分词没有统一的标准，也没">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-weizhi.png">
 <meta property="og:image" content="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-cigan.png">
 <meta property="og:image" content="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-cixing.png">
 <meta property="article:published_time" content="2021-08-03T12:42:05.000Z">
-<meta property="article:modified_time" content="2021-08-04T03:53:25.500Z">
+<meta property="article:modified_time" content="2021-08-05T04:50:56.567Z">
 <meta property="article:author" content="Chiechie">
 <meta property="article:tag" content="文本">
 <meta name="twitter:card" content="summary">
@@ -202,7 +202,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-08-04 11:53:25" itemprop="dateModified" datetime="2021-08-04T11:53:25+08:00">2021-08-04</time>
+                <time title="修改时间：2021-08-05 12:50:56" itemprop="dateModified" datetime="2021-08-05T12:50:56+08:00">2021-08-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -239,21 +239,46 @@
 <figure>
 <img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-weizhi.png" alt="词干提取和词形还原在 NLP 中在什么位置" /><figcaption aria-hidden="true">词干提取和词形还原在 NLP 中在什么位置</figcaption>
 </figure>
-<h2 id="分词">分词</h2>
-<p>分词的方法大致分为3类：</p>
+<ul>
+<li><p>中英语处理的区别：</p>
 <ol type="1">
+<li><strong>英文单词有多种形态</strong>，所以需要做词干提取和词性还原，</li>
+<li>中文有多种分词方式，<strong>并且有多种粒度</strong></li>
+</ol></li>
+</ul>
+<h2 id="分词tokenization">分词（Tokenization）</h2>
+<ul>
+<li><p>目前中文分词没有统一的标准，也没有公认的规范。</p></li>
+<li><p>分词的方法大致分为3类：：基于词典匹配/基于统计/基于深度学习。</p>
+<ul>
 <li>基于词典匹配：将待分词的中文文本根据一定规则切分和调整，然后跟词典中的词语进行匹配，匹配成功则按照词典的词分词，匹配失败通过调整或者重新选择，如此反复循环即可。代表方法有基于正向最大匹配和基于逆向最大匹配及双向匹配法</li>
 <li>基于统计：这类目前常用的是算法是<strong>HMM、CRF、<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/svm/">SVM</a>、深度学习</strong>等算法，比如stanford、Hanlp分词工具是基于CRF算法。以CRF为例，基本思路是对汉字进行标注训练，不仅考虑了词语出现的频率，还考虑上下文，具备较好的学习能力，因此其对歧义词和未登录词的识别都具有良好的效果。</li>
-<li>基于深度学习：<strong>常见的分词器都是使用机器学习算法和词典相结合，一方面能够提高分词准确率，另一方面能够改善领域适应性。</strong></li>
-</ol>
+<li>基于深度学习：本质上是序列标注，所以有通用性，命名实体识别等都可以使用该模型，例如有人尝试使用双向LSTM+CRF实现分词器，其分词器字符准确率可高达97.5%。常见的分词器都是使用机器学习算法和词典相结合，一方面能够提高分词准确率，另一方面能够改善领域适应性。</li>
+</ul></li>
+<li><p>中文分词工具：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/hankcs/HanLP">Hanlp</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/stanfordnlp/CoreNLP">Stanford 分词</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/NLPchina/ansj_seg">ansj 分词器</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/HIT-SCIR/ltp">哈工大 LTP</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/koth/kcws">KCWS分词器</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/yanyiwu/cppjieba">jieba</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wks/ik-analyzer">IK</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/thunlp/THULAC">清华大学THULAC</a></li>
+<li>[ICTCLAS](</li>
+</ul></li>
+</ul>
 <h2 id="词干提取和词形还原">词干提取和词形还原</h2>
 <h3 id="词干提取-stemming">词干提取 – Stemming</h3>
-<p>词干提取是去除单词的前后缀得到词根的过程。大家常见的前后词缀有「名词的复数」、「进行式」、「过去分词」…</p>
+<p>词干提取是去除单词的前后缀得到词根的过程。大家常见的前后词缀有「名词的复数」、「进行式」、「过去分词」</p>
+<p>cities，children，teeth 这些词需要词干提取转换为 city，child，tooth这些基本形态。</p>
 <figure>
 <img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-cigan.png" alt="词干提取" /><figcaption aria-hidden="true">词干提取</figcaption>
 </figure>
+<h2 id="section"></h2>
 <h3 id="词形还原-lemmatisation">词形还原 – Lemmatisation</h3>
-<p>词形还原是基于词典，将单词的复杂形态转变成最基础的形态，而不仅仅是简单地将前后缀去掉，比如「drove」会转换为「drive」。</p>
+<p>词形还原是基于词典，将单词的复杂形态转变成最基础的形态，而不仅仅是简单地将前后缀去掉，比如「drove」会转换为「drive」，dive就是原形。</p>
+<p>does，done，doing，did 通过词性还原恢复成 do。</p>
 <figure>
 <img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-cixing.png" alt="词形还原" /><figcaption aria-hidden="true">词形还原</figcaption>
 </figure>
@@ -289,6 +314,7 @@
 </ul>
 <p>值得一提的是，由于深度学习在自然语言的广泛应用，基于深度学习的命名实体识别方法也展现出不错的效果，此类方法基本还是把命名实体识别当做<strong>序列标注</strong>任务来做，经典的方法是<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/lstm/">LSTM</a>+CRF、BiLSTM+CRF。</p>
 <h3 id="ner-数据集">NER 数据集</h3>
+<p>https://github.com/thunlp/THULAC</p>
 <table>
 <thead>
 <tr class="header">
@@ -374,8 +400,9 @@
 </table>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li>https://easyai.tech/ai-definition/stemming-lemmatisation/#weizhi</li>
-<li>https://easyai.tech/ai-definition/ner/</li>
+<li><p>https://easyai.tech/ai-definition/stemming-lemmatisation/#weizhi</p></li>
+<li><p>https://easyai.tech/ai-definition/ner/</p></li>
+<li><p>https://easyai.tech/ai-definition/stemming-lemmatisation/#weizhi</p></li>
 </ol>
 
     </div>
@@ -460,7 +487,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E8%AF%8D"><span class="nav-number">2.</span> <span class="nav-text">分词</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E5%92%8C%E8%AF%8D%E5%BD%A2%E8%BF%98%E5%8E%9F"><span class="nav-number">3.</span> <span class="nav-text">词干提取和词形还原</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96-stemming"><span class="nav-number">3.1.</span> <span class="nav-text">词干提取 – Stemming</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E5%BD%A2%E8%BF%98%E5%8E%9F-lemmatisation"><span class="nav-number">3.2.</span> <span class="nav-text">词形还原 – Lemmatisation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%81%9A%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E5%92%8C%E8%AF%8D%E5%BD%A2%E8%BF%98%E5%8E%9F"><span class="nav-number">3.3.</span> <span class="nav-text">为什么要做词干提取和词形还原？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E5%92%8C%E8%AF%8D%E5%BD%A2%E8%BF%98%E5%8E%9F%E5%AF%B9%E6%AF%94"><span class="nav-number">3.4.</span> <span class="nav-text">词干提取和词形还原对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%ABner"><span class="nav-number">4.</span> <span class="nav-text">命名实体识别（NER）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ner-%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">4.1.</span> <span class="nav-text">NER 数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ner%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90"><span class="nav-number">4.2.</span> <span class="nav-text">NER工具推荐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E8%AF%8Dtokenization"><span class="nav-number">2.</span> <span class="nav-text">分词（Tokenization）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E5%92%8C%E8%AF%8D%E5%BD%A2%E8%BF%98%E5%8E%9F"><span class="nav-number">3.</span> <span class="nav-text">词干提取和词形还原</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96-stemming"><span class="nav-number">3.1.</span> <span class="nav-text">词干提取 – Stemming</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#section"><span class="nav-number">4.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E5%BD%A2%E8%BF%98%E5%8E%9F-lemmatisation"><span class="nav-number">4.1.</span> <span class="nav-text">词形还原 – Lemmatisation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%81%9A%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E5%92%8C%E8%AF%8D%E5%BD%A2%E8%BF%98%E5%8E%9F"><span class="nav-number">4.2.</span> <span class="nav-text">为什么要做词干提取和词形还原？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E5%92%8C%E8%AF%8D%E5%BD%A2%E8%BF%98%E5%8E%9F%E5%AF%B9%E6%AF%94"><span class="nav-number">4.3.</span> <span class="nav-text">词干提取和词形还原对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%ABner"><span class="nav-number">5.</span> <span class="nav-text">命名实体识别（NER）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ner-%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">5.1.</span> <span class="nav-text">NER 数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ner%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90"><span class="nav-number">5.2.</span> <span class="nav-text">NER工具推荐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -474,7 +501,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -487,7 +514,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">212</span>
+        <span class="site-state-item-count">213</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

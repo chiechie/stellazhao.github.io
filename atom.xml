@@ -6,7 +6,7 @@
   <link href="https://chiechie.github.io/atom.xml" rel="self"/>
   
   <link href="https://chiechie.github.io/"/>
-  <updated>2021-08-04T03:57:57.111Z</updated>
+  <updated>2021-08-06T03:44:29.971Z</updated>
   <id>https://chiechie.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>提升研究taste小练习</title>
+    <link href="https://chiechie.github.io/2021/08/06/improve-research-taste/"/>
+    <id>https://chiechie.github.io/2021/08/06/improve-research-taste/</id>
+    <published>2021-08-06T01:51:11.000Z</published>
+    <updated>2021-08-06T03:44:29.971Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html"></summary>
+        
+      
+    
+    
+    
+    <category term="哲学" scheme="https://chiechie.github.io/categories/%E5%93%B2%E5%AD%A6/"/>
+    
+    
+    <category term="研究哲学" scheme="https://chiechie.github.io/tags/%E7%A0%94%E7%A9%B6%E5%93%B2%E5%AD%A6/"/>
+    
+  </entry>
   
   <entry>
     <title>nlp-summary</title>
@@ -42,7 +67,7 @@
     <link href="https://chiechie.github.io/2021/08/03/nlp/nlp-preprocess/"/>
     <id>https://chiechie.github.io/2021/08/03/nlp/nlp-preprocess/</id>
     <published>2021-08-03T12:42:05.000Z</published>
-    <updated>2021-08-04T03:53:25.500Z</updated>
+    <updated>2021-08-05T04:50:56.567Z</updated>
     
     
       
@@ -143,9 +168,9 @@
     
     <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
     
-    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
-    
     <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
+    
+    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
     
     <category term="读书笔记" scheme="https://chiechie.github.io/tags/%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0/"/>
     
@@ -296,9 +321,9 @@
     
     <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
     
-    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
-    
     <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
+    
+    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
     
   </entry>
   
@@ -327,9 +352,9 @@
     
     <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
     
-    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
-    
     <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
+    
+    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
     
   </entry>
   
@@ -383,9 +408,9 @@
     
     <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
     
-    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
-    
     <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
+    
+    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
     
   </entry>
   
@@ -431,11 +456,11 @@
     <category term="数据结构" scheme="https://chiechie.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     
+    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
+    
     <category term="编程" scheme="https://chiechie.github.io/tags/%E7%BC%96%E7%A8%8B/"/>
     
     <category term="数据结构" scheme="https://chiechie.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
     
   </entry>
   
@@ -489,11 +514,11 @@
     <category term="数据结构" scheme="https://chiechie.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     
+    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
+    
     <category term="编程" scheme="https://chiechie.github.io/tags/%E7%BC%96%E7%A8%8B/"/>
     
     <category term="数据结构" scheme="https://chiechie.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
     
   </entry>
   
@@ -518,11 +543,11 @@
     <category term="数据结构" scheme="https://chiechie.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     
+    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
+    
     <category term="编程" scheme="https://chiechie.github.io/tags/%E7%BC%96%E7%A8%8B/"/>
     
     <category term="数据结构" scheme="https://chiechie.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
-    
-    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
     
   </entry>
   
@@ -532,33 +557,6 @@
     <id>https://chiechie.github.io/2021/07/07/reading_notes/AFML/AFML3/</id>
     <published>2021-07-07T03:08:30.000Z</published>
     <updated>2021-07-29T12:08:37.713Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html"></summary>
-        
-      
-    
-    
-    
-    <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
-    
-    
-    <category term="量化" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96/"/>
-    
-    <category term="投资" scheme="https://chiechie.github.io/tags/%E6%8A%95%E8%B5%84/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>《Advances in Financial Machine Learning》读书笔记1 数据分析</title>
-    <link href="https://chiechie.github.io/2021/07/06/reading_notes/AFML/AFML1/"/>
-    <id>https://chiechie.github.io/2021/07/06/reading_notes/AFML/AFML1/</id>
-    <published>2021-07-06T11:50:44.000Z</published>
-    <updated>2021-07-29T12:08:39.463Z</updated>
     
     
       

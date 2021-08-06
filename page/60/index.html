@@ -165,6 +165,229 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/19/machine-learning/machine-learning_4-dl1_basic/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/19/machine-learning/machine-learning_4-dl1_basic/" class="post-title-link" itemprop="url">chapter 4.1 深度学习基础</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-04-19 16:35:36" itemprop="dateCreated datePublished" datetime="2021-04-19T16:35:36+08:00">2021-04-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-07-22 15:56:11" itemprop="dateModified" datetime="2021-07-22T15:56:11+08:00">2021-07-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="数据表示">数据表示</h1>
+<p>在深度学习中如何表示现实中的事物？</p>
+<p>The data you’ll manipulate will almost always fall into one of the following categories:</p>
+<ul>
+<li>Vector data:2D tensors of shape(samples, features)</li>
+<li>Timeseries data or sequence data:3D tensors of shape (samples, timesteps, features)</li>
+<li>Images:4D tensors of shape(samples,height,width,channels) or (samples,channels, height, width)</li>
+<li>Video:5D tensors of shape (samples, frames, height, width, channels) or (samples, frames, channels, height, width)</li>
+</ul>
+<h2 id="表数据">表数据</h2>
+<ul>
+<li>两个轴：samples axis 和 features axis.</li>
+<li>文本数据, 假设词典长度为2k，每一个doc可以表示为1个2k维的向量，位置的值代表词在文本中出现的次数。</li>
+<li>500个文件可以存储为(500, 20000).</li>
+</ul>
+<h2 id="时间序列数据文本数据">时间序列数据/文本数据</h2>
+<ul>
+<li><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2F_vMGBboznU.png?alt=media&amp;token=73c12f97-acdb-4680-b4eb-79a9a07581f9" /></li>
+</ul>
+<p>时间序列数据一般表示成3-d的张亮，tf中使用3d张量存储，(samples, timestamp, features) 每一个sample可以被编码成一个2d张量， 具体的两个例子</p>
+<ol type="1">
+<li>股票数据：每年有250个交易日，每个交易日的交易时长有390分钟，每分钟可以抽取3个重要特征：当前价格，上一分钟最高成交价格，上一分钟最低价格
+<ul>
+<li>以每一天的交易数据为1个样本，构建的样本的shape为(250,390,3)</li>
+</ul></li>
+<li>TWEET数据：一条twitter长度不超过256，每个位置的字符来自128个assical码中的一个。每一条twitter的shape为（256， 128），1 百万 tweets 的shape为(1000000, 256, 128)</li>
+</ol>
+<h2 id="图像数据">图像数据</h2>
+<p>图像数据一般表示成4维tensor，一个图像数据就是一个3d张量</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FD24ghIvE2L.png?alt=media&amp;token=4a68bc5a-7b95-46d2-8418-deed053d4301" /></p>
+<ul>
+<li>tensorflow： (samples, height, width, color_depth)</li>
+<li>theano：(samples, color_depth, height, width).</li>
+<li>keras两者都支持</li>
+</ul>
+<h2 id="视频数据的表示">视频数据的表示</h2>
+<p>视频数据表示成5维张量：(samples, frames, height, width, color_depth).</p>
+<h1 id="模型超参">模型超参</h1>
+<h2 id="结构超参数">结构超参数</h2>
+<p>结构超参数包括层数、层的类别、层的大小等数值。以一个卷积层为例，其中的超参数包括卷积核 (filter) 的大小，卷积核的数量，步长 (stride) 的大小，unit：单元，hidden_layers: 隐藏层，cell：单元 ，dropout_rate丢弃率。这些超参数决定了神经网络的结构。</p>
+<h3 id="layers的基本类型">layers的基本类型</h3>
+<p>keras中layer的基本类型：</p>
+<ul>
+<li>卷积(Conv1D)</li>
+<li>池化(MaxPooling1D/GlobalAveragePooling1D)</li>
+<li>dropout(Dropout)</li>
+<li>线性全连接层(Dense)</li>
+<li>high-level层(LSTM) ### 卷积层</li>
+</ul>
+<ol type="1">
+<li>卷积的维度有1Ｄ，2Ｄ，3D, 区别在于?</li>
+</ol>
+<p>输入数据的shape以及卷积核如何滑动</p>
+<ul>
+<li><img src="https://miro.medium.com/max/1621/1*aBN2Ir7y2E-t2AbekOtEIw.png" title="fig:" alt="I１维卷积和２维卷积的区别" /></li>
+<li>1维卷积（Conv1D）：只有1个维度可以滑动，但是另一维度也是有待估参数的</li>
+<li>2维卷积（Conv2D）：有两个维度可以滑动，</li>
+<li>相同点：从参数视角都是2维的，每一个卷积kernel，参数个数是 height × width +１　（off_ set）</li>
+</ul>
+<ol start="2" type="1">
+<li>什么情况下，1d比2d好用呢？其中2个维度上，做卷积没有意义(high,close,open,close)</li>
+</ol>
+<h3 id="关于dropout">关于dropout</h3>
+<p>keras中对dropout的处理，因为训练阶段需要dropout ，但是inference阶段不需要dropout，keras中如何设置？</p>
+<p>Keras does this by default.</p>
+<p>keras中，在test模式下，dropouts是不可以设置的，代码在<a target="_blank" rel="noopener" href="https://github.com/keras-team/keras/blob/dc95ceca57cbfada596a10a72f0cb30e1f2ed53b/keras/layers/core.py#L109">这里</a> and see that they use the dropped input in training and the actual input while testing.</p>
+<h2 id="算法超参数">算法超参数</h2>
+<p>算法超参数包括学习率 (learning rate),批量大小 (batch size)、epoch数量(迭代周期个数)、正则，损失，激活函数等。由于神经网络的非凸性，用不同的算法超参数会得到不同的解。</p>
+<h3 id="归一化">归一化</h3>
+<p>归一化层，目前主要有这几个方法：</p>
+<ul>
+<li>Batch Normalization（BN， 2015年）</li>
+<li>Layer Normalization（LN， 2016年）</li>
+<li>Instance Normalization（IN， 2017年）</li>
+<li>Group Normalization（GN， 2018年）</li>
+<li>Switchable Normalization（SN， 2018年）；</li>
+</ul>
+<h4 id="问题1-transformer-为什么要使用ln而不是-bn">问题1 transformer 为什么要使用LN而不是 BN？</h4>
+<p>在<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2003.07845.pdf">paper: Rethinking Batch Normalization in Transformers</a>中, 作者对比了cv和nlp的BN, 得出的结论是在nlp数据上基于batch的统计信息不稳定性过大(相比cv的数据)，导致bn在nlp上效果差。相比之下layer norm能够带来更稳定的统计信息，有利于模型学习</p>
+<p>Batch Normalization主要的问题是计算归一化统计量时计算的样本数太少，在RNN等动态模型中不能很好的反映全局统计分布信息，而Layer Normalization根据样本的特征数做归一化，是batch size无关的，只取决于隐层节点的数量，较多的隐层节点数量能保证Layer Normalization归一化统计分布信息的代表性。</p>
+<h4 id="问题2.-in直观上怎么理解">问题2. IN直观上怎么理解？</h4>
+<p>在计算机视觉中，IN本质上是一种Style Normalization，它的作用相当于把不同的图片统一成一种风格。另外，既然IN和BN都会统一图片的风格，那么在Generator里加IN或BN应该是不利于生成风格多样的图片的，论文中也进行了展示：</p>
+<p><img src="https://pic2.zhimg.com/v2-235433127838fca762ebd10511de9ca7_b.jpg" /></p>
+<p>图e是在generator中加了BN的结果，图f是在generator中加了IN的结果。果然崩了，IN崩得尤其厉害。</p>
+<h3 id="激活函数">激活函数</h3>
+<p>设计神经网络的时候，通常采用连续的非线性函数作为激活函数，比如sigmoid函数/双曲正切函数（tanh）/relu,</p>
+<figure>
+<img src="./dl0_basic.png" alt="image-20210719145122887" /><figcaption aria-hidden="true">image-20210719145122887</figcaption>
+</figure>
+<h3 id="损失函数">损失函数</h3>
+<ul>
+<li>在target为离散变量时，损失函数有：hinge/指数损失/交叉熵</li>
+<li>在target为连续变量时，损失函数有：平方误差</li>
+</ul>
+<p>tensorflow中的损失函数:</p>
+<ul>
+<li><p>sparse_categorical_crossentropy: target是interger list，形状n*1；</p></li>
+<li><p>categorical_crossentropy: target 是one-hot vector，target的shape跟模型输出一致，是n*k(类)。</p>
+<p><span class="math display">\[C E(x)=-\sum\limits_{i=1}^{C} y_{i} \log f_{i}(x)\]</span></p></li>
+<li><p>binary_crossentropy: target 是interger list。 <span class="math display">\[B C E(x)_{i}=-\left[y_{i} \log f_{i}(x)+\left(1-y_{i}\right) \log \left(1-f_{i}(x)\right)\right]\]</span></p></li>
+<li><p>如果输出标签维度为1，只能使用binary_crossentropy，否则程序会报错。不能直接使用categorical_crossentropy 或者sparse_categorical_crossentropy</p></li>
+<li><p>如果输出标签维度为K：使用categorical_crossentropy 或者sparse_categorical_crossentropy</p></li>
+<li><p>单标签多分类（multi-class）：softmax + CE</p></li>
+<li><p>二分类：sigmoid + BCE</p></li>
+<li><p>多标签多分类（multi-label）的情况：sigmoid + BCE</p></li>
+<li><p>最小化交叉熵损失函数等价于最大化训练数据集所有标签类别的联合预测概率。</p></li>
+</ul>
+<h3 id="优化算法">优化算法</h3>
+<figure>
+<img src="./image-20210719145307261.png" alt="image-20210719145307261" /><figcaption aria-hidden="true">image-20210719145307261</figcaption>
+</figure>
+<ol type="1">
+<li><p>远在机器学习之前，梯度下降就已经被提出，还有共轭梯度法，坐标下降法，牛顿法，拟牛顿法，Frank-Wolfe方法，Nesterov加速方法，内点法，对偶方法他确定性优化算法。</p></li>
+<li><p>确定性优化算法从算法使用的信息的角度可以分为一阶和二阶方法，</p>
+<ul>
+<li>一阶：只用到了目标函数的一阶导数信息</li>
+<li>二阶：用到了二阶导数，如嗨森矩阵</li>
+</ul></li>
+<li><p>随着大数据的兴起，确定性优化算法的效率成为瓶颈。为了减少优化过程中每次迭代的计算复杂度，开始关注随机优化算法，比如随机梯度下降，随机坐标下降等。这些算法的基本思想是，每次迭代不使用全部样本或者全部特征，而是随机抽样一个/或者一组样本，或者一个/一组特征，再利用这些抽象的信息来计算一阶或者二阶导数，对目标函数进行优化。很多情况下，随机优化可以看成是确定性算法的无偏估计，但是，有时候也会带来较大方差，需要使用新的技术手段去控制方差，比如SVRG。</p></li>
+<li><p>上面的优化算法在求解凸优化问题时，理论性质是比较清楚的，但是深度神经网络引入了非凸优化问题，以上的算法在该问题域还存在很大的理论空白，例如：</p>
+<ol type="1">
+<li>优化算法的收敛性在非凸问题能否保持</li>
+<li>有没有什么加速的方法？</li>
+</ol></li>
+<li><p>专门针对深度神经网络的优化算法被发明，例如，带冲量的速记梯度下降，ada梯度，rmsprop，ada delta</p>
+<ul>
+<li>带动量的随机梯度下降，对所有历史的梯度，按照时间衰减为权重，一起决定下一步的更新方向</li>
+<li>ada梯度：在上面的基础上，还考虑了根据历史梯度大小调整了学习步长</li>
+<li>rmsprop：带动量的sgd和ada的结合</li>
+<li>ada delta：在rmsprop基础行，进一步对步长调整</li>
+<li>adam：</li>
+</ul></li>
+</ol>
+<h1 id="参考资料">参考资料</h1>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1502.03167.pdf">Batch Normalization</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1607.06450v1.pdf">Layer Normalizaiton</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1607.08022.pdf">Instance Normalization</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/DmitryUlyanov/texture_nets">code</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1803.08494.pdf">Group Normalization</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1806.10779.pdf">Switchable Normalization</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/switchablenorms/Switchable-Normalization">code</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/liuxiao214/article/details/81037416">有公式推导，写的很棒</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/05de1f989790">用书比喻图像很好理解</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/61248211">Conditional Batch Normalization 详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/57875010">从Style的角度理解Instance Normalization</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.goodaudience.com/introduction-to-1d-convolutional-neural-networks-in-keras-for-time-sequences-3a7ff801a2cf">在时序数据上应用conv1D</a></li>
+<li>https://zhuanlan.zhihu.com/p/57875010</li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47787011/how-to-disable-dropout-while-prediction-in-keras">How to disable dropout while prediction in keras?</a></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/18/reading_notes/reality/taleb-blackswan/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -285,210 +508,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/18/machine-learning/machine-learning_3-clustering/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Chiechie">
-      <meta itemprop="description" content="a reader & thinker">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chiechie's Mini World">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/04/18/machine-learning/machine-learning_3-clustering/" class="post-title-link" itemprop="url">chapter 3 聚类算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-04-18 11:20:42" itemprop="dateCreated datePublished" datetime="2021-04-18T11:20:42+08:00">2021-04-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-07-22 16:06:56" itemprop="dateModified" datetime="2021-07-22T16:06:56+08:00">2021-07-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <blockquote>
-<p>除了kmeans，聚类算法中还有一类更简单直观的方法，就是层次聚类。</p>
-</blockquote>
-<h2 id="总结">总结</h2>
-<ol type="1">
-<li><p>聚类是一种非监督的数据驱动的分析方法，当给定一堆样本的特征时，希望聚类算法能从特征中发现不同 的样本的聚集的模式，并且可以将发现的知识推广到新的数据上。</p></li>
-<li><p>我们常常对表数据使用kmeans来实现聚类，内部流程分为两步，第一步是是将多维的表数据（维度代表特征），转为2D的相似图（一个节点代表一个样本）。第二步，是对这个图进行聚类。</p></li>
-<li><p>kmeans在实际中应用较多，但是并没有理论保证其收敛。</p>
-<blockquote>
-<p>...I don't think there is a nice theory of convergence or rate of convergence, But is a very popular algorimth,..., But that's one sort of hack that works quite well--Gilbert Strang</p>
-</blockquote></li>
-<li><p>对一个图，找到其中的一些cluster，kmeans是其中一种方法，还有谱聚类（spectral clustring）。</p></li>
-<li><p>除此之外，还可以使用终极大招--使用数值方法去求解优化问题（比如BP，就是alternative methods的一个特例）。</p></li>
-<li><p>按照理论严密从高到低，实现聚类的算法可以分为三类：谱聚类，基于运筹优化的聚类，一些直觉类的方法。直觉类的方法包括kmeans，层次聚类</p></li>
-<li><p>2个基本概念： <span class="math display">\[
-\operatorname{variability}(c)=\sum_{e \in c} \operatorname{distance}(\operatorname{mean}(c), e)^{2}
-\]</span></p></li>
-</ol>
-<p><span class="math display">\[
-\operatorname{dissimilarity}(C)=\sum_{c \in C} \operatorname{variability}(c)
-\]</span></p>
-<ul>
-<li><p>variability表示一个cluster的紧实程度（肌肉or胖子），有点点像衡量发散程度的方差，</p></li>
-<li><p>variability计算一个cluster内部，每个样本点离中心点的距离（eg欧式距离）</p></li>
-<li><p>dissimilarity表示一系列cluster的紧实程度，除以clusters的个数就是方差。</p></li>
-</ul>
-<ol start="9" type="1">
-<li>聚类就是求解一个优化问题： 最小化dissimilarity， 同时满足约束：至少有几个cluster（kmeans）or。cluster之间的距离超过给定的阈值（层次聚类）</li>
-<li>层次聚类是确定性的，kmeans是随机的，聚类结果依赖于K个中心点的初始值。</li>
-<li>目前常用的聚类算法大概分为三类：层次聚类/kmeans聚类</li>
-</ol>
-<ul>
-<li>层次聚类： nearest neigbour</li>
-<li>基于分区的聚类（partitional）：Kmeans系列/FCM/图理论</li>
-<li>基于密度：DBSCAN</li>
-<li>其他：ACODF</li>
-</ul>
-<figure>
-<img src="./img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
-</figure>
-<h2 id="kmeans">kmeans</h2>
-<p>怎么选择k？</p>
-<ol type="1">
-<li>使用不同的k，看聚类效果，需要借助label， 看每个cluster的impurity，值越少，越符合预期。</li>
-<li>在一小数据集上使用层次聚类，然后在全量数据上使用kmeans。</li>
-</ol>
-<p>怎么避免初始中心点的随机性造成的算法效果不稳定？</p>
-<ol type="1">
-<li>设定初始聚类中心的时候，尽可能散布在整个空间。</li>
-<li>多跑几组聚类，选择聚类结果的dissimilarity最小的实验</li>
-</ol>
-<p>注意样本的特征范围需要统一，否则某一个特征就决定距离</p>
-<h2 id="层次聚类">层次聚类</h2>
-<p>层次聚类算法,又称为树聚类算法,它使用数据的联接规则,透过一种层次架构方式,反复将数据进行分裂或聚合,以形成一个层次序列的聚类问题解.</p>
-<ol type="1">
-<li><p>层次聚类算法中的层次聚合算法为例进行介绍.</p></li>
-<li><p>如何判断两个cluster之间的距离？average-linkage/single-linkage/complete-linkage</p>
-<ul>
-<li>average-linkage计算两个cluster各自数据点的两两距离的平均值。</li>
-<li>single-linkage,选择两个cluster中距离最短的一对数据点的距离作为类的距离</li>
-<li>complete-linkage选择两个cluster中距离最长的一对数据点的距离作为类的距离。</li>
-</ul></li>
-<li><p>层次聚合算法的时间复杂度为<span class="math inline">\(O(n^2)\)</span>,适合于小数据集的分类.</p></li>
-</ol>
-<p>该算法由树状结构的底部开始逐层向上进行聚合,假定样本集S={o1,o2,...,on}共有n个样本.</p>
-<ol type="1">
-<li>初始化：每个样本 <span class="math inline">\(o_i\)</span> 为一个类; 共形成 n 个类:<span class="math inline">\(o_1,o_2,...,o_n\)</span></li>
-<li>找最近的<strong>两个类</strong>：从现有所有类中找出相似度最大的<strong>两个</strong>类<span class="math inline">\(o_r\)</span> 和 <span class="math inline">\(o_k\)</span> <span class="math display">\[distance(o_r,o_k) = min_{\forall{o_u,o_v \in S,o_u \neq o_v}}distance(o_u,o_v)\]</span></li>
-<li>将类<span class="math inline">\(o_r\)</span>和<span class="math inline">\(o_k\)</span>合并成一个新类<span class="math inline">\(o_{rk}\)</span>，现有cluster个数减1</li>
-<li>若所有的样本都属于同一个类,则终止;否则,返回步骤2.</li>
-</ol>
-<p>层次聚类最大的优点，它一次性地得到了整个聚类的过程。如果想要改变cluster个数，不需要重新训练聚类模型，取聚类树的中间某一层就好了。相比之下kmeans是要重新弄训练的。</p>
-<p>层次聚类的缺点是计算量比较大，因为要每次都要计算多个cluster内所有数据点的两两距离，复杂度是O(n^2*d)，d表示聚类树的深度。</p>
-<p>还有一个缺点，超参数比较难设置，跟kmeans一样。最终到底聚成多少类，需人工给定一个distance threshold，这个阈值跟sample有关，跟距离函数的定义也有关，并且聚类结果对这个参数比较敏感。</p>
-<h2 id="谱聚类">谱聚类</h2>
-<ol type="1">
-<li>基于图数据的聚是非监督算法中的一种，目的是对一个图的点和变去聚类，而不是在特征空间中聚类。典型应用就是web图或者社交网络进行数据挖掘。</li>
-</ol>
-<blockquote>
-<p><strong>Graph</strong>-<strong>based clustering</strong> comprises a family of unsupervised classification algorithms that are designed to <strong>cluster</strong> the vertices and edges of a <strong>graph</strong> instead of objects in a feature space. A typical application field of these methods is the Data Mining of online social networks or the Web <strong>graph</strong> [1].Feb 8, 2020</p>
-</blockquote>
-<ol start="2" type="1">
-<li><p>矩阵的spectrum就是矩阵的特征根。Spectral clustering就是使用矩阵的特征根聚类。</p></li>
-<li><p>图的拉普拉斯矩阵定义为 <span class="math inline">\(L=D-A\)</span>.</p></li>
-</ol>
-<p>怎么根据L来找到目标的clusters（or centriod）？ 对L进行谱分解（特征根分解），并且找到L的fieder向量。</p>
-<p>fieder向量中的元素有正的，也有负的， 正的位置对应的样本分配到cluster1，负元素对应的样本分配到cluster2</p>
-<p>谱聚类的流程是：</p>
-<p>输入：n个样本, 类别k</p>
-<ol type="1">
-<li>根据样本两两之间的相似度，构建有权无向图，以及邻接矩阵W。</li>
-<li>计算出拉普拉斯矩阵L，对L做谱分解（相当于降维）：计算拉普拉斯矩阵L的最小的k个特征值对应的特征向量u1, u2,...,uk,将这些向量组成n*k维的矩阵U</li>
-<li>将U中的每一行作为一个样本，共n个样本，使用k-means对这n个样本进行聚类</li>
-</ol>
-<p>得到簇划分C(c1,c2,...ck).</p>
-<p>可以将谱聚类应用到，对样本的相似图做聚类。</p>
-<h2 id="聚类应用-图像分割">聚类应用-图像分割</h2>
-<p>图像分割是图聚类的其中一个应用场景。</p>
-<p>层次聚类可看成框架，而基于图的图像分割是在层次聚类上加了骨头，使他更适用于图像分割的领域，而使用者可以在骨头上继续加肉来达到不同的分割效果。</p>
-<p>图像中的每一个像素点是一个item，图像分割的任务即对所有items聚类，属于一个cluster的所有像素就构成了一个区域， 最终的分割结构就是若干个区域（即clusters）组成的。由此我们过渡到本文的第二部分，</p>
-<p>基于图的图像分割算法，主要流程如下</p>
-<p>输入一个图<span class="math inline">\(G=(V,E)\)</span>，有n个点和m个边。输出是一个分割V，分割成<span class="math inline">\(S=(C_1,...,C_2).\)</span></p>
-<ol type="1">
-<li><p>对边E进行排序，生成非递减的序列<span class="math inline">\(\pi = (o_1,...,o_m)\)</span></p></li>
-<li><p>从初始分割<span class="math inline">\(S^0\)</span>开始，每一个点<span class="math inline">\(v_i\)</span>自己就是一个区域</p></li>
-<li><p>对于每一个边<span class="math inline">\(q = 1,...,m\)</span>重复步骤3，通过<span class="math inline">\(S^{q-1}\)</span>构建<span class="math inline">\(S^q\)</span>，使用如下的方式</p>
-<ul>
-<li>令<span class="math inline">\(v_i\)</span>和<span class="math inline">\(v_j\)</span>表示按顺序排列的第q条边的两个点，比如<span class="math inline">\(o_q = (v_i,v_j)\)</span>。</li>
-<li>如果<span class="math inline">\(v_i\)</span>和<span class="math inline">\(v_j\)</span>在<span class="math inline">\(S^{q-1}\)</span>中连个不同的区域下，并且<span class="math inline">\(w(o_q)\)</span>比两个区域的内部差异都小，那么合并这连个区域，否则什么也不做。</li>
-<li>用公式来表达就是：
-<ul>
-<li>令<span class="math inline">\(C_{i}^{q-1}是S^{q-1}\)</span>的一个区域，它包含点<span class="math inline">\(v_i\)</span>；令<span class="math inline">\(C_{j}^{q-1}是S^{q-1}\)</span>的一个区域，它包含点<span class="math inline">\(v_j\)</span>。</li>
-<li>如果<span class="math inline">\(C_{i}^{q-1} \neq C_{j}^{q-1}\)</span> 并且<span class="math inline">\(w(o_q) \leq MInt(C_i^{q-1},C_j^{q-1})\)</span>，那么通过合并<span class="math inline">\(C_{i}^{q-1}\)</span>和<span class="math inline">\(C_{j}^{q-1}\)</span>得到了<span class="math inline">\(S^q\)</span>；</li>
-<li>否则的话<span class="math inline">\(S^q = S^{q-1}\)</span>，返回<span class="math inline">\(S = S^m\)</span></li>
-</ul></li>
-</ul></li>
-</ol>
-<p>图像分割结果如下</p>
-<figure>
-<img src="./img1.png" alt="图像分割" /><figcaption aria-hidden="true">图像分割</figcaption>
-</figure>
-<h2 id="参考">参考</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://patentimages.storage.googleapis.com/34/c0/df/3417293b1602a5/CN105468677A.pdf">一种基于图结构的日志聚类算法</a></li>
-<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/78382376">常用聚类算法综述</a></li>
-<li><a target="_blank" rel="noopener" href="https://buptjz.github.io/2014/04/21/cluster">从层次聚类到Graph-based图像分割</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.jos.org.cn/1000-9825/19/48.pdf">聚类算法</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=cxTmmasBiC8">35. Finding Clusters in Graphs-mit-youtube</a></li>
-<li>https://www.youtube.com/watch?v=esmzYhuFnds</li>
-<li>https://en.wikipedia.org/wiki/Spectral_clustering</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -558,7 +577,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">199</span>
+          <span class="site-state-item-count">200</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -571,7 +590,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">212</span>
+        <span class="site-state-item-count">213</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
