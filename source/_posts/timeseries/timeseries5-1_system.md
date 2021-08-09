@@ -1,5 +1,5 @@
 ---
-title: 时间序列6 时序预测框架--《Probabilistic Demand Forecasting at Scale》
+title: 时间序列5-1 时序预测框架--《Probabilistic Demand Forecasting at Scale》
 author: chiechie
 mathjax: true
 date: 2021-07-27 11:35:00
@@ -50,7 +50,6 @@ categories:
    - 在模型开发的整个生命周期：先尝试小范围的baseline模型，后面不断的对特定的商品子类（subset）添加 specialized learners，来提升准确率（why 保证提升？）
    - 分组训练怎么保证准确率？将error tolerance 设置很小，将num_iteration设置为一个固定的较大的值。
    - 如果又想要在不同曲线之间迁移，又想保持曲线各自的特点，可以这么做：将共享的向量弄小一点，或者 提供自由度：让每个曲线都选择自己的特征。
-   
 
 # 附录
 
