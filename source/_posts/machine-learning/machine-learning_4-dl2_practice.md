@@ -13,32 +13,33 @@ categories:
 
 
 
-## 反向传播（backpropagation）
+## 反向传播
 
 > ** The problem with Backpropagation is that it is a** [**leaky abstraction**](https://en.wikipedia.org/wiki/Leaky_abstraction)**.**---Andrej Karpathy
 
 ![img](https://kratzert.github.io/images/bn_backpass/BNcircuit.png)
 
-1. 关于激活函数--sigmoid，另外一个容易忽视的事实是，其梯度在z=0.5时，达到最大--0.25，这意味着，每次梯度信号穿越过sigmoid门时，会衰减为1/4或者更多，如果使用基本 SGD，这会使网络的低层比高层的参数更新慢得多。
+1. 关于激活函数--sigmoid，另外一个容易忽视的事实是，其梯度在z=0.5时，达到最大--0.25，这意味着，每次梯度信号穿越过sigmoid门时，会衰减为1/4或者更多，如果使用基本 SGD，这会使网络的低层比高层的参数更新慢得多。![img](https://miro.medium.com/max/1400/1*gkXI7LYwyGPLU5dn6Jb6Bg.png)
 
-3. 长话短说： 如果您在网络中使用 sigmoids 或者 tanh 作为激活函数，那么您应该警惕，初始化不会导致想训练过程完全饱和（ fully saturated）。
+2.  如果网络中使用 sigmoids 或者 tanh 作为激活函数，那么您应该警惕，初始化不会导致想训练过程完全饱和（ fully saturated）。
 
-3. 还有一个有趣的非线性函数ReLU，当输入小于0时，导数也为0，此时没有梯度信号能通过激活函数，这个现象叫“dead ReLU” 问题。如果一个relu神经元不幸被初始化的
+3. 非线性函数ReLU：当输入小于0时，导数也为0，此时没有梯度信号能通过激活函数，这个现象叫“dead ReLU” 问题。如果初始权重没选好导致relu的输出为0，那么这个relu神经元再也不会被激活了，就永久保持死亡状态。在训练的过程中发现，大部分神经元（neuron，可能有40%）都是死亡状态。
 
-   
+    
 
-If you stare at this for a while you’ll see that if a neuron gets clamped to zero in the forward pass (i.e. **z**=0, it doesn’t “fire”), then its weights will get zero gradient. This can lead to what is called the “dead ReLU” problem, where if a ReLU neuron is unfortunately initialized such that it never fires, or if a neuron’s weights ever get knocked off with a large update during training into this regime, then this neuron will remain permanently dead. It’s like permanent, irrecoverable brain damage. Sometimes you can forward the entire training set through a trained network and find that a large fraction (e.g. 40%) of your neurons were zero the entire time.
-
-
+![img](https://miro.medium.com/max/1400/1*g0yxlK8kEBw8uA1f82XQdA.png)
 
 
 
-
-
-1. 损失函数是关于训练数据和网络权重的函数，其中训练数据是常数，权重是变量，我们可以控制的。因此，虽然算出损失关于训练数据的梯度很简单，（同样bp），但是我们也不会算这个梯度，而是算损失关于权重的梯度，从而使用这个梯度去更新权重。
-2. 损失函数关于样本的梯度也不是说完全没有用，他可以用来做可视化，解释模型当前学到了什么。
-3. 导数是什么？随着某个变量的变化，一个函数的变化量。表示函数对于当前变量值的敏感性。
-4. 考虑一个多层嵌套的函数f，对其应用链式法则，就可以到达终极变量的导数
+1. 注意：构建的神经网络中有 ReLUs单元时，应该始终对dead ReLUs保持警惕。在训练过程中，如果学习率设置的过于aggressive，常出现relu神经元死亡。
+2. RNNs中的梯度爆炸（Exploding gradients in RNNs）,假设有一个简化的 RNN，不接受输入 x，只递归计算隐藏状态(等价地，输入 x 总是可以为零) ，RNN 是展开了T的时间步长。注意看反向通道时，会看到梯度信号逆着时间传播，并且是通过将隐藏状态乘以同一个矩阵循环矩阵**Whh**传播的，总是被同一个矩阵乘以(递归矩阵 Whh) ，中间穿插着非线性函数的反向传播。
+3. 当你用一个数 a 乘以另一个数 b (即 a * b * b * b * b * b * b * b)会发生什么。.)？如果 | b | < 1，这个序列趋近零; 如果 | b | > 1，这个序列趋近无穷。同样的事情也发生在 RNN 的反向传播过程中，不过 b 是一个矩阵，而不仅仅是一个数字，这个时候要算它的最大特征值。
+4. **使用RNN时要注意**: 警惕梯度截断（gradient clipping），或者使用LSTM.
+5. 额外的发现（Spotted in the Wild: DQN Clipping）：DQN中， 使用 **target_q_t**表示$ [reward * \gamma *argmax_a Q(s’,a)]$，还有一个变量**q_acted**, which is **Q(s,a)** of the action that was taken. 二者相剑得到一个变量**delta,** 可以用使用l2损失最小化这个变量， **tf.reduce_mean(tf.square()).** 
+6. 损失函数是关于训练数据和网络权重的函数，其中训练数据是常数，权重是变量。因此，虽然损失关于训练数据的梯度很容易算，但是不去算，因为跟目标（更新权重）不一致。算损失关于权重的梯度，从而使用这个梯度去更新权重。
+7. 损失函数关于样本的梯度虽然对更新参数没有用，但是可以用来解释模型当前学习到了什么。
+8. 导数是什么？随着某个变量的变化，一个函数的变化量。表示函数对于当前变量值的敏感性。
+9. 考虑一个多层嵌套的函数f，对其应用链式法则，就可以到达终极变量的导数
 
 - f(x,y,z)=(x+y)z可以被分解为:q=x+y 和f=qz
 
@@ -54,6 +55,11 @@ If you stare at this for a while you’ll see that if a neuron gets clamped to z
 $$ \sigma(x)=\frac{1}{1+e^{-x}}  \rightarrow \frac{d \sigma(x)}{d x}=\frac{e^{-x}}{\left(1+e^{-x}\right)^{2}}=\left(\frac{1+e^{-x}-1}{1+e^{-x}}\right)\left(\frac{1}{1+e^{-x}}\right)=(1-\sigma(x)) \sigma(x) $$
 
 - $$f(w, x)=\frac{1}{1+e^{-\left(w_{0} x_{0}+w_{1} x_{1}+w_{2}\right)}}$$, 
+
+>  The derivative on each variable tells you the sensitivity of the whole expression on its value.*
+
+- 导数是函数相对于某个自变量的敏感度；梯度是偏导数组成的向量。
+- Backpropagation can thus be thought of as gates communicating to each other (through the gradient signal) whether they want their outputs to increase or decrease (and how strongly), so as to make the final output value higher.
 
 ## layer的输入输出
 
