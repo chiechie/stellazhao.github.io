@@ -8,7 +8,7 @@ tags:
 - word2vec
 - 人工智能
 categories:
-- 机器学习
+- NLP
 ---
 
 > 词嵌入（word embedding）是指把一个词映射为一个实数域的向量，这个向量也叫词向量。

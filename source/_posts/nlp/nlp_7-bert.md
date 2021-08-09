@@ -11,7 +11,7 @@ tags:
 - Bert
 - attention
 categories:
-- 机器学习
+- NLP
 ---
 
 为什么有了word2vec还不够？还需要bert干嘛？因为一词多义，同样的词在不同的上下文中表达的意思不一样，而word2vec的表示是静态的。
