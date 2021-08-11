@@ -6,7 +6,7 @@
   <link href="https://chiechie.github.io/atom.xml" rel="self"/>
   
   <link href="https://chiechie.github.io/"/>
-  <updated>2021-08-06T03:57:41.713Z</updated>
+  <updated>2021-08-11T07:02:25.426Z</updated>
   <id>https://chiechie.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://chiechie.github.io/2021/08/06/zhexue/improve-research-taste/"/>
     <id>https://chiechie.github.io/2021/08/06/zhexue/improve-research-taste/</id>
     <published>2021-08-06T01:51:11.000Z</published>
-    <updated>2021-08-06T03:57:41.713Z</updated>
+    <updated>2021-08-11T07:02:25.426Z</updated>
     
     
       
@@ -117,11 +117,11 @@
   </entry>
   
   <entry>
-    <title>时间序列6 时序预测框架-TensorFlow Probability</title>
+    <title>时间序列5-2 时序预测框架-TensorFlow Probability</title>
     <link href="https://chiechie.github.io/2021/07/28/timeseries/timeseries5-2_probability-tensorflow/"/>
     <id>https://chiechie.github.io/2021/07/28/timeseries/timeseries5-2_probability-tensorflow/</id>
     <published>2021-07-28T14:10:33.000Z</published>
-    <updated>2021-07-27T12:36:31.494Z</updated>
+    <updated>2021-08-11T05:55:24.766Z</updated>
     
     
       
@@ -144,11 +144,11 @@
   </entry>
   
   <entry>
-    <title>时间序列6 时序预测框架--《Probabilistic Demand Forecasting at Scale》</title>
+    <title>时间序列5-1 时序预测框架--《Probabilistic Demand Forecasting at Scale》</title>
     <link href="https://chiechie.github.io/2021/07/27/timeseries/timeseries5-1_system/"/>
     <id>https://chiechie.github.io/2021/07/27/timeseries/timeseries5-1_system/</id>
     <published>2021-07-27T03:35:00.000Z</published>
-    <updated>2021-07-28T00:34:02.581Z</updated>
+    <updated>2021-08-11T05:55:24.766Z</updated>
     
     
       
@@ -177,11 +177,11 @@
   </entry>
   
   <entry>
-    <title>时间序列5 时序异常检测</title>
+    <title>时间序列6 时序异常检测</title>
     <link href="https://chiechie.github.io/2021/07/26/timeseries/timeseries6_anomalydetection/"/>
     <id>https://chiechie.github.io/2021/07/26/timeseries/timeseries6_anomalydetection/</id>
     <published>2021-07-26T15:12:28.000Z</published>
-    <updated>2021-07-30T03:48:54.458Z</updated>
+    <updated>2021-08-11T05:55:24.768Z</updated>
     
     
       
@@ -332,7 +332,7 @@
     <link href="https://chiechie.github.io/2021/07/23/timeseries/timeseries3_classic-prediction/"/>
     <id>https://chiechie.github.io/2021/07/23/timeseries/timeseries3_classic-prediction/</id>
     <published>2021-07-23T00:25:11.000Z</published>
-    <updated>2021-08-02T08:57:40.395Z</updated>
+    <updated>2021-08-11T06:42:42.408Z</updated>
     
     
       
@@ -363,7 +363,7 @@
     <link href="https://chiechie.github.io/2021/07/22/timeseries/timeseries2_ts-prepare/"/>
     <id>https://chiechie.github.io/2021/07/22/timeseries/timeseries2_ts-prepare/</id>
     <published>2021-07-22T14:04:02.000Z</published>
-    <updated>2021-07-29T09:00:11.862Z</updated>
+    <updated>2021-08-11T06:09:27.864Z</updated>
     
     
       
@@ -456,11 +456,11 @@
     <category term="数据结构" scheme="https://chiechie.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     
-    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
-    
     <category term="编程" scheme="https://chiechie.github.io/tags/%E7%BC%96%E7%A8%8B/"/>
     
     <category term="数据结构" scheme="https://chiechie.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
     
   </entry>
   
@@ -514,11 +514,11 @@
     <category term="数据结构" scheme="https://chiechie.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     
-    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
-    
     <category term="编程" scheme="https://chiechie.github.io/tags/%E7%BC%96%E7%A8%8B/"/>
     
     <category term="数据结构" scheme="https://chiechie.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
     
   </entry>
   
@@ -543,11 +543,11 @@
     <category term="数据结构" scheme="https://chiechie.github.io/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     
-    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
-    
     <category term="编程" scheme="https://chiechie.github.io/tags/%E7%BC%96%E7%A8%8B/"/>
     
     <category term="数据结构" scheme="https://chiechie.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+    
+    <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
     
   </entry>
   
