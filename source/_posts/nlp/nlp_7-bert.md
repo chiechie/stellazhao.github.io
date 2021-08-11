@@ -1,5 +1,5 @@
 ---
-title:  chapter 4.7  深度学习7 Bert
+title:  自然语言处理7 Bert
 author: chiechie
 mathjax: true
 date: 2021-04-26 11:50:30

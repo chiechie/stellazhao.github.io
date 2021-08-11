@@ -1,5 +1,5 @@
 ---
-title:  chapter 4.5 深度学习5 Word2vec
+title:  自然语言处理5 Word2vec
 author: chiechie
 mathjax: true
 date: 2021-04-24 22:23:20
