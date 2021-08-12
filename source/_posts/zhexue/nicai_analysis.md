@@ -193,9 +193,9 @@ categories:
 尼采认为道德作为一种价值标尺，不同的人应该有不同的价值标尺，弱者们构建的奴隶道德对弱者们也有积极的意义，是他们摆脱虚无主义的唯一方式。而这种道德却不适合强者们，甚至可以说是约束了他们。那么强者就不应该以道德作为最高或者唯一的价值标尺，而是去追求high spirituality。这种high spirituality是无关乎道德的。
 
 ## 参考
+
 1. [王国维系列讲座：老子与尼采](https://www.bilibili.com/video/BV11b411s712)
 2. [nicai](https://www.zhihu.com/question/438577409/answer/1669794401)
-
 1. [youtube](https://www.youtube.com/watch?v=1wBD0UPeH88&t=939s)
 2. 《瞧！這個人》尼采
 3. 《尼采讀本》
@@ -203,4 +203,4 @@ categories:
 5. 《查特斯特拉如是说》尼采
 6. [什么是「永恒回归」的思想？](https://www.zhihu.com/question/28967741)
 7. [老子和尼采](https://www.bilibili.com/video/BV11b411s712?from=search&seid=9777421423834308216)
-8. [liuqing- 尼采III：我们还有共同的真相吗？](https://m.igetget.com/share/course/preview/e3WMdD1ARZm4vrYagp6k1Xjl5FnNFJJGkiWy52rNGK8l3BQVjLzn8NGoEOb926yK)
+8. [liuqing-尼采III：我们还有共同的真相吗？](https://m.igetget.com/share/course/preview/e3WMdD1ARZm4vrYagp6k1Xjl5FnNFJJGkiWy52rNGK8l3BQVjLzn8NGoEOb926yK)
