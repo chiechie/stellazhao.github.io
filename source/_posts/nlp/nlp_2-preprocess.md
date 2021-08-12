@@ -1,5 +1,5 @@
 ---
-title: 文本的预处理
+title: 自然语言处理2 预处理
 author: chiechie
 mathjax: true
 date: 2021-08-03 20:42:05
@@ -44,7 +44,7 @@ categories:
   - [jieba](https://github.com/yanyiwu/cppjieba)
   - [IK](https://github.com/wks/ik-analyzer)
   - [清华大学THULAC](https://github.com/thunlp/THULAC)
-  - [ICTCLAS](
+  - ICTCLAS
 
 ## 词干提取和词形还原
 
