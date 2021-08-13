@@ -11,53 +11,94 @@ categories:
 - 机器学习
 ---
 
+# TLDR
 
-# 总结
+1. 决策树是一个预测算法。
+2. 决策树构造过程：递归构造一个大树，然后剪纸。构造大树的过程，每次只构造一个树桩，即，找到最佳的切分条件，使得切分前后信息增益最大。对生成的两个子树继续分裂，直到某个子树中样本集纯度很高，就标记为叶子结点。叶子节点的值就是落入其中的样本label取平均值或者众数。
+3. 决策树的预测过程：将样本按照分支条件路由到某个叶子结点，叶子结点的值就是预测值。
 
-## 决策树
-
-1. 决策树是一个预测算法，是使用贪婪的递归的方法来找到最优的预测结构。
-1. 构建一个决策树需要确定分支条件以及每个分支的预测值。构建分支条件即把特征空间划分为多个distinct and non-overlapping regions,$R_1,\dots,R_J$；第二步，对每个region定义一个response variable，作为该region的值。
-2. 构建好了一个决策树，想要使用决策树做预测，步骤也分为两步：第一步是按照分支条件将新样本路由到指定的叶子结点，第二步将叶子结点对应的responsible varible作为该样本的预测值。
-3. 怎么得到分支条件呢？有三类构建决策树的算法：ID3，C4.5和cart。前两者可以构造多叉树，cart只能构造二叉树。 
-因为cart效果最好，现在通常就用它（例如sklean）。
-4. ID3，C4.5和cart三类算法的大致思路一样，分为两步：第一步是将feature space切成多个boxes。为什么不是切成多个球？因为球没法填充整个feature space.
-5. 如何找到最优的切割boxes的方式，如果去遍历每一组partition of feature space，计算量太大了，通常采用greedy的方法。
-6. 构建决策树的过程中需要确定的参数：分支的个数，条件分支的条件，终止条件，叶子结点的值。
-
-
-## 决策树算法-CART
-1. cart的特色是构建的一个binary tree，每次分支条件都是将一个空间以分为2，变成2个子空间，每个叶子结点的值，即response variable都是一个常数，是这么的到的：
-  - 如果target var是一个连续变量，求落入该region的训练集的response均值，即${y_n}$的均值，其实这个均值对应的是最小化suqared error。
-  构建一个决策树，主要是要确定partition，或者说分支条件，以及每个落入每个partition（或者说）中对应的预测值。
-  - 如果target var是一个离散变量，求众数对应的那个类别。
-2. 怎么确定分支条件？找一个decision stump，使用纯度（purify）来衡量分支的质量，如果左边的data set 和右边的dataset 纯度 都很高，（其中的大部分样本的label很接近），就说切分的很好。对应到计算上面，就是找一个让平均不纯度最小的切分方式（decision stump）。
-3. 如何确定分支/切割的不纯度？
-    - 如果target var是一个连续变量，使用squared loss来描述impurity，（跟样本子集的均值比），
-    - 如果target var是一个离散变量，使用不一致样本比例来描述impurity，（跟样本子集的众数币），多分类的时候，不纯度常用giniindex
-    - 如果是多分类，经常使用Gini index来刻画不纯度。
-4. 什么时候会停下来？当满足下面的条件时，也叫fully grown tree：
-    - 落入某个分支的样本的target都一样，不纯度取到最小了，
-    - 落入某个分支的样本的x都一样，没有decision stupms了。
-5. 为何要剪枝(pruning)? a very bushy tree has got high variances,ie, over-fitting the data
 
 
 # 附录
 
-## 基本概念
+
+
+## 信息增益
+
+
 
 - 信息增益: 衡量切分前后，样本纯度的提升or混乱度的下降。
 
 ```python
 IG = information before splitting (parent) — information after splitting (children)
 ```
+
 - 具体的，有两个衡量纯度/混乱度的指标：Entropy 和 Gini Impurity
-    - 基尼系数（**gini index**）: $$I_{G}=1-\sum_{j=1}^{c} p_{j}^{2}$$
-        - $p_j$: 落入该节点的样本中，第j类样本的占比
-        - 如果所有样本都属于某一类c，gini系数最小，为0。
-    - 熵（entropy）：$$I_{H}=-\sum_{j=1}^{c} p_{j} \log _{2}\left(p_{j}\right)$$
-        - $p_j$: 落入该节点的样本中，第j类样本的占比
-        - 如果所有样本都属于某一类c，熵最小，为0。
+  - 基尼系数（**gini index**）: $$I_{G}=1-\sum_{j=1}^{c} p_{j}^{2}$$
+    - $p_j$: 落入该节点的样本中，第j类样本的占比
+    - 如果所有样本都属于某一类c，gini系数最小，为0。
+  - 熵（entropy）：$$I_{H}=-\sum_{j=1}^{c} p_{j} \log _{2}\left(p_{j}\right)$$
+    - $p_j$: 落入该节点的样本中，第j类样本的占比
+    - 如果所有样本都属于某一类c，熵最小，为0。
+
+
+
+
+
+## 决策树
+
+1. 决策树是一个预测算法。
+2. 决策树构造原理，用递归的方法来找到一颗大树，然乎剪纸。决策树预测的原理，将新数据按照决策树的分支条件路由到叶子结点，叶子结点中的值就是预测值。
+3. 构建一个决策树需要确定分支条件以及每个分支的预测值。构建分支条件即把特征空间划分为多个distinct and non-overlapping regions,$R_1,\dots,R_J$；第二步，对每个region定义一个response variable，作为该region的值。
+4. 构建好了一个决策树，想要使用决策树做预测，步骤也分为两步：第一步是按照分支条件将新样本路由到指定的叶子结点，第二步将叶子结点对应的responsible varible作为该样本的预测值。
+5. 怎么得到分支条件呢？有三类构建决策树的算法：ID3，C4.5和CART。前两者可以构造多叉树，CART只能构造二叉树。 
+  因为CART效果最好，现在通常就用它（例如sklean）。
+6. ID3，C4.5和CART三类算法的大致思路一样，分为两步：第一步是将feature space切成多个boxes。为什么不是切成多个球？因为球没法填充整个feature space.
+7. 如何找到最优的切割boxes的方式，如果去遍历每一组partition of feature space，计算量太大了，通常采用greedy的方法。
+8. 构建决策树的过程中需要确定的参数：分支的个数，条件分支的条件，终止条件，叶子结点的值。
+
+## 决策树算法-CART
+
+1. CART代表分类树和回归树，分别使用均方误差和entropy/ginix index计算信息增益。CART的原理就是，先递归构造一颗大树$T_0$，然后剪枝。
+
+1. CART的特色是构建的一个binary tree，每次分支条件都是将一个空间分为2个子空间，每个叶子结点的值，即response variable都是一个常数，response variable是这么的到的：
+  - 如果target variable是一个连续变量，求落入该region的训练集的response均值，即${y_n}$的均值，其实这个均值对应的是最小化suqared error。
+  构建一个决策树，主要是要确定partition，或者说分支条件，以及每个落入每个partition（或者说）中对应的预测值。
+  - 如果target var是一个离散变量，求众数对应的那个类别。
+2. 怎么确定分支条件？找一个decision stump，使用纯度（purify）来衡量分支的质量，如果左边的data set 和右边的dataset 纯度 都很高--即其中的大部分样本的label很接近--就说切分的很好。对应到计算上面，就是找一个让平均不纯度最小的切分方式（decision stump）。
+3. 如何确定分支/切割的不纯度？
+    - 如果target variable是一个连续变量，使用均方误差（squared loss）来描述impurity，（跟样本子集的均值比），
+    - 如果target variable是一个离散变量，使用不一致样本比例来描述impurity，（跟样本子集的众数币），多分类的时候，不纯度常用giniindex，或者熵。
+    - 如果是多分类，经常使用Gini index来刻画不纯度。
+4. 什么时候会停下来？当满足下面的条件时，也叫fully grown tree：
+    - 落入某个分支的样本的target都一样，不纯度取到最小了，
+    - 落入某个分支的样本的x都一样，没有decision stupms了。
+5. 为何要剪枝(pruning)? 高方差，过拟合。
+
+6. 
+
+### 回归树（regression tree）
+
+regression tree的cost function是均放误差RSS加上正则项
+
+$$\min\limits_{T\in T_0} \sum\limits_{m=1}^{|T|}\sum\limits_{x_i\in R_m}(y_i - \hat y_{R_m})^2+\alpha|T|$$
+
+- $|T|$是叶子节点的个数。
+- m表示第m个叶子
+- $R_m$表示第m个partition region 
+- $y_i$表示第i个样本的真实值
+- $y_{R_m}$表示第m个partition region的预测值
+
+使用递归的方法构建一个决策树，确定分支个叶子。主要是要确定partition，或者说分支条件，以及每个落入每个partition（或者说）中对应的预测值。
+
+![regression tree 构造流程](./img.png)
+
+### 分类树（classification tree）
+
+classification tree切分节点时，参考信息增益，其他流程和构建回归树是一样的
+
+如果response var是imbalance, 全部预测为label占比更多的类，怎么办？
+
 
 
 ## 决策树算法-ID3
@@ -84,43 +125,6 @@ Improved version on ID 3 . The new features (versus ID3) are:
 Disadvantages
 
 - Over fitting happens when model picks up data with uncommon features value, especially when data is noisy.
-
-
-## 决策树算法-CART
-
-ID3 和 C4.5是使用基于Entropy-最大信息增益的特征作为节点。
-
-CART代表分类树和回归树，使用基于entropy和ginix index计算信息增益。
-
-Disadvantages
-
-- It can split on only one variable
-- Trees formed may be unstable
-
-
-cart的原理就是，构造一颗大树$T_0$，然后去剪枝（也叫做cost complexity pruning/the weakest link pruning）, 下面以regression tree 和 classification tree举例说明
-
-> 如果response var是imbalance, 全部预测为label占比更多的类，怎么办？
-
-### regression tree
-
-regression tree的cost function 是RSS加上正则项
-
-$$\min\limits_{T\in T_0} \sum\limits_{m=1}^{|T|}\sum\limits_{x_i\in R_m}(y_i - \hat y_{R_m})^2+\alpha|T|$$
-
-- $|T|$是叶子节点的个数。
-- m表示第m个叶子
-- $R_m$表示第m个partition region 
-- $y_i$表示第i个样本的真实值
-- $y_{R_m}$表示第m个partition region的预测值
-
-可以使用一个递归的方法来构建一个决策树，主要是要确定partition，或者说分支条件，以及每个落入每个partition（或者说）中对应的预测值。
-
-![regression tree 构造流程](./img.png)
-
-### classification tree
-
-classification tree切分节点时，参考信息增益，其他流程和构建回归树是一样的
 
 
 # 参考

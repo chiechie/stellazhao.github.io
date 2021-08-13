@@ -15,9 +15,9 @@ categories:
 
 
 
-一个研究人员成长过程中最重要的一个方面就是，提升研究品味---- 即，就是选择好问题的能力。培养研究品味没有显式的路径，不过有一些可行的练习。
+一个研究人员成长过程中最重要的一个方面就是，提升研究品味，即，就是选择好问题的能力。培养研究品味没有显式的路径，不过有一些可行的练习。
 
-为何培养研究taste很难？关键原因--测试ideas是否work耗时很长。
+为何培养研究taste很难？测试ideas是否work耗时很长。
 
 不建议强迫自己去做一些无趣的事情，即使理智上认为它更重要。你的工作效率会大大降低。
 
@@ -61,7 +61,7 @@ categories:
 
 相似的领域，是否存在显著不同的研究taste？如果存在，试着表达他们观点中最强烈的一个版本，以及你为什么同意或不同意。
 
-你在哪些方面不同意自己群体的研究品味？哪些方面你认为你的群体可能是错误的，即使你对这种观点不自信？
+你在哪些方面不同意自己群体的研究品味？哪些方面你认为你的群体可能是错误的？即使你对这种观点不确定
 
 
 
@@ -87,15 +87,11 @@ categories:
 
 
 
-失败模式2: 对知识和研究缺乏亲密度
+失败模式2: 对知识缺乏亲密度。离开理论基础，研究品味就是空中楼阁，容易沦为民科。
+
+有时候人们会陷入一个误区：在弄脏自己的双手之前，试图挑选出最完美的问题，or有一个很好的洞察力。然而现实很骨感，光凭脑洞和一腔热情没法拥有好的研究品味。你需要理论知识和 [research intimacy](https://twitter.com/ch402/status/1295063684545314818).。
 
 
-
-离开理论基础，研究品味就是空中楼阁，容易沦为民科。
-
-有时候人们会陷入一个误区：在弄脏自己的双手之前，试图挑选出最完美的问题，or有一个很好的洞察力。然而现实很骨感，光凭脑洞和一腔热情没法拥有好的研究品味。
-
-你需要理论知识和 [research intimacy](https://twitter.com/ch402/status/1295063684545314818).。
 
 可能的解药: 在你感兴趣的领域帮助别人完成他们的项目。你会学到很多东西。
 
@@ -108,42 +104,3 @@ get your hands dirty ，也不会过度投入到长期的工作中。理想情�
 当你周围的人对某个方向缺乏热情，但你坚持追求一个方向，是很有挑战性的。
 
 可能的解药: 要么(1)换一个环境--一个与你的兴趣相符的环境，要么(2)暂时buy into你团队的兴趣点，并试着在这些兴趣范围内练习培养好的品味。
-
-一旦你对自己感兴趣的东西思考了很多，并且有了自己非常感兴趣的东西，支持你换个环境。
-
-
-
-## 其他的建议
-
-In the [twitter discussion](https://twitter.com/ch402/status/1347970296234479617) (and especially, a [thread by Andy Matuschak](https://twitter.com/andy_matuschak/status/1348001750221946882)), a number of people suggested other ideas. Note all of these are quite "exercises for building taste" (many are more "strategies for exercising good taste"), but I think they're very interesting:
-
-在 twitter 上的讨论 exercises for building taste中，一些人提出了其他的想法
-
-- [**Rachel Prudden suggests **](https://twitter.com/RachelPrudden/status/1347973143990829056)
-  启发性思维：想象另一个小组已经发表的论文跟你心中所想一致，你是否对阅读它感到兴奋？
-
-- [**Andy Matuschak suggests**](https://twitter.com/andy_matuschak/status/1348001750221946882)
-  就你的idea问一个anti-Hamming：在你的领域什么是最有趣(不是最重要)的问题？你为什么不继续研究呢？
-
-- [**Andy also shares a failure mode: 安迪还分享了一种失败模式:**](https://twitter.com/andy_matuschak/status/1348002769085419520)
-  一个想法看起来容易实现，就动手去实现它。有一个可行的方法是令人兴奋的ーー让我想去实现它！但是如果我坚持一个想法的时间更长，我通常可以进化出一个更深层次的变体，并且实现一个更靠谱的idea。
-
-- **Michael Nielsen's 迈克尔 · 尼尔森[Principles of Effective Resarch 有效研究原则](https://michaelnielsen.org/blog/archive/000114.html) ([via Shrey Jain 通过 Shrey Jain](https://twitter.com/shreydjain13/status/1348023976275161089))** notes the  关注混乱（mess）的价值:当你发现这样的混乱时，许多人的自然倾向是回避，去找一些更容易理解的东西。但是一个混乱的领域实际上是一个机会，深度的统一和简化概念仍有待别人——也许是你——去理解和发展*。
-
-- [**Arthur Allshire 阿瑟 · 阿尔希尔**](https://twitter.com/arthurallshire/status/1348024259214516231)
-  你的领域的瓶颈问题是什么？在许多强化学习的研究中，很多都集中在对算法的细微调整上，但最大的改进来自于对 RL 的模拟的改进
-
-- [**Preetum Nakkiran 普里特姆 · 纳克基兰**](https://twitter.com/PreetumNakkiran/status/1348049533436129281)
-  我发现，写短期的“项目建议书”（project proposals），写长期的“研究报告/计划”（research statements/plans），都是思考动机和目标的好练习，在不同时间尺度。“项目建议书”是指: 一旦你决定在接下来的一个月内做某件事，写几页纸解释: 为什么这个问题很有趣，为什么这个答案很有价值，以及你希望找到什么(最初的证据)。然后去搜集反馈。 另外，还可以向你遇到的每个人询问他们研究目标的big picture。论文中不会设涉及，但是更有趣/更重要*
-
-- [**Christian Szegedy 克里斯蒂安 · 塞格迪**](https://twitter.com/ChrSzegedy/status/1348055991565262849)
-  事后（hindsight）看来，我研究中的大多数错误都是在听取我尊敬的导师们的批评时犯下的，而我做的大多数很酷的事情，最初都被大家称为无用、无趣或“好运!”一般来说，研究中的思想要么领先于其他思想，要么挑战传统智慧。属于后一种阵营需要的技能较少，但需要更多勇气。
-  不过，要注意倖存者偏差，不同的人在职业生涯的不同阶段可能有不同程度的科学成熟/品味。在早期，让一个研究院制定自己的研究议程非常具有挑战性，其他人可能会茁壮成长（thrive）。
-
-- [**Sergey Gorbunov 谢尔盖 · 戈尔布诺夫**](https://twitter.com/sergey_nog/status/1348049950630928387)
-  对于研究生和初级研究员，我唯一的建议就是不要听从你的导师/有经验的研究人员... ... 研究生院是唯一一个你可以尝试和失败多少次的地方。研究生应该提出创新的问题/解决方案。(成熟的研究人员有自己的agendas/思维方式)。这个建议同样可以用来颠覆自己。🧐
-
-- [**Boaz Barak 博阿兹 · 巴拉克**](https://twitter.com/boazbaraktcs/status/1348097776551407618)
-
-  我喜欢“20/80”的项目--即需要付出80% 的工作才能达到20% 的目标，而不是问“我用最小的努力能得到什么最酷的结果?”问自己 “即使最终结果不酷，我能提炼出阻碍项目的核心问题吗？
-
