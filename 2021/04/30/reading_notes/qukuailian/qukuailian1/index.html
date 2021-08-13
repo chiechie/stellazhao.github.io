@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 <meta name="description" content="引言  比特币不仅是数字货币，还是一个去中心化的信用网络。 步入农耕社会的蚁群：切叶蚁不吃树叶，只利用树叶来培育真菌，这些真菌才是蚁群的主要食物来源。蚁群是一个种性社会，但是没有中央政权，群落中没有领导者，个体没有复杂的结构，然而这个群体却可以产生不可思议的复杂性，这个是自然界给我们的一个启发。  当乌合之众要在一个项目中合作时，成功概率极小。蚂蚁和乌合之众的区别是什么？蚁群遵循一定的规则，但是乌">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《区块链：通往资产数字化之路》读书笔记">
@@ -72,7 +72,119 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -83,6 +195,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -93,7 +208,7 @@
       <h1 class="site-title">Chiechie's Mini World</h1>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">Set your course by the stars, not by the lights of passing ships. —— Omar Bradley</p>
+      <p class="site-subtitle" itemprop="description">人生得意须尽欢</p>
   </div>
 
   <div class="site-nav-right">
@@ -104,6 +219,15 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
 
 
 
@@ -146,18 +270,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">198</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">213</span>
+        <span class="site-state-item-count">211</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -332,7 +456,7 @@
 <li><p>交易将价值从交易输入转移到交易输出。交易输入是价值的来源，通常是上一笔交易的输出。交易输出将一笔与私钥关联的价值赋予一个新用户。目标密钥称为安全锁。在未来的交易中，需要通过签名来获取这笔资金。一笔交易的输出作为新交易的输入，这样，随着价值不断从一个地址转移到另一个地址，就形成了一条所有权的链条（见下图2.4）。</p></li>
 </ol>
 <figure>
-<img src="./img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
+<img src="./img.png" alt="img.png"><figcaption aria-hidden="true">img.png</figcaption>
 </figure>
 <blockquote>
 <p>如果中间alice要买一个奢侈品，say要1个BTC。这个交易的输入是不是要有多个输入token。</p>
@@ -341,7 +465,7 @@
 <li>实际中常见的交易形式：输出方要找零；大额交易要从多渠道凑钱（资金归集交易）；一个输入分配给多个输出（资金分配交易，eg给员工发工资）。</li>
 </ol>
 <figure>
-<img src="./img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption>
+<img src="./img_1.png" alt="img_1.png"><figcaption aria-hidden="true">img_1.png</figcaption>
 </figure>
 <h3 id="创建交易">创建交易</h3>
 <ol type="1">
@@ -351,7 +475,7 @@
 <li><p>钱包软件先找到足以支付对方资金的交易输入。大部分钱包软件会保留一个"为话费的交易输出"的小型数据库。完全客户端存有网络上所有交易的"为未花费输出"，钱包软件只存自己的, 有需要的话可以想毕业币网络询问信息（使用供应商提供的api）。如果这个条件不能满足，钱包软件就不得不去翻找所有的小额未花费输出，凑够这笔交易输入。</p></li>
 <li><p>创建输出：交易输出以脚本的形式创建一个针对特定价值的受限，只有通过解决脚本问题来解除受限，才能兑现这笔输出。爱丽丝的交易输出包含一个脚本，脚本大意是这样的：“这个输出将支付给那个能提供与鲍勃的公开地址相匹配的签名的人。”由于只有鲍勃拥有与其地址匹配的密钥，所以只有鲍勃的钱包软件可以提供这样一个签名来兑现这笔输出。爱丽丝以要求提供签名的方式，锁定了一笔输出价值。</p></li>
 <li><p>添加交易费用：为了使这笔交易尽快被网络执行，爱丽丝的钱包应用将添加一小笔的交易费用。</p></li>
-<li><p>交易结果可以通过一种叫作区块链浏览器的web应用来查看，结果如图2.8所示。 <img src="./img_2.png" alt="img_2.png" /></p></li>
+<li><p>交易结果可以通过一种叫作区块链浏览器的web应用来查看，结果如图2.8所示。 <img src="./img_2.png" alt="img_2.png"></p></li>
 <li><p>发送交易:创建完交易后，还要发送到网上，使这个交易变成分布式账本（区块链）的一部分 任何比特币网络节点（其他客户端）接收到之前未见过的有效交易时，将立即将其转发给与它相连的其他客户端。这样，交易就很快在这个点对点网络中传播开来，在短短几秒内即可到达大部分节点。</p></li>
 <li><p>贷方视角：借方创建的交易发送至借方的钱包时，借方钱包先去验证这笔交易是否有效，输入是否是之前未消费的输出（防双重支付），以及交易费用是否能覆盖下个区块，</p></li>
 </ol>
@@ -369,17 +493,17 @@
 <li>由于新区块一个个叠加在原有区块之上，这使得推翻原有交易的难度呈指数级增长，这样就保证了交易可信程度越来越高。</li>
 <li>爱丽丝交易的第277316号区块。在它之下有277316个区块（包括0号区块），这些区块互相连接，直到0号区块——被称为创世区块，形成一个区块的链表（区块链）。 按照惯例，经过6次确认后的区块是不可撤销的，因为撤销需要极大的计算量.</li>
 </ol>
-<p><img src="./img_3.png" /></p>
+<p><img src="./img_3.png"></p>
 <h3 id="花费交易">花费交易</h3>
 <ol type="1">
 <li>「完全客户端」可以从比特币在区块中创建时起，跟踪这笔资金的流转过过程。「轻量级客户端」只能确认交易是否在区块链中，有几个区块在它之后被挖出，从而获知「比特币网络」已确认它的有效性并接受它.</li>
 <li>大多数情况下，鲍勃的比特币软件需要归集多个小的支付交易才能完成一笔较大的支付，或是将一天的比特币收入集中到一个交易中。</li>
 <li>当鲍勃将从爱丽丝及其他客户收到的款项花出去的时候，他扩展了交易链条。结果是，新的交易加入全局「区块链账本」中，所有人都可见并获得信用。我们假定鲍勃向他的网站设计师——班加罗尔的高佩什支付新网页的设计费用。现在交易链条看起来就像图2.10这样。</li>
 </ol>
-<p><img src="./img_4.png" /></p>
+<p><img src="./img_4.png"></p>
 <h2 id="第3章-比特币客户端略">第3章 比特币客户端（略）</h2>
 <h2 id="第4章-密钥地址钱包">第4章 密钥，地址，钱包</h2>
-<p>热钱包 <img src="img.png" alt="img.png" /></p>
+<p>热钱包 <img src="img.png" alt="img.png"></p>
 <p>硬件钱包：不联网，存私钥</p>
 <h2 id="第5章-交易">第5章 交易</h2>
 <h3 id="交易的生命周期">交易的生命周期</h3>
@@ -394,7 +518,7 @@
 <li>比特币中一个交易，包含以下信息</li>
 </ol>
 <figure>
-<img src="jiaoyisuodingshijian.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
+<img src="jiaoyisuodingshijian.png" alt="img.png"><figcaption aria-hidden="true">img.png</figcaption>
 </figure>
 <blockquote>
 <p>锁定时间，定义的是一个比特币交易 加入公共账本的最早时间。默认取值为0，大于0时，类似支票的延期支付。</p>
@@ -420,7 +544,7 @@
 <li>执行锁定脚本：上一步的主栈脚本为输入，锁定脚本的执行结果为True</li>
 </ol></li>
 <li><p>上面的组合脚本如果存在任何非真的结果，则输入是无效的，因为它无法满足设置在UTXO上的花费条件。</p></li>
-<li><p>只有一笔有效的、能正确满足UTXO使用条件的交易，才会导致这笔UTXO被标注为“已花费”，并从可用（未花费）UTXO集合中被移除。 <img src="img_5.png" alt="img_5.png" /></p></li>
+<li><p>只有一笔有效的、能正确满足UTXO使用条件的交易，才会导致这笔UTXO被标注为“已花费”，并从可用（未花费）UTXO集合中被移除。 <img src="img_5.png" alt="img_5.png"></p></li>
 <li><p>比特币的交易脚本语言，是一种非常简单的语言，但是很适合在可编程货币的场景，因为很安全</p></li>
 <li><p>比特币的脚本语言基于堆栈，例如，</p>
 <ul>
@@ -430,9 +554,9 @@
 <ul>
 <li>OP_EQUAL从堆栈中移出两个项目，如果两个项目相等，则把TRUE（TRUE以数字1代表）压入栈中，如果不相等，则压入FALSE（用数字0表示）</li>
 </ul></li>
-<li><p>以下是一个稍微复杂的脚本，用于计算2+7-3+1。注意，当脚本在一行中包含多个操作符时，堆栈允许一个操作符的结果被下一个操作符使用。 <img src="img_6.png" alt="img_6.png" /></p></li>
+<li><p>以下是一个稍微复杂的脚本，用于计算2+7-3+1。注意，当脚本在一行中包含多个操作符时，堆栈允许一个操作符的结果被下一个操作符使用。 <img src="img_6.png" alt="img_6.png"></p></li>
 </ol>
-<p><img src="img_7.png" alt="img_7.png" /> 9. 验证脚本的执行过程， <img src="img_8.png" alt="img_8.png" /> 9. 比特币交易脚本语言没有循环，也没有复杂的流程控制能力，使得其图灵不完备，从而复杂性有限，执行时间也可以预测。 10. 比特币交易脚本语言是无状态的，一个有效的交易，对任何人都同样有效，这使得可预测性成为比特币系统的一个重要特点。</p>
+<p><img src="img_7.png" alt="img_7.png"> 9. 验证脚本的执行过程， <img src="img_8.png" alt="img_8.png"> 9. 比特币交易脚本语言没有循环，也没有复杂的流程控制能力，使得其图灵不完备，从而复杂性有限，执行时间也可以预测。 10. 比特币交易脚本语言是无状态的，一个有效的交易，对任何人都同样有效，这使得可预测性成为比特币系统的一个重要特点。</p>
 <h3 id="标准交易">标准交易</h3>
 <ol type="1">
 <li>5个标准类型的交易脚本包括：支付到公钥哈希（P2PKH）、公钥、多重签名（限定最多15个密钥）、支付到脚本哈希（P2SH），以及数据输出（OP_RETURN）</li>
@@ -454,7 +578,7 @@
 <ul>
 <li>举个例子，一个游客本来想咨询"23 Church St.的路线"，如果他直接问路人，就暴露了他的目的地，如果采用布隆表达式的问法"这附近是否有条街道，它的名字以R-C-H结尾？"，就不会暴露自己的意图。</li>
 </ul>
-<p><img src="img_10.png" alt="img_10.png" /> 11. 过滤器无法清除单个模式；当SPV想对等节点发送了布隆过滤器后，对等节点返回默克尔区块（merkleblock，仅包含匹配的block头）和匹配交易的默克尔路径。匹配的交易信息使用tx格式发送。 12. 未确认的交易（已经被发布到网络，但是没有被include到公共账本中），会被放入一个交易池（transaction pool）中，也叫内存池（memory pool）.</p>
+<p><img src="img_10.png" alt="img_10.png"> 11. 过滤器无法清除单个模式；当SPV想对等节点发送了布隆过滤器后，对等节点返回默克尔区块（merkleblock，仅包含匹配的block头）和匹配交易的默克尔路径。匹配的交易信息使用tx格式发送。 12. 未确认的交易（已经被发布到网络，但是没有被include到公共账本中），会被放入一个交易池（transaction pool）中，也叫内存池（memory pool）.</p>
 <blockquote>
 <p>回忆下交易的生命周期：创建交易--&gt; 接受交易--&gt; 验证交易--&gt;在网络中传播--&gt;被记录到公共账本 13. 当新的交易进入交易池时，节点将对孤儿交易池进行检查，看有没有他的子交易。如果有，孤儿交易就会通过验证，并被转移到普通交易池。 14. 「交易池」和「孤儿交易池」都存放于内存中，没有永久存储；它们随着最新接收到的网络消息而更新。当一个节点启动时，两个池都是空的，随着不断从网络上接收新的交易，内存池也逐步被填上。 15. 警告消息：当比特币网络发生严重问题时，这个特性使核心开发团队可以通知所有比特币用户，比如提醒用户注意新发现的严重bug。建议矿工向矿池经营者订阅警告信息，或者运行一个轻量级的节点专用于接收警告消息。</p>
 </blockquote>
@@ -463,8 +587,8 @@
 <li><p>区块链是一种堆栈的数据结构，“高度（height）”指本区块到第一个区块的距离，“顶部（top）”或“顶端（tip）”指最新加入的区块。</p></li>
 <li><p>区块链的每个区块头，都存有本区块的id信息和父区块的id信息(存放在"个“前序区块哈希”的字段中)。</p></li>
 <li><p>多子区块也叫分叉，是一种临时状态。原因是不同矿工同时发现了不同的新区块，但是最终只会有一个成为公共区块链的一部分。</p></li>
-<li><p>区块是一种数据结构容器，包含区块头和交易列表。区块头存放元数据，交易列表中存放具体的交易明细。一般来说，一个区块中的交易超过500个。 <img src="img_11.png" alt="img_11.png" /></p></li>
-<li><p>区块头存放3个元数据：前序区块哈希，元数据集（难度，时间戳，随机数）-与挖矿竞争激烈程度相关；默克尔树的根（merkle tree），即本区块中所有交易的默克尔根的哈希 <img src="img_12.png" alt="img_12.png" /></p></li>
+<li><p>区块是一种数据结构容器，包含区块头和交易列表。区块头存放元数据，交易列表中存放具体的交易明细。一般来说，一个区块中的交易超过500个。 <img src="img_11.png" alt="img_11.png"></p></li>
+<li><p>区块头存放3个元数据：前序区块哈希，元数据集（难度，时间戳，随机数）-与挖矿竞争激烈程度相关；默克尔树的根（merkle tree），即本区块中所有交易的默克尔根的哈希 <img src="img_12.png" alt="img_12.png"></p></li>
 <li><p>每个区块的id是他的数字指纹，通过对区块头运行两次SHA256得到32字节的哈希值，也叫区块哈希（block hase），或者叫区块头哈希（block header hash）。区块哈希并不会存起来，只在节点从网络上接收到区块时动态计算生成。</p></li>
 <li><p>区块链中的第一个区块叫创世区块，是区块链中所有区块的共同祖先。</p>
 <blockquote>
@@ -472,9 +596,9 @@
 <p>比特币诞生时，一场空前的货币危机正席卷全球，这段话以半开玩笑的方式提醒建立一种独立货币系统的重要性。这段话被比特币的创建者中本聪嵌入到第一个区块中。</p>
 </blockquote></li>
 <li><p>随着新区块的发现，区块链的本地副本用于延展链条而得到持续更新。当节点从网络上接收到传入的区块时，首先对其进行验证，通过验证后，节点会检查其区块头，查找“前序区块哈希”，并使用该值与已存在的区块链进行连接。</p></li>
-<li><p>默克尔树,用来表示每个区块中所有交易的摘要。默克尔树是由加密哈希组成的二叉树。默克尔树自底部至上进行构建, 树中只存hash值 <img src="img_15.png" /> +表示，将两个子节点A和B的32字节哈希值被连接在一起，形成一个64字节的字符串。</p></li>
-<li><p>为了证明一个特定交易包含在区块中，节点只需创建log2（N）个32字节的哈希值，形成一条从交易到根的路径，叫作认证路径或默克尔路径。 <img src="img_14.png" /></p></li>
-<li><p>SPV节点不保存全部交易，仅存有区块头信息,利用认证路径或默克尔路径来验证交易是否包含在区块中。 <img src="img_13.png" /></p></li>
+<li><p>默克尔树,用来表示每个区块中所有交易的摘要。默克尔树是由加密哈希组成的二叉树。默克尔树自底部至上进行构建, 树中只存hash值 <img src="img_15.png"> +表示，将两个子节点A和B的32字节哈希值被连接在一起，形成一个64字节的字符串。</p></li>
+<li><p>为了证明一个特定交易包含在区块中，节点只需创建log2（N）个32字节的哈希值，形成一条从交易到根的路径，叫作认证路径或默克尔路径。 <img src="img_14.png"></p></li>
+<li><p>SPV节点不保存全部交易，仅存有区块头信息,利用认证路径或默克尔路径来验证交易是否包含在区块中。 <img src="img_13.png"></p></li>
 </ol>
 <h2 id="第8章-挖矿与共识">第8章 挖矿与共识</h2>
 <ol type="1">
@@ -501,7 +625,7 @@
 </blockquote></li>
 </ol>
 <figure>
-<img src="img_16.png" alt="img_16.png" /><figcaption aria-hidden="true">img_16.png</figcaption>
+<img src="img_16.png" alt="img_16.png"><figcaption aria-hidden="true">img_16.png</figcaption>
 </figure>
 <h3 id="去中心化共识">去中心化共识</h3>
 <ol type="1">
@@ -531,7 +655,7 @@
 <li><p>加密哈希算法的关键特性是对于两个不同的输入，几乎不可能生成相同的指纹。作为推论，给定一个数字指纹，除了不断尝试各种输入，没有其他办法可以构造一个数据，使其哈希值与给定指纹相同。</p></li>
 <li><p>比特币区块平均每10分钟生成一个，这是比特币的心跳机制，也是货币发行频率和交易处理速度的基础.难度目标设置为不管挖矿能力如何，新区块产生间隔时间都是10分钟左右。</p></li>
 <li><p>在一个完全去中心化的网络中是如何调整难度的呢？难度目标的调整是自动发生的，每经过2016个区块，所有节点都会调整工作量证明的难度。难度调整等式会测算最后2016个区块的产生时间，并与预期时间20160分钟（2周时间，基于每个区块10分钟计算）进行比较。计算得出实际时间与预期时间的比值后，对难度进行相应调整（调高或调低）。如果网络找到区块的时间快于10分钟，难度就会调高。如果区块发现时间慢于10分钟，则难度调低。</p></li>
-<li><p>比特币挖矿是一个高度竞争的行业，下图展示了，矿工之间的竞争以及比特币的成长导致了哈希算力（全网络每秒的哈希运算能力）呈指数级增长。 &gt; 2011从CPU --&gt; GPU--&gt;FPGA--&gt;2013 ASIC <img src="img_17.png" alt="img_17.png" /></p></li>
+<li><p>比特币挖矿是一个高度竞争的行业，下图展示了，矿工之间的竞争以及比特币的成长导致了哈希算力（全网络每秒的哈希运算能力）呈指数级增长。 &gt; 2011从CPU --&gt; GPU--&gt;FPGA--&gt;2013 ASIC <img src="img_17.png" alt="img_17.png"></p></li>
 <li><p>比特币挖矿的未来，单个芯片的集成度已经达到摩尔定律的极限，随着更高密度芯片的出现，以及能够部署成千上万芯片的更高密度数据中心的发展，网络算力还将继续保持指数级的增长。现在要解决的问题是，如何把更多芯片集成在一起，并处理好散热和供电的问题。</p>
 <blockquote>
 <p>摩尔定律是英特尔创始人之一戈登·摩尔的经验之谈，其核心内容为：集成电路上可以容纳的晶体管数目在大约每经过18个月便会增加一倍。换言之，处理器的性能每隔两年翻一倍。</p>
@@ -634,7 +758,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Chiechie</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
     </div>
@@ -642,7 +766,7 @@
 
   
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
 

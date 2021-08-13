@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 <meta name="description" content="整体分析 我不看好慧择，主要原因，未来行业竞争加剧，没有护城河，短板很明显  没有护城河：主跟互联网巨头主打流量的策略比，慧择现在主打的是高质量的服务，比如理赔协助，高质量人工客服。但是，互联网巨头一旦拿到长险牌照，这种优势也很容易复制的。 短板：渠道  渠道成本高：来自网红渠道的流量，抽成多，相对传统线下保险，无销售成本优势。还有一个政策风险，政府打压夸大宣传。 慧择的第三方合作伙伴，比如深蓝保">
 <meta property="og:type" content="article">
 <meta property="og:title" content="对慧择的个股分析">
@@ -65,7 +65,119 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -76,6 +188,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -86,7 +201,7 @@
       <h1 class="site-title">Chiechie's Mini World</h1>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">Set your course by the stars, not by the lights of passing ships. —— Omar Bradley</p>
+      <p class="site-subtitle" itemprop="description">人生得意须尽欢</p>
   </div>
 
   <div class="site-nav-right">
@@ -97,6 +212,15 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
 
 
 
@@ -139,18 +263,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">198</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">213</span>
+        <span class="site-state-item-count">211</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -270,13 +394,13 @@
 <li>流通市值2万亿元</li>
 </ul>
 <h3 id="保险指数表现">保险指数表现</h3>
-<p>2020年跑输大盘 <img src="zhishu.png" alt="指数表现" /></p>
+<p>2020年跑输大盘 <img src="zhishu.png" alt="指数表现"></p>
 <h3 id="参与主体">参与主体</h3>
 <figure>
-<img src="canyuzhuti.png" alt="互联网行业的参与主体" /><figcaption aria-hidden="true">互联网行业的参与主体</figcaption>
+<img src="canyuzhuti.png" alt="互联网行业的参与主体"><figcaption aria-hidden="true">互联网行业的参与主体</figcaption>
 </figure>
 <h3 id="行业的几个主要销售模式">行业的几个主要销售模式</h3>
-<p>互联网保险行业，主要有三个销售模式 <img src="xiaoshoumoshi.png" alt="主要销售模式" /></p>
+<p>互联网保险行业，主要有三个销售模式 <img src="xiaoshoumoshi.png" alt="主要销售模式"></p>
 <ul>
 <li>2A(agent)2C：eg</li>
 <li>2B2C：eg慧择</li>
@@ -289,9 +413,9 @@
 <li>以慧择为代表的独立的保险中介公司，通过互联网软文等方式吸引用户投保。</li>
 </ol>
 <figure>
-<img src="img_3.png" alt="img_3.png" /><figcaption aria-hidden="true">img_3.png</figcaption>
+<img src="img_3.png" alt="img_3.png"><figcaption aria-hidden="true">img_3.png</figcaption>
 </figure>
-<p>目前市场上通过教育、科普保险用户销售保险产品，并已经积聚起一定用户规模的独立 网销平台还包括小雨伞、悟空保等。慧择和小雨伞的运营思维较为接近，二者均通过 B2B2C 模式，借助于大 V 和 KOL 的影响力为产品销售引流;悟空保的业务模式带有更 多直达用户的形式，通过投放高质量的保险产品比对、投保指南等文章，教育用户，科 普保险知识，扩大平台影响力。 <img src="img_4.png" alt="img_4.png" /></p>
+<p>目前市场上通过教育、科普保险用户销售保险产品，并已经积聚起一定用户规模的独立 网销平台还包括小雨伞、悟空保等。慧择和小雨伞的运营思维较为接近，二者均通过 B2B2C 模式，借助于大 V 和 KOL 的影响力为产品销售引流;悟空保的业务模式带有更 多直达用户的形式，通过投放高质量的保险产品比对、投保指南等文章，教育用户，科 普保险知识，扩大平台影响力。 <img src="img_4.png" alt="img_4.png"></p>
 <p>互联网保险行业，主要有三个销售模式</p>
 <ul>
 <li>2A2C：面向代理人和c端，eg小雨伞</li>
@@ -299,7 +423,7 @@
 <li>2C：互联网巨头，主要靠走量，客单价低，eg微保，蚂蚁保险</li>
 </ul>
 <figure>
-<img src="img_1.png" alt="img_1.png" /><figcaption aria-hidden="true">img_1.png</figcaption>
+<img src="img_1.png" alt="img_1.png"><figcaption aria-hidden="true">img_1.png</figcaption>
 </figure>
 <h3 id="行业竞品分析">行业竞品分析</h3>
 <p>主要的互联网保险中介平台：</p>
@@ -311,24 +435,24 @@
 <li>OK车险</li>
 </ul>
 <figure>
-<img src="img_2.png" alt="主要的互联网保险中介平台" /><figcaption aria-hidden="true">主要的互联网保险中介平台</figcaption>
+<img src="img_2.png" alt="主要的互联网保险中介平台"><figcaption aria-hidden="true">主要的互联网保险中介平台</figcaption>
 </figure>
 <h2 id="公司分析">公司分析</h2>
 <h3 id="运营情况">运营情况</h3>
 <p>长期和短期看，营收都是稳定上升的。 除了2020年第四个季度，净负债是在逐渐缩小的。</p>
 <p>可能是在技术上的投入增加了。</p>
 <figure>
-<img src="jibao.png" alt="年报和季报" /><figcaption aria-hidden="true">年报和季报</figcaption>
+<img src="jibao.png" alt="年报和季报"><figcaption aria-hidden="true">年报和季报</figcaption>
 </figure>
 <p>长期和短期看，营收都是稳定上升的。 除了2020年第四个季度，净负债是在逐渐缩小的。</p>
-<p>最近一年，收入停滞不前，营销成本大幅增加 <img src="img_5.png" alt="img_5.png" /></p>
+<p>最近一年，收入停滞不前，营销成本大幅增加 <img src="img_5.png" alt="img_5.png"></p>
 <figure>
-<img src="img_6.png" alt="img_6.png" /><figcaption aria-hidden="true">img_6.png</figcaption>
+<img src="img_6.png" alt="img_6.png"><figcaption aria-hidden="true">img_6.png</figcaption>
 </figure>
 <h3 id="管理层">管理层</h3>
 <p>来自互联网，平安财险等</p>
 <figure>
-<img src="gaoguan.png" alt="高管" /><figcaption aria-hidden="true">高管</figcaption>
+<img src="gaoguan.png" alt="高管"><figcaption aria-hidden="true">高管</figcaption>
 </figure>
 <h3 id="公司的亮点">公司的亮点</h3>
 <ol type="1">
@@ -339,13 +463,13 @@
 <p>保险行业有一个common sense，就是"渠道为王"。</p>
 <p>慧择的流量主要来自外部推广，如一些网红，第三方合作伙伴（深蓝保）</p>
 <figure>
-<img src="metauniverse/img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
+<img src="metauniverse/img.png" alt="img.png"><figcaption aria-hidden="true">img.png</figcaption>
 </figure>
 <h3 id="风险1-渠道对净利润的影响">风险1-渠道对净利润的影响</h3>
 <p>间接营销佣金占比远高于直接营销，且近年来有上升的趋势。</p>
 <p>当渠道成本率达到 80%时，慧择会出现亏损;在目前约 75%的水平下，慧择可实现微薄的利润 公司后期，只有提升对第三方平台的议价能力，盈利能力才能提升。 这是一个风险点，他的议价的资本哪里来？</p>
 <figure>
-<img src="img_1.png" alt="渠道对净利润的影响" /><figcaption aria-hidden="true">渠道对净利润的影响</figcaption>
+<img src="img_1.png" alt="渠道对净利润的影响"><figcaption aria-hidden="true">渠道对净利润的影响</figcaption>
 </figure>
 <h3 id="风险2-未来竞争加剧没有护城河">风险2-未来竞争加剧，没有护城河</h3>
 <p>商业模式，除了卖保险拿提成， 还有什么其他收入来源？ 该行业的进入成本有多高？ 相对竞争对手，它的护城河是什么？</p>
@@ -381,8 +505,8 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/03/22/reading_notes/computer/java-OOM/" rel="prev" title="《深入理解JAVA虚拟机》读书笔记">
-                  <i class="fa fa-chevron-left"></i> 《深入理解JAVA虚拟机》读书笔记
+                <a href="/2021/03/22/coding/java-OOM/" rel="prev" title="Java和虚拟机">
+                  <i class="fa fa-chevron-left"></i> Java和虚拟机
                 </a>
             </div>
             <div class="post-nav-item">
@@ -415,7 +539,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Chiechie</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
     </div>
@@ -423,7 +547,7 @@
 
   
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
 

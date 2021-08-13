@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 <meta name="description" content="a reader &amp; thinker">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Chiechie&#39;s Mini World">
@@ -48,7 +48,119 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -59,6 +171,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -69,7 +184,7 @@
       <h1 class="site-title">Chiechie's Mini World</h1>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">Set your course by the stars, not by the lights of passing ships. —— Omar Bradley</p>
+      <p class="site-subtitle" itemprop="description">人生得意须尽欢</p>
   </div>
 
   <div class="site-nav-right">
@@ -80,6 +195,15 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
 
 
 
@@ -121,18 +245,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">198</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">213</span>
+        <span class="site-state-item-count">211</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -171,7 +295,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/27/reading_notes/computer/python_regrex/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/27/machine-learning/machine-learning_4-dl8_dpt/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -184,7 +308,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/04/27/reading_notes/computer/python_regrex/" class="post-title-link" itemprop="url">使用python进行正则操作</a>
+          <a href="/2021/04/27/machine-learning/machine-learning_4-dl8_dpt/" class="post-title-link" itemprop="url">chapter 4.8 深度学习8 GPT</a>
         </h2>
 
         <div class="post-meta-container">
@@ -195,14 +319,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-04-27 10:51:56" itemprop="dateCreated datePublished" datetime="2021-04-27T10:51:56+08:00">2021-04-27</time>
+      <time title="创建时间：2021-04-27 14:48:13" itemprop="dateCreated datePublished" datetime="2021-04-27T14:48:13+08:00">2021-04-27</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-06-07 08:17:56" itemprop="dateModified" datetime="2021-06-07T08:17:56+08:00">2021-06-07</time>
+        <time title="修改时间：2021-07-22 15:58:38" itemprop="dateModified" datetime="2021-07-22T15:58:38+08:00">2021-07-22</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -210,7 +334,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+          <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
         </span>
     </span>
 
@@ -224,26 +348,35 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>正则表达式一直都迷糊的很，现在要做日志聚类了，看看吧</p>
-</blockquote>
-<h2 id="re.compile-和-split">re.compile 和 split</h2>
-<p><img src="max-common-subsequence/img.png" alt="img.png" /> re.compile: 将字符串的正则表达式，转换为pattern对象。</p>
-<p>pattern对象，有点像re的中间数据对象，它有很多方法，like</p>
+          <h2 id="总结">总结</h2>
 <ul>
-<li>Object.split</li>
+<li><p>GPT的全称是generative pre-training，通用预训练模型，</p></li>
+<li><p>elmo有94m个参数，bert有340m个参数，GPT有1542m个参数</p></li>
+<li><p>GPT是transformer的decoder network</p></li>
+<li><p>GPT的学习任务是，给定一些word，预测接下来的word是什么？</p></li>
+<li><p>GPT神奇的地方：没有训练数据的情况下，可以做阅读理解（表现很好），生成摘要（一般般），翻译（一般般）。做到了zero-shot learning</p></li>
+<li><p>GPT3也是一个语言模型，有史以来最大的语言模型，有1750yi个参数，训练一个商用的GPT3模型，要花1200w美元 <img src="img.png" alt="img.png"></p></li>
+<li><p>bert模型是需要对特定任务搜集特定数据持续学习的。GPT野心更大，想做zero-shot，fine tuing都不要，见下图： <img src="./img_1.png" alt="img_1.png"></p></li>
+<li><p>举个例子， <img src="./img_2.png" alt="img_2.png"></p></li>
+<li><p>GPT要解决三个任务：Few-shot Learning/One-shot Learning/Zero-shot Learning。</p>
+<blockquote>
+<p>注意，GPT的Few-shot Learning跟一般的Few-shot Learning不一样，GPT不会对模型去fining tuning ,bert是需要fine tuning的 <img src="img_3.png" alt="img_3.png"></p>
+</blockquote></li>
+<li><p>GPT使用的是in context learning，跟meta learning有一点点不一样</p></li>
+<li><p>GPT不擅长做NLU的问题，即逻辑判断的问题。</p></li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; some_text = &#x27;a,b,,,,c d&#x27;</span><br><span class="line">&gt;&gt;&gt; reObj = re.compile(&#x27;[, ]+&#x27;)</span><br><span class="line">&gt;&gt;&gt; reObj.split(some_text)</span><br><span class="line">[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]</span><br></pre></td></tr></table></figure>
-<p>也可以不用先转换为pattern对象</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text = &#x27;a,b,,,,c d&#x27;</span><br><span class="line">&gt;&gt;&gt; re.split(&#x27;[, ]+&#x27;,some_text)</span><br><span class="line">[&#x27;a&#x27;, &#x27;b&#x27;, &#x27;c&#x27;, &#x27;d&#x27;]</span><br></pre></td></tr></table></figure>
-<h2 id="re.sub">re.sub</h2>
-<p>re.sub：将某些固定的模式，替换为指定的格式。 比如 将连续空格转换为"-"</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text = &#x27;a,  b,,,  ,c    d&#x27;</span><br><span class="line">&gt;&gt;&gt; re.sub(r&#x27;\s+&#x27;, &quot;-&quot;, some_text)</span><br><span class="line">a,-b,,,-,c-d</span><br></pre></td></tr></table></figure>
-<h2 id="str.strip">str.strip</h2>
-<p>去除首字符 和 尾字符</p>
+<h2 id="gpt系列的架构图">GPT系列的架构图</h2>
+<figure>
+<img src="img_4.png" alt="img_4.png"><figcaption aria-hidden="true">img_4.png</figcaption>
+</figure>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.programiz.com/python-programming/regex">怎么写正则表达式</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=DOG1L9lvsDY">GPT-youtube</a></li>
+<li><a target="_blank" rel="noopener" href="http://speech.ee.ntu.edu.tw/~tlkagk/courses/DLHLP20/GPT3%20(v6).pdf">GPT-slide</a></li>
+<li><a target="_blank" rel="noopener" href="https://huggingface.co/openai-gpt">gpt-huggingface</a></li>
+<li><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2005.14165.pdf">gpt3-paper</a></li>
+<li><a target="_blank" rel="noopener" href="https://d4mucfpksywv.cloudfront.net/better-language-models/language-models.pdf">gpt2-paper</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cs.ubc.ca/~amuham01/LING530/papers/radford2018improving.pdf">gpt1-paper</a></li>
 </ol>
 
       
@@ -271,7 +404,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/27/reading_notes/investment/about-cryptocurrency/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/27/coding/python_regrex/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -284,7 +417,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/04/27/reading_notes/investment/about-cryptocurrency/" class="post-title-link" itemprop="url">关于区块链和加密货币</a>
+          <a href="/2021/04/27/coding/python_regrex/" class="post-title-link" itemprop="url">使用python进行正则操作</a>
         </h2>
 
         <div class="post-meta-container">
@@ -295,14 +428,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-04-27 08:47:47" itemprop="dateCreated datePublished" datetime="2021-04-27T08:47:47+08:00">2021-04-27</time>
+      <time title="创建时间：2021-04-27 10:51:56" itemprop="dateCreated datePublished" datetime="2021-04-27T10:51:56+08:00">2021-04-27</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-11 15:39:18" itemprop="dateModified" datetime="2021-08-11T15:39:18+08:00">2021-08-11</time>
+        <time title="修改时间：2021-08-13 15:38:45" itemprop="dateModified" datetime="2021-08-13T15:38:45+08:00">2021-08-13</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -310,7 +443,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%95%E8%B5%84/" itemprop="url" rel="index"><span itemprop="name">投资</span></a>
+          <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
         </span>
     </span>
 
@@ -325,86 +458,25 @@
     
     <div class="post-body" itemprop="articleBody">
           <blockquote>
-<p>chiechie的粗浅见解先抛出来，过一段时间再来验一验</p>
+<p>正则表达式一直都迷糊的很，现在要做日志聚类了，看看吧</p>
 </blockquote>
-<h2 id="区块链">区块链</h2>
-<ol type="1">
-<li>区块链的本质是一个分布式共享账本，在这个基础设施上可以孵化很多应用。</li>
-<li>第一代区块链应用是加密货币，代表是比特币，想变成国际支付货币。</li>
-<li>第二代区块链应用是智能合约，代表是以太坊。</li>
-<li>第三代区块链应用是去中心化金融，代表是DeFI和NFT，可能重塑金融行业。</li>
-</ol>
-<h2 id="第一代应用-去中心化数字货币">第一代应用-去中心化数字货币</h2>
-<h3 id="加密货币">加密货币</h3>
-<ol type="1">
-<li>比特币是一个去中心化货币，是众多虚拟加密货币的老祖宗。</li>
-<li>比特币是价值存储的载体之一。价值就是财富，类似数据，水，食物等资源，暂时用不完，希望存起来，后面有需要的时候再用，但是存储财富的载体，经常会被政府操纵，比如人们把财富藏于房产中，股票中，货币中，政府可以操控房子的价格，股票的价格，货币的数量。政府可以不费吹灰之力，凭空创造财富（最常见的手段就是印钞，稀释钞票中的财富；打工人可以增加财富的绝对数字，但it is in vain，政府下一步就可以控制财富分配的比例。</li>
-<li>加密货币的最直接的需求比如国际支付/洗钱/避税。</li>
-<li>加密货币是理想主义者（密码学家和自由主义者）的一种信仰。</li>
-<li>加密货币跟政府权利存在竞争关系，政府不乐意将印钱权利拱手送人。世界上其他国家可能借助加密货币的力量，联合起来制衡美元。（但是之后竞争仍然存在.）</li>
-<li>加密货币的风险？机构做空，政府监管（政府宣布交易违法，关闭交易所），都会导致币存储的财富缩水。</li>
-<li>现实世界的资产大概有几类：
+<h2 id="re.compile-和-split">re.compile 和 split</h2>
+<p><img src="max-common-subsequence/img.png" alt="img.png"> re.compile: 将字符串的正则表达式，转换为pattern对象。</p>
+<p>pattern对象，有点像re的中间数据对象，它有很多方法，like</p>
 <ul>
-<li>有抵押或者信用担保的债务，如国债（政府背书），公司债券（企业自己背书），股票</li>
-<li>有使用价值的资产：住房</li>
-<li>收藏品类的资产：是一个圈子的共识和信仰，茅台，钻石，泡沫时期的荷兰郁金香，重点是稀缺性</li>
+<li>Object.split</li>
 </ul>
-比特币短期和长期都具备收藏品的属性。</li>
-<li>成为货币的前提是，所有人达成共识--这个货币代表的财富不会缩水。迄今为止，只有黄金和美元能保持这种地位。美元是基于美国的政治经济军事各方面实力。比特币代表的加密货币除了信徒们的情怀，还有什么能支持长期的市值？</li>
-</ol>
-<h3 id="黄金相对于货币的优势">黄金相对于货币的优势？</h3>
-<p>黄金作为价值载体的价格，主要靠自由市场来决定，政府不能凭空创造黄金。</p>
-<blockquote>
-<p>全世界当前黄金还有20%没有被开采，政府们纷纷放弃金本位，不是因为担心黄金不够造成的通货紧缩（早得很），是迫不及待想扩大手中的权利。</p>
-<p>比如发债券，可以像庞氏骗局一样，到期了就续期。</p>
-</blockquote>
-<p>但是政府可以凭空创造货币，比如发国债，让下一任的政府来还，本质来说，就是在发行货币（央行和财政部唱双簧，央行用发的货币来购买了财政部发的国债）</p>
-<h3 id="加密货币相对于黄金的优势">加密货币相对于黄金的优势？</h3>
-<p>政府可以控制黄金在市场上流通，因为黄金太个头太大了，很容易被监控到。</p>
-<p>政府没法控制加密货币，首先，是虚拟资产，第二，公共账本被全世界的节点在维护着 第三，资产的匿名性，公共账本虽然会记录交易双方比特币账户的地址，但是账户在真实世界的身份是不得而知的。这三点都会导致政府的监管成本极高。</p>
-<h2 id="第二代应用-智能合约">第二代应用-智能合约</h2>
-<ol type="1">
-<li>智能合约拓展了btc的去中心化货币的功能，合约可以用代码来定义，代码接口符合特定的标准即可。</li>
-<li>现实中的合同执行要法院判决，警察强力保证执行。智能合约本质就是一个合同，只不过比现实中的合同更好执行，code is law。</li>
-</ol>
-<figure>
-<img src="./img.png" alt="img.png" /><figcaption aria-hidden="true">img.png</figcaption>
-</figure>
-<h2 id="第三代应用-defi和nft">第三代应用-DeFi和NFT</h2>
-<ol type="1">
-<li><p>NFT的本质是商品，更具体的说，是一个收藏品，NFT可以是一条具有纪念意义的twitter，可以是电子画作。NFT的成交价格是市场关于这个商品的价值达成的共识，跟前几个世纪的稀有的贝壳，白银作为货币一样。</p>
-<blockquote>
-<p>NFT的概念其实很早就出现了，就是腾讯的Q币，只是中心化的。现在不管是名人、宣传还是NFT都是在为市场扩圈，币圈与非币圈之间也已经没有明显的界限了，而 NFT会把这个现象推向更高的高潮。</p>
-</blockquote></li>
-</ol>
-<h2 id="第四代应用-元宇宙">第四代应用-元宇宙</h2>
-<ol type="1">
-<li>看法还不成熟，先hold下。</li>
-</ol>
-<h2 id="公有链">公有链</h2>
-<ol type="1">
-<li>公有链中中的共识算法，防止恶意攻击问题。</li>
-<li>公有链中共识算法包括：工作量证明（PoW），
-<ol type="1">
-<li>工作量证明（PoW）：发起方节点进行复杂运算，很容易验证。如何解决分叉问题？最长链原则。</li>
-<li>权益证明（PoS）：</li>
-</ol></li>
-</ol>
-<h2 id="chiechie的预测">chiechie的预测</h2>
-<ol type="1">
-<li><p>全世界范围内，政府（除美国）短期不会打压数字货币，甚至还会推动数字货币的发展，直到世界格局改变。</p>
-<blockquote>
-<p>2021年6月9日，萨尔瓦多正式通过立法将BTC做为法定货币。这标志着数字资产进入一个新的纪元。</p>
-</blockquote></li>
-<li><p>各种去中心化数字货币成为国际流通货币的可能性很小，但是有较大可能演变成一个收藏品，比特币会成为其中的顶级收藏品。</p></li>
-<li><p>狗狗币?帮助加速加密货币出圈。不论是动物币、狗狗币还是shib，都成功用娱乐的形式把外面的客户引流进来,有点像娱乐圈的IP。如果只是一本正经地推广比特币，人们可能会觉得没有意思</p></li>
-</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; some_text = 'a,b,,,,c d'</span><br><span class="line">&gt;&gt;&gt; reObj = re.compile('[, ]+')</span><br><span class="line">&gt;&gt;&gt; reObj.split(some_text)</span><br><span class="line">['a', 'b', 'c', 'd']</span><br></pre></td></tr></table></figure>
+<p>也可以不用先转换为pattern对象</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text = 'a,b,,,,c d'</span><br><span class="line">&gt;&gt;&gt; re.split('[, ]+',some_text)</span><br><span class="line">['a', 'b', 'c', 'd']</span><br></pre></td></tr></table></figure>
+<h2 id="re.sub">re.sub</h2>
+<p>re.sub：将某些固定的模式，替换为指定的格式。 比如 将连续空格转换为"-"</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text = 'a,  b,,,  ,c    d'</span><br><span class="line">&gt;&gt;&gt; re.sub(r'\s+', "-", some_text)</span><br><span class="line">a,-b,,,-,c-d</span><br></pre></td></tr></table></figure>
+<h2 id="str.strip">str.strip</h2>
+<p>去除首字符 和 尾字符</p>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.chainnews.com/articles/503060403039.htm">对话 DODO 雷达熊：DeFi 有太多反逻辑，应创造无需许可的产品并发挥价值</a></li>
-<li><a target="_blank" rel="noopener" href="https://assets.coingecko.com/books/how-to-defi/How_to_DeFi_Chinese.pdf">How_to_DeFi-中文</a></li>
-<li><a target="_blank" rel="noopener" href="https://tokeninsight.com/zh/report/2708">report</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Oz9zw7-_vhM">youtube-nft</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.programiz.com/python-programming/regex">怎么写正则表达式</a></li>
 </ol>
 
       
@@ -425,7 +497,7 @@
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/48/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/48/">48</a><span class="page-number current">49</span><a class="page-number" href="/page/50/">50</a><span class="space">&hellip;</span><a class="page-number" href="/page/100/">100</a><a class="extend next" rel="next" href="/page/50/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/48/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/48/">48</a><span class="page-number current">49</span><a class="page-number" href="/page/50/">50</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/50/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
@@ -443,7 +515,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Chiechie</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
     </div>
@@ -451,7 +523,7 @@
 
   
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
 

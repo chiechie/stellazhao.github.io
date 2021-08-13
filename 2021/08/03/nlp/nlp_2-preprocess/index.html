@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="总结  NLP 的第一步是语料预处理，语料预处理的流程为：分词(tokenization), 词干提取（Stemming），词性还原（Lemmatisation）。   词干提取和词形还原在 NLP 中在什么位置   中英语处理的区别：  英文单词有多种形态，所以需要做词干提取和词性还原， 中文有多种分词方式，并且有多种粒度   分词（Tokenization）  目前中文分词没有统一的标准，也没">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自然语言处理2 预处理">
+<meta property="og:url" content="https://chiechie.github.io/2021/08/03/nlp/nlp_2-preprocess/index.html">
+<meta property="og:site_name" content="Chiechie&#39;s Mini World">
+<meta property="og:description" content="总结  NLP 的第一步是语料预处理，语料预处理的流程为：分词(tokenization), 词干提取（Stemming），词性还原（Lemmatisation）。   词干提取和词形还原在 NLP 中在什么位置   中英语处理的区别：  英文单词有多种形态，所以需要做词干提取和词性还原， 中文有多种分词方式，并且有多种粒度   分词（Tokenization）  目前中文分词没有统一的标准，也没">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-weizhi.png">
+<meta property="og:image" content="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-cigan.png">
+<meta property="og:image" content="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-cixing.png">
+<meta property="article:published_time" content="2021-08-03T12:42:05.000Z">
+<meta property="article:modified_time" content="2021-08-12T09:52:22.871Z">
+<meta property="article:author" content="Chiechie">
+<meta property="article:tag" content="文本">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-weizhi.png">
+
+
+<link rel="canonical" href="https://chiechie.github.io/2021/08/03/nlp/nlp_2-preprocess/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://chiechie.github.io/2021/08/03/nlp/nlp_2-preprocess/","path":"2021/08/03/nlp/nlp_2-preprocess/","title":"自然语言处理2 预处理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>自然语言处理2 预处理 | Chiechie's Mini World</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Chiechie's Mini World</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">人生得意须尽欢</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E8%AF%8Dtokenization"><span class="nav-number">2.</span> <span class="nav-text">分词（Tokenization）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E5%92%8C%E8%AF%8D%E5%BD%A2%E8%BF%98%E5%8E%9F"><span class="nav-number">3.</span> <span class="nav-text">词干提取和词形还原</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96-stemming"><span class="nav-number">3.1.</span> <span class="nav-text">词干提取 – Stemming</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#section"><span class="nav-number">4.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E5%BD%A2%E8%BF%98%E5%8E%9F-lemmatisation"><span class="nav-number">4.1.</span> <span class="nav-text">词形还原 – Lemmatisation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E5%81%9A%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E5%92%8C%E8%AF%8D%E5%BD%A2%E8%BF%98%E5%8E%9F"><span class="nav-number">4.2.</span> <span class="nav-text">为什么要做词干提取和词形还原？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E5%B9%B2%E6%8F%90%E5%8F%96%E5%92%8C%E8%AF%8D%E5%BD%A2%E8%BF%98%E5%8E%9F%E5%AF%B9%E6%AF%94"><span class="nav-number">4.3.</span> <span class="nav-text">词干提取和词形还原对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%ABner"><span class="nav-number">5.</span> <span class="nav-text">命名实体识别（NER）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ner-%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="nav-number">5.1.</span> <span class="nav-text">NER 数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ner%E5%B7%A5%E5%85%B7%E6%8E%A8%E8%8D%90"><span class="nav-number">5.2.</span> <span class="nav-text">NER工具推荐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Chiechie</p>
+  <div class="site-description" itemprop="description">a reader & thinker</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">211</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/08/03/nlp/nlp_2-preprocess/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          自然语言处理2 预处理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-08-03 20:42:05" itemprop="dateCreated datePublished" datetime="2021-08-03T20:42:05+08:00">2021-08-03</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-12 17:52:22" itemprop="dateModified" datetime="2021-08-12T17:52:22+08:00">2021-08-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="总结">总结</h2>
+<ul>
+<li>NLP 的第一步是语料预处理，语料预处理的流程为：分词(tokenization), 词干提取（Stemming），词性还原（Lemmatisation）。</li>
+</ul>
+<figure>
+<img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-weizhi.png" alt="词干提取和词形还原在 NLP 中在什么位置"><figcaption aria-hidden="true">词干提取和词形还原在 NLP 中在什么位置</figcaption>
+</figure>
+<ul>
+<li><p>中英语处理的区别：</p>
+<ol type="1">
+<li><strong>英文单词有多种形态</strong>，所以需要做词干提取和词性还原，</li>
+<li>中文有多种分词方式，<strong>并且有多种粒度</strong></li>
+</ol></li>
+</ul>
+<h2 id="分词tokenization">分词（Tokenization）</h2>
+<ul>
+<li><p>目前中文分词没有统一的标准，也没有公认的规范。</p></li>
+<li><p>分词的方法大致分为3类：：基于词典匹配/基于统计/基于深度学习。</p>
+<ul>
+<li>基于词典匹配：将待分词的中文文本根据一定规则切分和调整，然后跟词典中的词语进行匹配，匹配成功则按照词典的词分词，匹配失败通过调整或者重新选择，如此反复循环即可。代表方法有基于正向最大匹配和基于逆向最大匹配及双向匹配法</li>
+<li>基于统计：这类目前常用的是算法是<strong>HMM、CRF、<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/svm/">SVM</a>、深度学习</strong>等算法，比如stanford、Hanlp分词工具是基于CRF算法。以CRF为例，基本思路是对汉字进行标注训练，不仅考虑了词语出现的频率，还考虑上下文，具备较好的学习能力，因此其对歧义词和未登录词的识别都具有良好的效果。</li>
+<li>基于深度学习：本质上是序列标注，所以有通用性，命名实体识别等都可以使用该模型，例如有人尝试使用双向LSTM+CRF实现分词器，其分词器字符准确率可高达97.5%。常见的分词器都是使用机器学习算法和词典相结合，一方面能够提高分词准确率，另一方面能够改善领域适应性。</li>
+</ul></li>
+<li><p>中文分词工具：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/hankcs/HanLP">Hanlp</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/stanfordnlp/CoreNLP">Stanford 分词</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/NLPchina/ansj_seg">ansj 分词器</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/HIT-SCIR/ltp">哈工大 LTP</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/koth/kcws">KCWS分词器</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/yanyiwu/cppjieba">jieba</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wks/ik-analyzer">IK</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/thunlp/THULAC">清华大学THULAC</a></li>
+<li>ICTCLAS</li>
+</ul></li>
+</ul>
+<h2 id="词干提取和词形还原">词干提取和词形还原</h2>
+<h3 id="词干提取-stemming">词干提取 – Stemming</h3>
+<p>词干提取是去除单词的前后缀得到词根的过程。大家常见的前后词缀有「名词的复数」、「进行式」、「过去分词」</p>
+<p>cities，children，teeth 这些词需要词干提取转换为 city，child，tooth这些基本形态。</p>
+<figure>
+<img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-cigan.png" alt="词干提取"><figcaption aria-hidden="true">词干提取</figcaption>
+</figure>
+<h2 id="section"></h2>
+<h3 id="词形还原-lemmatisation">词形还原 – Lemmatisation</h3>
+<p>词形还原是基于词典，将单词的复杂形态转变成最基础的形态，而不仅仅是简单地将前后缀去掉，比如「drove」会转换为「drive」，dive就是原形。</p>
+<p>does，done，doing，did 通过词性还原恢复成 do。</p>
+<figure>
+<img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-cixing.png" alt="词形还原"><figcaption aria-hidden="true">词形还原</figcaption>
+</figure>
+<h3 id="为什么要做词干提取和词形还原"><strong>为什么要做词干提取和词形还原？</strong></h3>
+<p>词干提取和词形还原的目的就是将含义相同，但是长相不同的词，统一起来，这样方便后续的处理和分析。</p>
+<h3 id="词干提取和词形还原对比">词干提取和词形还原对比</h3>
+<p>相同点：</p>
+<ol type="1">
+<li>目标一致：词干提取和词形还原都是将长相不同，但是含义相同的词统一起来，方便后续的处理和分析。</li>
+<li>结果部分可能相同：如“dogs”的词干为“dog”，其原形也为“dog”。</li>
+<li>主流实现方法类似：均是利用语言中存在的规则或利用词典映射提取词干或获得词的原形。</li>
+<li>应用领域相似。主要应用于信息检索和文本、自然语言处理等方面，二者均是这些应用的基本步骤。</li>
+</ol>
+<p>不同点：</p>
+<ol type="1">
+<li>在复杂性上，词干提取更简单粗暴，只用删减前后缀。词形还原则更复杂，为了返回词的原形，不仅要进行词缀的转化，还要进行<strong>词性识别</strong>，区分相同词形但原形不同的词的差别。词性标注的准确率也直接影响词形还原的准确率，因此，词形还原更为复杂。</li>
+</ol>
+<h2 id="命名实体识别ner">命名实体识别（NER）</h2>
+<p>命名实体识别（Named Entity Recognition，简称NER），是指识别文本中具有特定意义的实体，主要包括人名、地名、机构名、专有名词等。简单的讲，就是识别自然文本中的实体指称的边界和类别。</p>
+<p>NER一直是NLP领域中的研究热点，从早期基于词典和规则的方法，到传统机器学习的方法，到近年来基于深度学习的方法，NER研究进展的大概趋势大致如下：</p>
+<ul>
+<li><p>阶段 1：早期的方法，如：基于规则的方法、基于字典的方法</p></li>
+<li><p>阶段 2：传统机器学习，如：HMM、MEMM、CRF</p></li>
+<li><p>阶段 3：深度学习的方法，如：<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/rnn/">RNN</a> – CRF、<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/cnn/">CNN</a> – CRF</p></li>
+<li><p>阶段 4：近期新出现的一些方法，如：注意力模型、迁移学习、半监督学习的方法</p></li>
+</ul>
+<p>早期的命名实体识别方法基本都是基于规则的。之后由于基于大规模的语料库的统计方法在自然语言处理各个方面取得不错的效果之后，一大批机器学习的方法也出现在命名实体类识别任务。宗成庆老师在统计自然语言处理一书粗略的将这些基于机器学习的命名实体识别方法划分为以下几类：</p>
+<ul>
+<li><p><strong>有监督的学习方法</strong>：这一类方法需要利用大规模的已标注语料对模型进行参数训练。目前常用的方法包括隐马尔可夫模型、语言模型、最大熵模型、支持向量机、决策树和条件随机场（CRF）等。CRF是命名实体识别中最成功的方法。</p></li>
+<li><p><strong>半监督的学习方法</strong>：这一类方法利用标注的小数据集（种子数据）自举学习。</p></li>
+<li><p><strong>无监督的学习方法</strong>：这一类方法利用词汇资源（如WordNet）等进行上下文聚类。</p></li>
+<li><p><strong>混合方法</strong>：几种模型相结合或利用统计方法和人工总结的知识库。</p></li>
+</ul>
+<p>值得一提的是，由于深度学习在自然语言的广泛应用，基于深度学习的命名实体识别方法也展现出不错的效果，此类方法基本还是把命名实体识别当做<strong>序列标注</strong>任务来做，经典的方法是<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/lstm/">LSTM</a>+CRF、BiLSTM+CRF。</p>
+<h3 id="ner-数据集">NER 数据集</h3>
+<p>https://github.com/thunlp/THULAC</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>数据集</strong></th>
+<th style="text-align: left;"><strong>简要说明</strong></th>
+<th style="text-align: left;"><strong>访问地址</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">电子病例测评</td>
+<td style="text-align: left;">CCKS2017开放的中文的电子病例测评相关的数据</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://biendata.com/competition/CCKS2017_1/">测评1</a> | <a target="_blank" rel="noopener" href="https://biendata.com/competition/CCKS2017_2/">测评2</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">音乐领域</td>
+<td style="text-align: left;">CCKS2018开放的音乐领域的实体识别任务</td>
+<td style="text-align: left;">CCKS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">位置、组织、人…</td>
+<td style="text-align: left;">这是来自GMB语料库的摘录，用于训练分类器以预测命名实体，例如姓名，位置等。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus">kaggle</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">口语</td>
+<td style="text-align: left;">NLPCC2018开放的任务型对话系统中的口语理解评测</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="http://tcci.ccf.org.cn/conference/2018/taskdata.php">NLPCC</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">人名、地名、机构、专有名词</td>
+<td style="text-align: left;">一家公司提供的数据集,包含人名、地名、机构名、专有名词</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://bosonnlp.com/dev/resource">boson</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="ner工具推荐">NER工具推荐</h3>
+<table>
+<colgroup>
+<col style="width: 28%">
+<col style="width: 35%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>工具</strong></th>
+<th style="text-align: left;"><strong>简介</strong></th>
+<th style="text-align: left;"><strong>访问地址</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Stanford NER</td>
+<td style="text-align: left;">斯坦福大学开发的基于条件随机场的命名实体识别系统，该系统参数是基于CoNLL、MUC-6、MUC-7和ACE命名实体语料训练出来的。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://nlp.stanford.edu/software/CRF-NER.shtml">官网</a> | <a target="_blank" rel="noopener" href="https://github.com/Lynten/stanford-corenlp">GitHub 地址</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MALLET</td>
+<td style="text-align: left;">麻省大学开发的一个统计自然语言处理的开源包，其序列标注工具的应用中能够实现命名实体识别。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="http://mallet.cs.umass.edu/">官网</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hanlp</td>
+<td style="text-align: left;">HanLP是一系列模型与算法组成的NLP工具包，由大快搜索主导并完全开源，目标是普及自然语言处理在生产环境中的应用。支持命名实体识别。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="http://hanlp.linrunsoft.com/">官网</a> | <a target="_blank" rel="noopener" href="https://github.com/hankcs/pyhanlp">GitHub 地址</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/nltk/">NLTK</a></td>
+<td style="text-align: left;">NLTK是一个高效的Python构建的平台,用来处理人类自然语言数据。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="http://www.nltk.org/">官网</a> | <a target="_blank" rel="noopener" href="https://github.com/nltk/nltk">GitHub 地址</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SpaCy</td>
+<td style="text-align: left;">工业级的自然语言处理工具，遗憾的是不支持中文。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://spacy.io/">官网</a> | <a target="_blank" rel="noopener" href="https://github.com/explosion/spaCy">GitHub 地址</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Crfsuite</td>
+<td style="text-align: left;">可以载入自己的数据集去训练CRF实体识别模型。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://sklearn-crfsuite.readthedocs.io/en/latest/?badge=latest">文档</a> | <a target="_blank" rel="noopener" href="https://github.com/yuquanle/StudyForNLP/blob/master/NLPbasic/NER.ipynb">GitHub 地址</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><p>https://easyai.tech/ai-definition/stemming-lemmatisation/#weizhi</p></li>
+<li><p>https://easyai.tech/ai-definition/ner/</p></li>
+<li><p>https://easyai.tech/ai-definition/stemming-lemmatisation/#weizhi</p></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%96%87%E6%9C%AC/" rel="tag"># 文本</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/29/zhexue/qiwulun/" rel="prev" title="庄子-齐物论">
+                  <i class="fa fa-chevron-left"></i> 庄子-齐物论
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/08/04/nlp/nlp_1-summary/" rel="next" title="自然语言处理-总览">
+                  自然语言处理-总览 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chiechie</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

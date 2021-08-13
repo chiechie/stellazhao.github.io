@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 <meta name="description" content="看这种高屋建瓴的文章，了解ai现状和未来--深度学习的局限，未来可能的发展方向 这种预测科技趋势的文章，只能领域专家，咨询公司基本都是扯淡（对，说的就是gartner）  现状-正视现实 vs 未来  人工智能的6大领域：计算机视觉、自然语言理解、认知科学、机器学习、机器人学, 博弈和伦理。  人工智能当前算不能算一门science，只是一个工程实践。 人脸识别只是计算机视觉的一个很小的领域；深">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《人工智能的现状，任务，架构和统一》from 朱松纯">
@@ -71,7 +71,119 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -82,6 +194,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -92,7 +207,7 @@
       <h1 class="site-title">Chiechie's Mini World</h1>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">Set your course by the stars, not by the lights of passing ships. —— Omar Bradley</p>
+      <p class="site-subtitle" itemprop="description">人生得意须尽欢</p>
   </div>
 
   <div class="site-nav-right">
@@ -103,6 +218,15 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
 
 
 
@@ -145,18 +269,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">198</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">213</span>
+        <span class="site-state-item-count">211</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -255,7 +379,7 @@
 </blockquote>
 <h2 id="现状-正视现实-vs-未来">现状-正视现实 vs 未来</h2>
 <ol type="1">
-<li>人工智能的6大领域：计算机视觉、自然语言理解、认知科学、机器学习、机器人学, 博弈和伦理。 <img src="./img.png" alt="img.png" /></li>
+<li>人工智能的6大领域：计算机视觉、自然语言理解、认知科学、机器学习、机器人学, 博弈和伦理。 <img src="./img.png" alt="img.png"></li>
 <li>人工智能当前算不能算一门science，只是一个工程实践。</li>
 <li>人脸识别只是计算机视觉的一个很小的领域；深度学习是机器学习这个学科下的一个当红学派</li>
 <li>人工智能研究，简单来说，就是要通过智能的机器，延伸和增强人类在改造自然治理社会的能力和效率，最终实现人与机器和谐共生共存的状态。</li>
@@ -263,14 +387,14 @@
 </ol>
 <h2 id="ai的历史">AI的历史</h2>
 <blockquote>
-<p>回顾人工智能过去65年的发展历史，经历了几起几落(boom and bust) <img src="./img_1.png" alt="img_1.png" /></p>
+<p>回顾人工智能过去65年的发展历史，经历了几起几落(boom and bust) <img src="./img_1.png" alt="img_1.png"></p>
 </blockquote>
 <ol type="1">
 <li>从表面看，人工智能发展史可以分为3个阶段：
 <ol type="1">
 <li>第一次兴起是1956-1974，以命题逻辑、谓词逻辑等知识表达、启发式搜 索算法为代表。</li>
 <li>第二次兴起是1980～1989，一批吹牛的教授、研究人员登场了，做专家系统、知识工程、医疗诊断等，基本还是以符号为主的推理，离现实世界很远，80年代末有个短暂的神经网络的研究热潮。随后，人工智能就跌入了近30年的寒冬。</li>
-<li>第三次兴起时2012年到现在，是由深度学习推动的。有了以前的教训，一开始学者们都很谨慎，出来警告说这次做的是特定任务，不是通用人工智能，大家不要炒作。但是拦不住公司要做宣传，然后，大家开始加码宣传。就像踩踏事件， 处在前面的人是清醒的，他们叫停，可是后面大量闻信赶来的人不知情，拼命往里面挤。 <img src="./img_2.png" alt="img_2.png" /></li>
+<li>第三次兴起时2012年到现在，是由深度学习推动的。有了以前的教训，一开始学者们都很谨慎，出来警告说这次做的是特定任务，不是通用人工智能，大家不要炒作。但是拦不住公司要做宣传，然后，大家开始加码宣传。就像踩踏事件， 处在前面的人是清醒的，他们叫停，可是后面大量闻信赶来的人不知情，拼命往里面挤。 <img src="./img_2.png" alt="img_2.png"></li>
 </ol></li>
 <li>从更深层的理论看，人工智能的发展史可以分为2个阶段
 <ol type="1">
@@ -304,7 +428,7 @@
 <h2 id="学科一-计算视觉--从深到暗">学科一： 计算视觉--从"深"到"暗"</h2>
 <p>cv领域被主流研究员忽略的几个重大问题：</p>
 <ol type="1">
-<li><p>几何常识推理与三维场景构建：以前计算机视觉的研究，需要通过多张图 像(多视角)之间特征点的对应关系，去计算这些点在三维世界坐标系的位置(SfM、 SLAM)。其实人只需要一张图像就可以把三维几何估算出来。在我们的人造环境中，有很多几何常识和规律:比如， 你坐的椅子高度就是你小腿的长度约 16 英寸，桌子约 30 英寸，案台约 35 英寸， 门高约 80 英寸，这些都是按照人的身体尺寸和动作来设计的。另外，人造环境中有很 多重复的东西，比如几个窗户一样，大小一致，建筑设计和城市规划都有规则，这些就是 geometric common sense，你根据这些几何的约束就可以定位很多点的 三维位置，同时估计相机位置和光轴。见下图所示，在这个三维场景中，我们的理解就可以表达成为一个层次分解 (compositional)的时空因果的解译图(Spatial，Temporal and Causal Parse Graph),简称 STC-PG。 <img src="./img_4.png" alt="img_4.png" /></p></li>
+<li><p>几何常识推理与三维场景构建：以前计算机视觉的研究，需要通过多张图 像(多视角)之间特征点的对应关系，去计算这些点在三维世界坐标系的位置(SfM、 SLAM)。其实人只需要一张图像就可以把三维几何估算出来。在我们的人造环境中，有很多几何常识和规律:比如， 你坐的椅子高度就是你小腿的长度约 16 英寸，桌子约 30 英寸，案台约 35 英寸， 门高约 80 英寸，这些都是按照人的身体尺寸和动作来设计的。另外，人造环境中有很 多重复的东西，比如几个窗户一样，大小一致，建筑设计和城市规划都有规则，这些就是 geometric common sense，你根据这些几何的约束就可以定位很多点的 三维位置，同时估计相机位置和光轴。见下图所示，在这个三维场景中，我们的理解就可以表达成为一个层次分解 (compositional)的时空因果的解译图(Spatial，Temporal and Causal Parse Graph),简称 STC-PG。 <img src="./img_4.png" alt="img_4.png"></p></li>
 <li><p>场景识别的本质是功能推理：做场景的分类和分割都是用一 些图像特征，用大量的图片例子和手工标注的结果去训练神经网络模型，这是典 型的“鹦鹉”模式。一个场景定义本质上就是功能。STC-PG 解译图，每个场景底下其实就分解成为一些动作和功 能 (见 STC-PG 图中的绿色方片节点)。由计算机想象、推理的各种功能决定对场 景的分类。想象功能就是把人的各种姿态放到三维场景中去拟合(见厨房解译图中 人体线画)。这是完全不同于当前的深度学习方法用的分类方法。</p></li>
 <li><p>物理稳定性与关系的推理：我们的生活空间除了满足人类的各种需求(功 能、任务)之外， 另一个基本约束就是物理。我们对图像的解释和理解被表达成为 一个解译图，这个解译图必须满足物理规律，否则就是错误的。</p>
 <blockquote>
@@ -318,7 +442,7 @@
 <li>推理计算的过程中，大量的运算属于“top-down”自顶向下的计算过程。也就是用脑皮层里面学习到的大量的知识来解释你看到的“蛛丝马迹”，形成一个合理的解释。</li>
 </ol></li>
 <li><p>计算机视觉历史</p>
-<p><img src="./img_3.png" /></p>
+<p><img src="./img_3.png"></p>
 <ol type="1">
 <li>前面25年的主流是做集合，以形状和物体为中心（Geometry-Based and Object-Centered），</li>
 <li>最近 25 年是从图像视角通过提取丰富的图像特征 描述物体的外观来做识别、分类: Appearance-Based and View-Centered</li>
@@ -332,7 +456,7 @@
 <ol type="1">
 <li><p>一般一岁多的小孩能知道给你开门，小孩很乐意、主动去帮忙。小孩很早就知道跟人进行配合，这就是人机交互。你把这个小孩看成一个机器人的话，你要设计一个机器人，就是希望它知道看你想干什么，这是人工智能的一个核心表现</p></li>
 <li><p>如果要做人机交互，首先要站在计算机的视角，去观察人的行为和内心世界，下面是一种尝试，用一个 STC-AOG 和 STC-PG 来表达的，见下 图，大致包含四部分：</p>
-<p><img src="./img_5.png" /></p>
+<p><img src="./img_5.png"></p>
 <ul>
 <li>时空因果的概率图，即这个人的总知识</li>
 <li>当前的situation</li>
@@ -341,7 +465,7 @@
 </ul></li>
 <li><p>整个解译图放一块，代表着过去现在未来的短暂时间内的状态。</p>
 <figure>
-<img src="./img_6.png" alt="两个agends博弈过程进行建模" /><figcaption aria-hidden="true">两个agends博弈过程进行建模</figcaption>
+<img src="./img_6.png" alt="两个agends博弈过程进行建模"><figcaption aria-hidden="true">两个agends博弈过程进行建模</figcaption>
 </figure></li>
 <li><p>每个 mind 除了上面谈到的知识 STC-AOG 和状态 STC-PG，还包含了价值函 数，就是价值观，和决策函数。价值观驱动动作，然后根据感知、行动去改变世界， 这样因果就出来了</p></li>
 <li><p>上面只是一个简单的一阶推理。在复杂、对抗的环境中，人们不得不用多阶 的表达。当年司马懿和诸葛亮在祁山对峙时，诸葛亮比司马懿总是要多算一阶。所 谓兵不厌诈，就是有时候我故意把一个错误信息传给你。</p></li>
@@ -378,7 +502,7 @@
 <ol type="1">
 <li>机器人是一个大任务平台，它不仅要调度视觉识别，语言交流，认知推理，还要执行大量的行动去改变环境，其实就是在改变环境的流态。</li>
 <li>流态分为两类：物理流态度，社会流态。前者如刷漆、烧开水、拖地板、切菜。后者如边，吃、喝、 追逐、搀，是改变 自己内部生物状态、或者是与别人的关系。</li>
-<li>当机器人重建了三维场景后, 就带着功利和任务的眼光来看这个场景, 比如哪个地方可以站/坐/倒水。在机器人规划中， 会先构建Affordance Map，即这个场景可以给你提供什么? <img src="img_7.png" alt="Affordance Map" /></li>
+<li>当机器人重建了三维场景后, 就带着功利和任务的眼光来看这个场景, 比如哪个地方可以站/坐/倒水。在机器人规划中， 会先构建Affordance Map，即这个场景可以给你提供什么? <img src="img_7.png" alt="Affordance Map"></li>
 <li>有了上面的单个基本任务的地图，机器人就可以做任务的规划，当然做的过程中还要考虑因果、场景中别人的反应。考虑的东西越多，它就越成熟，做事就得体、不莽莽撞撞。</li>
 </ol>
 <h2 id="学科六机器学习--学习的极限和停机问题">学科六：机器学习--学习的极限和"停机问题"</h2>
@@ -391,19 +515,19 @@
 <li><p>当前的机器学习是怎么学习的？包含三步:</p>
 <ol type="1">
 <li>定义一个损失函数loss function 记作 u，代表一个小任务，比如人脸识别，对了就奖励1，错了就是-1。</li>
-<li>你选择一个模型，比如一个10-层的神经网络，它带有几亿个参数 <span class="math inline">\(\theta\)</span>， 需要通过数据来拟合。</li>
+<li>你选择一个模型，比如一个10-层的神经网络，它带有几亿个参数 <span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.023ex" xmlns="http://www.w3.org/2000/svg" width="1.061ex" height="1.618ex" role="img" focusable="false" viewBox="0 -705 469 715"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D703" d="M35 200Q35 302 74 415T180 610T319 704Q320 704 327 704T339 705Q393 701 423 656Q462 596 462 495Q462 380 417 261T302 66T168 -10H161Q125 -10 99 10T60 63T41 130T35 200ZM383 566Q383 668 330 668Q294 668 260 623T204 521T170 421T157 371Q206 370 254 370L351 371Q352 372 359 404T375 484T383 566ZM113 132Q113 26 166 26Q181 26 198 36T239 74T287 161T335 307L340 324H145Q145 321 136 286T120 208T113 132Z"></path></g></g></g></svg></mjx-container></span>， 需要通过数据来拟合。</li>
 <li>你拿到大量数据，这里假设有人给你准备了标注的数据，然后就开始拟合 参数了。</li>
 </ol></li>
 <li><p>机器学习在学习的这个过程没有因果，没有机器人行动，是纯粹的、<strong>被动</strong>的统计学习。目前那些 做视觉识别和语音识别都是这一类。</p></li>
-<li><p>机器学习的 学习方式是一种狭义的学习，是一种题海战术，填鸭式的训练。真正的学习是一个交互的过程，学生可以问老师，老师问学生，共同思考，是一种平等交流。 <img src="img_8.png" alt="img_8.png" /></p></li>
-<li><p>这个学习过程是建立在认知构架之上的，是一种广义的学习，也叫通讯学习（Communicative Learning） <img src="img_9.png" alt="img_9.png" /></p></li>
-<li><p>这个图里面是两个人 A 与 B 的交流，一个是老师，一个是学生，完全是对等的结构，体现了教与学是一个平等的互动过程。每个椭圆代表一个脑袋 mind，它包含 了三大块: 知识<span class="math inline">\(\theta\)</span>、决策函数<span class="math inline">\(\pi\)</span>、价值函数<span class="math inline">\(\mu\)</span>。最底下的那个椭圆代表物理 世界，也就是“上帝”脑袋里面知道的东西。上面中间的那个椭圆代表双方达成的 共识。</p></li>
+<li><p>机器学习的 学习方式是一种狭义的学习，是一种题海战术，填鸭式的训练。真正的学习是一个交互的过程，学生可以问老师，老师问学生，共同思考，是一种平等交流。 <img src="img_8.png" alt="img_8.png"></p></li>
+<li><p>这个学习过程是建立在认知构架之上的，是一种广义的学习，也叫通讯学习（Communicative Learning） <img src="img_9.png" alt="img_9.png"></p></li>
+<li><p>这个图里面是两个人 A 与 B 的交流，一个是老师，一个是学生，完全是对等的结构，体现了教与学是一个平等的互动过程。每个椭圆代表一个脑袋 mind，它包含 了三大块: 知识<span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.023ex" xmlns="http://www.w3.org/2000/svg" width="1.061ex" height="1.618ex" role="img" focusable="false" viewBox="0 -705 469 715"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D703" d="M35 200Q35 302 74 415T180 610T319 704Q320 704 327 704T339 705Q393 701 423 656Q462 596 462 495Q462 380 417 261T302 66T168 -10H161Q125 -10 99 10T60 63T41 130T35 200ZM383 566Q383 668 330 668Q294 668 260 623T204 521T170 421T157 371Q206 370 254 370L351 371Q352 372 359 404T375 484T383 566ZM113 132Q113 26 166 26Q181 26 198 36T239 74T287 161T335 307L340 324H145Q145 321 136 286T120 208T113 132Z"></path></g></g></g></svg></mjx-container></span>、决策函数<span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.025ex" xmlns="http://www.w3.org/2000/svg" width="1.29ex" height="1ex" role="img" focusable="false" viewBox="0 -431 570 442"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g></g></g></svg></mjx-container></span>、价值函数<span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.489ex" xmlns="http://www.w3.org/2000/svg" width="1.364ex" height="1.489ex" role="img" focusable="false" viewBox="0 -442 603 658"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D707" d="M58 -216Q44 -216 34 -208T23 -186Q23 -176 96 116T173 414Q186 442 219 442Q231 441 239 435T249 423T251 413Q251 401 220 279T187 142Q185 131 185 107V99Q185 26 252 26Q261 26 270 27T287 31T302 38T315 45T327 55T338 65T348 77T356 88T365 100L372 110L408 253Q444 395 448 404Q461 431 491 431Q504 431 512 424T523 412T525 402L449 84Q448 79 448 68Q448 43 455 35T476 26Q485 27 496 35Q517 55 537 131Q543 151 547 152Q549 153 557 153H561Q580 153 580 144Q580 138 575 117T555 63T523 13Q510 0 491 -8Q483 -10 467 -10Q446 -10 429 -4T402 11T385 29T376 44T374 51L368 45Q362 39 350 30T324 12T288 -4T246 -11Q199 -11 153 12L129 -85Q108 -167 104 -180T92 -202Q76 -216 58 -216Z"></path></g></g></g></svg></mjx-container></span>。最底下的那个椭圆代表物理 世界，也就是“上帝”脑袋里面知道的东西。上面中间的那个椭圆代表双方达成的 共识。</p></li>
 <li><p>这个通讯学习的构架里面，就包含了大量的学习模式，包括以下七种学习模式 (每种学习模式其实对应与图中的某个或者几个箭头)，这里面还有很多模式可以 开发出来。</p>
 <ol type="1">
 <li>被动统计学习 passive statistical learning:上面刚刚谈到的、当前最流行的 学习模式，用大数据拟合模型;</li>
 <li>主动学习 active learning:学生可以问老师主动要数据，这个在机器学习里面 也流行过;</li>
 <li>算法教学 algorithmic teaching:老师主动跟踪学生的进展和能力，然后，设计例子来帮你学。这是成本比较高的、理想的优秀教师的教学方式;</li>
-<li>演示学习 learning from demonstration:这是机器人学科里面常用的，就是手把手叫机器人做动作。一个变种是模仿学习 immitation learning;<br />
+<li>演示学习 learning from demonstration:这是机器人学科里面常用的，就是手把手叫机器人做动作。一个变种是模仿学习 immitation learning;<br>
 </li>
 <li>感知因果学习perceptual causality:这是我发明的一种，就是通过观察别人 行为的因果，而不需要去做实验验证，学习出来的因果模型，这在人类认知中十分普遍;</li>
 <li>因果学习causal learning:通过动手实验，控制其它变量，而得到更可靠的因果模型，科学实验往往属于这一类;</li>
@@ -503,7 +627,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Chiechie</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
     </div>
@@ -511,7 +635,7 @@
 
   
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
 

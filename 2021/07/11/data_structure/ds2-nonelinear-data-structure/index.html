@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 <meta name="description" content="总结  非线形数据结构包括堆，Union Find或者disjoint set。  堆和优先队列  优先队列（priority queue）是什么？优先队列是一个抽象数据类型（ADT），跟一般的normal很类似，除了一点，优先队列中的每个元素都有固定的优先级，优先级越高的元素，越先出队（dequeue）。 注意，优先队列只能存储可比较的数据。 优先队列出队（poll）是如何找到最优先的成员的？借">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据结构2 非线性数据结构">
@@ -68,7 +68,119 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -79,6 +191,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -89,7 +204,7 @@
       <h1 class="site-title">Chiechie's Mini World</h1>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">Set your course by the stars, not by the lights of passing ships. —— Omar Bradley</p>
+      <p class="site-subtitle" itemprop="description">人生得意须尽欢</p>
   </div>
 
   <div class="site-nav-right">
@@ -100,6 +215,15 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
 
 
 
@@ -142,18 +266,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">198</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">213</span>
+        <span class="site-state-item-count">211</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -257,7 +381,7 @@
 <li><p>优先队列出队（poll）是如何找到最优先的成员的？借助堆（heap）。</p></li>
 <li><p>优先队列通常是使堆实现，因为对优先队列进行操作时，使用堆构造的优先队列时间复杂度最低。除了堆还有别的数据结构也可以实现优先队列，例如一个无序的链表，但是时间复杂度较高。</p></li>
 <li><p>堆（heap）是什么？ 堆是一个基于树的数据结构，它满足堆不变性质（也叫堆属性）：堆中的所有的父节点的优先级都大于或者孩子节点的value。最大堆（max heap）是指，父节点的value都大于等于孩子节点。最小堆（min heap）是指，小于或者等于。</p>
-<p><img src="./image-20210711093249240.png" /></p></li>
+<p><img src="./image-20210711093249240.png"></p></li>
 <li><p>什么时候需要使用优先队列？在图算法中会经常用到</p>
 <ol type="1">
 <li>最短路径搜索算法--Dijkstra;s</li>
@@ -269,16 +393,16 @@
 <li><p>将最小优先队列转换为最大优先队列：很多编程语言的标准库只提供最小优先队列的抽象数据类型，即按照值越小，优先级越高，但是实际应用中我们也会需要用到最大优先队列。如何使用已有的最小优先队列来满足我们构造最大优先队列的需求呢？将元素的值取相反数，然后使用最小优先队列排序。</p></li>
 <li><p>堆又很多种，binary heap/binomial heap等，最常用的堆是<strong>二叉堆</strong>（binary heap）。二叉堆是一个二叉树，并且支持堆不变性，二叉树中，每个节点都有2个孩子。</p></li>
 <li><p>完全二叉树：除了最后一层，每一层都是完全填充的，并且节点都会尽量往左边排。完全二叉树在数据插入的时候很有用</p>
-<p><img src="./image-20210711100432168.png" /></p></li>
+<p><img src="./image-20210711100432168.png"></p></li>
 <li><p>怎么表示二叉堆？--数组。</p></li>
 </ol>
-<p><img src="./image-20210711102017358.png" /></p>
+<p><img src="./image-20210711102017358.png"></p>
 <ol start="11" type="1">
-<li><p>找到某个节点的父亲节点和孩子节点，利用左下方的公式计算相应的父节点/子节点的索引，然后去数组查找该索引对应的取值。 <img src="./image-20210711102047154.png" /></p></li>
+<li><p>找到某个节点的父亲节点和孩子节点，利用左下方的公式计算相应的父节点/子节点的索引，然后去数组查找该索引对应的取值。 <img src="./image-20210711102047154.png"></p></li>
 <li><p>在二叉堆中添加元素：先将该元素添加到最后一层的，最后一个节点的右边，然后不断的使用冒泡的方法，跟父亲节点互换位置,</p></li>
 <li><p>从二叉堆中删除顶端元素，时间复杂度为O（logn），从二叉堆中删除某个值的元素，时间复杂度为O(n), 因为时间花在找到这个元素上面了。</p></li>
 <li><p>有没有办法可以提升查找二叉堆中某个元素速度的方法呢？hash table，即提前将value和索引pair存到一个table中，要搜索的时候去查这个table就好了。这个表叫哈希表（hashtable）， key是hash（value），value是索引。如果有多个相同的值，就存成一个index set</p>
-<p><img src="./image-20210711104111050.png" /></p></li>
+<p><img src="./image-20210711104111050.png"></p></li>
 </ol>
 <h2 id="union-find">Union-Find</h2>
 <ol type="1">
@@ -286,12 +410,12 @@
 <ol type="1">
 <li><p>find：给定一个element，union find 返回该element所属的group</p></li>
 <li><p>uninon：merge 2 groups，将其中一个group的root变为另外一个group的root的子节点</p>
-<p><img src="./image-20210711110158015.png" /></p></li>
+<p><img src="./image-20210711110158015.png"></p></li>
 </ol></li>
 <li><p>union find在哪里会被用到？最小生成树算法--kruskal：</p>
-<p><img src="./image-20210711110757010.png" /></p></li>
+<p><img src="./image-20210711110757010.png"></p></li>
 <li><p>Union find这个数据结构可以使用hashtable + 数组实现</p>
-<p><img src="./image-20210711115717168.png" /></p></li>
+<p><img src="./image-20210711115717168.png"></p></li>
 <li><p>union find 应用之--path压缩, 每次union的时候，将属于某个pattern的所有节点全部指向root</p></li>
 </ol>
 <h2 id="二叉树-和-二叉查找树">二叉树 和 二叉查找树</h2>
@@ -317,7 +441,7 @@
 </ol></li>
 <li><p>平均来看，在二叉查找树种插入一个元素需要对数时间，在最坏情况下（如下图， 需要平衡二叉搜索树），插入一个元素退化为线性时间，</p>
 <figure>
-<img src="./image-20210712095559490.png" alt="image-20210712095559490" /><figcaption aria-hidden="true">image-20210712095559490</figcaption>
+<img src="./image-20210712095559490.png" alt="image-20210712095559490"><figcaption aria-hidden="true">image-20210712095559490</figcaption>
 </figure></li>
 <li><p>在二叉查找树中删除一个元素的步骤：</p>
 <ol type="1">
@@ -328,7 +452,7 @@
 </ol></li>
 <li><p>找到了二叉查找树种想删除节点，要删除该节点了，也面临4种情况：这个节点在是叶子结点；这个节点只有右子树；这个节点只有左子树；既有左子树又有右子树。</p>
 <figure>
-<img src="./image-20210712100625802.png" alt="image-20210712100625802" /><figcaption aria-hidden="true">image-20210712100625802</figcaption>
+<img src="./image-20210712100625802.png" alt="image-20210712100625802"><figcaption aria-hidden="true">image-20210712100625802</figcaption>
 </figure>
 <ul>
 <li>叶子节点直接删除，节点只有一个子树的，将子树顶上来</li>
@@ -349,15 +473,15 @@
 <li><p>树遍历的三个算法：先序遍历(preorder traversal)，中序遍历（inorder traversal）后序遍历（postorder traversal）。递归调用，开始遍历到一个节点，将这个节点入栈，该节点遍历完，出栈。</p></li>
 <li><p>先序遍历(preorder traversal)：先打印当前节点的值，再开始遍历左右节点。top down</p>
 <figure>
-<img src="./image-20210712105721400.png" alt="image-20210712105721400" /><figcaption aria-hidden="true">image-20210712105721400</figcaption>
+<img src="./image-20210712105721400.png" alt="image-20210712105721400"><figcaption aria-hidden="true">image-20210712105721400</figcaption>
 </figure></li>
 <li><p>中序遍历（inorder traversal）：把左子树遍历完，打印当前值，开始遍历右子树。bottom up， 块状优先</p>
 <figure>
-<img src="./image-20210712105759814.png" alt="image-20210712105759814" /><figcaption aria-hidden="true">image-20210712105759814</figcaption>
+<img src="./image-20210712105759814.png" alt="image-20210712105759814"><figcaption aria-hidden="true">image-20210712105759814</figcaption>
 </figure></li>
 <li><p>后序遍历（postorder traversal）：遍历完子节点后，打印当前节点的值，bottem up的方式。</p>
 <figure>
-<img src="./image-20210712105840283.png" alt="image-20210712105840283" /><figcaption aria-hidden="true">image-20210712105840283</figcaption>
+<img src="./image-20210712105840283.png" alt="image-20210712105840283"><figcaption aria-hidden="true">image-20210712105840283</figcaption>
 </figure></li>
 <li><p>level order 遍历，需要广度优先搜索(Breadth First Search) 以top down的方式遍历</p></li>
 <li><p>怎么实现广度优先搜索(Breadth First Search)?</p>
@@ -389,12 +513,12 @@
 <li><p>后缀数组比后缀树在空间上更优，功能上比后缀树还多一点信息--LCP数组。</p></li>
 <li><p>最长公共前缀(LongestCommonPrefix, LCP)是一个数组，每个值记录两个相邻（按照首字母排序）后缀子串的有多少个相同的字符。</p>
 <figure>
-<img src="./image-20210713113655458.png" alt="image-20210713113655458" /><figcaption aria-hidden="true">image-20210713113655458</figcaption>
+<img src="./image-20210713113655458.png" alt="image-20210713113655458"><figcaption aria-hidden="true">image-20210713113655458</figcaption>
 </figure></li>
 <li><p>有很多方法可以构造LCP向量</p></li>
 <li><p>怎么计算一个字符串包含的所有的字符子串，要去重：</p>
 <figure>
-<img src="./image-20210713122803380.png" alt="image-20210713122803380" /><figcaption aria-hidden="true">image-20210713122803380</figcaption>
+<img src="./image-20210713122803380.png" alt="image-20210713122803380"><figcaption aria-hidden="true">image-20210713122803380</figcaption>
 </figure></li>
 <li><p>后缀数组的应用之--查找最长的公共字符子串</p>
 <h2 id="带索引的优先队列todo">带索引的优先队列[todo]</h2>
@@ -457,7 +581,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Chiechie</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
     </div>
@@ -465,7 +589,7 @@
 
   
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
 

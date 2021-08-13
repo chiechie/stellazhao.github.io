@@ -19,7 +19,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Muse","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 <meta name="description" content="接下来几十年，三个突出的问题：人口结构、贫富两极化和信息获取平民化。  要点  研究历史的一个讽刺（irony）是，我们常常知道一个故事的确切结局，但不知道它什么时候开始的 举个例子，是什么导致了金融危机？你必须了解抵押贷款市场（mortgage，market）。是什么塑造了抵押贷款市场? 前30年的利率下降。利率下降的原因是什么? 20世纪70年代的通货膨胀。是什么导致了通货膨胀？20世纪70">
 <meta property="og:type" content="article">
 <meta property="og:title" content="3个驱动因子">
@@ -56,7 +56,119 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -67,6 +179,9 @@
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -77,7 +192,7 @@
       <h1 class="site-title">Chiechie's Mini World</h1>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">Set your course by the stars, not by the lights of passing ships. —— Omar Bradley</p>
+      <p class="site-subtitle" itemprop="description">人生得意须尽欢</p>
   </div>
 
   <div class="site-nav-right">
@@ -88,6 +203,15 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
 
 
 
@@ -130,18 +254,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">198</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-count">11</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">213</span>
+        <span class="site-state-item-count">211</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -263,7 +387,7 @@
 <li><p>人口结构的变化( demographic shift)重塑了现代经济。以下是正在发生的事情:</p></li>
 </ol>
 <figure>
-<img src="https://www.collaborativefund.com/uploads/1-9a3ba1.png" alt="1-9a3ba1.png" /><figcaption aria-hidden="true">1-9a3ba1.png</figcaption>
+<img src="https://www.collaborativefund.com/uploads/1-9a3ba1.png" alt="1-9a3ba1.png"><figcaption aria-hidden="true">1-9a3ba1.png</figcaption>
 </figure>
 <p><em>Source: Census Bureau</em></p>
 <p>1960年，0-4岁的美国人是70-74岁的三倍。到2060年，这两个群体的数量基本持平。年轻工人的比例正在下降。老年工人的比例正在上升。退休人员的比例——或者说到了退休年龄的人——正在激增。</p>
@@ -281,19 +405,19 @@
 <p>随着女性变得越来越富有，她们生育的孩子也越来越少。</p>
 <p>富裕的家庭也会改变抚养孩子的期望值，降低想要孩子的数量。教育成本尤其造成了一个悖论，你认为你能负担的孩子数量随着你变得富有而减少，过去50年里拥有大学学位的人口比例一路飙升:</p>
 <figure>
-<img src="https://www.collaborativefund.com/uploads/2-d2f6ba.png" alt="2-d2f6ba.png" /><figcaption aria-hidden="true">2-d2f6ba.png</figcaption>
+<img src="https://www.collaborativefund.com/uploads/2-d2f6ba.png" alt="2-d2f6ba.png"><figcaption aria-hidden="true">2-d2f6ba.png</figcaption>
 </figure>
 <p><em>From the book What to Expect When No One’s Expecting</em></p>
 <p>人的寿命更长，婴儿数量更少是一件大事，因为这意味着人口老龄化。当人口老龄化的时候，从经济增长到职场文化，再到国际秩序，一切都会发生变化。</p>
 <p>低生育率是一个全球现象，尤其是在发达国家。随着人口老龄化和人口增长放缓，，人口增长在许多情况下正在转向负增长。</p>
 <p>以下是过去30年发生的事情:</p>
 <figure>
-<img src="https://www.collaborativefund.com/uploads/3-878341.png" alt="3-878341.png" /><figcaption aria-hidden="true">3-878341.png</figcaption>
+<img src="https://www.collaborativefund.com/uploads/3-878341.png" alt="3-878341.png"><figcaption aria-hidden="true">3-878341.png</figcaption>
 </figure>
 <p><em>Source: Census Bureau International Database</em></p>
 <p>下面是未来30年预计会发生的事情:</p>
 <figure>
-<img src="https://www.collaborativefund.com/uploads/4.png" alt="4.png" /><figcaption aria-hidden="true">4.png</figcaption>
+<img src="https://www.collaborativefund.com/uploads/4.png" alt="4.png"><figcaption aria-hidden="true">4.png</figcaption>
 </figure>
 <p><em>Source: Census Bureau International Database</em></p>
 <p>这件事的重要性怎么说都不为过。</p>
@@ -372,7 +496,7 @@
 <p>在我看来，在线交友会从根本上改变未来几代人的婚姻。</p>
 <p>在线教育的影响力会增长。</p>
 <p>地缘政治似乎也是一个有趣的矛盾，因为它比以往任何时候都更加脆弱(通过 Twitter 进行外交) ，却更加依赖彼此(全球市场)。还有一个问题是，当两位候选人在高中都有社交媒体时，总统竞选是如何进行的，当每个人都发布他们以后会后悔的东西时。这场戏一定很有意思——既鼓舞人心又令人害怕。</p>
-<hr />
+<hr>
 <p>世界是由尾部事件（tail event）驱动的。少数因素决定了大多数结果。这是投资中最重要的概念之一，少量的头寸可能占到你一生的大部分回报。</p>
 <p>历史也不例外。第二次世界大战、第一次世界大战和大萧条几乎影响了20世纪的每一个重要事件。工业化和内战在19世纪也是如此。</p>
 <p>人口分布、不平等和信息获取将对未来几十年产生巨大影响。这些大事件的结局是一个有待讲述的故事。但是当这个故事发生了，我们才知道它是从哪里开始的。</p>
@@ -431,7 +555,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">Chiechie</span>
 </div>
-  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
   </div>
 
     </div>
@@ -439,7 +563,7 @@
 
   
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
 
   
 

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Transformer总结  Transformer是google2016年在《attention is all you need》提出的一个机器翻译模型，是一个很典型的seq2seq架构。 Transformer的亮点在于将attention和self-attention完全剥离开之前rnn的结构，只跟dense层组合。 Transformer跟RNN没有关系, 只有attention和全连接层">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自然语言处理6 Transformer">
+<meta property="og:url" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/index.html">
+<meta property="og:site_name" content="Chiechie&#39;s Mini World">
+<meta property="og:description" content="Transformer总结  Transformer是google2016年在《attention is all you need》提出的一个机器翻译模型，是一个很典型的seq2seq架构。 Transformer的亮点在于将attention和self-attention完全剥离开之前rnn的结构，只跟dense层组合。 Transformer跟RNN没有关系, 只有attention和全连接层">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_embeddings.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_encoder_with_tensors.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_positional_encoding_vectors.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_positional_encoding_example.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_6.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_7.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_attention_heads_qkv.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_attention_heads_z.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_2.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_3.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_self-attention-matrix-calculation.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_self-attention-matrix-calculation-2.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_attention_heads_weight_matrix_o.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_multi-headed_self-attention-recap.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_9.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_10.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_resideual_layer_norm.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_resideual_layer_norm_2.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_resideual_layer_norm_3.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_11.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_17.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_18.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_1.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_5.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_8.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_13.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_decoding_1.gif">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_decoding_2.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_12.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/Transformer_decoder.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_decoder_output_softmax.gif">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_14.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_15.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_encoders_decoders.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_encoder_decoder_stack.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/output_target_probability_distributions.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_output_trained_model_probability_distributions.png">
+<meta property="og:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/img_20.png">
+<meta property="article:published_time" content="2021-04-24T16:04:13.000Z">
+<meta property="article:modified_time" content="2021-08-12T09:52:22.862Z">
+<meta property="article:author" content="Chiechie">
+<meta property="article:tag" content="NLP">
+<meta property="article:tag" content="attention">
+<meta property="article:tag" content="神经网络">
+<meta property="article:tag" content="模型可视化">
+<meta property="article:tag" content="Transformer">
+<meta property="article:tag" content="Bert">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/transformer_embeddings.png">
+
+
+<link rel="canonical" href="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/","path":"2021/04/25/nlp/nlp_6-transformer/","title":"自然语言处理6 Transformer"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>自然语言处理6 Transformer | Chiechie's Mini World</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Chiechie's Mini World</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">人生得意须尽欢</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#transformer%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">Transformer总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">附录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BE%93%E5%85%A5%E5%92%8C%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81"><span class="nav-number">2.1.</span> <span class="nav-text">输入和位置编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E5%A4%B4self-attention"><span class="nav-number">2.2.</span> <span class="nav-text">多头self attention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dense%E5%B1%82"><span class="nav-number">2.3.</span> <span class="nav-text">dense层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#encoder-block-%E5%A4%9A%E5%A4%B4self-attention-dense-layer"><span class="nav-number">2.4.</span> <span class="nav-text">encoder block &#x3D; 多头self-attention + dense layer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AE%8B%E5%B7%AE%E8%BF%9E%E6%8E%A5%E5%92%8Clayer-normalization"><span class="nav-number">2.5.</span> <span class="nav-text">残差连接和layer-normalization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#encoder-network-6-encoder-block"><span class="nav-number">2.6.</span> <span class="nav-text">encoder network &#x3D; 6 * encoder block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E5%A4%B4attention"><span class="nav-number">2.7.</span> <span class="nav-text">多头attention</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#decoder-block-%E5%A4%9A%E5%A4%B4self-attention-%E5%A4%9A%E5%A4%B4attention-dense-layer"><span class="nav-number">2.8.</span> <span class="nav-text">decoder block &#x3D; 多头self-attention + 多头attention + dense layer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#decoder-network-6-decoder-block"><span class="nav-number">2.9.</span> <span class="nav-text">decoder network &#x3D; 6 * decoder block</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transformer-encoder-network-decoder-network"><span class="nav-number">2.10.</span> <span class="nav-text">Transformer &#x3D; encoder network+ decoder network</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%AD%E7%BB%83"><span class="nav-number">2.11.</span> <span class="nav-text">训练</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E4%BE%8B%E5%AD%90"><span class="nav-number">2.12.</span> <span class="nav-text">应用的一个例子</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Chiechie</p>
+  <div class="site-description" itemprop="description">a reader & thinker</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">211</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/25/nlp/nlp_6-transformer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          自然语言处理6 Transformer
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-04-25 00:04:13" itemprop="dateCreated datePublished" datetime="2021-04-25T00:04:13+08:00">2021-04-25</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-12 17:52:22" itemprop="dateModified" datetime="2021-08-12T17:52:22+08:00">2021-08-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="transformer总结">Transformer总结</h1>
+<ul>
+<li>Transformer是google2016年在《attention is all you need》提出的一个机器翻译模型，是一个很典型的seq2seq架构。</li>
+<li>Transformer的亮点在于将attention和self-attention完全剥离开之前rnn的结构，只跟dense层组合。</li>
+<li>Transformer跟RNN没有关系, 只有attention和全连接层</li>
+<li>Transformer比所有的rnn+attention效果都要好，机器翻译的王者</li>
+<li>Transformer是一个翻译模型，在机器翻译任务中，eg德译英，输入一个德文句子，输出十一句英文。</li>
+<li>Transformer由两部分组成：encoders和decoders</li>
+<li>encoders由6个encoder堆叠而成，decoders由6个decoder堆叠而成，一个encoder或一个decoder叫做一个block。</li>
+<li>encoders的每个block有2层：self-attention和dense，每个block结构相同，但不共享权重。</li>
+<li>decoders的每个block有3层：self-attention，attention和dense，其中attenton用来关注encoder的输出，</li>
+<li>attention技术的演进：attention + 基于rnn的seq2seq --&gt; self-attention + lstm --&gt; attention/self attention + dense.</li>
+<li>"多头"注意机制扩展了模型关注不同位置的能力, 给予attention层多个"表示子空间", 每个头有自己的一组query / key / value 权重矩阵，当于审视多次上下文，</li>
+</ul>
+<h1 id="附录">附录</h1>
+<h2 id="输入和位置编码">输入和位置编码</h2>
+<ol type="1">
+<li>和一般的NLP任务一样，用embedding algorithm将每个输入单词转化为词向量之后，才能作为Transformer的输入使用。</li>
+<li>如下图，3个单词被embedded为3个512维的向量 <img src="./transformer_embeddings.png"></li>
+<li>接下来，将这3个512维的词向量传入self-attention和dense层 <img src="./transformer_encoder_with_tensors.png"></li>
+<li>位置编码（Positional Encoding）表示序列的顺序, 为了让模型学习到词的顺序关系，transformer向每个输入embedding向量（x1）又加上一个位置编码向量（t1）。 <img src="./transformer_positional_encoding_vectors.png" alt="img"></li>
+<li>假设embedding的维度是4，那么实际的位置编码看起来是这样的: <img src="./transformer_positional_encoding_example.png" alt="img"></li>
+</ol>
+<h2 id="多头self-attention">多头self attention</h2>
+<ol type="1">
+<li>每个单头self-attention层有三个参数矩阵，单头的context vector是一个d * m维的矩阵 <img src="./img_6.png" alt="单头self-attention"></li>
+<li>多头attention层就有3<em>l个参数矩阵（l代表头的个数），多头的context vector是一个(dl) </em>m维的矩阵 <img src="./img_7.png" alt="多头self-attention"> <img src="./transformer_attention_heads_qkv.png" alt="img"></li>
+<li>类似上面提到的单头self-attention计算，我们现在只是用8个不同的权重矩阵算了8次，并且得到了8个不同的 z 矩阵 <img src="./transformer_attention_heads_z.png" alt="img"></li>
+<li>当解读一个句子中的一个word时， Transforme中的encoder通过self-attention来回顾上下文信息，找出输入序列中的重要的word，从而更关注重要信息，并且会把重要word的value vector编码到自己的向量里面去。 RNN通过hidden state策略，使得它将当前词与上下文（准确来说只有上文）的信息进行融合。</li>
+<li>self-attention的输入是m个词向量，输出是m个context vector，vector表示融合了上下文之后，对word再次编码。 <img src="./img_2.png" alt="img_2.png"> <img src="./img_3.png" alt="img_3.png"></li>
+<li>如何实现self-attention layer？即如何实现计算context vector？</li>
+</ol>
+<ul>
+<li>step1: 对于每个输入的word的此向量分别计算3个表示向量：
+<ul>
+<li>Query vector： <span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.439ex" xmlns="http://www.w3.org/2000/svg" width="1.749ex" height="1.439ex" role="img" focusable="false" viewBox="0 -442 773 636"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D45E" d="M33 157Q33 258 109 349T280 441Q340 441 372 389Q373 390 377 395T388 406T404 418Q438 442 450 442Q454 442 457 439T460 434Q460 425 391 149Q320 -135 320 -139Q320 -147 365 -148H390Q396 -156 396 -157T393 -175Q389 -188 383 -194H370Q339 -192 262 -192Q234 -192 211 -192T174 -192T157 -193Q143 -193 143 -185Q143 -182 145 -170Q149 -154 152 -151T172 -148Q220 -148 230 -141Q238 -136 258 -53T279 32Q279 33 272 29Q224 -10 172 -10Q117 -10 75 30T33 157ZM352 326Q329 405 277 405Q242 405 210 374T160 293Q131 214 119 129Q119 126 119 118T118 106Q118 61 136 44T179 26Q233 26 290 98L298 109L352 326Z"></path></g><g data-mml-node="mi" transform="translate(479,-150) scale(0.707)"><path data-c="1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path></g></g></g></g></svg></mjx-container></span>, to match others；</li>
+<li>Key vector：<span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.357ex" xmlns="http://www.w3.org/2000/svg" width="1.918ex" height="1.927ex" role="img" focusable="false" viewBox="0 -694 848 851.8"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D458" d="M121 647Q121 657 125 670T137 683Q138 683 209 688T282 694Q294 694 294 686Q294 679 244 477Q194 279 194 272Q213 282 223 291Q247 309 292 354T362 415Q402 442 438 442Q468 442 485 423T503 369Q503 344 496 327T477 302T456 291T438 288Q418 288 406 299T394 328Q394 353 410 369T442 390L458 393Q446 405 434 405H430Q398 402 367 380T294 316T228 255Q230 254 243 252T267 246T293 238T320 224T342 206T359 180T365 147Q365 130 360 106T354 66Q354 26 381 26Q429 26 459 145Q461 153 479 153H483Q499 153 499 144Q499 139 496 130Q455 -11 378 -11Q333 -11 305 15T277 90Q277 108 280 121T283 145Q283 167 269 183T234 206T200 217T182 220H180Q168 178 159 139T145 81T136 44T129 20T122 7T111 -2Q98 -11 83 -11Q66 -11 57 -1T48 16Q48 26 85 176T158 471L195 616Q196 629 188 632T149 637H144Q134 637 131 637T124 640T121 647Z"></path></g><g data-mml-node="mi" transform="translate(554,-150) scale(0.707)"><path data-c="1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path></g></g></g></g></svg></mjx-container></span>, to be matched；</li>
+<li>Value vector：<span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.357ex" xmlns="http://www.w3.org/2000/svg" width="1.837ex" height="1.359ex" role="img" focusable="false" viewBox="0 -443 812 600.8"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D463" d="M173 380Q173 405 154 405Q130 405 104 376T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Q21 294 29 316T53 368T97 419T160 441Q202 441 225 417T249 361Q249 344 246 335Q246 329 231 291T200 202T182 113Q182 86 187 69Q200 26 250 26Q287 26 319 60T369 139T398 222T409 277Q409 300 401 317T383 343T365 361T357 383Q357 405 376 424T417 443Q436 443 451 425T467 367Q467 340 455 284T418 159T347 40T241 -11Q177 -11 139 22Q102 54 102 117Q102 148 110 181T151 298Q173 362 173 380Z"></path></g><g data-mml-node="mi" transform="translate(518,-150) scale(0.707)"><path data-c="1D456" d="M184 600Q184 624 203 642T247 661Q265 661 277 649T290 619Q290 596 270 577T226 557Q211 557 198 567T184 600ZM21 287Q21 295 30 318T54 369T98 420T158 442Q197 442 223 419T250 357Q250 340 236 301T196 196T154 83Q149 61 149 51Q149 26 166 26Q175 26 185 29T208 43T235 78T260 137Q263 149 265 151T282 153Q302 153 302 143Q302 135 293 112T268 61T223 11T161 -11Q129 -11 102 10T74 74Q74 91 79 106T122 220Q160 321 166 341T173 380Q173 404 156 404H154Q124 404 99 371T61 287Q60 286 59 284T58 281T56 279T53 278T49 278T41 278H27Q21 284 21 287Z"></path></g></g></g></g></svg></mjx-container></span> to be weighted averaged 。</li>
+<li>这些向量是通过将输入的词向量做三次线性变换得到的，当然对应的三个矩阵是需要学习的。</li>
+<li>请注意，得到的新向量的维度（64）比embedding（512）小。这么设计为了保证，加入多头self-attention之后，encoder的输出和输入维度（512）还能保持一致。 &gt; 8头 * 64 = 512</li>
+</ul></li>
+<li>step2: 计算权重分数, 目的是量化其他单词应该被关注的程度。
+<ul>
+<li>计算当前单词的query vector和其他单词的key vector的内积</li>
+</ul></li>
+<li>step3: 权重分数归一化。将上一步算出来的权重得分向量（长度为m）进行归一化，目的是让权重不要受到key vector的长度（paper里面是64）的影响，这样算梯度就更稳定。</li>
+<li>step4：将归一化的权重得分向量（长度为m）送入softmax，目的是得到一个概率向量，所有数值加起来为1。示每个单词应该被当前单词关注的程度，值越大越应该被关注。。</li>
+<li>step5：计算contect vector。将每个单词的value vector使用权重概率向量进行加权求和，作为当前单词的self-attention表达（输出长度为64 * 8个头 = 512）。</li>
+</ul>
+<ol start="6" type="1">
+<li>把刚刚的过程再加入一个维度，也就是从一个单词 变成 多个单词，计算他们各自的self-attention表示，用矩阵表达该计算流程：</li>
+</ol>
+<ul>
+<li>第一步是计算 Query、 Key 和 Value 矩阵：
+<ul>
+<li>我们将embeddings塞到一个矩阵x：行数表示单词个数，列表示embedding的长度</li>
+<li>权重矩阵(WQ、 WK、 WV）：行代表embedding向量的长度，列分别代表query空间，key空间，value空间的维度</li>
+<li>X分别和这几个矩阵相乘 <img src="./transformer_self-attention-matrix-calculation.png"></li>
+</ul></li>
+<li>第二步，利用第一步的结果来计算attention的输出，用一个矩阵计算来表达，简洁优雅 <img src="./transformer_self-attention-matrix-calculation-2.png"></li>
+</ul>
+<h2 id="dense层">dense层</h2>
+<ol type="1">
+<li>后面怎么跟dense层进行衔接呢？1. 将这8个z矩阵进行列拼接（concat）；2. 拼接后的矩阵大小为m<em>(8</em>64) = m *512，丢入dense层 <img src="./transformer_attention_heads_weight_matrix_o.png" alt="img"></li>
+<li>这就是multi-headed self-attention的大部分内容。把整个过程放在一个图中描述： <img src="./transformer_multi-headed_self-attention-recap.png" alt="img"></li>
+</ol>
+<h2 id="encoder-block-多头self-attention-dense-layer">encoder block = 多头self-attention + dense layer</h2>
+<ol type="1">
+<li>encoder block ≈ 多头self-attention + dense。encoder block的输入维度是512×𝑚，输出维度是512×𝑚.</li>
+<li>以一个短句为例,看看encoder的处理流程:
+<ol type="1">
+<li>将[x1，...,xm]输入多头self-attention层, 得到m个context vector</li>
+<li>将m个context vector输入dense + relu，得到m个重新编码后的向量[u1,...,um]，dense层对m个word生效。</li>
+<li>将[u1,...,um]传递给下一个编码器encoder2作为输入。 <img src="./img_9.png" alt="img_9.png"> <img src="./img_10.png" alt="img_10.png"></li>
+</ol></li>
+</ol>
+<h2 id="残差连接和layer-normalization">残差连接和layer-normalization</h2>
+<ol type="1">
+<li>每个encoder block中，self-attention和dense都有一个残差连接，然后接一个层标准化（layer-normalization）。 <img src="./transformer_resideual_layer_norm.png" alt="img"></li>
+<li>如果我们将残差连接和layer normalization用矩阵表示，就是下图： <img src="./transformer_resideual_layer_norm_2.png" alt="img"></li>
+<li>decoder的sub-layers 也同样用到了add &amp; normalization的设计。 下图是一个简化版的Transformer架构：由2个stacked encoder和2个stacked decoder组成。 <img src="./transformer_resideual_layer_norm_3.png" alt="img"></li>
+<li>更准确来说 encoder block = positional codeing + 多头self-attention + add &amp; normalizatioin + dense layer + add &amp; normalizatioin</li>
+</ol>
+<h2 id="encoder-network-6-encoder-block">encoder network = 6 * encoder block</h2>
+<p>encoder network is a stack of 6 encoder blocks.</p>
+<figure>
+<img src="./img_11.png" alt="img_11.png"><figcaption aria-hidden="true">img_11.png</figcaption>
+</figure>
+<h2 id="多头attention">多头attention</h2>
+<ol type="1">
+<li>单头attention层，要计算3个向量，先计算q跟每个k的相关性（求内积），然后做softmax变换得到权重得分，对所有的v使用该权重求和，得到decoder的这个词相对encoder的表示，也就是context vector。 <img src="./img.png" alt="单头atttion"></li>
+<li>decoder中的attention，q来自两部分：下面的decoder的输出和最上面encoder中的Keys矩阵和Values矩阵 。 <img src="img_17.png" alt="img_17.png"> <img src="img_18.png" alt="img_18.png"></li>
+<li>Attention 层的Queries</li>
+</ol>
+<p><img src="./img_1.png" alt="img_1.png"> <img src="./img_5.png" alt="img_5.png"><br>
+<img src="./img_8.png" alt="img_8.png"></p>
+<h2 id="decoder-block-多头self-attention-多头attention-dense-layer">decoder block = 多头self-attention + 多头attention + dense layer</h2>
+<p><img src="./img_13.png" alt="img_13.png"> 1. 1个decoder block ≈ 多头self-attention + 多头attention + dense。decoder block的输入有两个，一个是encoder的输出（512×m）， 一个来自decoder当前的的输出（512×t ）. 2. encoding阶段（phase）完成后，我们开始decoding阶段，decoding的每个step描述如下： <img src="./transformer_decoding_1.gif" alt="img"> <img src="./transformer_decoding_2.png" alt="img"> 1. 每个时刻，输入第6个encoder产生的m个keys vectors和value vectors，输出一个element的概率分布pdf。 2. 从pdf中抽样出word（或者直接选择概率最大的word），作为decoder的输入。 3. 重复step1，直到产生结束符。 3. decoder也会用到位置编码. 4. decoder中的self attention layers:与encoder的运作方式略有不同,在decoder中，self-attention layer只能接触到输出序列中的前半部分。怎么做到呢？在softmax操作之前，masking序列后半部分(设为 -inf)</p>
+<h2 id="decoder-network-6-decoder-block">decoder network = 6 * decoder block</h2>
+<ol type="1">
+<li><p>Decoder network is a stack of 6 decoder blocks.</p>
+<p><img src="./img_12.png"> <img src="./Transformer_decoder.png"></p></li>
+<li><p>stack decoders输出一个数值向量。 我们怎么把它变成一个词呢？ 这是最后的dense层+softmax在做的事情。它将stack of decoders的输出映射为一个权重向量。（长度就是输出词汇表的大小）</p></li>
+<li><p>这个图从底部开始，生成一个vector作为decoder stack的输出。 然后它被转换成一个输出单词。 <img src="./transformer_decoder_output_softmax.gif" alt="img"></p></li>
+</ol>
+<h2 id="transformer-encoder-network-decoder-network">Transformer = encoder network+ decoder network</h2>
+<p><img src="./img_14.png" alt="img_14.png"> <img src="./img_15.png" alt="img_15.png"> <img src="./transformer_encoders_decoders.png" alt="Transformer=encoders+decoders"> <img src="./transformer_encoder_decoder_stack.png"></p>
+<h2 id="训练">训练</h2>
+<p>学习的目标？ 将模型输出与目标输出进行比较，然后使用反向传播方法调整模型的权重，使模型输出更接近目标输出。</p>
+<p>如何比较两种概率分布？ 可查看 <a target="_blank" rel="noopener" href="https://colah.github.io/posts/2015-09-Visual-Information/">cross-entropy</a>和 <a target="_blank" rel="noopener" href="https://www.countbayesie.com/blog/2017/5/9/kullback-leibler-divergence-explained">Kullback-Leibler</a>. 。</p>
+<p>目标概率分布：</p>
+<figure>
+<img src="./output_target_probability_distributions.png" alt="img"><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<p>模型输出：</p>
+<figure>
+<img src="./transformer_output_trained_model_probability_distributions.png" alt="img"><figcaption aria-hidden="true">img</figcaption>
+</figure>
+<h2 id="应用的一个例子">应用的一个例子</h2>
+<figure>
+<img src="img_20.png" alt="img_20.png"><figcaption aria-hidden="true">img_20.png</figcaption>
+</figure>
+<h1 id="参考">参考</h1>
+<ol type="1">
+<li>Bahdanau, Cho, &amp; Bengio. Neural machine translation by jointly learning to align and translate. In ICLR, 2015.</li>
+<li>Cheng, Dong, &amp; Lapata. Long Short-Term Memory-Networks for Machine Reading. In EMNLP, 2016.</li>
+<li>Vaswani et al. Attention Is All You Need. In NIPS, 2017.</li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=aJRsr39F4dI">Transformer模型(2/2): 从Attention层到Transformer网络</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/NLP/" rel="tag"># NLP</a>
+              <a href="/tags/attention/" rel="tag"># attention</a>
+              <a href="/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/" rel="tag"># 神经网络</a>
+              <a href="/tags/%E6%A8%A1%E5%9E%8B%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag"># 模型可视化</a>
+              <a href="/tags/Transformer/" rel="tag"># Transformer</a>
+              <a href="/tags/Bert/" rel="tag"># Bert</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/04/24/nlp/nlp_5-word2vec/" rel="prev" title="自然语言处理5 Word2vec">
+                  <i class="fa fa-chevron-left"></i> 自然语言处理5 Word2vec
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/04/25/reading_notes/investment/pork-and-beef/" rel="next" title="牛肉是不是未来的趋势之一？">
+                  牛肉是不是未来的趋势之一？ <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chiechie</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
