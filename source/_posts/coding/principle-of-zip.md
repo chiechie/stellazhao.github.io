@@ -1,5 +1,5 @@
 ---
-title: 文件压缩的原理是什么？
+title: 文件压缩的原理
 categories: 
 - 阅读
 author: chiechie

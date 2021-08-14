@@ -16,6 +16,7 @@
     "hexo": "^5.4.0",
     "hexo-calendar": "^1.0.4",
     "hexo-deployer-git": "^3.0.0",
+    "hexo-filter-mathjax": "^0.7.1",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-calendar": "github:howiefh/hexo-generator-calendar",
     "hexo-generator-category": "^1.0.0",
