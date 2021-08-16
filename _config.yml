@@ -137,6 +137,6 @@ feed:
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/chiechie/chiechie.github.io
+  repo: https://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@github.com/chiechie/chiechie.github.io.git
   # example, https://github.com/hexojs/hexojs.github.io
   branch: gh-pages

@@ -17,9 +17,7 @@ categories:
 ## 总结
 
 1. 聚类是一种非监督的数据驱动的分析方法，当给定一堆样本的特征时，希望聚类算法能从特征中发现不同 的样本的聚集的模式，并且可以将发现的知识推广到新的数据上。
-
 2. 我们常常对表数据使用kmeans来实现聚类，内部流程分为两步，第一步是是将多维的表数据（维度代表特征），转为2D的相似图（一个节点代表一个样本）。第二步，是对这个图进行聚类。
-
 3. kmeans在实际中应用较多，但是并没有理论保证其收敛。
 
    > ...I don't think there is a nice theory of convergence or rate of convergence, But is  a very popular algorimth,..., But that's one sort of hack that works quite well--Gilbert Strang
@@ -36,9 +34,9 @@ categories:
    $$
 
 
-$$
-\operatorname{dissimilarity}(C)=\sum_{c \in C} \operatorname{variability}(c)
-$$
+   $$
+   \operatorname{dissimilarity}(C)=\sum_{c \in C} \operatorname{variability}(c)
+   $$
 
 - variability表示一个cluster的紧实程度（肌肉or胖子），有点点像衡量发散程度的方差，
 
