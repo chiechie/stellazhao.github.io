@@ -245,18 +245,18 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">177</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">211</span>
+        <span class="site-state-item-count">205</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -295,7 +295,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/10/AIOps/AIOps-1_1_2-feature/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/27/coding/python_regrex/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -308,7 +308,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/05/10/AIOps/AIOps-1_1_2-feature/" class="post-title-link" itemprop="url">chapter1.1 单指标异常检测</a>
+          <a href="/2021/04/27/coding/python_regrex/" class="post-title-link" itemprop="url">使用python进行正则操作</a>
         </h2>
 
         <div class="post-meta-container">
@@ -319,14 +319,14 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-05-10 16:37:13" itemprop="dateCreated datePublished" datetime="2021-05-10T16:37:13+08:00">2021-05-10</time>
+      <time title="创建时间：2021-04-27 10:51:56" itemprop="dateCreated datePublished" datetime="2021-04-27T10:51:56+08:00">2021-04-27</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
+        <time title="修改时间：2021-08-13 15:38:45" itemprop="dateModified" datetime="2021-08-13T15:38:45+08:00">2021-08-13</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -334,7 +334,7 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/AIOps/" itemprop="url" rel="index"><span itemprop="name">AIOps</span></a>
+          <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
         </span>
     </span>
 
@@ -348,105 +348,26 @@ mjx-container[display="true"] + br {
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="概述">1. 概述</h2>
-<p>大型集群系统中，可能存在软件问题和硬件问题导致的系统故障，严重影响了系统的高可用性。这就要求7*24小时，对系统不间断监控。这就意味着需要不间断地监控大量时间序列数据，以便检测系统潜在的故障和异常现象。然而，实际当中的系统异常很多，且不容易发现；从而导致人工方式监控方式效率很低。</p>
-<p>异常场景本质上是一个或者多个数据点；数据点一般在系统运行过程中产生，且能反应系统的功能是否正常，多以日志形式呈现。当系统功能发生异常时，就会产生异常数据。快速高效地发现这些异常值，对于快速止损具有重要意义。对此，我们提出一种基于时间序列的异常识别模型，用来及时发现异常。</p>
-<p>对于多数系统，一般都有成功率、流量等指标，故障发生时，这些指标也会出现响应的异常。我们将系统成功率、流量统一称为特征值变量，并对其进行建模，从而方便后续其它特征变量的扩展。为了更好地感知这些特征变量的突变，需要对特征变量进行计算处理或者空间转换。那么异常识别问题就转换为以下两个问题：</p>
+          <blockquote>
+<p>正则表达式一直都迷糊的很，现在要做日志聚类了，看看吧</p>
+</blockquote>
+<h2 id="re.compile-和-split">re.compile 和 split</h2>
+<p><img src="max-common-subsequence/img.png" alt="img.png"> re.compile: 将字符串的正则表达式，转换为pattern对象。</p>
+<p>pattern对象，有点像re的中间数据对象，它有很多方法，like</p>
 <ul>
-<li>特征变量的计算处理和转换</li>
-<li>突变的判断</li>
+<li>Object.split</li>
 </ul>
-<p>针对这两个关键问题，我们将在下文中进行建模和分析。</p>
-<h2 id="异常识别">2. 异常识别</h2>
-<p>如下图，通过计算器进行特征变量的计算处理和转换，通过异常检测器来判断数值的突变，从而解决上面的两个问题。其中，异常检测器由比较器和决策器组成。</p>
-<p><a target="_blank" rel="noopener" href="http://www.datadriven.top/images/image-20180815093422131.png"><img src="http://www.datadriven.top/images/image-20180815093422131.png" alt="image-20180815093422131"></a>image-20180815093422131</p>
-<p>对于给定时间序列二维矩阵X={xmt∈R：∀t≥0,∀m≥0}X={xtm∈R：∀t≥0,∀m≥0} ，xmtxtm为tt时刻的第m个指标的真实数据，umtutm表示时间tt的xmtxtm的计算值，ymtytm为第m个指标的输出结果，ytyt为整体预测结果。</p>
-<p>xmtxtm通过计算器得到计算值umtutm，然后xmtxtm 和 umtutm分别作为比较器的输入，得到第m个指标的输出ymtytm。y1tyt1,y2tyt2…ymtytm作为决策器的输入得到ytyt。ytyt是一个二元值，可以用<code>TRUE</code>（表示输出数据正常），<code>FALSE</code>（表示输入数据异常）表示。下面对计算器和检测器进行说明。</p>
-<h3 id="计算器">2.1 计算器</h3>
-<p><strong>计算器</strong>用来对输入值xmtxtm 进行计算或者空间转换，从而得到特征变量的计算值umtutm。一般情况下，特征变量具有趋势性、周期性等特征。基于这些特征，计算值的获取，可以使用以下三种方式：累计窗口均值计算器、基于趋势性的环比计算器、基于周期性的同比计算器。</p>
-<h4 id="累积窗口均值计算器">2.1.1 累积窗口均值计算器</h4>
-<p>输入值为xtxt（为了方便省略指标参数<code>m</code>），如果直接只用单个点xtxt的抖动来判断，受噪声影响较大。因此，使用累积窗口均值的方式：</p>
-<figure>
-<img src="../_image/image-20191012164029688.png" alt="image-20191012164029688"><figcaption aria-hidden="true">image-20191012164029688</figcaption>
-</figure>
-<p>其中，ww为累计窗口的大小。通过窗口平滑之后，会过滤掉尖刺等噪声。</p>
-<h4 id="基于趋势性的计算器">2.1.2 基于趋势性的计算器</h4>
-<p>为了描述数据的趋势性，引入环比类算法。对<span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.357ex" xmlns="http://www.w3.org/2000/svg" width="2.059ex" height="1.357ex" role="img" focusable="false" viewBox="0 -442 910.3 599.8"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="msub"><g data-mml-node="mi"><path data-c="1D465" d="M52 289Q59 331 106 386T222 442Q257 442 286 424T329 379Q371 442 430 442Q467 442 494 420T522 361Q522 332 508 314T481 292T458 288Q439 288 427 299T415 328Q415 374 465 391Q454 404 425 404Q412 404 406 402Q368 386 350 336Q290 115 290 78Q290 50 306 38T341 26Q378 26 414 59T463 140Q466 150 469 151T485 153H489Q504 153 504 145Q504 144 502 134Q486 77 440 33T333 -11Q263 -11 227 52Q186 -10 133 -10H127Q78 -10 57 16T35 71Q35 103 54 123T99 143Q142 143 142 101Q142 81 130 66T107 46T94 41L91 40Q91 39 97 36T113 29T132 26Q168 26 194 71Q203 87 217 139T245 247T261 313Q266 340 266 352Q266 380 251 392T217 404Q177 404 142 372T93 290Q91 281 88 280T72 278H58Q52 284 52 289Z"></path></g><g data-mml-node="mi" transform="translate(605,-150) scale(0.707)"><path data-c="1D461" d="M26 385Q19 392 19 395Q19 399 22 411T27 425Q29 430 36 430T87 431H140L159 511Q162 522 166 540T173 566T179 586T187 603T197 615T211 624T229 626Q247 625 254 615T261 596Q261 589 252 549T232 470L222 433Q222 431 272 431H323Q330 424 330 420Q330 398 317 385H210L174 240Q135 80 135 68Q135 26 162 26Q197 26 230 60T283 144Q285 150 288 151T303 153H307Q322 153 322 145Q322 142 319 133Q314 117 301 95T267 48T216 6T155 -11Q125 -11 98 4T59 56Q57 64 57 83V101L92 241Q127 382 128 383Q128 385 77 385H26Z"></path></g></g></g></g></svg></mjx-container></span>进行空间转换，得到环比，再使用检测器进行检测。</p>
-<figure>
-<img src="/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20191012163924379.png" alt="image-20191012163924379"><figcaption aria-hidden="true">image-20191012163924379</figcaption>
-</figure>
-<p>其中，分子为当前窗口w内的数据，分母为上一窗口w内数据。通过窗口w对数据进行平滑。</p>
-<h4 id="基于周期性的计算器">2.1.3 基于周期性的计算器</h4>
-<p>为了描述数据的周期性，引入同比算法。当同比值过大或者过小时，认为发生故障。同比公式如下：</p>
-<figure>
-<img src="/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20191012164057696.png" alt="image-20191012164057696"><figcaption aria-hidden="true">image-20191012164057696</figcaption>
-</figure>
-<p>其中TT为周期，kk表示第几个周期。一般选取kk为<code>1</code>、<code>7</code>、<code>30</code>，来表示昨天、上周、上个月。</p>
-<h4 id="其他类型计算器">2.1.4 其他类型计算器</h4>
-<p>计算器还可以使用其他算法，包括：</p>
-<ul>
-<li>统计类算法：包括同比、环比算法的改进，或者其他统计算法。此时，计算器的输出结果为预测值，预测值和输入值进行比较即可。</li>
-<li>时序型算法：包含ARIMA、Holter-Winter等时序型算法。计算器的输出结果为预测值。</li>
-<li>机器学习：根据有监督、无监督、深度学习(LSTM)等算法，训练出的模型即为计算器。此时，计算器的输出结果一般为归一化的值，根据归一化的值进行比较。</li>
-</ul>
-<p>这些算法，在这里不再做深入研究和阐述。</p>
-<h3 id="异常检测器">2.2 异常检测器</h3>
-<p>当数据出现异常时，计算值会出现较大偏差，该偏差由<strong>异常检测器</strong>来判断。<strong>异常检测器</strong>由比较器和决策器组成，计算值和真实值通过该模块后，得到最终预测结果。</p>
-<h4 id="比较器">2.2.1 比较器</h4>
-<p>比较器的本质是求解如下公式的过程：</p>
-<p>f(xmt,umt;hm) = boolean(4)(4)f(xtm,utm;hm) = boolean</p>
-<p>其中，xmtxtm为真实值，uu为计算值，hmhm为阈值参数，booleanboolean为结果<code>TRUE/FALSE</code>。真实值已知，计算值通过计算器得到；剩下的阈值参数hmhm，则需要根据故障发生时的实际值进行参数估计。</p>
-<p>很多场景下，该公式还可以简化为：f(umt;hm) = booleanf(utm;hm) = boolean ，即计算值直接和阈值比较即可。</p>
-<h5 id="比较器种类">2.2.1.1 比较器种类</h5>
-<p>比较器有两种：相对值比较器和绝对值比较器。给定计算值umtutm和输入值xmtxtm，得到绝对值比较器：</p>
-<p>f=xmt−umt opretor hm(5)(5)f=xtm−utm opretor hm</p>
-<p>其中，opretoropretor为比较操作符，比如<code>&gt; &lt; &gt;= &lt;=</code>。由于utut由xtxt得到，所以很多情况下公式可以简化为 umtopretorhmtutmopretorhtm，即确定计算值的阈值即可。</p>
-<p>对于一些场景来说，需要捕获特征变量的相对性。因此，引入相对值比较器：</p>
-<p>f=xmt−umtumt opretor hm(6)(6)f=xtm−utmutm opretor hm</p>
-<p>通过对相对值比较器进行阈值处理，既可以检测异常值，同时还能对期望值进行归一化。</p>
-<h5 id="比较器阈值h的选取">2.2.1.2 比较器阈值h的选取</h5>
-<p>一般情况下，阈值参数决定了异常检测模块的敏感度。最优阈值的选择，取决于数据分布的性质以及先验数据。一般情况下，<strong>阈值的选取方法为</strong>：</p>
-<ul>
-<li>方法一：跟踪一组故障数据和正常数据，根据经验估计阈值。</li>
-<li>方法二：跟踪一组故障数据和正常数据，根据经验，并结合<code>3σ准则</code>确定，来确定阈值。（特征变量或者特征变量的组合，服从正态分布）</li>
-</ul>
-<h4 id="决策器">2.2.2 决策器</h4>
-<p>如下公式，基于逻辑操作符，对比较器结果进行合并.</p>
-<ul>
-<li>方式一：逻辑组合</li>
-</ul>
-<p>yt=y1t &amp;| y2t &amp;| y3t &amp;| ... ymt(7)(7)yt=yt1 &amp;| yt2 &amp;| yt3 &amp;| ... ytm</p>
-<p>其中，||表示逻辑或操作，&amp;&amp;表示逻辑与操作。</p>
-<ul>
-<li><p>方式二：权重设置法</p>
-<p>yt=k1∗y1t + k2∗y2t + k3∗y3t + ... km∗ymt(8)</p></li>
-</ul>
-<p>其中，kmkm为系数，这种方式一般适合基本无负样本的场景，参数的确定需要使用<code>层次分析法</code>，将在后面的文章进行说明。</p>
-<h2 id="故障止损">3. 故障止损</h2>
-<p>上面主要阐述了异常识别的方式。如果条件过于严格，刚开始并不容易被识别出来；如果条件过松，可能导致误识别。对此，我们将止损策略分为两级：</p>
-<ul>
-<li>级别一：预警。对于不能完全确定故障发生的场景，使用级别一。</li>
-<li>级别二：预警+止损（踢IDC）。对于能确定IDC故障的场景，使用级别二。</li>
-</ul>
-<h2 id="实际场景应用">4. 实际场景应用</h2>
-<p>下面通过一个规则的场景，进行举例说明。假如存在如下异常场景：</p>
-<p><a target="_blank" rel="noopener" href="http://www.datadriven.top/images/image-20181108211144340.png"><img src="http://www.datadriven.top/images/image-20181108211144340.png" alt="image-20181108211144340"></a>image-20181108211144340</p>
-<p><strong>体现在模型中，则级别一（预警）的模型图</strong></p>
-<p><a target="_blank" rel="noopener" href="http://www.datadriven.top/images/image-20180815093336600.png"><img src="http://www.datadriven.top/images/image-20180815093336600.png" alt="image-20180815093336600"></a>image-20180815093336600</p>
-<p><strong>级别二（预警+踢IDC）的模型图：</strong></p>
-<p><a target="_blank" rel="noopener" href="http://www.datadriven.top/images/image-20180815093352931.png"><img src="http://www.datadriven.top/images/image-20180815093352931.png" alt="image-20180815093352931"></a>image-20180815093352931</p>
-<p>最终，得到故障识别规则：</p>
-<ul>
-<li>级别一触发条件: u1&lt;h1 | (u5&lt;h5 &amp; u6&lt;h6 &amp; u7&lt;h7)u1&lt;h1 | (u5&lt;h5 &amp; u6&lt;h6 &amp; u7&lt;h7)</li>
-<li>级别二触发条件：u1&lt;h2 &amp; u3&gt;h3u1&lt;h2 &amp; u3&gt;h3</li>
-</ul>
-<p>其中，h1,h2,h3,h5,h6,h7h1,h2,h3,h5,h6,h7为阈值参数。需要结合经验和实际数据估计得到。</p>
-<h2 id="小结">5. 小结</h2>
-<p>本文主要基于时间序列的数据，提出了异常场景识别模型，并重点对基于规则的识别进行了说明。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; some_text = 'a,b,,,,c d'</span><br><span class="line">&gt;&gt;&gt; reObj = re.compile('[, ]+')</span><br><span class="line">&gt;&gt;&gt; reObj.split(some_text)</span><br><span class="line">['a', 'b', 'c', 'd']</span><br></pre></td></tr></table></figure>
+<p>也可以不用先转换为pattern对象</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text = 'a,b,,,,c d'</span><br><span class="line">&gt;&gt;&gt; re.split('[, ]+',some_text)</span><br><span class="line">['a', 'b', 'c', 'd']</span><br></pre></td></tr></table></figure>
+<h2 id="re.sub">re.sub</h2>
+<p>re.sub：将某些固定的模式，替换为指定的格式。 比如 将连续空格转换为"-"</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text = 'a,  b,,,  ,c    d'</span><br><span class="line">&gt;&gt;&gt; re.sub(r'\s+', "-", some_text)</span><br><span class="line">a,-b,,,-,c-d</span><br></pre></td></tr></table></figure>
+<h2 id="str.strip">str.strip</h2>
+<p>去除首字符 和 尾字符</p>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="http://dl.acm.org/citation.cfm?id=2788611">Generic and Scalable Framework for Automated Time-series Anomaly Detection</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.datadriven.top/categories/数据驱动/">数据驱动应用（一）：整体概述</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.programiz.com/python-programming/regex">怎么写正则表达式</a></li>
 </ol>
 
       
@@ -474,7 +395,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/05/09/AIOps/AIOps-1_1_1-GAN/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/27/reading_notes/investment/about-cryptocurrency/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -487,7 +408,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/05/09/AIOps/AIOps-1_1_1-GAN/" class="post-title-link" itemprop="url">chapter1.1 使用GAN做异常检测</a>
+          <a href="/2021/04/27/reading_notes/investment/about-cryptocurrency/" class="post-title-link" itemprop="url">关于区块链和加密货币</a>
         </h2>
 
         <div class="post-meta-container">
@@ -498,14 +419,14 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-05-09 16:37:13" itemprop="dateCreated datePublished" datetime="2021-05-09T16:37:13+08:00">2021-05-09</time>
+      <time title="创建时间：2021-04-27 08:47:47" itemprop="dateCreated datePublished" datetime="2021-04-27T08:47:47+08:00">2021-04-27</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
+        <time title="修改时间：2021-08-16 08:53:25" itemprop="dateModified" datetime="2021-08-16T08:53:25+08:00">2021-08-16</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -513,7 +434,7 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/AIOps/" itemprop="url" rel="index"><span itemprop="name">AIOps</span></a>
+          <a href="/categories/%E6%8A%95%E8%B5%84/" itemprop="url" rel="index"><span itemprop="name">投资</span></a>
         </span>
     </span>
 
@@ -528,55 +449,97 @@ mjx-container[display="true"] + br {
     
     <div class="post-body" itemprop="articleBody">
           <blockquote>
-<p>使用gnn做异常检测</p>
+<p>chiechie的粗浅见解先抛出来，过一段时间再来验一验</p>
 </blockquote>
-<h1 id="不仅仅生成图片用gan做无监督的异常检测">不仅仅生成图片，用GAN做无监督的异常检测</h1>
-<p>代码：https://github.com/chiechie/wgan-gp-anomaly</p>
-<p>GAN被LeCun赞为继CNN之后最为重要的一个工作，其原因在于让各位惊呼“这才有点人工智能的样子”。相比于CNN或者RNN而言，GAN是一种完全不一样的思路。CNN或者RNN，其本质都是一种有监督的学习方式，相比于传统的方式而言，得益于网络强大的表达能力和自动学习特征的end-to-end的学习能力，CNN和RNN在很多任务上实现了巨大提升从而引领了这一次的人工智能的兴起。但是有监督学习的缺陷在于需要大量的数据进行学习，所以很多人工智能公司都是花了大量的资金和人力来收集和标注数据。记得在学校听“驭势科技”的黄波博士的一次技术分享，他就谈到数据的问题，笑称其实现在最赚钱的不是做人工智能技术的公司，而是那些做数据标注的公司。如果我没有记错的话，似乎买一张给自动驾驶标注的<strong>精细的语义分割</strong>的标签图需要1块人民币左右（敲黑板！商机啊！同学们）。</p>
-<p>GAN是一种对抗学习网络，通过生成器G和判别器D的对抗学习来学习训练集的数据分布从而学会生成图片（<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/pdf/1406.2661.pdf">Goodfellow的paper</a>）。GAN一出来就被大家广泛的讨论，并且大量的人开始研究GAN，2017年以来arxiv上GAN的paper数量如同火箭一般的速度上升。原因就是GAN给做unsupervised learning提供一种很好的思路，最直接的应用在于我们可以用GAN学习真实的数据分布，从而生成图片可以给各种任务做<strong>数据增强</strong>。然后GAN也被应用在其他领域取得了非常不错的效果，有名的比如Twitter的那篇做超分辨的<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1609.04802">SRGAN</a>，最近最火的GAN应该是Berkeley的<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1611.07004">Pix2Pix GAN</a>和<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1703.10593">Cycle GAN</a>。</p>
-<p><strong>Pix2Pix GAN和普通的GAN的区别是实现图片域的转换（Image Translation）</strong>， 比如从手绘画到实物图的转换，而不是从一个噪声生成图片，效果非常之好。但是<strong>Pix2Pix GAN要求需要pair的数据训练</strong>，即两个图片域之间要有对应好的训练数据。Cycle GAN和Pix2Pix GAN一脉相承，加入了cycle consistency loss从而不需要像Pix2Pix GAN一样需要不同图片域里面pair的数据才能训练GAN，实现了unpair的训练就可以完成不同图片域之间的转换。由于开源代码写的非常好（特别是<a href="https://link.zhihu.com/?target=https%3A//github.com/junyanz/pytorch-CycleGAN-and-pix2pix">Pytorch版的代码</a>，简直是Pytoch的良心模板，强推），实验效果也好，并且Image Translation本来就有很多的应用场景（除了刚提到的手绘图还有什么场景？），估计今年的CVPR里面应该会有很多魔改Cycle GAN和Pix2Pix GAN来做各种应用的paper出现。</p>
-<h2 id="把gan应用于做异常检测">把GAN应用于做异常检测</h2>
-<p>这篇文章要讲的不是用GAN来做图片的生成，而是一个非常有意思的应用方向-把GAN应用于做异常检测。首先解释一下什么是异常检测，顾名思义，异常检测就是<strong>检测出异常情况</strong>并且<strong>定位出异常位置</strong>。异常检测有着非常广泛的应用，例如在监控中，人行道中行人正常行走是正常情况，但是一旦出现车、自行车甚至滑板等等就是异常情况；或者在工厂生产产品中，正常外形的产品是合格的，但是也有出现一些瑕疵的产品。一般异常检测任务意味着<strong>异常的复杂性和异常数据的少量性</strong>：</p>
-<ul>
-<li>1、复杂性：异常检测不同于分类任务，分类任务是有确定的类别个数，所有的结果都在确定的分类标签中，但是对于异常检测而言，只要是和正常情况有出入就是异常情况，所以异常情况非常多而且事先无法预知，所以如果用分类的方式来做异常检测有很大的局限性。</li>
-<li>2、异常数据的少量性：异常情况往往不常出现，所以导致异常情况的数据不是很方便收集，但是正常情况的数据通常是很多的。</li>
-</ul>
-<p>有很多正常的数据，但是没有很多异常的数据，那我们可不可以通过一个model来学习正常数据的分布，然后需要检测的异常图通过前面学习到的model找到它应该的正常图的样子，这样一对比不是可以找到异常吗？这样的思路简直完美契合GAN的思想！这篇文章里面我将会介绍一篇相关的paper：Unsupervised Anomaly Detection with Generative Adversarial Networks to Guide Marker Discovery， arxiv传送门：<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1703.05921">https://arxiv.org/abs/1703.05921</a>。</p>
-<p>这篇paper是把GAN用在医学图像里面做异常检测，我们可以先看下整体的框架图：</p>
-<p><img src="https://pic4.zhimg.com/80/v2-3afb9ef54ee08b8983abcec88975ff17_hd.jpg" alt="img">Fig.1 图中使用的数据是眼部的SD-OCT图像，这种图像信噪比比较高，然后眼部结构相比于其他部位又比较简单一点。眼部OCT图像需要经过一些预处理：视网膜区域的提取，展平，还有给GAN输入的图像patch的提取和normalization。</p>
-<p>这个框架图基本已经解释了这篇paper的方法，其实就是用正常的图片去训练GAN，然后通过GAN生成与异常图对应的正常图来对比找到异常。</p>
-<p><img src="/Users/stellazhao/research_space/EasyMLBOOK/_image/v2-592e8ddc687eda45212d8ddf70853aeb_hd.png" alt="img">Fig.2 (a)是网络结构图，(b)是指正常和异常数据的分布</p>
-<p>Fig.2 是paper中使用的GAN的结构图，</p>
-<p>其实在这篇paper里面使用的GAN就是普通的DCGAN，从一个噪声向量Z学习生成一张图片。我们可以看到正常的眼部OCT图的纹理是一种比较正常的过渡，但是异常的OCT图明显纹理产生了变化。DCGAN只用正常的OCT图像训练，这样DCGAN就只能从噪声生成正常纹理的OCT图像。当输入一个异常图时，通过比较DCGAN的生成图和异常图的差异去更新输入的噪声Z，从而生成一个与异常图尽可能相似的正常图。通过这样的方式，可以认为重建出了异常区域的理想的正常情况，这样两张图一对比不仅仅可以认定异常情况，同时还可以找到异常区域。</p>
-<p>这样paper的重点是如何更新GAN的输入噪声Z，最直接的想法就是把在正常图中训练得到的生成器G的参数固定，然后通过计算生成图和输入的L1 loss或者L2 loss来更新输入的噪声Z。这篇paper中同样也是使用了L1 loss，在paper中作者命名为Residual loss，但是本质就是算pixel-wise的L1 loss：</p>
-<figure>
-<img src="/Users/stellazhao/research_space/EasyMLBOOK/_image/v2-77779aba2e1a63a5ef312c0de9c38e2e_hd.png" alt="img"><figcaption aria-hidden="true">img</figcaption>
-</figure>
-<p>Fig.3 更新噪声Z的Residual loss</p>
-<p>在这篇paper中作者还加了一个loss去迭代噪声Z，An improved discrimination loss based on feature matching：</p>
-<p><img src="https://pic1.zhimg.com/80/v2-13c9d37e5f19a28390fc17de03097cf4_hd.jpg" alt="img">Fig.4 更新噪声Z的Improved discrimination loss</p>
-<p>加入这个loss目的是希望同时利用到训练好的判别器D，取判别器D中一个layer的输出，对比生成图和输入图之间在这层layer上feature map的差异，从而更新噪声Z。这样的目的在于加入了一个更high level的对比，希望生成图和输入尽量靠近。最后总体的loss是这两个loss的加权和：</p>
-<p><img src="https://pic1.zhimg.com/80/v2-8b08b59f3a23aa990b2fb63bf65b3acc_hd.jpg" alt="img">Fig.5 Final loss fuction</p>
-<p>下面是作者贴出来的一些实验结果图，可以看到对于异常区域都可以比较明显的找到。</p>
-<p><img src="/Users/stellazhao/research_space/EasyMLBOOK/_image/v2-9dbf3f09ea6ba47de03569ad1ad0bd6e_hd.png" alt="img">Fig.6</p>
-<p>第一行：真实的输入图；第二行：迭代噪声Z之后的生成器G的生成图；第三行：计算生成与输入直接差异找到的异常区域；第四行：异常区域的heatmap图。图中的红色和黄色标注分别表示通过Residual loss和Improved discriminator loss认定的异常图片。</p>
-<p>这篇paper提出了一个GAN很有意思的应用方向，对于异常情况，通过这样使用GAN就可以不需要任何异常数据而仅通过正常数据的训练就可以找到异常，相当于是一种无监督的异常检测方法。</p>
-<p>但是这篇paper并没有开源代码，同时数据也没有给下载的link，我自己用Pytorch重现了这篇paper，github传送门：<a href="https://link.zhihu.com/?target=https%3A//github.com/oyxhust/wgan-gp-anomaly">oyxhust/wgan-gp-anomaly</a>（来都来了，点个star再走吧）。和原始的paper不同的是我用了wgan-gp实现，而没有用DCGAN，wgan-gp应该是目前gan训练最稳定的一种方式之一。并且我也没有下载到paper中的眼部OCT数据集，目前是在MNIST在做的测试，我选择数字“0”的图像当成正常图像，然后其他数字图就是异常图。WGAN-gp只用数字“0”的图像进行训练，在测试中我用所有数字的图来测试model。</p>
-<p>下面是我复现的效果图：</p>
-<figure>
-<img src="https://pic1.zhimg.com/80/v2-c66190ea550aee83736e30e8e0ff02d0_hd.jpg" alt="img"><figcaption aria-hidden="true">img</figcaption>
-</figure>
-<p>可以看到GAN只能生成数字“0”（相当于正常情况），对于“0”的测试图，GAN可以生成几乎一样的输出。对于其他数字（相当于异常情况），GAN只能生成形状非常类似的“0”的图像。在我自己的实验中，对于“0”的测试图，L1 loss可以降低0.02左右，但是其他数字的测试图最低也是大概0.05左右，所以还是可以很明显地检测出异常。</p>
-<p>我觉得GAN用来做异常检测是一个非常有意思的方向，但是目前还有很多问题，这篇paper里面的做法我认为只能检测出一些比较大的异常。对于比较小的异常，因为GAN生成图并不能做到细节非常明显，所以很难检测。</p>
-<figure>
-<img src="../_image/image-20191113125624723.png" alt="image-20191113125624723"><figcaption aria-hidden="true">image-20191113125624723</figcaption>
-</figure>
-<figure>
-<img src="/Users/stellazhao/research_space/EasyMLBOOK/_image/image-20191113125714058.png" alt="image-20191113125714058"><figcaption aria-hidden="true">image-20191113125714058</figcaption>
-</figure>
-<h2 id="参考资料">参考资料</h2>
+<h2 id="区块链">区块链</h2>
 <ol type="1">
-<li>https://www.youtube.com/watch?v=pXGqDiE4N0I</li>
+<li>区块链的本质是一个分布式共享账本，在这个基础设施上可以孵化很多应用。</li>
+<li>第一代区块链应用是加密货币，代表是比特币，想变成国际支付货币。</li>
+<li>第二代区块链应用是智能合约，代表是以太坊。</li>
+<li>第三代区块链应用是去中心化金融，代表是DeFI和NFT，可能重塑金融行业。</li>
+</ol>
+<h2 id="第一代应用-去中心化数字货币">第一代应用-去中心化数字货币</h2>
+<h3 id="加密货币">加密货币</h3>
+<ol type="1">
+<li>比特币是一个去中心化货币，是众多虚拟加密货币的老祖宗。</li>
+<li>比特币是价值存储的载体之一。价值就是财富，类似数据，水，食物等资源，暂时用不完，希望存起来，后面有需要的时候再用，但是存储财富的载体，经常会被政府操纵，比如人们把财富藏于房产中，股票中，货币中，政府可以操控房子的价格，股票的价格，货币的数量。政府可以不费吹灰之力，凭空创造财富（最常见的手段就是印钞，稀释钞票中的财富；打工人可以增加财富的绝对数字，但it is in vain，政府下一步就可以控制财富分配的比例。</li>
+<li>加密货币的最直接的需求比如国际支付/洗钱/避税。</li>
+<li>加密货币是理想主义者（密码学家和自由主义者）的一种信仰。</li>
+<li>加密货币跟政府权利存在竞争关系，政府不乐意将印钱权利拱手送人。世界上其他国家可能借助加密货币的力量，联合起来制衡美元。（但是之后竞争仍然存在.）</li>
+<li>加密货币的风险？机构做空，政府监管（政府宣布交易违法，关闭交易所），都会导致币存储的财富缩水。</li>
+<li>现实世界的资产大概有几类：
+<ul>
+<li>有抵押或者信用担保的债务，如国债（政府背书），公司债券（企业自己背书），股票</li>
+<li>有使用价值的资产：住房</li>
+<li>收藏品类的资产：是一个圈子的共识和信仰，茅台，钻石，泡沫时期的荷兰郁金香，重点是稀缺性</li>
+</ul>
+比特币短期和长期都具备收藏品的属性。</li>
+<li>成为货币的前提是，所有人达成共识--这个货币代表的财富不会缩水。迄今为止，只有黄金和美元能保持这种地位。美元是基于美国的政治经济军事各方面实力。比特币代表的加密货币除了信徒们的情怀，还有什么能支持长期的市值？</li>
+</ol>
+<h3 id="黄金相对于货币的优势">黄金相对于货币的优势？</h3>
+<p>黄金作为价值载体的价格，主要靠自由市场来决定，政府不能凭空创造黄金。</p>
+<blockquote>
+<p>全世界当前黄金还有20%没有被开采，政府们纷纷放弃金本位，不是因为担心黄金不够造成的通货紧缩（早得很），是迫不及待想扩大手中的权利。</p>
+<p>比如发债券，可以像庞氏骗局一样，到期了就续期。</p>
+</blockquote>
+<p>但是政府可以凭空创造货币，比如发国债，让下一任的政府来还，本质来说，就是在发行货币（央行和财政部唱双簧，央行用发的货币来购买了财政部发的国债）</p>
+<h3 id="加密货币相对于黄金的优势">加密货币相对于黄金的优势？</h3>
+<p>政府可以控制黄金在市场上流通，因为黄金太个头太大了，很容易被监控到。</p>
+<p>政府没法控制加密货币，首先，是虚拟资产，第二，公共账本被全世界的节点在维护着 第三，资产的匿名性，公共账本虽然会记录交易双方比特币账户的地址，但是账户在真实世界的身份是不得而知的。这三点都会导致政府的监管成本极高。</p>
+<h2 id="第二代应用-智能合约">第二代应用-智能合约</h2>
+<ol type="1">
+<li>智能合约拓展了btc的去中心化货币的功能，合约可以用代码来定义，代码接口符合特定的标准即可。</li>
+<li>现实中的合同执行要法院判决，警察强力保证执行。智能合约本质就是一个合同，只不过比现实中的合同更好执行，code is law。</li>
+</ol>
+<figure>
+<img src="./img.png" alt="img.png"><figcaption aria-hidden="true">img.png</figcaption>
+</figure>
+<h2 id="第三代应用-defi和nft">第三代应用-DeFi和NFT</h2>
+<ol type="1">
+<li><p>NFT的本质是商品，更具体的说，是一个收藏品，NFT可以是一条具有纪念意义的twitter，可以是电子画作。NFT的成交价格是市场关于这个商品的价值达成的共识，跟前几个世纪的稀有的贝壳，白银作为货币一样。</p>
+<blockquote>
+<p>NFT的概念其实很早就出现了，就是腾讯的Q币，只是中心化的。现在不管是名人、宣传还是NFT都是在为市场扩圈，币圈与非币圈之间也已经没有明显的界限了，而 NFT会把这个现象推向更高的高潮。</p>
+</blockquote></li>
+</ol>
+<h2 id="第四代应用-元宇宙">第四代应用-元宇宙</h2>
+<ol type="1">
+<li>看法还不成熟，先hold下。</li>
+</ol>
+<h2 id="公有链">公有链</h2>
+<ol type="1">
+<li>公有链中中的共识算法，防止恶意攻击问题。</li>
+<li>公有链中共识算法包括：工作量证明（PoW），
+<ol type="1">
+<li>工作量证明（PoW）：发起方节点进行复杂运算，很容易验证。如何解决分叉问题？最长链原则。</li>
+<li>权益证明（PoS）：</li>
+</ol></li>
+</ol>
+<h2 id="经济学家怎么看待比特币">经济学家怎么看待比特币？</h2>
+<blockquote>
+<p>Eswar Prasad 是康奈尔大学研究贸易、货币的教授，即将出版新书《The Future of Money》。</p>
+</blockquote>
+<p>他和几乎所有经济学家(包括taleb)一样，认为 Bitcoin根本价值是 0，但它可能因为故事很酷、总量有限，所以会成为一种价值存储（store of value）。</p>
+<blockquote>
+<p>有意思的是， Sam Bankman-Fried 分析说 crypto 价格和股市正相关。Crypto 是 high upside、high volatility 的资产，所以在 risk-on environment 里价格上涨。</p>
+</blockquote>
+<p>Prasad 认为不管 crypto 未来如何，Bitcoin 的出现催促各国央行电子化货币，并举了中国、瑞典、巴哈马的例子。电子化的好处是央行政策可以更高效地实行，但风险是央行政策可能会成为公共政策工具，央行独立性可能下降。</p>
+<p>Prasad 认为储备货币还会一直是美元、欧元、人民币——货币最重要的是背后央行的可信度，所以美元、欧元、人民币会是国际上的三大储备货币。（不过 Prasad 话说得特别谨慎，加了一句“至少未来几年是这样”。可能大家现在都不敢对未来做绝对判断吧。）</p>
+<p>Crypto 除了 Bitcoin，现在还有一些由美元支撑的 stablecoin。Prasad 担心，那些小的开放经济体、通胀严重的经济体很容易被 stablecoin 冲垮。Facebook 牵头做的 Diem 就是一个例子。</p>
+<h2 id="chiechie的预测">chiechie的预测</h2>
+<ol type="1">
+<li><p>全世界范围内，政府（除美国）短期不会打压数字货币，甚至还会推动数字货币的发展，直到世界格局改变。</p>
+<blockquote>
+<p>2021年6月9日，萨尔瓦多正式通过立法将BTC做为法定货币。这标志着数字资产进入一个新的纪元。</p>
+</blockquote></li>
+<li><p>各种去中心化数字货币成为国际流通货币的可能性很小，但是有较大可能演变成一个收藏品，比特币会成为其中的顶级收藏品。</p></li>
+<li><p>狗狗币?帮助加速加密货币出圈。不论是动物币、狗狗币还是shib，都成功用娱乐的形式把外面的客户引流进来,有点像娱乐圈的IP。如果只是一本正经地推广比特币，人们可能会觉得没有意思</p></li>
+</ol>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://www.chainnews.com/articles/503060403039.htm">对话 DODO 雷达熊：DeFi 有太多反逻辑，应创造无需许可的产品并发挥价值</a></li>
+<li><a target="_blank" rel="noopener" href="https://assets.coingecko.com/books/how-to-defi/How_to_DeFi_Chinese.pdf">How_to_DeFi-中文</a></li>
+<li><a target="_blank" rel="noopener" href="https://tokeninsight.com/zh/report/2708">report</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Oz9zw7-_vhM">youtube-nft</a></li>
 </ol>
 
       
@@ -597,7 +560,7 @@ mjx-container[display="true"] + br {
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/38/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/">38</a><span class="page-number current">39</span><a class="page-number" href="/page/40/">40</a><span class="space">&hellip;</span><a class="page-number" href="/page/99/">99</a><a class="extend next" rel="next" href="/page/40/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/38/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/38/">38</a><span class="page-number current">39</span><a class="page-number" href="/page/40/">40</a><span class="space">&hellip;</span><a class="page-number" href="/page/89/">89</a><a class="extend next" rel="next" href="/page/40/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>

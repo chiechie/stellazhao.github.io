@@ -20,16 +20,16 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="TLDR  决策树是一个预测算法。 决策树构造过程：递归构造一个大树，然后剪纸。构造大树的过程，每次只构造一个树桩，即，找到最佳的切分条件，使得切分前后信息增益最大。对生成的两个子树继续分裂，直到某个子树中样本集纯度很高，就标记为叶子结点。叶子节点的值就是落入其中的样本label取平均值或者众数。 决策树的预测过程：将样本按照分支条件路由到某个叶子结点，叶子结点的值就是预测值。  附录 信息增益">
+<meta name="description" content="TLDR  决策树是一个预测算法。 决策树构造过程：递归构造一个大树，然后剪纸。构造大树的过程，每次只构造一个树桩，即，找到最佳的切分条件，使得切分前后信息增益最大。对生成的两个子树继续分裂，直到某个子树中样本集纯度很高，就标记为叶子结点。叶子节点的值就是落入其中的样本label取平均值或者众数。 决策树的预测过程：将样本按照分支条件路由到某个叶子结点，叶子结点的值就是预测值。 决策树也是一个常见">
 <meta property="og:type" content="article">
 <meta property="og:title" content="chapter 2.1 树模型-决策树介绍">
 <meta property="og:url" content="https://chiechie.github.io/2021/04/16/machine-learning/machine-learning_2-trees_1/index.html">
 <meta property="og:site_name" content="Chiechie&#39;s Mini World">
-<meta property="og:description" content="TLDR  决策树是一个预测算法。 决策树构造过程：递归构造一个大树，然后剪纸。构造大树的过程，每次只构造一个树桩，即，找到最佳的切分条件，使得切分前后信息增益最大。对生成的两个子树继续分裂，直到某个子树中样本集纯度很高，就标记为叶子结点。叶子节点的值就是落入其中的样本label取平均值或者众数。 决策树的预测过程：将样本按照分支条件路由到某个叶子结点，叶子结点的值就是预测值。  附录 信息增益">
+<meta property="og:description" content="TLDR  决策树是一个预测算法。 决策树构造过程：递归构造一个大树，然后剪纸。构造大树的过程，每次只构造一个树桩，即，找到最佳的切分条件，使得切分前后信息增益最大。对生成的两个子树继续分裂，直到某个子树中样本集纯度很高，就标记为叶子结点。叶子节点的值就是落入其中的样本label取平均值或者众数。 决策树的预测过程：将样本按照分支条件路由到某个叶子结点，叶子结点的值就是预测值。 决策树也是一个常见">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://chiechie.github.io/2021/04/16/machine-learning/machine-learning_2-trees_1/img.png">
 <meta property="article:published_time" content="2021-04-16T12:56:02.000Z">
-<meta property="article:modified_time" content="2021-08-13T09:25:52.424Z">
+<meta property="article:modified_time" content="2021-08-16T03:44:08.194Z">
 <meta property="article:author" content="Chiechie">
 <meta property="article:tag" content="人工智能">
 <meta property="article:tag" content="树模型">
@@ -252,18 +252,18 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">198</span>
+          <span class="site-state-item-count">177</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">211</span>
+        <span class="site-state-item-count">205</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -334,7 +334,7 @@ mjx-container[display="true"] + br {
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-13 17:25:52" itemprop="dateModified" datetime="2021-08-13T17:25:52+08:00">2021-08-13</time>
+        <time title="修改时间：2021-08-16 11:44:08" itemprop="dateModified" datetime="2021-08-16T11:44:08+08:00">2021-08-16</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -361,6 +361,23 @@ mjx-container[display="true"] + br {
 <li>决策树是一个预测算法。</li>
 <li>决策树构造过程：递归构造一个大树，然后剪纸。构造大树的过程，每次只构造一个树桩，即，找到最佳的切分条件，使得切分前后信息增益最大。对生成的两个子树继续分裂，直到某个子树中样本集纯度很高，就标记为叶子结点。叶子节点的值就是落入其中的样本label取平均值或者众数。</li>
 <li>决策树的预测过程：将样本按照分支条件路由到某个叶子结点，叶子结点的值就是预测值。</li>
+<li>决策树也是一个常见的机器学习模型，基本思想是，根据特征构造出树结构的预测模型。</li>
+<li>一个决策树包含一个根节点，若干内部节点以及叶子节点。</li>
+<li>叶子节点对应最终的决策结果，其他节点针对数据的某个属性（特征）进行判断和分支：在该节点中，会根据样本的某个特征的值进行判断，依据判断结果将样本划分到某个子树之中，</li>
+<li>通过决策树，可以从根节点出发，把一个具体的样本最终分配到某个叶子节点上，实现预测的目的。</li>
+<li>因为每个节点上的分支操作是非线性的，因此决策树可以实现比较复杂的非线性映射，</li>
+<li>决策树算法的目的是，根据训练数据，学习处一颗泛化能力较强的树，能够很精准的把位置样本分到对应的叶子节点上。</li>
+<li>树模型的优势在于可解释性，但是很难兼顾准确性和泛化性，</li>
+<li>常见的决策树算法包括：分类回归树（CART），ID3算法，C4.5算法，决策树桩（Decision Stump）。总结起来，这些算法的流程都包括分支和剪枝两个步骤。</li>
+<li>分支的目的是，找到一个划分条件（一般是某个特征满足某个条件），使得划分之后能够提升样本的纯度。</li>
+<li>剪枝要解决的问题是减少过拟合，有两种剪枝的技术：预剪枝和后剪枝。
+<ol type="1">
+<li>预剪枝是指，在决策树生成过程中，对每个节点在划分前使用验证集来估计，该划分能否带来决策树泛化性能提升，如果没有提升则将当前节点标记为叶子结点；</li>
+<li>后剪枝是指，从训练集中生成一颗完整的决策树，然后自下而上的考察去掉每个节点是否提升了泛化能力（将该节点及其子树合并成一个叶子节点），没有提升的话就进行剪枝。</li>
+</ol></li>
+<li>有些情况下数据中隐含的模式比较复杂，那么单个决策树的表达性能不够，通常会使用集成学习来提升树的表达能力。将多棵树进行组合，有不同的方式组合，如bagging/boosting等。</li>
+<li>adaboosting的思路是，先训练出一个base estimator，根据预测结果的准确率，对样本的权重进行调整，预测不准的样本调高权重，预测准的样本调低权重，然后让下一个base estimmtor来学习。这样，原来base estimator搞不定的样本，在后续的学习中，得到更多的关注，最终的预测模型，是所有base estimator预测结果的线性组合，权重表示对应base estimator的预测准确率。</li>
+<li>boosting在抵抗过拟合方面效果很好，随着训练的推进的，即使在训练机已经把误差降到0，更多的迭代还可以提高测试机上的准确率，可以用间隔定理（Margine Theory）来解释这个现象：随着迭代的推进，训练样本上的分类置信度（即每个样本点上的间隔）仍在不断变大。</li>
 </ol>
 <h1 id="附录">附录</h1>
 <h2 id="信息增益">信息增益</h2>
