@@ -34,8 +34,7 @@ categories:
    
    ![img_2.png](./img_2.png)
 5. 为什么对模型做aggregation之后，效果变好了？相当于对特征做了非线性变换，整体表达能力更强；多个estimator求共识，相当于做了正则化，模型效果更稳定。
-5. boosting是多个base estimtor进行aggregate的一种方法，并且每个estimator都有一个自己的权重。boosting相对于uniform的方式，多了n个待估参数，复杂度更高，如何求解这个高维的优化问题？衍生出了两种算法，第一种是像AdaBoost，使用一个reweighted的样本去构建一个新的estimator，并使用其预测准确率作为权重。
-    GradientBoost则是基于前面所有的estimator的学习成果，做增量学习。
+6. boosting是多个base estimtor进行aggregate的一种方法，并且每个estimator都有一个自己的权重。boosting相对于uniform的方式，多了n个待估参数，复杂度更高，如何求解这个高维的优化问题？衍生出了两种算法，第一种是像AdaBoost，使用一个reweighted的样本去构建一个新的estimator，并使用其预测准确率作为权重。GradientBoost则是基于前面所有的estimator的学习成果，做增量学习。
 
 
 
