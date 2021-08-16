@@ -89,6 +89,28 @@ categories:
 
 
 
+##  经济学家怎么看待比特币？
+
+
+
+> Eswar Prasad 是康奈尔大学研究贸易、货币的教授，即将出版新书《The Future of Money》。
+
+
+
+他和几乎所有经济学家(包括taleb)一样，认为 Bitcoin根本价值是 0，但它可能因为故事很酷、总量有限，所以会成为一种价值存储（store of value）。
+
+>  有意思的是， Sam Bankman-Fried 分析说 crypto 价格和股市正相关。Crypto 是 high upside、high volatility 的资产，所以在 risk-on environment 里价格上涨。
+
+
+
+Prasad 认为不管 crypto 未来如何，Bitcoin 的出现催促各国央行电子化货币，并举了中国、瑞典、巴哈马的例子。电子化的好处是央行政策可以更高效地实行，但风险是央行政策可能会成为公共政策工具，央行独立性可能下降。
+
+Prasad 认为储备货币还会一直是美元、欧元、人民币——货币最重要的是背后央行的可信度，所以美元、欧元、人民币会是国际上的三大储备货币。（不过 Prasad 话说得特别谨慎，加了一句“至少未来几年是这样”。可能大家现在都不敢对未来做绝对判断吧。）
+
+Crypto 除了 Bitcoin，现在还有一些由美元支撑的 stablecoin。Prasad 担心，那些小的开放经济体、通胀严重的经济体很容易被 stablecoin 冲垮。Facebook 牵头做的 Diem 就是一个例子。
+
+
+
 ## chiechie的预测
 
 1. 全世界范围内，政府（除美国）短期不会打压数字货币，甚至还会推动数字货币的发展，直到世界格局改变。
