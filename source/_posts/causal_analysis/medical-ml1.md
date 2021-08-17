@@ -40,8 +40,6 @@ categories:
 
 
 
-
-
 ## 从结论到动机
 
 
@@ -63,8 +61,6 @@ categories:
 
 
 ## 潜在效果框架
-
-
 
 
 
@@ -95,6 +91,62 @@ $$
 
 
 ![image-20210817190359970](/Users/stellazhao/research_space/chiechie.github.io/source/_posts/causal_analysis/medical-ml1/image-20210817190359970.png)
+
+
+
+观察到的效果：
+$$
+y_{i}=t_{1} Y_{1}\left(x_{i}\right)+\left(1-t_{1}\right) Y_{0}\left(x_{i}\right)
+$$
+t表示是否接受治疗，不可观测的反事实效果是：
+$$
+y_{i}=\left(1-t_{1}\right) Y_{1}\left(x_{i}\right)+t_{1} Y_{0}\left(x_{i}\right)
+$$
+因果推断的难点在于，我们永远只能观测到病人的其中一种情况：
+
+![image-20210817205524554](/Users/stellazhao/research_space/chiechie.github.io/source/_posts/causal_analysis/medical-ml1/image-20210817205524554.png)
+
+
+
+上图中，有一些点不在曲线上，是因为我们允许一些随机性存在，然而虚线代表了可能的效果，圆圈代表现实观测值。
+
+我们只能观测到每个病人在某个处方下的状态，而不知道反事实的状态。
+
+为了填充反事实这个确实值，我们假设：
+
+
+
+对比简单的平均诊断估计和真实平均诊断效果，
+
+计算使用处方B的病人的平均血糖水平：
+
+计算使用处方A的病人的平均血糖水平：
+
+计算两者的差，得到0.75，说明A能够降低血糖
+
+
+
+如果，我们现在开启上帝视角，知道了每个人在处方A/B下的血糖水平，那么，计算二者的均值，求差，得到平均诊断效果ATE为-0.75，
+
+也就是说，朴素估计方法得到了错误的结论
+
+##  Neyman-Rubin因果模型中的假设
+
+
+
+现在的问题是，我没有这个反事实结果应该怎么办？有学者提出在一定的假设条件时，是可以使用观测数据来近似反事实效果的，这个假设也叫Neyman-Rubin规则：
+
+- Stable Unit Treatment Value Assumption (SUTVA).
+- Ignorability假设
+- Common support
+
+
+
+Ignorability 假设：即，在给定某个病患时，可能的最终效果（血压高低/肺癌）与治疗方案T之间条件独立，二者不存在其他的混杂因子：
+$$
+\left(Y_{0}, Y_{1}\right) \Perp T \mid X
+$$
+The ignorability assumption means that there are no unmeasured confounders. Mathematically speaking this means, that the potential outcomes Y1, Y2 are conditionally independent of treatment assignment conditioned on covariates x:
 
 
 
