@@ -14,81 +14,13 @@ categories:
 
 
 
-<<<<<<< HEAD
-# 附录
+# 总结
 
-1. 
+1. 学术界有两种对因果关系建模的方法：因果图和结构方程。
+2. 对于构建因果图，目前使用的最多的是PC算法。
+3. 通过观察N个独立同分布的样本，来挖掘随机变量的之间的因果关系。每个样本都是来自M个随机变量的1组观测值。
+4. 有点类似机器学习中，使用随机森林去学习特征的相关性。特征就类似因果图中的节点，也就是随机变量。
 
-学术界有两种对因果关系建模的方法：因果图和结构方程。
-对于构建因果图，目前使用的最多的是PC算法。
-
-通过观察N个独立同分布的样本，来挖掘随机变量的之间的因果关系。
-每个样本都是来自M个随机变量的1组观测值。
-
-有点类似机器学习中，使用随机森林去学习特征的相关性。特征就类似因果图中的节点，也就是随机变量。
-
-
-
-
-
-## Neyman-Rubin
-
-直觉来说，反事实推断不可能，因为没有观测数据。
-
-但是我们可以加上一些限制条件，使得估计反事实预测成为可能。
-
-Neyman-Rubin因果模型依赖的假设有：SUTVA，Ignorability，Common support
-
-
-
-Ignorability假设不存在不可观测的混杂因子（confounders），也就是说给定x时，Y1，Y2跟治疗方案T条件独立：
-
-$$ \left(Y_{0}, Y_{1}\right) \Perp  T \mid X $$
-
-对应到因果图中就是，T到Y0和Y1没有边。
-
-这个假设是必要的么？考虑一种igorability不满足的情况：存在某个隐变量h，同时会影响Y1，Y2和T。
-
-怎么验证ignorability条件是否满足？需要跟一个该领域的专家交流，从而保证影响一生决策（T）和最终效果（Y1，Y2）的所有因素都已经考虑到了和观测到了。
-
-即使没有观测到，影响大么？---敏感度分析（ sensitivity analysis）。
-
-- Common support
-
-The common support assumption says that there should always be some stochasticity in treatment deci- sions. That means that any group of patients/features should have nonzero probabilities for all considered treatments. The above statement could be formulated in the following way:he expression above goes by the name of propensity score: the probability of receiving the treatment for each individual. Thus we assume, that this probability is bounded between 0 and 1, while any violation of this condition is going to completely validate the conclusions drawn from the data.
-
-
-
-
-
-## 几种因果推断的方法
-
-因果推断的方法有很多，比如协变量调整(covariate adjustment )/ propensity score, doubly robust estimators, matching,
-
-
-## 协变量调整
-
-协变量调整是一个外推的自然的方法，这个方法的主要目标是，找到函数f(x, T), 输入病人的诊断情况，治疗方案T，输出可能的后果，可以认为是对条件概率的近似$p(Y_t|x, T = t).$
-
-也就是说，协变量调整的方法就是构造一个回归模型，显示对治疗方案，cofounders和疗效三折的关系建模，
-
-使用协变量调整方法估计出来的平均治疗效果（ATE）和CATE是：
-
-$$ACE = \sum_i (f(x_i, 1) - f(x_i, 0))$$
-
-$$CACE(x_i) =  f(x_i, 1) - f(x_i, 0)$$
-
-那么，我们如何知道这个回归模型学到的变量之间的关系是有意义的呢？
-
-举个例子，治疗决策可能只是影响疗效的众多因素中的一个，可能有其他因素对疗效的影响更大，这样就可能导致回归模型学到的治疗方案（t）跟疗效（y）的相关性很小。（自相关系数和偏相关系数的差别）
-
-这就是因果推断和机器学习不一样的地方，本质上是二者关注的目标不一样，机器学习关注预测结果的准确性，因果推断更关注学习到的因果关系，在高维问题中，二者差别更加明显。
-
-什么时候协变量调整（covariate adjustment ）会失败？当数据违反了common support/overlap的假设时，协变量方法会失败。
-1. 没有充分的数据：回归模型没有充足的数据对y做外推。
-2. 没有选对函数族：即使有了足够多的用来外推（extrapolate）的数据，还需要选对函数族。
-
-> 假设x和y的映射函数实际上是二次的，而我们如果使用线形函数拟合，会得到错误估计。
 
 
 
@@ -104,12 +36,6 @@ $$CACE(x_i) =  f(x_i, 1) - f(x_i, 0)$$
 - faithfulness假设：可以用来保证，V中的所有变量的独立关系，都可以通过D-seperation表达。
 - PC算法的两个假设：马尔可夫条件和faithfulness。
 
-
-
-
-
-=======
->>>>>>> cd49deb221f3cb24c14f35525c3c495ca513c53e
 # 因果推断和因果发现
 
 
