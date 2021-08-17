@@ -1,20 +1,16 @@
 ---
 title: 因果推断
 author: chiechie
-mathjax: true
 date: 2021-03-04 23:23:02
+mathjax: true
 tags:
 - 因果推断
 - 因果分析
 - 贝叶斯
 - 复杂网络
 categories: 
-- 数据结构
+- 因果分析 
 ---
-
-
-
-yin
 
 
 
@@ -263,7 +259,6 @@ PC算法使用一个全连接的无向图，然后使用$G^2$描述条件独立�
 
 1. [zhihu-关于因果推断公开课翻译](https://zhuanlan.zhihu.com/p/88173582)
 2. [英文原文](http://www.stat.cmu.edu/~larry/=sml/Causation.pdf)
-
 3. [Bayesian Networks-youtuybe](https://www.youtube.com/watch?v=TuGDMj43ehw)
 
 

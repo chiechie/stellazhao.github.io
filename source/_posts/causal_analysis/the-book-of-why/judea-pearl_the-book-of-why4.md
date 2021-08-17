@@ -1,5 +1,5 @@
 ---
-title: 《the book of why》读书笔记-4
+title: 《the book of why》第四章-去混杂
 author: chiechie
 mathjax: true
 date: 2021-03-08 08:33:38
@@ -11,14 +11,12 @@ tags:
 - 因果推断
 - 根因分析
 categories: 
-- 阅读
+- 因果分析
 ---
 
 > the book of why 的第四章-去混杂
 
  
-
-
 
 ## do算子
 1. 消除混杂因子的方法：随机对照试验。

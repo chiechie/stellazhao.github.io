@@ -1,5 +1,5 @@
 ---
-title: 《the book of why》读书笔记-6
+title: 《the book of why》第6章-悖论
 author: chiechie
 mathjax: true
 date: 2021-03-09 08:33:38
@@ -11,7 +11,7 @@ tags:
 - 因果推断
 - 根因分析
 categories: 
-- 阅读
+- 因果分析
 ---
 
 > the book of why 的第6章-一些悖论
