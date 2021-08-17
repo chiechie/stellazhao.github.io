@@ -84,15 +84,8 @@ $$
 整个人群中，平均治疗效果(average treatment effect ):
 
 
-$$
-A T E=\mathbb{E}\left[Y_{1}-Y_{0}\right]=\mathbb{E}_{x \sim p(x)}[C A T E(x)]
-$$
-
-
+$$ A T E=\mathbb{E}\left[Y_{1}-Y_{0}\right]=\mathbb{E}_{x \sim p(x)}[C A T E(x)]$$
 ![image-20210817190359970](/Users/stellazhao/research_space/chiechie.github.io/source/_posts/causal_analysis/medical-ml1/image-20210817190359970.png)
-
-
-
 观察到的效果：
 $$
 y_{i}=t_{1} Y_{1}\left(x_{i}\right)+\left(1-t_{1}\right) Y_{0}\left(x_{i}\right)

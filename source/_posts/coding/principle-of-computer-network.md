@@ -78,6 +78,19 @@ tags:
 
 6. 为什么要分层？为了让职能分化（specialization）？让不同的人做不同的事？
 
+## request
+
+1. python中的requests库，可以允许对网页上发送http请求，从而获取信息。
+2. 在http模型中，客户端向服务器端请求数据，通过一种方法，如get/post/put/delete
+- get: 查询服务端的内容
+- post：生产一些新的内容并返回
+- put：替换
+- delete：删除
+3. http模型只是一个无状态的一次性问答的模式，随后出现了一种更高级的模式--Ajax请求，可以异步发送数据到服务器，在发送第一次请求之后。
+4. websocks是一种更高级的通信模式，可以双向通信，也就是说可以持续说话，而不用等待某一方先发送一个请求，再回应。fullduplex。websocks是http模型的升级版。websocks的易用性更好，只用发送一次头文件。
+
+
+
 ## 私网IP 和 公网IP 分别是什么？
 
 - 私网IP，也叫private ip address，或者内网IP。是一个局域网内部，用于识别彼此身份的一个id。
@@ -112,16 +125,10 @@ tags:
 
 
 ## 参考
+1. https://www.youtube.com/watch?v=8ARodQ4Wlf4
 1. [私有ip和公共ip，以及端口forward](https://www.youtube.com/watch?v=92b-jjBURkw&list=LL70j7MlBEzFqOk5aIHKzmxQ)
 1. [How to Enable SSH in Ubuntu---Install openssh-server？](https://www.youtube.com/watch?v=92b-jjBURkw&list=LL70j7MlBEzFqOk5aIHKzmxQ)
 2. [how-do-you-run-a-ssh-server-on-mac-os-x](https://superuser.com/questions/104929/how-do-you-run-a-ssh-server-on-mac-os-x)
-
-
-## 参考
-
 1. [The Bits and Bytes of Computer Networking](https://www.coursera.org/learn/computer-networking/home/welcome)
-
 2. [西安交通大学公开课-计算机网络原理](https://open.163.com/newview/movie/free?pid=ME74DFHFC&mid=ME74E6NLA)
 2. [TCP 握手和挥手图解（有限状态机）-CSDN博客](https://blog.csdn.net/xy010902100449/article/details/48274635)
-
-## 
