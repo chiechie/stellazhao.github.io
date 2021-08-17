@@ -1,19 +1,20 @@
 ---
 title: 因果分析
 author: chiechie
-mathjax: true
 date: 2021-03-04 23:23:02
+mathjax: true
 tags:
 - 因果推断
 - 因果分析
 - 贝叶斯
 - 复杂网络
 categories: 
-- 数据结构
+- 因果分析 
 ---
 
 
 
+<<<<<<< HEAD
 # 附录
 
 1. 
@@ -107,6 +108,8 @@ $$CACE(x_i) =  f(x_i, 1) - f(x_i, 0)$$
 
 
 
+=======
+>>>>>>> cd49deb221f3cb24c14f35525c3c495ca513c53e
 # 因果推断和因果发现
 
 
@@ -296,6 +299,7 @@ PC算法使用一个全连接的无向图，然后使用$G^2$描述条件独立�
 
 # 参考
 
+<<<<<<< HEAD
 1. https://www.youtube.com/watch?v=gRkUhg9Wb-I&t=3190s
 2. https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s897-machine-learning-for-healthcare-spring-2019/
 3. [2007-The Journal of MachineLearning Research-pc算法](https://www.jmlr.org/papers/volume8/kalisch07a/kalisch07a.pdf)
@@ -305,4 +309,16 @@ PC算法使用一个全连接的无向图，然后使用$G^2$描述条件独立�
 7. [zhihu-关于因果推断公开课翻译](https://zhuanlan.zhihu.com/p/88173582)
 8. [英文原文](http://www.stat.cmu.edu/~larry/=sml/Causation.pdf)
 9. [Bayesian Networks-youtuybe](https://www.youtube.com/watch?v=TuGDMj43ehw)
+=======
+1. [2007-The Journal of MachineLearning Research-pc算法](https://www.jmlr.org/papers/volume8/kalisch07a/kalisch07a.pdf)
+2. [pc算法-youtube](https://www.youtube.com/watch?v=o2A61bJ0UCw)
+3. [因果图的基本概念-知乎](https://zhuanlan.zhihu.com/p/269625734)
+4. [Page,3-paper](https://netman.aiops.org/wp-content/uploads/2020/06/%E5%AD%9F%E5%AA%9B.pdf)
+
+1. [zhihu-关于因果推断公开课翻译](https://zhuanlan.zhihu.com/p/88173582)
+2. [英文原文](http://www.stat.cmu.edu/~larry/=sml/Causation.pdf)
+3. [Bayesian Networks-youtuybe](https://www.youtube.com/watch?v=TuGDMj43ehw)
+
+
+>>>>>>> cd49deb221f3cb24c14f35525c3c495ca513c53e
 
