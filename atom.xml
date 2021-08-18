@@ -37,11 +37,11 @@
     <category term="因果分析" scheme="https://chiechie.github.io/categories/%E5%9B%A0%E6%9E%9C%E5%88%86%E6%9E%90/"/>
     
     
-    <category term="贝叶斯" scheme="https://chiechie.github.io/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"/>
-    
     <category term="因果推断" scheme="https://chiechie.github.io/tags/%E5%9B%A0%E6%9E%9C%E6%8E%A8%E6%96%AD/"/>
     
     <category term="因果分析" scheme="https://chiechie.github.io/tags/%E5%9B%A0%E6%9E%9C%E5%88%86%E6%9E%90/"/>
+    
+    <category term="贝叶斯" scheme="https://chiechie.github.io/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"/>
     
     <category term="复杂网络" scheme="https://chiechie.github.io/tags/%E5%A4%8D%E6%9D%82%E7%BD%91%E7%BB%9C/"/>
     
@@ -68,11 +68,11 @@
     <category term="因果分析" scheme="https://chiechie.github.io/categories/%E5%9B%A0%E6%9E%9C%E5%88%86%E6%9E%90/"/>
     
     
-    <category term="贝叶斯" scheme="https://chiechie.github.io/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"/>
-    
     <category term="因果推断" scheme="https://chiechie.github.io/tags/%E5%9B%A0%E6%9E%9C%E6%8E%A8%E6%96%AD/"/>
     
     <category term="因果分析" scheme="https://chiechie.github.io/tags/%E5%9B%A0%E6%9E%9C%E5%88%86%E6%9E%90/"/>
+    
+    <category term="贝叶斯" scheme="https://chiechie.github.io/tags/%E8%B4%9D%E5%8F%B6%E6%96%AF/"/>
     
     <category term="复杂网络" scheme="https://chiechie.github.io/tags/%E5%A4%8D%E6%9D%82%E7%BD%91%E7%BB%9C/"/>
     
@@ -261,9 +261,9 @@
     
     <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
     
-    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
-    
     <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
+    
+    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
     
   </entry>
   
@@ -412,9 +412,9 @@
     
     <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
     
-    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
-    
     <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
+    
+    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
     
   </entry>
   
@@ -443,9 +443,9 @@
     
     <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
     
-    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
-    
     <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
+    
+    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
     
   </entry>
   
@@ -499,9 +499,9 @@
     
     <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
     
-    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
-    
     <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
+    
+    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
     
   </entry>
   
