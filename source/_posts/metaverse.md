@@ -13,9 +13,9 @@ author: "chiechie"
 
 1. 加密技术打下基石，为自主金融体系、开放的创造者经济以及建立通用的数字权证（NFT）奠定基础。
 2. 元宇宙正在到来; 趋势愈加明显.下一个里程碑：70亿数字soul在线上参与虚拟经济。 
-3. 在线上时间越长，创造和消费的价值就越多。More time spent online will lead to more value created and consumed digitally.
-4. In order to maximize willingness of individuals to allocate serious time and capital to virtual environments, establishing trust in their durability as well as economic robustness is paramount.
-5. As education of web 2.0’s shortcomings rises, users will prefer credibly neutral platforms that lack altogether the capacity for arbitrary censorship, undue rent extraction (also in the form of privacy cost), or sudden cessation.
+3. 在线上时间越长，创造价值和消费价值就越多。
+4. 为了让跟多人参与，建立信用和稳定的经济系统非常重要。
+5. web2.0的缺点日趋明显：大家更倾向于使用中立平台，As education of web 2.0’s shortcomings rises, users will prefer credibly neutral platforms that lack altogether the capacity for arbitrary censorship, undue rent extraction (also in the form of privacy cost), or sudden cessation.
 6. All of these threats are only amplified by increasingly immersive, pervasive, and interconnected digital environments.
 7. Decentralized networks provide a unique and unmatchable degree of assurance, whilst a universal erosion of trust in institutions is forcing the desire for alternatives.
 8. NFTs on top of them enable a standardized universal digital representation and ownership layer for any natively digital “thing” such as game assets, digital art, or domain space.
