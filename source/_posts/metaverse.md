@@ -11,9 +11,9 @@ author: "chiechie"
 ---
 
 
-1. 加密技术打下基石，为自主金融体系、开放的创造者经济以及通过NFT建立通用的数字代表和所有权层奠定基础。
-2. The Metaverse is coming; trends indicate our direction of travel. Our next great milestone as a networked species awaits us: 7B digital souls with the option to exist almost exclusively online and participate in a virtual economy with societal impact.
-3. More time spent online will lead to more value created and consumed digitally.
+1. 加密技术打下基石，为自主金融体系、开放的创造者经济以及建立通用的数字权证（NFT）奠定基础。
+2. 元宇宙正在到来; 趋势愈加明显.下一个里程碑：70亿数字soul在线上参与虚拟经济。 
+3. 在线上时间越长，创造和消费的价值就越多。More time spent online will lead to more value created and consumed digitally.
 4. In order to maximize willingness of individuals to allocate serious time and capital to virtual environments, establishing trust in their durability as well as economic robustness is paramount.
 5. As education of web 2.0’s shortcomings rises, users will prefer credibly neutral platforms that lack altogether the capacity for arbitrary censorship, undue rent extraction (also in the form of privacy cost), or sudden cessation.
 6. All of these threats are only amplified by increasingly immersive, pervasive, and interconnected digital environments.
