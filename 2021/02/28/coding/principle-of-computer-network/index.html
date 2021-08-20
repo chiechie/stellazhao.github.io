@@ -32,7 +32,7 @@
 <meta property="og:image" content="https://chiechie.github.io/2021/02/28/coding/principle-of-computer-network/img_4.png">
 <meta property="og:image" content="https://chiechie.github.io/2021/02/28/coding/principle-of-computer-network/dl-framework/img.png">
 <meta property="article:published_time" content="2021-02-28T12:19:10.000Z">
-<meta property="article:modified_time" content="2021-08-13T06:40:40.709Z">
+<meta property="article:modified_time" content="2021-08-20T01:56:33.485Z">
 <meta property="article:author" content="Chiechie">
 <meta property="article:tag" content="计算机原理">
 <meta property="article:tag" content="读书笔记">
@@ -81,7 +81,7 @@
       <h1 class="site-title">Chiechie's Mini World</h1>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">人生得意须尽欢</p>
+      <p class="site-subtitle" itemprop="description">在我们离开的时候，这个世界还是那么愚蠢和邪恶，跟我们刚的时候并无二致。---伏尔泰</p>
   </div>
 
   <div class="site-nav-right">
@@ -129,7 +129,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%81%E7%BD%91ip-%E5%92%8C-%E5%85%AC%E7%BD%91ip-%E5%88%86%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">私网IP 和 公网IP 分别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#modem-%E5%92%8C-%E8%B7%AF%E7%94%B1%E5%99%A8-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">modem 和 路由器 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">3.</span> <span class="nav-text">端口转发是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E4%B8%89%E7%A7%8D%E8%AE%BE%E5%A4%87-%E9%9B%86%E7%BA%BF%E5%99%A8%E4%BA%A4%E6%8D%A2%E6%9C%BA-%E5%92%8C-%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text">网络中的三种设备-集线器，交换机 和 路由器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83-1"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#section"><span class="nav-number">7.</span> <span class="nav-text"></span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#request"><span class="nav-number">1.</span> <span class="nav-text">request</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%81%E7%BD%91ip-%E5%92%8C-%E5%85%AC%E7%BD%91ip-%E5%88%86%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.</span> <span class="nav-text">私网IP 和 公网IP 分别是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#modem-%E5%92%8C-%E8%B7%AF%E7%94%B1%E5%99%A8-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="nav-number">3.</span> <span class="nav-text">modem 和 路由器 有什么区别？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">4.</span> <span class="nav-text">端口转发是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E4%B8%89%E7%A7%8D%E8%AE%BE%E5%A4%87-%E9%9B%86%E7%BA%BF%E5%99%A8%E4%BA%A4%E6%8D%A2%E6%9C%BA-%E5%92%8C-%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="nav-number">5.</span> <span class="nav-text">网络中的三种设备-集线器，交换机 和 路由器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -143,7 +143,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">179</span>
+          <span class="site-state-item-count">180</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -225,7 +225,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-13 14:40:40" itemprop="dateModified" datetime="2021-08-13T14:40:40+08:00">2021-08-13</time>
+        <time title="修改时间：2021-08-20 09:56:33" itemprop="dateModified" datetime="2021-08-20T09:56:33+08:00">2021-08-20</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -286,6 +286,21 @@
 <ol start="6" type="1">
 <li>为什么要分层？为了让职能分化（specialization）？让不同的人做不同的事？</li>
 </ol>
+<h2 id="request">request</h2>
+<ol type="1">
+<li>python中的requests库，可以允许对网页上发送http请求，从而获取信息。</li>
+<li>在http模型中，客户端向服务器端请求数据，通过一种方法，如get/post/put/delete</li>
+</ol>
+<ul>
+<li>get: 查询服务端的内容</li>
+<li>post：生产一些新的内容并返回</li>
+<li>put：替换</li>
+<li>delete：删除</li>
+</ul>
+<ol start="3" type="1">
+<li>http模型只是一个无状态的一次性问答的模式，随后出现了一种更高级的模式--Ajax请求，可以异步发送数据到服务器，在发送第一次请求之后。</li>
+<li>websocks是一种更高级的通信模式，可以双向通信，也就是说可以持续说话，而不用等待某一方先发送一个请求，再回应。fullduplex。websocks是http模型的升级版。websocks的易用性更好，只用发送一次头文件。</li>
+</ol>
 <h2 id="私网ip-和-公网ip-分别是什么">私网IP 和 公网IP 分别是什么？</h2>
 <ul>
 <li>私网IP，也叫private ip address，或者内网IP。是一个局域网内部，用于识别彼此身份的一个id。</li>
@@ -313,17 +328,14 @@
 </ul>
 <h2 id="参考">参考</h2>
 <ol type="1">
+<li>https://www.youtube.com/watch?v=8ARodQ4Wlf4</li>
 <li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=92b-jjBURkw&amp;list=LL70j7MlBEzFqOk5aIHKzmxQ">私有ip和公共ip，以及端口forward</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=92b-jjBURkw&amp;list=LL70j7MlBEzFqOk5aIHKzmxQ">How to Enable SSH in Ubuntu---Install openssh-server？</a></li>
 <li><a target="_blank" rel="noopener" href="https://superuser.com/questions/104929/how-do-you-run-a-ssh-server-on-mac-os-x">how-do-you-run-a-ssh-server-on-mac-os-x</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.coursera.org/learn/computer-networking/home/welcome">The Bits and Bytes of Computer Networking</a></li>
+<li><a target="_blank" rel="noopener" href="https://open.163.com/newview/movie/free?pid=ME74DFHFC&amp;mid=ME74E6NLA">西安交通大学公开课-计算机网络原理</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xy010902100449/article/details/48274635">TCP 握手和挥手图解（有限状态机）-CSDN博客</a></li>
 </ol>
-<h2 id="参考-1">参考</h2>
-<ol type="1">
-<li><p><a target="_blank" rel="noopener" href="https://www.coursera.org/learn/computer-networking/home/welcome">The Bits and Bytes of Computer Networking</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://open.163.com/newview/movie/free?pid=ME74DFHFC&amp;mid=ME74E6NLA">西安交通大学公开课-计算机网络原理</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xy010902100449/article/details/48274635">TCP 握手和挥手图解（有限状态机）-CSDN博客</a></p></li>
-</ol>
-<h2 id="section"></h2>
 
     </div>
 

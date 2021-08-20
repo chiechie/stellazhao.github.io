@@ -20,12 +20,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="因果推断和因果发现 因果问题分为两种：一种是因果发现；一种是因果推断  因果发现（causal discovery）：给定一组变量，找到他们之间的因果关系，这个在统计上是不可能的。 因果推断（causal inference）：给定两个变量，找到一个衡量它们之间因果关系的参数；  两种数据产生途径 数据有两种产生途径：  一种是通过有意控制、随机化的实验得到的:例如拨测,能够直接做因果推断 一种是">
+<meta name="description" content="总结  学术界有两种对因果关系建模的方法：因果图和结构方程。 对于构建因果图，目前使用的最多的是PC算法。 通过观察N个独立同分布的样本，来挖掘随机变量的之间的因果关系。每个样本都是来自M个随机变量的1组观测值。 有点类似机器学习中，使用随机森林去学习特征的相关性。特征就类似因果图中的节点，也就是随机变量。  附录 基本概念  因果图：因果模型的一种表达方式，因果图是一个DAG， G&#x3D;（V，E），">
 <meta property="og:type" content="article">
-<meta property="og:title" content="因果推断">
+<meta property="og:title" content="因果分析">
 <meta property="og:url" content="https://chiechie.github.io/2021/03/04/causal_analysis/ds3-4_cause-inference-learning/index.html">
 <meta property="og:site_name" content="Chiechie&#39;s Mini World">
-<meta property="og:description" content="因果推断和因果发现 因果问题分为两种：一种是因果发现；一种是因果推断  因果发现（causal discovery）：给定一组变量，找到他们之间的因果关系，这个在统计上是不可能的。 因果推断（causal inference）：给定两个变量，找到一个衡量它们之间因果关系的参数；  两种数据产生途径 数据有两种产生途径：  一种是通过有意控制、随机化的实验得到的:例如拨测,能够直接做因果推断 一种是">
+<meta property="og:description" content="总结  学术界有两种对因果关系建模的方法：因果图和结构方程。 对于构建因果图，目前使用的最多的是PC算法。 通过观察N个独立同分布的样本，来挖掘随机变量的之间的因果关系。每个样本都是来自M个随机变量的1组观测值。 有点类似机器学习中，使用随机森林去学习特征的相关性。特征就类似因果图中的节点，也就是随机变量。  附录 基本概念  因果图：因果模型的一种表达方式，因果图是一个DAG， G&#x3D;（V，E），">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://chiechie.github.io/2021/03/04/causal_analysis/ds3-4_cause-inference-learning/img.png">
 <meta property="og:image" content="https://chiechie.github.io/2021/03/04/causal_analysis/ds3-4_cause-inference-learning/right_causal_graph.png">
@@ -42,7 +42,7 @@
 <meta property="og:image" content="https://chiechie.github.io/2021/03/04/causal_analysis/ds3-4_cause-inference-learning/pc2.png">
 <meta property="og:image" content="https://chiechie.github.io/2021/03/04/causal_analysis/ds3-4_cause-inference-learning/pc3.png">
 <meta property="article:published_time" content="2021-03-04T15:23:02.000Z">
-<meta property="article:modified_time" content="2021-08-17T05:07:03.268Z">
+<meta property="article:modified_time" content="2021-08-20T01:56:33.483Z">
 <meta property="article:author" content="Chiechie">
 <meta property="article:tag" content="因果推断">
 <meta property="article:tag" content="因果分析">
@@ -56,10 +56,10 @@
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://chiechie.github.io/2021/03/04/causal_analysis/ds3-4_cause-inference-learning/","path":"2021/03/04/causal_analysis/ds3-4_cause-inference-learning/","title":"因果推断"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://chiechie.github.io/2021/03/04/causal_analysis/ds3-4_cause-inference-learning/","path":"2021/03/04/causal_analysis/ds3-4_cause-inference-learning/","title":"因果分析"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>因果推断 | Chiechie's Mini World</title>
+<title>因果分析 | Chiechie's Mini World</title>
   
 
 
@@ -204,7 +204,7 @@ mjx-container[display="true"] + br {
       <h1 class="site-title">Chiechie's Mini World</h1>
       <i class="logo-line"></i>
     </a>
-      <p class="site-subtitle" itemprop="description">人生得意须尽欢</p>
+      <p class="site-subtitle" itemprop="description">在我们离开的时候，这个世界还是那么愚蠢和邪恶，跟我们刚的时候并无二致。---伏尔泰</p>
   </div>
 
   <div class="site-nav-right">
@@ -252,7 +252,7 @@ mjx-container[display="true"] + br {
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%A0%E6%9E%9C%E6%8E%A8%E6%96%AD%E5%92%8C%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0"><span class="nav-number">1.</span> <span class="nav-text">因果推断和因果发现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E6%95%B0%E6%8D%AE%E4%BA%A7%E7%94%9F%E9%80%94%E5%BE%84"><span class="nav-number">2.</span> <span class="nav-text">两种数据产生途径</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8%E6%95%B0%E5%AD%A6%E8%AF%AD%E8%A8%80%E8%A1%A8%E8%BE%BE%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text">用数学语言表达因果模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E4%BA%8B%E5%AE%9Ecounterfactuals"><span class="nav-number">3.1.</span> <span class="nav-text">反事实（Counterfactuals）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%A0%E6%9E%9C%E5%9B%BEcausal-graph"><span class="nav-number">3.2.</span> <span class="nav-text">因果图（causal graph）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%A0%E6%9E%9C%E5%9B%BE-%E5%92%8C-%E6%A6%82%E7%8E%87%E5%9B%BE-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.3.</span> <span class="nav-text">因果图 和 概率图 的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0%E6%98%AF%E4%B8%8D%E5%8F%AF%E8%83%BD%E7%9A%84"><span class="nav-number">4.</span> <span class="nav-text">因果发现是不可能的</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%9A%E4%B8%BE%E6%B3%95"><span class="nav-number">4.0.1.</span> <span class="nav-text">枚举法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%B6%88%E9%99%A4%E6%B3%95"><span class="nav-number">4.0.2.</span> <span class="nav-text">变量消除法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E4%BE%9D%E8%B5%96%E6%80%A7"><span class="nav-number">4.0.3.</span> <span class="nav-text">贝叶斯网络中的依赖性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">5.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">5.1.</span> <span class="nav-text">基本概念</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pc%E7%AE%97%E6%B3%95-%E6%A6%82%E8%A7%88"><span class="nav-number">6.</span> <span class="nav-text">PC算法-概览</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E7%8B%AC%E7%AB%8B%E6%80%A7%E6%A3%80%E9%AA%8C"><span class="nav-number">6.1.</span> <span class="nav-text">条件独立性检验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E8%BE%B9%E7%9A%84%E6%96%B9%E5%90%91"><span class="nav-number">6.2.</span> <span class="nav-text">确定边的方向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E6%92%AD%E6%96%B9%E5%90%91"><span class="nav-number">6.3.</span> <span class="nav-text">传播方向</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%99%84%E5%BD%95"><span class="nav-number">1.1.</span> <span class="nav-text">附录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.2.</span> <span class="nav-text">基本概念</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%A0%E6%9E%9C%E6%8E%A8%E6%96%AD%E5%92%8C%E5%9B%A0%E6%9E%9C%E5%8F%91%E7%8E%B0"><span class="nav-number">2.</span> <span class="nav-text">因果推断和因果发现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A4%E7%A7%8D%E6%95%B0%E6%8D%AE%E4%BA%A7%E7%94%9F%E9%80%94%E5%BE%84"><span class="nav-number">3.</span> <span class="nav-text">两种数据产生途径</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%A8%E6%95%B0%E5%AD%A6%E8%AF%AD%E8%A8%80%E8%A1%A8%E8%BE%BE%E5%9B%A0%E6%9E%9C%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">用数学语言表达因果模型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E4%BA%8B%E5%AE%9Ecounterfactuals"><span class="nav-number">4.1.</span> <span class="nav-text">反事实（Counterfactuals）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%A0%E6%9E%9C%E5%9B%BEcausal-graph"><span class="nav-number">4.2.</span> <span class="nav-text">因果图（causal graph）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%A0%E6%9E%9C%E5%9B%BE-%E5%92%8C-%E6%A6%82%E7%8E%87%E5%9B%BE-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">4.3.</span> <span class="nav-text">因果图 和 概率图 的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%BA%94%E7%94%A8%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BD%91%E7%BB%9C%E6%9D%A5%E5%81%9A%E5%86%B3%E7%AD%96"><span class="nav-number">4.4.</span> <span class="nav-text">如何应用贝叶斯网络来做决策？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%9A%E4%B8%BE%E6%B3%95"><span class="nav-number">4.4.1.</span> <span class="nav-text">枚举法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%B6%88%E9%99%A4%E6%B3%95"><span class="nav-number">4.4.2.</span> <span class="nav-text">变量消除法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E4%BE%9D%E8%B5%96%E6%80%A7"><span class="nav-number">4.4.3.</span> <span class="nav-text">贝叶斯网络中的依赖性</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#d-%E5%88%86%E7%A6%BB"><span class="nav-number">4.5.</span> <span class="nav-text">D-分离</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#pc%E7%AE%97%E6%B3%95"><span class="nav-number">5.</span> <span class="nav-text">PC算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E7%8B%AC%E7%AB%8B%E6%80%A7%E6%A3%80%E9%AA%8C"><span class="nav-number">5.1.</span> <span class="nav-text">条件独立性检验</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E8%BE%B9%E7%9A%84%E6%96%B9%E5%90%91"><span class="nav-number">5.2.</span> <span class="nav-text">确定边的方向</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E6%92%AD%E6%96%B9%E5%90%91"><span class="nav-number">5.3.</span> <span class="nav-text">传播方向</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -266,7 +266,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">179</span>
+          <span class="site-state-item-count">180</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -330,7 +330,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          因果推断
+          因果分析
         </h1>
 
         <div class="post-meta-container">
@@ -348,7 +348,7 @@ mjx-container[display="true"] + br {
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-17 13:07:03" itemprop="dateModified" datetime="2021-08-17T13:07:03+08:00">2021-08-17</time>
+        <time title="修改时间：2021-08-20 09:56:33" itemprop="dateModified" datetime="2021-08-20T09:56:33+08:00">2021-08-20</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -370,7 +370,23 @@ mjx-container[display="true"] + br {
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="因果推断和因果发现">因果推断和因果发现</h1>
+        <h1 id="总结">总结</h1>
+<ol type="1">
+<li>学术界有两种对因果关系建模的方法：因果图和结构方程。</li>
+<li>对于构建因果图，目前使用的最多的是PC算法。</li>
+<li>通过观察N个独立同分布的样本，来挖掘随机变量的之间的因果关系。每个样本都是来自M个随机变量的1组观测值。</li>
+<li>有点类似机器学习中，使用随机森林去学习特征的相关性。特征就类似因果图中的节点，也就是随机变量。</li>
+</ol>
+<h2 id="附录">附录</h2>
+<h2 id="基本概念">基本概念</h2>
+<ul>
+<li>因果图：因果模型的一种表达方式，因果图是一个DAG， G=（V，E），对于每一个节点v，给定了他的双亲pa（v），v跟所有非后代都是独立的。</li>
+<li>冲撞点（collider）：一种V型结构的因果图. 两个因导致一个果。</li>
+<li>马尔科夫条件：可用来区分因果关系和相关关系，被用于生成依赖关系集合，构造因果图框架。</li>
+<li>faithfulness假设：可以用来保证，V中的所有变量的独立关系，都可以通过D-seperation表达。</li>
+<li>PC算法的两个假设：马尔可夫条件和faithfulness。</li>
+</ul>
+<h1 id="因果推断和因果发现">因果推断和因果发现</h1>
 <p>因果问题分为两种：一种是因果发现；一种是因果推断</p>
 <ul>
 <li>因果发现（causal discovery）：给定一组变量，找到他们之间的因果关系，这个在统计上是不可能的。</li>
@@ -416,9 +432,8 @@ mjx-container[display="true"] + br {
 <figure>
 <img src="right_causal_graph.png" alt="right_causal_graph"><figcaption aria-hidden="true">right_causal_graph</figcaption>
 </figure>
-<h1 id="因果发现是不可能的">因果发现是不可能的</h1>
 <p>总存在一个 faithful 的分布使得在样本足够多的时候，产生足够大的 type I error。</p>
-<p>如何应用贝叶斯网络来做决策？</p>
+<h2 id="如何应用贝叶斯网络来做决策">如何应用贝叶斯网络来做决策？</h2>
 <ul>
 <li>首先需要将先验知识表达成一个因果图--贝叶斯网络，（准确来说贝叶斯网络的边不仅仅表达因果关系，他表达所有的信息传播的方向）。</li>
 <li>做推断</li>
@@ -467,19 +482,7 @@ mjx-container[display="true"] + br {
 <figure>
 <img src="img_7.png" alt="Markov Blanket"><figcaption aria-hidden="true">Markov Blanket</figcaption>
 </figure>
-<h1 id="背景">背景</h1>
-<p>学术界有两种对因果关系建模的方法：因果图和结构方程。 对于构建因果图，目前使用的最多的是PC算法。</p>
-<p>通过观察N个独立同分布的样本，来挖掘随机变量的之间的因果关系。 每个样本都是来自M个随机变量的1组观测值。</p>
-<p>有点类似机器学习中，使用随机森林去学习特征的相关性。特征就类似因果图中的节点，也就是随机变量。</p>
-<h2 id="基本概念">基本概念</h2>
-<ul>
-<li>因果图：因果模型的一种表达方式，因果图是一个DAG， G=（V，E），对于每一个节点v，给定了他的双亲pa（v），v跟所有非后代都是独立的。</li>
-<li>冲撞点（collider）：一种V型结构的因果图. 两个因导致一个果。</li>
-<li>马尔科夫条件：可用来区分因果关系和相关关系，被用于生成依赖关系集合，构造因果图框架。</li>
-<li>faithfulness假设：可以用来保证，V中的所有变量的独立关系，都可以通过D-seperation表达。</li>
-<li>PC算法的两个假设：马尔可夫条件和faithfulness。</li>
-</ul>
-<p>D-分离</p>
+<h2 id="d-分离">D-分离</h2>
 <blockquote>
 <p>D分离（D-Separation）是一种用来判断两个变量是否条件独立的图形化方法，相比于非图形化方法，更加直观，且计算简单。</p>
 </blockquote>
@@ -490,7 +493,7 @@ mjx-container[display="true"] + br {
 </ol>
 <p>则称Z阻断了路径<span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.025ex" xmlns="http://www.w3.org/2000/svg" width="1.29ex" height="1ex" role="img" focusable="false" viewBox="0 -431 570 442"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D70B" d="M132 -11Q98 -11 98 22V33L111 61Q186 219 220 334L228 358H196Q158 358 142 355T103 336Q92 329 81 318T62 297T53 285Q51 284 38 284Q19 284 19 294Q19 300 38 329T93 391T164 429Q171 431 389 431Q549 431 553 430Q573 423 573 402Q573 371 541 360Q535 358 472 358H408L405 341Q393 269 393 222Q393 170 402 129T421 65T431 37Q431 20 417 5T381 -10Q370 -10 363 -7T347 17T331 77Q330 86 330 121Q330 170 339 226T357 318T367 358H269L268 354Q268 351 249 275T206 114T175 17Q164 -11 132 -11Z"></path></g></g></g></svg></mjx-container></span>。</p>
 <p>如果Z阻断了所有的X到Y的路径，就说Z集合D分离了X和Y，记作<span class="math inline"><mjx-container class="MathJax" jax="SVG"><svg style="vertical-align: -0.566ex" xmlns="http://www.w3.org/2000/svg" width="13.398ex" height="2.262ex" role="img" focusable="false" viewBox="0 -750 5921.9 1000"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mo"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(389,0)"><path data-c="1D44B" d="M42 0H40Q26 0 26 11Q26 15 29 27Q33 41 36 43T55 46Q141 49 190 98Q200 108 306 224T411 342Q302 620 297 625Q288 636 234 637H206Q200 643 200 645T202 664Q206 677 212 683H226Q260 681 347 681Q380 681 408 681T453 682T473 682Q490 682 490 671Q490 670 488 658Q484 643 481 640T465 637Q434 634 411 620L488 426L541 485Q646 598 646 610Q646 628 622 635Q617 635 609 637Q594 637 594 648Q594 650 596 664Q600 677 606 683H618Q619 683 643 683T697 681T738 680Q828 680 837 683H845Q852 676 852 672Q850 647 840 637H824Q790 636 763 628T722 611T698 593L687 584Q687 585 592 480L505 384Q505 383 536 304T601 142T638 56Q648 47 699 46Q734 46 734 37Q734 35 732 23Q728 7 725 4T711 1Q708 1 678 1T589 2Q528 2 496 2T461 1Q444 1 444 10Q444 11 446 25Q448 35 450 39T455 44T464 46T480 47T506 54Q523 62 523 64Q522 64 476 181L429 299Q241 95 236 84Q232 76 232 72Q232 53 261 47Q262 47 267 47T273 46Q276 46 277 46T280 45T283 42T284 35Q284 26 282 19Q279 6 276 4T261 1Q258 1 243 1T201 2T142 2Q64 2 42 0Z"></path></g><g data-mml-node="mo" transform="translate(1518.8,0)"><path data-c="22A5" d="M369 652Q369 653 370 655T372 658T375 662T379 665T384 667T391 668Q402 666 409 653V40H708Q723 32 723 20T708 0H71Q70 0 67 2T59 9T55 20T59 31T66 38T71 40H369V652Z"></path></g><g data-mml-node="mi" transform="translate(2574.6,0)"><path data-c="1D44C" d="M66 637Q54 637 49 637T39 638T32 641T30 647T33 664T42 682Q44 683 56 683Q104 680 165 680Q288 680 306 683H316Q322 677 322 674T320 656Q316 643 310 637H298Q242 637 242 624Q242 619 292 477T343 333L346 336Q350 340 358 349T379 373T411 410T454 461Q546 568 561 587T577 618Q577 634 545 637Q528 637 528 647Q528 649 530 661Q533 676 535 679T549 683Q551 683 578 682T657 680Q684 680 713 681T746 682Q763 682 763 673Q763 669 760 657T755 643Q753 637 734 637Q662 632 617 587Q608 578 477 424L348 273L322 169Q295 62 295 57Q295 46 363 46Q379 46 384 45T390 35Q390 33 388 23Q384 6 382 4T366 1Q361 1 324 1T232 2Q170 2 138 2T102 1Q84 1 84 9Q84 14 87 24Q88 27 89 30T90 35T91 39T93 42T96 44T101 45T107 45T116 46T129 46Q168 47 180 50T198 63Q201 68 227 171L252 274L129 623Q128 624 127 625T125 627T122 629T118 631T113 633T105 634T96 635T83 636T66 637Z"></path></g><g data-mml-node="mo" transform="translate(3615.3,0)"><path data-c="2223" d="M139 -249H137Q125 -249 119 -235V251L120 737Q130 750 139 750Q152 750 159 735V-235Q151 -249 141 -249H139Z"></path></g><g data-mml-node="mi" transform="translate(4171.1,0)"><path data-c="1D44D" d="M58 8Q58 23 64 35Q64 36 329 334T596 635L586 637Q575 637 512 637H500H476Q442 637 420 635T365 624T311 598T266 548T228 469Q227 466 226 463T224 458T223 453T222 450L221 448Q218 443 202 443Q185 443 182 453L214 561Q228 606 241 651Q249 679 253 681Q256 683 487 683H718Q723 678 723 675Q723 673 717 649Q189 54 188 52L185 49H274Q369 50 377 51Q452 60 500 100T579 247Q587 272 590 277T603 282H607Q628 282 628 271Q547 5 541 2Q538 0 300 0H124Q58 0 58 8Z"></path></g><g data-mml-node="msub" transform="translate(4894.1,0)"><g data-mml-node="mo"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="TeXAtom" transform="translate(422,-150) scale(0.707)" data-mjx-texclass="ORD"><g data-mml-node="mi"><path data-c="1D43A" d="M50 252Q50 367 117 473T286 641T490 704Q580 704 633 653Q642 643 648 636T656 626L657 623Q660 623 684 649Q691 655 699 663T715 679T725 690L740 705H746Q760 705 760 698Q760 694 728 561Q692 422 692 421Q690 416 687 415T669 413H653Q647 419 647 422Q647 423 648 429T650 449T651 481Q651 552 619 605T510 659Q492 659 471 656T418 643T357 615T294 567T236 496T189 394T158 260Q156 242 156 221Q156 173 170 136T206 79T256 45T308 28T353 24Q407 24 452 47T514 106Q517 114 529 161T541 214Q541 222 528 224T468 227H431Q425 233 425 235T427 254Q431 267 437 273H454Q494 271 594 271Q634 271 659 271T695 272T707 272Q721 272 721 263Q721 261 719 249Q714 230 709 228Q706 227 694 227Q674 227 653 224Q646 221 643 215T629 164Q620 131 614 108Q589 6 586 3Q584 1 581 1Q571 1 553 21T530 52Q530 53 528 52T522 47Q448 -22 322 -22Q201 -22 126 55T50 252Z"></path></g></g></g></g></g></svg></mjx-container></span>.</p>
-<h1 id="pc算法-概览">PC算法-概览</h1>
+<h1 id="pc算法">PC算法</h1>
 <p>PC算法输入N个m维的样本，输出一个有向无环图（DAG）， 举个例子，如果要构建一个故障因果图，一个指标就是图中的一个节点，每个时间点的观测值，就是一个样本。 如果给定一个变量集合，S，A和B独立，即 A ⊥ B|S，那么A和B两个节点就没有边。</p>
 <p>PC算法分为四步:</p>
 <ol type="1">
@@ -530,15 +533,27 @@ mjx-container[display="true"] + br {
 <img src="pc3.png" alt="图4-传播方向"><figcaption aria-hidden="true">图4-传播方向</figcaption>
 </figure>
 <h1 id="参考">参考</h1>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD 1. https://www.youtube.com/watch?v=gRkUhg9Wb-I&amp;t=3190s 2. https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s897-machine-learning-for-healthcare-spring-2019/ 3. <a target="_blank" rel="noopener" href="https://www.jmlr.org/papers/volume8/kalisch07a/kalisch07a.pdf">2007-The Journal of MachineLearning Research-pc算法</a> 4. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=o2A61bJ0UCw">pc算法-youtube</a> 5. <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/269625734">因果图的基本概念-知乎</a> 6. <a target="_blank" rel="noopener" href="https://netman.aiops.org/wp-content/uploads/2020/06/%E5%AD%9F%E5%AA%9B.pdf">Page,3-paper</a> 7. <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/88173582">zhihu-关于因果推断公开课翻译</a> 8. <a target="_blank" rel="noopener" href="http://www.stat.cmu.edu/~larry/=sml/Causation.pdf">英文原文</a> 9. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=TuGDMj43ehw">Bayesian Networks-youtuybe</a> ======= 1. <a target="_blank" rel="noopener" href="https://www.jmlr.org/papers/volume8/kalisch07a/kalisch07a.pdf">2007-The Journal of MachineLearning Research-pc算法</a> 2. <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=o2A61bJ0UCw">pc算法-youtube</a> 3. <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/269625734">因果图的基本概念-知乎</a> 4. <a target="_blank" rel="noopener" href="https://netman.aiops.org/wp-content/uploads/2020/06/%E5%AD%9F%E5%AA%9B.pdf">Page,3-paper</a></p>
 <ol type="1">
-<li><p><a target="_blank" rel="noopener" href="https://www.jmlr.org/papers/volume8/kalisch07a/kalisch07a.pdf">2007-The Journal of MachineLearning Research-pc算法</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=o2A61bJ0UCw">pc算法-youtube</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/269625734">因果图的基本概念-知乎</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://netman.aiops.org/wp-content/uploads/2020/06/%E5%AD%9F%E5%AA%9B.pdf">Page,3-paper</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/88173582">zhihu-关于因果推断公开课翻译</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="http://www.stat.cmu.edu/~larry/=sml/Causation.pdf">英文原文</a></p></li>
-<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=TuGDMj43ehw">Bayesian Networks-youtuybe</a></p></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/88173582">zhihu-关于因果推断公开课翻译</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.stat.cmu.edu/~larry/=sml/Causation.pdf">英文原文</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=TuGDMj43ehw">Bayesian Networks-youtuybe</a></li>
 </ol>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>cd49deb221f3cb24c14f35525c3c495ca513c53e</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 
     </div>
 

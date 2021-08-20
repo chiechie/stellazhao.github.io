@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Chiechie&#39;s Mini World</title>
   
-  <subtitle>人生得意须尽欢</subtitle>
+  <subtitle>在我们离开的时候，这个世界还是那么愚蠢和邪恶，跟我们刚的时候并无二致。---伏尔泰</subtitle>
   <link href="https://chiechie.github.io/atom.xml" rel="self"/>
   
   <link href="https://chiechie.github.io/"/>
-  <updated>2021-08-17T05:07:10.347Z</updated>
+  <updated>2021-08-20T01:56:33.486Z</updated>
   <id>https://chiechie.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>metaverse</title>
+    <link href="https://chiechie.github.io/2021/08/20/metaverse/"/>
+    <id>https://chiechie.github.io/2021/08/20/metaverse/</id>
+    <published>2021-08-19T16:01:45.000Z</published>
+    <updated>2021-08-20T01:56:33.486Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html"></summary>
+        
+      
+    
+    
+    
+    <category term="投资" scheme="https://chiechie.github.io/categories/%E6%8A%95%E8%B5%84/"/>
+    
+    
+    <category term="投资" scheme="https://chiechie.github.io/tags/%E6%8A%95%E8%B5%84/"/>
+    
+    <category term="元宇宙" scheme="https://chiechie.github.io/tags/%E5%85%83%E5%AE%87%E5%AE%99/"/>
+    
+  </entry>
   
   <entry>
     <title>因果推断2</title>
@@ -52,7 +79,7 @@
     <link href="https://chiechie.github.io/2021/08/17/causal_analysis/medical-ml1/"/>
     <id>https://chiechie.github.io/2021/08/17/causal_analysis/medical-ml1/</id>
     <published>2021-08-17T05:03:39.000Z</published>
-    <updated>2021-08-18T01:42:20.397Z</updated>
+    <updated>2021-08-20T01:56:33.484Z</updated>
     
     
       
@@ -552,35 +579,6 @@
     <category term="数据结构" scheme="https://chiechie.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
     
     <category term="图数据" scheme="https://chiechie.github.io/tags/%E5%9B%BE%E6%95%B0%E6%8D%AE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>SVD和compression</title>
-    <link href="https://chiechie.github.io/2021/07/10/math/svd-and-coding/"/>
-    <id>https://chiechie.github.io/2021/07/10/math/svd-and-coding/</id>
-    <published>2021-07-10T03:40:31.000Z</published>
-    <updated>2021-07-22T00:53:04.020Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html"></summary>
-        
-      
-    
-    
-    
-    <category term="数学" scheme="https://chiechie.github.io/categories/%E6%95%B0%E5%AD%A6/"/>
-    
-    
-    <category term="SVD" scheme="https://chiechie.github.io/tags/SVD/"/>
-    
-    <category term="信息论" scheme="https://chiechie.github.io/tags/%E4%BF%A1%E6%81%AF%E8%AE%BA/"/>
-    
-    <category term="效率" scheme="https://chiechie.github.io/tags/%E6%95%88%E7%8E%87/"/>
     
   </entry>
   
