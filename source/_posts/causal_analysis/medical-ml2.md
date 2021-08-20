@@ -11,3 +11,143 @@ tags:
 categories: 
 - 因果分析 
 ---
+
+
+
+
+
+## 总结
+
+
+
+对于某个体（$x_i$），平均治疗效果：
+$$
+\operatorname{CATE}\left(x_{i}\right)=\mathbb{E}_{Y_{1} \sim p\left(Y_{1} \mid x_{i}\right)}\left[Y_{1} \mid x_{i}\right]-\mathbb{E}_{Y_{0} \sim p\left(Y_{0} \mid x_{i}\right)}\left[Y_{0} \mid x_{i}\right]
+$$
+
+> 也可以认为是，对于某个商品，模型上线前后效果的差别
+
+
+
+总体的平均治疗效果：
+$$
+A T E=\mathbb{E}_{x \sim p(x)}[C A T E(x)]
+$$
+
+> 可以认为，对所有商品，模型上线前后效果的提升
+
+
+
+反事实推断的两个基本方法：协变量调整（Covariate Adjustment）和Propensity scores
+
+
+
+## 协变量调整
+
+
+
+协变量调整就是说，显示地对治疗方案（T），混杂因子（x），结果（y）建模，构建一个回归模型，输入是<T,x>,输出是y
+
+使用先行模型进行斜变量调整，
+
+假设
+$$
+Y_{t}(x)=\beta x+\gamma t+\epsilon_{t}
+$$
+
+$$
+\mathbb{E}\left[\epsilon_{t}\right]=0
+$$
+
+那么可以算出CATE：
+$$
+\begin{aligned} C A T E(x) &=\mathbb{E}_{p\left(Y_{1} \mid x\right)}\left[Y_{1}\right]-\mathbb{E}_{p\left(Y_{0} \mid x\right)}\left[Y_{0}\right] \\ &=\mathbb{E}_{\epsilon_{0}, \epsilon_{1}}\left[\beta x+\gamma+\epsilon_{1}-\beta x-\epsilon_{0}\right] \\ &=\gamma+\mathbb{E}\left[\epsilon_{1}\right]-\mathbb{E}\left[\epsilon_{0}\right] \\ &=\gamma \end{aligned}
+$$
+也可以计算出ATE:
+$$
+A T E=\mathbb{E}_{p(x)}[C A T E(x)]=\gamma
+$$
+对因果推断来说，希望很好地估计$\gamma$，而不是很好地预测Y，这一点跟ml不一样
+
+更关注系数以及置信区间。
+
+将协变量模型拓展到非线形模型上，假设数据生成过程是这样：
+$$
+Y_{t}(x)=\beta x+\gamma t+\delta x^{2}
+$$
+
+
+那么平均治疗效果ATE为：
+$$
+A T E=\mathbb{E}\left[Y_{1}-Y_{0}\right]=\gamma
+$$
+
+
+而，假设我们错误地建模成了线形关系：
+$$
+\hat{Y}_{t}(x)=\hat{\beta} x+\hat{\gamma} t
+$$
+
+
+那么对$\gamma$的估计就有可能非常离谱了
+$$
+\hat{\gamma}=\gamma+\delta \frac{\mathbb{E}[x t] \mathbb{E}\left[x^{2}\right]-\mathbb{E}\left[t^{2}\right] \mathbb{E}\left[x^{2} t\right]}{\mathbb{E}[x t]^{2}-\mathbb{E}\left[x^{2}\right] \mathbb{E}\left[t^{2}\right]}
+$$
+
+
+生物统计学家们通过小心谨慎地逐次添加非线性关系，来获得一个预测结果更精准的模型，有一下几种方法：
+
+- 随机森林和贝叶斯树
+- 高斯过程
+- 神经网络
+
+## 高斯过程
+
+
+
+高斯过程，允许我们检测整体分布，以及比较两个诊疗方案的置信区间。
+
+下图中，
+
+如何确定给一个病人x开什么处方y呢？
+
+可以计算CATE，如果大于某个值，就开治疗。
+
+然而，这个策略可能是错的，因为没有考虑到我们对决策的置信度。
+
+instead，我们希望有一个决策规则，可以量化我们的不确定度度，定义一个支持区域。
+
+举个例子，如果P(CATE(x) > α) > 0.9,那么就治疗，负责就说，我们没充分的信息保证治疗方案有效。
+
+
+
+使用高斯过程，既可以对两种治疗方案分开建模（左图），也可以构建一个联合分布（有图）
+
+联合建模的好处是：两个治疗方案共享一套参数，参数估计需要的数据点更少，
+
+![image-20210820142140615](./image-20210820142140615.png)
+
+
+
+
+
+## 神经网络
+
+We can use neural networks to learn non-linear models. One example architecture is shown in Figure 2 [SJS17]. In the Figure 1, we apply several nonlinear layers on our input x and then apply a treatment layer Φ. Note that we share models in the beginning to learn the joint representation. After that, we use separate layers to get different outcomes. Another important thing to note is that we apply treatment after we convolve the input x because treatment features often get lost if we use them with the input x when x has strong features.
+
+
+
+
+
+
+
+
+
+
+
+
+## 参考
+
+
+
+1. https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-s897-machine-learning-for-healthcare-spring-2019/ 

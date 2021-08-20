@@ -50,7 +50,7 @@ categories:
 
 并且，我们还要思考这三个变量之间的因果关系，其中一种问题就是，如何区分贝叶斯有向图模型中的不同的因果关系。
 
-![image-20210817181259614](/Users/stellazhao/research_space/chiechie.github.io/source/_posts/causal_analysis/medical-ml1/image-20210817181259614.png)
+![image-20210817181259614](./image-20210817181259614.png)
 
 先看下因果分析中，最简单的一种问题：假设边的方向知道，那么边的强度是多少？
 
@@ -83,9 +83,8 @@ $$
 
 整个人群中，平均治疗效果(average treatment effect ):
 
-
 $$ A T E=\mathbb{E}\left[Y_{1}-Y_{0}\right]=\mathbb{E}_{x \sim p(x)}[C A T E(x)]$$
-![image-20210817190359970](/Users/stellazhao/research_space/chiechie.github.io/source/_posts/causal_analysis/medical-ml1/image-20210817190359970.png)
+![image-20210817190359970](./image-20210817190359970.png)
 观察到的效果：
 $$
 y_{i}=t_{1} Y_{1}\left(x_{i}\right)+\left(1-t_{1}\right) Y_{0}\left(x_{i}\right)
@@ -96,7 +95,7 @@ y_{i}=\left(1-t_{1}\right) Y_{1}\left(x_{i}\right)+t_{1} Y_{0}\left(x_{i}\right)
 $$
 因果推断的难点在于，我们永远只能观测到病人的其中一种情况：
 
-![image-20210817205524554](/Users/stellazhao/research_space/chiechie.github.io/source/_posts/causal_analysis/medical-ml1/image-20210817205524554.png)
+![image-20210817205524554](./image-20210817205524554.png)
 
 
 
@@ -143,13 +142,15 @@ $$ \left(Y_{0}, Y_{1}\right) \Perp  T \mid X $$
 
 这个假设是必要的么？是！考虑一种igorability不满足的情况：存在某个隐变量h，同时会影响Y1，Y2和T。
 
-怎么验证ignorability条件是否满足？需要跟一个该领域的专家交流，从而保证影响一生决策（T）和最终效果（Y1，Y2）的所有因素都已经考虑到了和观测到了。
+怎么验证ignorability条件是否满足？需要跟该领域的专家交流，从而保证影响一生决策（T）和最终效果（Y1，Y2）的所有因素都已经考虑到了和观测到了。
 
-即使没有观测到，影响大么？---敏感度分析（ sensitivity analysis）。
+即使存在某个混杂因子没有被观测到，影响大么？---使用敏感度分析（ sensitivity analysis）进行度量。
 
-- Common support
 
-The common support assumption says that there should always be some stochasticity in treatment deci- sions. That means that any group of patients/features should have nonzero probabilities for all considered treatments. The above statement could be formulated in the following way:he expression above goes by the name of propensity score: the probability of receiving the treatment for each individual. Thus we assume, that this probability is bounded between 0 and 1, while any violation of this condition is going to completely validate the conclusions drawn from the data.
+
+Common support假设，诊断决策始终存在随机性，即，对于任意一组病患，被分配任意一个诊断方案都是有可能的。
+
+这个可能性用 propensity score表示，即取值大于0.
 
 
 
