@@ -101,7 +101,12 @@ $$
 - 高斯过程
 - 神经网络
 
-## 高斯过程
+
+
+## 非线性模型
+
+
+### 高斯过程
 
 
 
@@ -131,13 +136,48 @@ instead，我们希望有一个决策规则，可以量化我们的不确定度�
 
 
 
-## 神经网络
-
-We can use neural networks to learn non-linear models. One example architecture is shown in Figure 2 [SJS17]. In the Figure 1, we apply several nonlinear layers on our input x and then apply a treatment layer Φ. Note that we share models in the beginning to learn the joint representation. After that, we use separate layers to get different outcomes. Another important thing to note is that we apply treatment after we convolve the input x because treatment features often get lost if we use them with the input x when x has strong features.
 
 
 
+### 神经网络
 
+也可以使用神经网络来学习非线性模型，
+
+
+
+
+
+![image-20210820190705031](/Users/stellazhao/research_space/chiechie.github.io/source/_posts/causal_analysis/medical-ml1/image-20210820190705031.png)
+
+
+
+以下图为例，对输入施加多层非线性layer，然后使用一层treatment layer$\phi$，
+
+
+
+注意，对不同的treatment，前面几层layer是共享的，从而可以学习联合表示。
+
+接着，对不同的treetment使用个字的layer来获取不同的结果。
+
+
+
+另外一个重要的要注意的是，当我们对输入convolve之后，再应用treatment，是因为treatment特征跟x一起在最前面出现的话，特征重要性由于没有x高，而被比下去了，因此信息就丢失了。
+
+
+
+
+
+## 匹配
+
+思路：找每个人的长期失联的兄弟，然后看他们身上的效果。
+
+世纪钟，我们可以识别到另外一个$x_1$,跟$x_0$非常相似，但是不属于另外一个治疗组，接着可以评估x1的效果。
+
+可以把这个值看成是对x0的反事实的估计，接着可以这个值来估计CATE和ATE：
+
+
+
+1-NN Matching：
 
 
 
