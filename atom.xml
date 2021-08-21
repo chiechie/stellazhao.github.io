@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Chiechie&#39;s Mini World</title>
   
-  <subtitle>在我们离开的时候，这个世界还是那么愚蠢和邪恶，跟我们刚的时候并无二致。---伏尔泰</subtitle>
+  <subtitle>在我们离开的时候，这个世界还是那么愚蠢和邪恶，跟我们刚来的时候并无二致。--伏尔泰</subtitle>
   <link href="https://chiechie.github.io/atom.xml" rel="self"/>
   
   <link href="https://chiechie.github.io/"/>
-  <updated>2021-08-21T02:47:59.836Z</updated>
+  <updated>2021-08-21T03:23:59.674Z</updated>
   <id>https://chiechie.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://chiechie.github.io/2021/08/21/zhexue/dao-zhuangzi/"/>
     <id>https://chiechie.github.io/2021/08/21/zhexue/dao-zhuangzi/</id>
     <published>2021-08-21T02:41:02.000Z</published>
-    <updated>2021-08-21T02:47:59.836Z</updated>
+    <updated>2021-08-21T03:23:59.674Z</updated>
     
     
       
@@ -34,10 +34,12 @@
     
     
     
-    <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
+    <category term="哲学" scheme="https://chiechie.github.io/categories/%E5%93%B2%E5%AD%A6/"/>
     
     
     <category term="哲学" scheme="https://chiechie.github.io/tags/%E5%93%B2%E5%AD%A6/"/>
+    
+    <category term="道家" scheme="https://chiechie.github.io/tags/%E9%81%93%E5%AE%B6/"/>
     
   </entry>
   
@@ -46,7 +48,7 @@
     <link href="https://chiechie.github.io/2021/08/21/zhexue/li-chuanxilu/"/>
     <id>https://chiechie.github.io/2021/08/21/zhexue/li-chuanxilu/</id>
     <published>2021-08-21T02:38:45.000Z</published>
-    <updated>2021-08-21T02:40:12.263Z</updated>
+    <updated>2021-08-21T03:24:25.419Z</updated>
     
     
       
@@ -59,6 +61,10 @@
     
     
     
+    <category term="哲学" scheme="https://chiechie.github.io/categories/%E5%93%B2%E5%AD%A6/"/>
+    
+    
+    <category term="哲学" scheme="https://chiechie.github.io/tags/%E5%93%B2%E5%AD%A6/"/>
     
   </entry>
   
@@ -119,11 +125,11 @@
   </entry>
   
   <entry>
-    <title>因果推断</title>
+    <title>医疗中的因果分析</title>
     <link href="https://chiechie.github.io/2021/08/17/causal_analysis/medical-ml1/"/>
     <id>https://chiechie.github.io/2021/08/17/causal_analysis/medical-ml1/</id>
     <published>2021-08-17T05:03:39.000Z</published>
-    <updated>2021-08-21T02:36:48.691Z</updated>
+    <updated>2021-08-21T05:57:03.182Z</updated>
     
     
       
@@ -179,7 +185,7 @@
     <link href="https://chiechie.github.io/2021/08/06/zhexue/improve-research-taste/"/>
     <id>https://chiechie.github.io/2021/08/06/zhexue/improve-research-taste/</id>
     <published>2021-08-06T01:51:11.000Z</published>
-    <updated>2021-08-17T12:31:47.286Z</updated>
+    <updated>2021-08-21T05:49:20.670Z</updated>
     
     
       
@@ -195,7 +201,7 @@
     <category term="哲学" scheme="https://chiechie.github.io/categories/%E5%93%B2%E5%AD%A6/"/>
     
     
-    <category term="研究哲学" scheme="https://chiechie.github.io/tags/%E7%A0%94%E7%A9%B6%E5%93%B2%E5%AD%A6/"/>
+    <category term="哲学" scheme="https://chiechie.github.io/tags/%E5%93%B2%E5%AD%A6/"/>
     
   </entry>
   
