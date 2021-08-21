@@ -604,7 +604,8 @@
     "hexo-pagination" "1.0.0"
 
 "hexo-generator-calendar@github:howiefh/hexo-generator-calendar":
-  "resolved" "git+ssh://git@github.com/howiefh/hexo-generator-calendar.git#9c25735a38dc7997bd498563cd624091905c8e72"
+  "integrity" "sha512-OMNeSDQmY/6zkinlel+0oFTW/s4pOy1BHzqLotYCYbIffnrKqk548BJRYUuf0l0MBYmTLv6Ln5Ldn+gyYfd8QQ=="
+  "resolved" "git+ssh://git@github.com/howiefh/hexo-generator-calendar.git"
   "version" "0.0.1"
   dependencies:
     "object-assign" "^4.0.1"

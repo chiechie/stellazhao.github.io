@@ -1,5 +1,5 @@
 ---
-title: 许成钢教授谈治学
+title: 谈治学
 author: chiechie
 mathjax: true
 date: 2021-03-08 09:38:42

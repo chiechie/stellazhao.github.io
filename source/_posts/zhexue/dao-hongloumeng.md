@@ -1,5 +1,5 @@
 ---
-title: 细说红楼梦
+title: 红楼梦
 author: chiechie
 mathjax: true
 date: 2021-06-21 10:02:37

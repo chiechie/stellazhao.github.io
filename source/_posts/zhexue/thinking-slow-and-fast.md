@@ -1,5 +1,5 @@
 ---
-title:  《思考快与慢》读书笔记
+title:  《思考快与慢》
 author: chiechie
 mathjax: true
 date: 2021-04-10 22:33:30
