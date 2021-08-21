@@ -245,7 +245,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">183</span>
+          <span class="site-state-item-count">185</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -295,7 +295,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/26/timeseries/timeseries6_anomalydetection/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/28/timeseries/timeseries5-2_probability-tensorflow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -308,7 +308,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/07/26/timeseries/timeseries6_anomalydetection/" class="post-title-link" itemprop="url">时间序列6 时序异常检测</a>
+          <a href="/2021/07/28/timeseries/timeseries5-2_probability-tensorflow/" class="post-title-link" itemprop="url">时间序列5-2 时序预测框架-TensorFlow Probability</a>
         </h2>
 
         <div class="post-meta-container">
@@ -319,7 +319,7 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-07-26 23:12:28" itemprop="dateCreated datePublished" datetime="2021-07-26T23:12:28+08:00">2021-07-26</time>
+      <time title="创建时间：2021-07-28 22:10:33" itemprop="dateCreated datePublished" datetime="2021-07-28T22:10:33+08:00">2021-07-28</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
@@ -348,76 +348,37 @@ mjx-container[display="true"] + br {
     
     
     <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>I'm not an outlier; I just haven't found my distribution yet!</p>
-</blockquote>
-<h2 id="总结">总结</h2>
+          <p>下面介绍一种基于tensorflow的概率编程框架TensorFlow Probability，可用于对时间序列构建概率模型。</p>
 <ol type="1">
-<li>通用需求使用生成模型，长尾需求使用有监督或者策略。</li>
-<li>有监督要求样本标记质量较高，需按照某个标准来标记，不可标准忽高忽低。</li>
-</ol>
-<blockquote>
-<p>未成乎心而有是非，是今日适越而昔至也。是以无有为有。无有为有，虽有神禹且不能知，吾独且奈何哉！--庄子.齐物论</p>
-</blockquote>
-<h2 id="附录">附录</h2>
-<ol type="1">
-<li><p>何为异常？正常的反面即异常。如果我们可以定义正常，那么异常就是其反面，很容易判断。</p></li>
-<li><p>如何定义正常？很多时间序列模型都可以，如arima/garch等，生成模型也可以。</p></li>
-<li><p>众多模式如何的选择？用拟合程度来判断，即找到一个最佳视角，能够解释当前的观测值。</p></li>
-<li><p>如果群体本身就是一个mess，还有必要跟它对比吗？如果这个群体就是一个五花八门的, 很难说哪个异常，因为都很有个性。eg美国的拉美裔，女权团体。</p></li>
-<li><p>如果这个群体mostly有秩序，只有少部分个体表现的不符合这个秩序，这些人就是异常。</p></li>
-<li><p>可以通过预测群体的正常行为来做异常检测，换言之时序预测是一种做异常检测的方法。</p></li>
-<li><p>异常检测比预测更简单。异常检测只需自圆其说即可，时序预测需要拿现实数据来验证。</p></li>
-<li><p>异常检测分两步，先做模式识别，也就是找规律，然后判断当前数据是否符合规律，符合即正常，反之则为异常。</p></li>
-<li><p>不是所有的序列都可以预测，比如股票数据就不可预测，因为历史数据里面包含的信息有限。 但是天气很好预测，因为很有规律。但是「能不能由预测」这些元知识都是人类总结出来的，通过很短的历史数据很难挖掘出这样的认识。</p></li>
-<li><p>狭义的预测，即，上面的预测 是想要 排除掉 异常的场景的，比如 出现经融危机的时候，希望预测出来正常值，所以，上面的预测 跟 一般的时序预测 不一样，上面的 预测 是希望 观测数据（训练数据） 或者 说 评分指标 能过滤掉哪些 极端异常的情况。</p>
+<li><p>2018年谷歌在tf开发者峰会上，宣布了新工具--tensorFlow Probability，用于构建贝叶斯模型，可分布式部署，对于大规模的时间序列的场景优势明显。</p></li>
+<li><p>贝叶斯概率模型虽然在tfp中被看作一种新的建模范式，依然遵循经典的时序模型建模原理，如时序的季节性，增长趋势。</p></li>
+<li><p>从整体上看看TensorFlow Probability主要包含：分布、模型构建层/损失函数、马尔可夫概率推断、优化。通过 Bijectors 和 TransformedDistribution计算复杂的分布，使用tfp.mcmc，tfp.vi进行概率推断。建模部分正主要分为以下步骤：</p>
 <ul>
-<li>但是 实际情况是，我们很难给到 最单纯的 观测数据，现实中由于设备或者 采集环境 的原因，得到的观测值 往往是 含有噪声的，那么进一步的，这个噪声也分为两种，一种是正常的噪声，一种是极端异常值（比如金融危机，或者整个系统瘫痪）。</li>
-<li>对于正常的噪声，我们希望能够捕捉它的范围，然后在 推断阶段，依葫芦画瓢，也认为观测值是模式 + 正常噪声的结果。</li>
-<li>对于极端异常值，我们希望在训练阶段屏蔽掉 该值的影响，然后在 推断阶段，能识别出 它是远离 正常噪声范围的。进而告警。 8.又引申出新的问题，如何 分离出 一个观测值中的 趋势 + 噪声模式 + 极端值这三个分量？</li>
-<li>最直觉的方法 就是用stl的方法，基本原理 就是 待定系数法， 假设有3个函数组成（参数待估），然后用真实样本拟合（loss 应该是l2吧）。</li>
-<li>这种方法有一个问题，就是 拟合出来的趋势 经常是0，拟合出来的噪声经常是带有周期性的，并且也没法干预吼？</li>
-</ul></li>
-<li><p>异常检测只需要告知自己理解是啥；预测需要更进一步，考虑现实中的所有可能发生的情况。异常检测可以大胆地做，理论上没法证伪。预测是企业家的事情，需要一比高下。做异常检测是学术界的事情，选定一个视角，自己得出结论，不用跟别人一比高下。</p></li>
-<li><p>异常检测的原理是历史外延，没法证伪。如果预测和现实有偏差，碰巧能找到故障。如果找不到，也有可能是隐患，或者我们的视角有局限。没法证明是误判。</p></li>
-<li><p>一种异常检测器是一种视角，应该允许存在多个视角，并且可自由切换。</p></li>
-<li><p>什么样的告警结果用户可接受？符合他们认知模式的，比如同环比，上下界。</p></li>
-<li><p>时间序列相对于iid样本，生成机制不一样。时间序列比如人在不同时刻的行为序列，是有延续的。iid的数据比如，体育彩票，每一期中奖号码跟上一期没有关系。</p></li>
-<li><p>iid的样本满足中心极限定理（CLT），时间序列数据就没有这么简单，样本之间的关系还粘粘乎乎的。</p></li>
-<li><p>简单粗暴地将中心极限定义套到时间序列上面行不行？即，如果新来的样本点不满足历史正态分布，就是异常。 不行，看两个反例：</p></li>
-</ol>
-<ul>
-<li>反例1-周期性凸起：新来的样本不满足正态分布，但是正常</li>
-<li>反例2-局部拐点：新来的样本满足正态分布，但是异常</li>
+<li>build_mode:将训练数据输入-输出映射；</li>
+<li>fit_model， 使用变分推断拟合模型，抽样计算参数后验分布；</li>
+<li>得到模型预测值；</li>
+<li>evaluate：计算模型评估指标MAPE；</li>
 </ul>
-<ol start="15" type="1">
-<li>还是想补救一下，能不能认为，排除掉了周期性凸起和局部拐点之后，就满足中心极限定理了？或者切换到一个更简单清晰的视角，不用中心极限定理，而用常见的时间序列模式描述？例如arima/stl模型等，也不能很理想地解决这两个问题。</li>
+<figure>
+<img src="./image-20190621104830343.png" alt="image-20190621104830343"><figcaption aria-hidden="true">image-20190621104830343</figcaption>
+</figure></li>
+<li><p>贝叶斯模型的特点是，引入先验信息，通过概率描述不确定；概率编程则是利用计算机采样的方法进行贝叶斯推断（Bayesian inference），得出未知参数的概率分布，也就是利用贝叶斯公式给定观测数据和先验分布计算参数的后验概率，公式如下： <span class="math display"><mjx-container class="MathJax" jax="SVG" display="true"><svg style="vertical-align: -2.172ex" xmlns="http://www.w3.org/2000/svg" width="24.397ex" height="5.475ex" role="img" focusable="false" viewBox="0 -1460 10783.7 2420"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D45D" d="M23 287Q24 290 25 295T30 317T40 348T55 381T75 411T101 433T134 442Q209 442 230 378L240 387Q302 442 358 442Q423 442 460 395T497 281Q497 173 421 82T249 -10Q227 -10 210 -4Q199 1 187 11T168 28L161 36Q160 35 139 -51T118 -138Q118 -144 126 -145T163 -148H188Q194 -155 194 -157T191 -175Q188 -187 185 -190T172 -194Q170 -194 161 -194T127 -193T65 -192Q-5 -192 -24 -194H-32Q-39 -187 -39 -183Q-37 -156 -26 -148H-6Q28 -147 33 -136Q36 -130 94 103T155 350Q156 355 156 364Q156 405 131 405Q109 405 94 377T71 316T59 280Q57 278 43 278H29Q23 284 23 287ZM178 102Q200 26 252 26Q282 26 310 49T356 107Q374 141 392 215T411 325V331Q411 405 350 405Q339 405 328 402T306 393T286 380T269 365T254 350T243 336T235 326L232 322Q232 321 229 308T218 264T204 212Q178 106 178 102Z"></path></g><g data-mml-node="mo" transform="translate(503,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(892,0)"><path data-c="1D703" d="M35 200Q35 302 74 415T180 610T319 704Q320 704 327 704T339 705Q393 701 423 656Q462 596 462 495Q462 380 417 261T302 66T168 -10H161Q125 -10 99 10T60 63T41 130T35 200ZM383 566Q383 668 330 668Q294 668 260 623T204 521T170 421T157 371Q206 370 254 370L351 371Q352 372 359 404T375 484T383 566ZM113 132Q113 26 166 26Q181 26 198 36T239 74T287 161T335 307L340 324H145Q145 321 136 286T120 208T113 132Z"></path></g><g data-mml-node="mo" transform="translate(1638.8,0)"><path data-c="2223" d="M139 -249H137Q125 -249 119 -235V251L120 737Q130 750 139 750Q152 750 159 735V-235Q151 -249 141 -249H139Z"></path></g><g data-mml-node="mi" transform="translate(2194.6,0)"><path data-c="1D44B" d="M42 0H40Q26 0 26 11Q26 15 29 27Q33 41 36 43T55 46Q141 49 190 98Q200 108 306 224T411 342Q302 620 297 625Q288 636 234 637H206Q200 643 200 645T202 664Q206 677 212 683H226Q260 681 347 681Q380 681 408 681T453 682T473 682Q490 682 490 671Q490 670 488 658Q484 643 481 640T465 637Q434 634 411 620L488 426L541 485Q646 598 646 610Q646 628 622 635Q617 635 609 637Q594 637 594 648Q594 650 596 664Q600 677 606 683H618Q619 683 643 683T697 681T738 680Q828 680 837 683H845Q852 676 852 672Q850 647 840 637H824Q790 636 763 628T722 611T698 593L687 584Q687 585 592 480L505 384Q505 383 536 304T601 142T638 56Q648 47 699 46Q734 46 734 37Q734 35 732 23Q728 7 725 4T711 1Q708 1 678 1T589 2Q528 2 496 2T461 1Q444 1 444 10Q444 11 446 25Q448 35 450 39T455 44T464 46T480 47T506 54Q523 62 523 64Q522 64 476 181L429 299Q241 95 236 84Q232 76 232 72Q232 53 261 47Q262 47 267 47T273 46Q276 46 277 46T280 45T283 42T284 35Q284 26 282 19Q279 6 276 4T261 1Q258 1 243 1T201 2T142 2Q64 2 42 0Z"></path></g><g data-mml-node="mo" transform="translate(3046.6,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(3713.3,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mfrac" transform="translate(4769.1,0)"><g data-mml-node="mrow" transform="translate(220,710)"><g data-mml-node="mi"><path data-c="1D45D" d="M23 287Q24 290 25 295T30 317T40 348T55 381T75 411T101 433T134 442Q209 442 230 378L240 387Q302 442 358 442Q423 442 460 395T497 281Q497 173 421 82T249 -10Q227 -10 210 -4Q199 1 187 11T168 28L161 36Q160 35 139 -51T118 -138Q118 -144 126 -145T163 -148H188Q194 -155 194 -157T191 -175Q188 -187 185 -190T172 -194Q170 -194 161 -194T127 -193T65 -192Q-5 -192 -24 -194H-32Q-39 -187 -39 -183Q-37 -156 -26 -148H-6Q28 -147 33 -136Q36 -130 94 103T155 350Q156 355 156 364Q156 405 131 405Q109 405 94 377T71 316T59 280Q57 278 43 278H29Q23 284 23 287ZM178 102Q200 26 252 26Q282 26 310 49T356 107Q374 141 392 215T411 325V331Q411 405 350 405Q339 405 328 402T306 393T286 380T269 365T254 350T243 336T235 326L232 322Q232 321 229 308T218 264T204 212Q178 106 178 102Z"></path></g><g data-mml-node="mo" transform="translate(503,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(892,0)"><path data-c="1D703" d="M35 200Q35 302 74 415T180 610T319 704Q320 704 327 704T339 705Q393 701 423 656Q462 596 462 495Q462 380 417 261T302 66T168 -10H161Q125 -10 99 10T60 63T41 130T35 200ZM383 566Q383 668 330 668Q294 668 260 623T204 521T170 421T157 371Q206 370 254 370L351 371Q352 372 359 404T375 484T383 566ZM113 132Q113 26 166 26Q181 26 198 36T239 74T287 161T335 307L340 324H145Q145 321 136 286T120 208T113 132Z"></path></g><g data-mml-node="mo" transform="translate(1361,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mi" transform="translate(1750,0)"><path data-c="1D45D" d="M23 287Q24 290 25 295T30 317T40 348T55 381T75 411T101 433T134 442Q209 442 230 378L240 387Q302 442 358 442Q423 442 460 395T497 281Q497 173 421 82T249 -10Q227 -10 210 -4Q199 1 187 11T168 28L161 36Q160 35 139 -51T118 -138Q118 -144 126 -145T163 -148H188Q194 -155 194 -157T191 -175Q188 -187 185 -190T172 -194Q170 -194 161 -194T127 -193T65 -192Q-5 -192 -24 -194H-32Q-39 -187 -39 -183Q-37 -156 -26 -148H-6Q28 -147 33 -136Q36 -130 94 103T155 350Q156 355 156 364Q156 405 131 405Q109 405 94 377T71 316T59 280Q57 278 43 278H29Q23 284 23 287ZM178 102Q200 26 252 26Q282 26 310 49T356 107Q374 141 392 215T411 325V331Q411 405 350 405Q339 405 328 402T306 393T286 380T269 365T254 350T243 336T235 326L232 322Q232 321 229 308T218 264T204 212Q178 106 178 102Z"></path></g><g data-mml-node="mo" transform="translate(2253,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mo" transform="translate(2642,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(3031,0)"><path data-c="1D44B" d="M42 0H40Q26 0 26 11Q26 15 29 27Q33 41 36 43T55 46Q141 49 190 98Q200 108 306 224T411 342Q302 620 297 625Q288 636 234 637H206Q200 643 200 645T202 664Q206 677 212 683H226Q260 681 347 681Q380 681 408 681T453 682T473 682Q490 682 490 671Q490 670 488 658Q484 643 481 640T465 637Q434 634 411 620L488 426L541 485Q646 598 646 610Q646 628 622 635Q617 635 609 637Q594 637 594 648Q594 650 596 664Q600 677 606 683H618Q619 683 643 683T697 681T738 680Q828 680 837 683H845Q852 676 852 672Q850 647 840 637H824Q790 636 763 628T722 611T698 593L687 584Q687 585 592 480L505 384Q505 383 536 304T601 142T638 56Q648 47 699 46Q734 46 734 37Q734 35 732 23Q728 7 725 4T711 1Q708 1 678 1T589 2Q528 2 496 2T461 1Q444 1 444 10Q444 11 446 25Q448 35 450 39T455 44T464 46T480 47T506 54Q523 62 523 64Q522 64 476 181L429 299Q241 95 236 84Q232 76 232 72Q232 53 261 47Q262 47 267 47T273 46Q276 46 277 46T280 45T283 42T284 35Q284 26 282 19Q279 6 276 4T261 1Q258 1 243 1T201 2T142 2Q64 2 42 0Z"></path></g><g data-mml-node="mo" transform="translate(4160.8,0)"><path data-c="2223" d="M139 -249H137Q125 -249 119 -235V251L120 737Q130 750 139 750Q152 750 159 735V-235Q151 -249 141 -249H139Z"></path></g><g data-mml-node="mi" transform="translate(4716.6,0)"><path data-c="1D703" d="M35 200Q35 302 74 415T180 610T319 704Q320 704 327 704T339 705Q393 701 423 656Q462 596 462 495Q462 380 417 261T302 66T168 -10H161Q125 -10 99 10T60 63T41 130T35 200ZM383 566Q383 668 330 668Q294 668 260 623T204 521T170 421T157 371Q206 370 254 370L351 371Q352 372 359 404T375 484T383 566ZM113 132Q113 26 166 26Q181 26 198 36T239 74T287 161T335 307L340 324H145Q145 321 136 286T120 208T113 132Z"></path></g><g data-mml-node="mo" transform="translate(5185.6,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g><g data-mml-node="mrow" transform="translate(1940.8,-710)"><g data-mml-node="mi"><path data-c="1D45D" d="M23 287Q24 290 25 295T30 317T40 348T55 381T75 411T101 433T134 442Q209 442 230 378L240 387Q302 442 358 442Q423 442 460 395T497 281Q497 173 421 82T249 -10Q227 -10 210 -4Q199 1 187 11T168 28L161 36Q160 35 139 -51T118 -138Q118 -144 126 -145T163 -148H188Q194 -155 194 -157T191 -175Q188 -187 185 -190T172 -194Q170 -194 161 -194T127 -193T65 -192Q-5 -192 -24 -194H-32Q-39 -187 -39 -183Q-37 -156 -26 -148H-6Q28 -147 33 -136Q36 -130 94 103T155 350Q156 355 156 364Q156 405 131 405Q109 405 94 377T71 316T59 280Q57 278 43 278H29Q23 284 23 287ZM178 102Q200 26 252 26Q282 26 310 49T356 107Q374 141 392 215T411 325V331Q411 405 350 405Q339 405 328 402T306 393T286 380T269 365T254 350T243 336T235 326L232 322Q232 321 229 308T218 264T204 212Q178 106 178 102Z"></path></g><g data-mml-node="mo" transform="translate(503,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(892,0)"><path data-c="1D44B" d="M42 0H40Q26 0 26 11Q26 15 29 27Q33 41 36 43T55 46Q141 49 190 98Q200 108 306 224T411 342Q302 620 297 625Q288 636 234 637H206Q200 643 200 645T202 664Q206 677 212 683H226Q260 681 347 681Q380 681 408 681T453 682T473 682Q490 682 490 671Q490 670 488 658Q484 643 481 640T465 637Q434 634 411 620L488 426L541 485Q646 598 646 610Q646 628 622 635Q617 635 609 637Q594 637 594 648Q594 650 596 664Q600 677 606 683H618Q619 683 643 683T697 681T738 680Q828 680 837 683H845Q852 676 852 672Q850 647 840 637H824Q790 636 763 628T722 611T698 593L687 584Q687 585 592 480L505 384Q505 383 536 304T601 142T638 56Q648 47 699 46Q734 46 734 37Q734 35 732 23Q728 7 725 4T711 1Q708 1 678 1T589 2Q528 2 496 2T461 1Q444 1 444 10Q444 11 446 25Q448 35 450 39T455 44T464 46T480 47T506 54Q523 62 523 64Q522 64 476 181L429 299Q241 95 236 84Q232 76 232 72Q232 53 261 47Q262 47 267 47T273 46Q276 46 277 46T280 45T283 42T284 35Q284 26 282 19Q279 6 276 4T261 1Q258 1 243 1T201 2T142 2Q64 2 42 0Z"></path></g><g data-mml-node="mo" transform="translate(1744,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g><rect width="5774.6" height="60" x="120" y="220"></rect></g></g></g></svg></mjx-container></span></p></li>
+<li><p>由于后验分布精确求解非常困难，所以使用变分推断（variational inference）算近似分布，将计算后验分布转化最小化ELBO（negative evidence lower bound），得到变分的参数。</p></li>
+<li><p>输出模型参数有</p></li>
 </ol>
-<blockquote>
-<p>stl模型假设时间序列是由周期性 + 趋势性 + 高斯噪声 三部分组成，相关的参数可以从历史数据中估计出来。估计出来参数后，假设新的正常数据中，趋势性保持，周期性往复，高斯噪声依旧无规律，于是可以生成一个预测的分布，然后看新来的数据是否落入这个区间 stl模型能否表达周期性凸起和抹掉局部拐点呢？不行，因为周期性凸起一般波动非常大，算法很难精准拟合，毕竟要照顾其他大部分平庸之辈的拟合程度，一般给的预测的置信区间太都很大，所以局部拐点告不出来。</p>
-</blockquote>
-<ol start="16" type="1">
-<li><p>周期性凸起和局部拐点对与很多算法来说，是两个不相容的问题，解决了一个就忽略了另外一个。通常针对不相容的问题，可采用blending的思路，即构建一个复合的策略，多个子策略投票，或者取并集。blending的策略本来也是可以通过数据学习出来的（AdaBoosting和GradientBoosting就是）</p></li>
-<li><p>以周期性凸起和局部拐点为例，可以构建2个子策略：一个基于环比的子策略用来检测突升/突降，一个基于同比的子策略检测用来屏蔽周期性告警。然后对这个两个子策略构建路由：</p>
+<ul>
+<li>observation_noise_scale： 噪声</li>
+<li>LocalLinearTrend/level_scale：局部线性截距</li>
+<li>LocalLinearTrend/slope_scale：局部线性趋势的斜率</li>
+<li>Seasonal/_drift_scale：季节性</li>
+</ul>
+<h2 id="附录">附录</h2>
+<p>程序运算步骤主要为：用正态分布作为先验分布，使用negative evidence lower bound作为损失函数，通过tfp.sts计算后验。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#本文为使用tensorflow概率建模</span></span><br><span class="line"></span><br><span class="line">%matplotlib inline</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pylab <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> tensorflow_probability <span class="keyword">as</span> tfp</span><br><span class="line"><span class="keyword">from</span> tensorflow_probability <span class="keyword">import</span> distributions <span class="keyword">as</span> tfd</span><br><span class="line"><span class="keyword">from</span> tensorflow_probability <span class="keyword">import</span> sts</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#绘制预测与真实值时间序列图</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_forecast</span>(<span class="params">x, y,</span></span></span><br><span class="line"><span class="params"><span class="function">                  forecast_mean, forecast_scale, forecast_samples,</span></span></span><br><span class="line"><span class="params"><span class="function">                  title, x_locator=<span class="literal">None</span>, x_formatter=<span class="literal">None</span></span>):</span></span><br><span class="line">    <span class="string">"""Plot a forecast distribution against the 'true' time series."""</span></span><br><span class="line">    colors = sns.color_palette()</span><br><span class="line">    c1, c2 = colors[<span class="number">0</span>], colors[<span class="number">1</span>]</span><br><span class="line">    fig = plt.figure(figsize=(<span class="number">12</span>, <span class="number">6</span>))</span><br><span class="line">    ax = fig.add_subplot(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    num_steps = <span class="built_in">len</span>(y)</span><br><span class="line">    num_steps_forecast = forecast_mean.shape[-<span class="number">1</span>]</span><br><span class="line">    num_steps_train = num_steps - num_steps_forecast</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    ax.plot(x, y, lw=<span class="number">2</span>, color=c1, label=<span class="string">'ground truth'</span>)</span><br><span class="line">    forecast_steps = np.arange(</span><br><span class="line">      x[num_steps_train],</span><br><span class="line">      x[num_steps_train]+num_steps_forecast,</span><br><span class="line">      dtype=x.dtype)</span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    ax.plot(forecast_steps, forecast_samples.T, lw=<span class="number">1</span>, color=c2, alpha=<span class="number">0.1</span>)</span><br><span class="line">    <span class="comment">#绘制预测期望值以及针对最后三个月的100个采样结果</span></span><br><span class="line">    ax.plot(forecast_steps, forecast_mean, lw=<span class="number">2</span>, ls=<span class="string">'--'</span>, color=<span class="string">'r'</span>,</span><br><span class="line">           label=<span class="string">'forecast'</span>)</span><br><span class="line">    ax.fill_between(forecast_steps,</span><br><span class="line">                   forecast_mean-<span class="number">2</span>*forecast_scale,</span><br><span class="line">                   forecast_mean+<span class="number">2</span>*forecast_scale, color=c2, alpha=<span class="number">0.2</span>)</span><br><span class="line">    </span><br><span class="line">    ymin, ymax = <span class="built_in">min</span>(np.<span class="built_in">min</span>(forecast_samples), np.<span class="built_in">min</span>(y)), <span class="built_in">max</span>(np.<span class="built_in">max</span>(forecast_samples), np.<span class="built_in">max</span>(y))</span><br><span class="line">    yrange = ymax-ymin</span><br><span class="line">    ax.set_ylim([ymin - yrange*<span class="number">0.1</span>, ymax + yrange*<span class="number">0.1</span>])</span><br><span class="line">    ax.set_title(<span class="string">"{}"</span>.<span class="built_in">format</span>(title))</span><br><span class="line">    ax.legend()</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">if</span> x_locator <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        ax.xaxis.set_major_locator(x_locator)</span><br><span class="line">        ax.xaxis.set_major_formatter(x_formatter)</span><br><span class="line">        fig.autofmt_xdate()</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> fig, ax</span><br><span class="line"></span><br><span class="line"><span class="comment">#建构模型，并计算计算损失函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cal_loss</span>(<span class="params">training_data</span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#设置全局默认图形</span></span><br><span class="line">    tf.reset_default_graph()</span><br><span class="line">    <span class="comment">#遵循加法模型，设置趋势</span></span><br><span class="line">    trend = sts.LocalLinearTrend(observed_time_series=observed_time_series)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#设置季节性</span></span><br><span class="line">    seasonal = tfp.sts.Seasonal(</span><br><span class="line">          num_seasons=<span class="number">12</span>, observed_time_series=observed_time_series)</span><br><span class="line">    <span class="comment">#模型拟合,之所以用sum，而不是我们在建模中常见的fit定义，是因为，</span></span><br><span class="line">    <span class="comment">#模型时间序列为加法模型，有如上文提到的趋势，季节性，周期性等成分相加</span></span><br><span class="line">    <span class="comment">#默认的先验分布为正态（normal）</span></span><br><span class="line">    ts_model = sts.Sum([trend, seasonal], observed_time_series=observed_time_series)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#构建变分损失函数和后验</span></span><br><span class="line">    <span class="keyword">with</span> tf.variable_scope(<span class="string">'sts_elbo'</span>, reuse=tf.AUTO_REUSE):</span><br><span class="line">        elbo_loss, variational_posteriors = tfp.sts.build_factored_variational_loss(</span><br><span class="line">          ts_model,observed_time_series=training_data)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> ts_model,elbo_loss,variational_posteriors</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#模型训练，输出后验分布</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">training_data</span>):</span></span><br><span class="line">    </span><br><span class="line">    ts_model,elbo_loss,variational_posteriors=cal_loss(training_data)</span><br><span class="line">    num_variational_steps = <span class="number">401</span> </span><br><span class="line">    num_variational_steps = <span class="built_in">int</span>(num_variational_steps)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#训练模型，ELBO作为在变分推断的损失函数</span></span><br><span class="line">    train_vi = tf.train.AdamOptimizer(<span class="number">0.1</span>).minimize(elbo_loss)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#创建会话,并通过上下文管理器方式对张量Tensor对象进行计算</span></span><br><span class="line">    <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">        sess.run(tf.global_variables_initializer())</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_variational_steps):</span><br><span class="line">            _, elbo_ = sess.run((train_vi, elbo_loss))</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">20</span> == <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"step {} -ELBO {}"</span>.<span class="built_in">format</span>(i, elbo_))</span><br><span class="line">        <span class="comment">#求解后验参数</span></span><br><span class="line">        q_samples_ = sess.run({k: q.sample(<span class="number">3</span>)</span><br><span class="line">                             <span class="keyword">for</span> k, q <span class="keyword">in</span> variational_posteriors.items()})</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"打印变分推断参数信息:"</span>)</span><br><span class="line">        <span class="keyword">for</span> param <span class="keyword">in</span> ts_model.parameters:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"{}: {} +- {}"</span>.<span class="built_in">format</span>(param.name,</span><br><span class="line">                      np.mean(q_samples_[param.name], axis=<span class="number">0</span>),</span><br><span class="line">                      np.std(q_samples_[param.name], axis=<span class="number">0</span>)))</span><br><span class="line">    </span><br><span class="line">    data_t_dist = tfp.sts.forecast(ts_model,observed_time_series=training_data,\</span><br><span class="line">                                   parameter_samples=q_samples_,num_steps_forecast=num_forecast_steps)</span><br><span class="line">    <span class="keyword">return</span>  data_t_dist</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#模型预测</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">forecast</span>(<span class="params">training_data</span>):</span></span><br><span class="line">    data_t_dist=run(training_data)</span><br><span class="line">    <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">        data_t_mean, data_t_scale, data_t_samples = sess.run(</span><br><span class="line">          (data_t_dist.mean()[..., <span class="number">0</span>],</span><br><span class="line">           data_t_dist.stddev()[..., <span class="number">0</span>],</span><br><span class="line">           data_t_dist.sample(num_samples)[..., <span class="number">0</span>]))</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> data_t_mean,data_t_scale, data_t_samples</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#计算回测</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_mape</span>(<span class="params">data_t,forecsat</span>):</span></span><br><span class="line">    true_=data_t[-num_forecast_steps:]</span><br><span class="line">    true_=true_.iloc[:,-<span class="number">1</span>]</span><br><span class="line">    true_=true_.reset_index()</span><br><span class="line">    forecsat=pd.DataFrame(forecsat,columns=[<span class="string">'focecast'</span>])</span><br><span class="line">    mape_=pd.concat([pd.DataFrame(true_),forecsat],axis=<span class="number">1</span>)</span><br><span class="line">    mape_[<span class="string">'mape'</span>]=<span class="built_in">abs</span>(mape_.iloc[:,-<span class="number">2</span>]-mape_.iloc[:,-<span class="number">1</span>])/mape_.iloc[:,-<span class="number">2</span>]*<span class="number">100</span></span><br><span class="line">    <span class="keyword">return</span> mape_</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#读取数据集</span></span><br><span class="line">    </span><br><span class="line">    data_t=pd.read_csv(<span class="string">"../input/ts_sale.csv"</span>)</span><br><span class="line">    data_t=data_t[[<span class="string">'sale'</span>,<span class="string">'ym'</span>]]</span><br><span class="line">    data_t=data_t.set_index(<span class="string">'ym'</span>)</span><br><span class="line">    <span class="comment">#data_t.to_csv('/input/ts_sale')</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'序列长度'</span>,<span class="built_in">len</span>(data_t))</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#设置超参数</span></span><br><span class="line">    num_forecast_steps =<span class="number">3</span> <span class="comment"># 最后三个月作为预测值，以便于计算回测mape</span></span><br><span class="line">    num_samples=<span class="number">100</span>    <span class="comment">#设定采样次数</span></span><br><span class="line">    </span><br><span class="line">    training_data = data_t[:-num_forecast_steps]</span><br><span class="line">    data_dates=np.array(data_t.index,dtype=<span class="string">'datetime64[M]'</span>)</span><br><span class="line">    </span><br><span class="line">    observed_time_series=training_data</span><br><span class="line">    data_t_mean,data_t_scale, data_t_samples=forecast(training_data)</span><br><span class="line">    </span><br><span class="line">    data_y=pd.Series(data_t[<span class="string">'sale'</span>])</span><br><span class="line">    fig, ax = plot_forecast(</span><br><span class="line">    data_dates, data_y,</span><br><span class="line">    data_t_mean,data_t_scale, data_t_samples,title=<span class="string">"forecast"</span>)</span><br><span class="line">    ax.axvline(data_dates[-num_forecast_steps], linestyle=<span class="string">"--"</span>)</span><br><span class="line">    ax.legend(loc=<span class="string">"upper left"</span>)</span><br><span class="line">    ax.set_ylabel(<span class="string">"sale"</span>)</span><br><span class="line">    ax.set_xlabel(<span class="string">"year_month"</span>)</span><br><span class="line">    fig.autofmt_xdate()</span><br><span class="line">    </span><br><span class="line">    mape=get_mape(data_t,data_t_mean)</span><br><span class="line">    <span class="built_in">print</span>(mape)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'mape:'</span>,mape[<span class="string">'mape'</span>].mean())</span><br></pre></td></tr></table></figure>
+<h2 id="参考资料">参考资料</h2>
 <ol type="1">
-<li>if 突升/突降 &amp; 周期性，不告警</li>
-<li>if 突升/突降 &amp; 非 周期性，告警【特殊】</li>
-<li>if 非 突升/突降 &amp; 周期性，不告警</li>
-<li>if 非 突升/突降 &amp; 非 周期性，告警</li>
-</ol></li>
-<li><p>为什么要用ewma去检测局部平稳性，而不用ma呢？ewma比ma更适合表达趋势。</p></li>
-<li><p>需求还是方案？怎么给一个合适的阈值？怎么给一个合适的窗口？这个是一个需求？（用户定）还是一个解决方案？（给最佳实践）</p></li>
-<li><p>如果训练集代表的群体只是总体的子集，就只能找到疑似异常。这种情况下，单纯的数据挖掘是获取不到可信的知识的，还需要交给人来确定。就像做图像分类，训练集是动物世界中的动物，测试的时候，给了一个孙悟空，模型就不认识了。这种任务就不应该交给算法，应该转交给更高级的人类去处理，他有样本外的知识，有动画和真实世界这两个概念。</p></li>
-<li><p>对时间序列进行异常检测的流程：</p>
-<ol type="1">
-<li>找出最匹配模式：用拟合程度来判断最符合的是哪个模式。</li>
-<li>使用模式来预测未来范围：给一个区间</li>
-</ol></li>
-<li><p>对时间序列进行异常检测的流程：先用预测的方法，去做曲线模式判断，用拟合程度来判断符合哪个模式，即找到最佳视角能够解释这个现象，然后采用历史外推的方式，估算出正常区间</p></li>
-<li><p>更进一步的，正常区间之外，想要找出某个类型的异常，就再次配置出异常类型。</p></li>
-<li><p>使用邻近窗口的高斯检测器，要注意，这个方法忽略了时间序列的趋势性。</p></li>
-<li><p>使用ewma，或者曲线拟合出趋势，可以弥补1的问题。</p></li>
-<li><p>经过验证，ewma局部 + 屏蔽周期告警 的组合策略可以搞定大部分时序场景。</p></li>
+<li><a target="_blank" rel="noopener" href="https://www.jiqizhixin.com/articles/042202">blog</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/tensorflow/probability">tfp</a></li>
 </ol>
 
       
@@ -445,7 +406,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/26/reading_notes/reality/force/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/27/timeseries/timeseries5-1_system/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -458,7 +419,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/07/26/reading_notes/reality/force/" class="post-title-link" itemprop="url">3个驱动因子</a>
+          <a href="/2021/07/27/timeseries/timeseries5-1_system/" class="post-title-link" itemprop="url">时间序列5-1 时序预测框架--《Probabilistic Demand Forecasting at Scale》</a>
         </h2>
 
         <div class="post-meta-container">
@@ -469,14 +430,14 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-07-26 09:43:58" itemprop="dateCreated datePublished" datetime="2021-07-26T09:43:58+08:00">2021-07-26</time>
+      <time title="创建时间：2021-07-27 11:35:00" itemprop="dateCreated datePublished" datetime="2021-07-27T11:35:00+08:00">2021-07-27</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-17 10:22:24" itemprop="dateModified" datetime="2021-08-17T10:22:24+08:00">2021-08-17</time>
+        <time title="修改时间：2021-08-11 13:55:24" itemprop="dateModified" datetime="2021-08-11T13:55:24+08:00">2021-08-11</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -499,84 +460,70 @@ mjx-container[display="true"] + br {
     
     <div class="post-body" itemprop="articleBody">
           <blockquote>
-<p>接下来几十年，三个突出的问题：人口结构、贫富两极化和信息获取平民化。</p>
+<p>本文设计了一个时序预测系统，针对大规模时序进行预测</p>
 </blockquote>
 <h1 id="要点">要点</h1>
 <ol type="1">
-<li><p>研究历史的一个讽刺（irony）是，我们常常知道一个故事的确切结局，但不知道它什么时候开始的</p></li>
-<li><p>举个例子，是什么导致了金融危机？抵押贷款市场（mortgage，market）。是什么塑造了抵押贷款市场? 前30年的利率下降。利率下降的原因是什么? 20世纪70年代的通货膨胀。是什么导致了通货膨胀？20世纪70年代的货币体系和越南战争的后遗症。是什么导致了越南战争? 二战后西方对共产主义（communism）的恐惧..。如此没有尽头。</p></li>
-<li><p>每一个当前的事件，无论大小，都有父母、祖父母、曾祖父母、兄弟姐妹和堂兄弟姐妹。忽略其演变路径，会混淆对事件的理解，给人一种错误的印象，比如事情为什么会发生，可能会持续多久，以及在什么情况下它们可能会再次发。孤立地看待事件，而不去欣赏它们的长期根因（long roots），往往会得到肤浅的错误的结论。</p></li>
-<li><p>那些根因可以溯源。挖得越深，你就越能接近重大事件: 这些事件是如此的强大，它们影响着一系列看起来毫不相关的话题。上面这些事件的根原是二次世界大战。</p></li>
-<li><p>从1939年到1945年，世界重置了多少，战争留下的变化有多么深刻，这些都很难夸大，几乎定义了此后发生的一切。</p></li>
-<li><p>青霉素（Penicillin）的存在归功于战争。雷达、喷气式飞机、核能、火箭和直升机也是如此。用消费信贷和可减税的利息补贴消费是战时生产结束后为了保持经济正常运转而采取的深思熟虑的政策。高速公路是为了疏散城市居民和动员军队以防止冷战期间的核弹袭击，而冷战是二战的近亲。互联网也是如此。</p></li>
-<li><p>民权运动——也许是我们这个时代最重要的社会和政治事件——在战争期间真诚地开始了种族融合。</p></li>
-<li><p>战争期间，由于工厂需要妇女，女性劳动力增加了650万。大多数人在战争结束后继续工作，开始了一个趋势，到1990年，女性劳动力参与率翻了一番。这可能是我们一生中最重要的一次经济事件。</p></li>
-<li><p>在2019年找到一些对你重要的东西——社会的，政治的，经济的，无论什么——只要稍微努力一下，你就可以追溯到二战时期。这一规则的例外太少了，这令人震惊。</p></li>
-<li><p>伟大的技术和创新是如何诞生的？诞生于恐慌而不是舒适。为什么家庭债务会以现在的速度增长？为什么欧洲人对社会保障体系的看法与美国人不同？约翰·梅纳德·凯恩斯预测，被战争摧毁的国家会继续“渴望社会和个人安全”，事实也的确如此。历史学家托尼 · 朱特写到战后的欧洲:</p></li>
-</ol>
-<blockquote>
-<p>只有国家才能给广大人民带来希望或拯救（salvation）。在经济萧条、占领和内战之后，国家作为福利、安全和公平的代理人，是社区和社会凝聚力的重要来源。</p>
-</blockquote>
-<ol start="12" type="1">
-<li><p>今天发生的许多事情，都摆脱不了二战的影响。那么: 还有什么像第二次世界大战一样的影响因子吗？--人口(demographics)、不平等和信息获取。以及这三者的衍生品。</p></li>
-<li><p>人口结构的变化( demographic shift)重塑了现代经济。1960年，0-4岁的美国人是70-74岁的三倍。到2060年，这两个群体的数量基本持平。年轻工人的比例正在下降。老年工人的比例正在上升。退休人员的比例正在激增。后来随着女性变得越来越富有，她们生育的孩子也越来越少。富裕的家庭也会改变抚养孩子的期望值，降低想要孩子的数量。教育成本尤其造成了一个悖论，你认为你能负担的孩子数量随着你变得富有而减少，过去50年里拥有大学学位的人口比例一路飙升。</p></li>
-<li><p>人的寿命更长，婴儿数量更少是一件大事，因为这意味着人口老龄化。当人口老龄化的时候，从经济增长到职场文化，再到国际秩序，一切都会发生变化。低生育率是一个全球现象，尤其是在发达国家。随着人口老龄化和人口增长放缓，人口增长在许多情况下正在转向负增长。</p></li>
-<li><p>哪个国家将主导下个世纪？有人指向了人工智能和机器学习领域的领导地位，在这两个领域中，中国看起来很有竞争力。但是，当下一代人失去了五分之一的劳动力时，经济增长就难得多。中国可以发明一些像下一代互联网一样大的东西，但是当考虑到其人口结构，中国的经济就会混乱不堪。欧洲、日本和韩国甚至更糟。但是，人口结构对美国经济带来的负面影响没有那么糟糕。</p></li>
-<li><p>人们喜欢谈论新技术和创新，因为很酷，人口结构这个话题就很无酷。但是，在未来几十年里，对于整体经济增长的重要性，人口结构跟大多数创新相比，重要性有过之无不及。个人口结构造成的另外一个影响是: 一些国家越来越依赖移民来增加本国人口增长。</p></li>
-<li><p>四十年来不断扩大的财富不平等已经到了不可避免的转折点。不平等是现存的最具争议性的话题之一，因为它让资本主义与公平对立起来，就像是零和游戏。这是部落的天性，部落之间的冲突可能升级，因为你身份和尊严更加岌岌可危。</p></li>
-<li><p>但在这个故事（narrative）中，你认为不平等是对还是错，是好还是坏，或者我们应该怎么做，都无关紧要。重要的是，这件事确实发生了/</p></li>
-<li><p>上世纪50年代，历史学家弗雷德里克•刘易斯•艾伦(Frederick Lewis Allen)在一篇文章中描述了镀金时代(Gilded Age)让位于更为平衡的经济时期所发生的社会革命:</p></li>
-</ol>
-<blockquote>
-<p>要了解今天的美国，我们不仅必须认识到美国良知的反抗对其发展有多么重要，它向美国人灌输了这样的思想: 你可以修复这个国家的经济和政治机器，使之更好地为大多数人服务，而不必停止这个机器... ..。</p>
-<p>... ... 通过对体系的修订——税法、最低工资法、各种补贴、保障和规章，加上工会的压力和新的管理态度——我们废除了《铁的工资法》。我们实际上实现了收入的自动再分配，把富裕阶层的收入分配给不那么富裕的阶层。这并没有使机器停止运转，反而增强了它的动力。正如个人企业将部分利润投入到改善中时，似乎运转得最好一样，如果将部分国民收入用于改善低收入群体的收入和地位，使他们能够购买更多的商品，从而为所有人扩大市场，那么整个企业体系似乎运转得更好。我们发现了一个新的开拓领域: 穷人的购买力。</p>
-</blockquote>
-<ol start="25" type="1">
-<li><p>以下是经济力量的平衡如何在社会两极间切换的历史轨迹:</p>
-<ul>
-<li><p>一个人创造一个伟大的事业，变得富有。</p></li>
-<li><p>人们说，“太棒了! 他们创造了一个伟大的企业。他们应该富有。”真正的钦佩。</p></li>
-<li><p>随着商业的复利效应，财富带来更多的财富。</p></li>
-<li><p>更多的财富掌握了权力，包括监管影响力（regulatory influence）、公司治理缺陷（ governance deficiencies,）和工资谈判杠杆。</p></li>
-<li><p>这些权力创造了超级富豪，低收入的工人开始说，“嘿，你超级富有的原因是，你从仅仅是财富中获得了权力，更像是寻租，而不是创造价值。”</p></li>
-<li><p>人们说，“这是不对的，你不能这么做。”</p></li>
-<li><p>超级富豪说，“太糟糕了，事情就是这样运转的。”</p></li>
-<li><p>这个过程一直在compounding。</p></li>
-<li><p>人们感到士气低落（demoralized），没有尊严（undignified），就好像整个体制都在偏袒少数人一样。</p></li>
-<li><p>他们最终拥有了足够的资源，并且组成了一个强大的群体，足以 force change，特别是通过税收、最低工资和工会。</p></li>
-<li><p>超级富豪说，“这不对，你不能这么做。”</p></li>
-<li><p>人们说，“太糟糕了，事情就是这样运转的。”</p></li>
-</ul></li>
-<li><p>这种情况在两个方向都发生。到20世纪80年代初，影响力主要来自工人，而不是投资者。然后权力再次转移，来来回回。</p></li>
-<li><p>权力是短暂的。当失去权力的人受够了，他们会联合起来获得足够的影响力来夺回权力时，权力就发生了交接。永远不要低估拥有共同目标的一群弱者的力量。</p></li>
-<li><p>人们不会凭空判断自己的幸福。他们对比自己相对于周围人的财富。如果你的收入保持不变，而你周围的人看到他们的收入增长了10% ，你可能会感觉更糟。这通常是微妙的，因为那些拥有更多钱的人的物质财富会挑起你的欲望，经常嘲笑你通过借债来缩小你和他们之间的差距。</p></li>
-<li><p>仅仅看到顶部变得多么富有，或者底部停滞不前，两者之间的差距导致了一个群体对另一个群体的反抗。这个分裂是近一个世纪以来最大的。</p></li>
-<li><p>当底部开始向顶部反推时会发生什么？教育制度将被颠覆。目前的安排是需要大学学位才有机会成为并保持中产阶级，但是如果你没有家庭的帮助，那么承担改变生活的大量债务就不能持久。我不知道结局如何。但是，在30年的时间里，几乎不可能出现这样的情况: “每个人都在18岁时继续接受教育抵押贷款，学费持续上涨，涨幅是通货膨胀率的两倍，一切都很好。”这样一定会崩溃。</p></li>
-<li><p>获取信息填补了过去用来建立无知的社会盾牌的空白。 上一代人最伟大的创新就是摧毁了信息屏障，这种屏障曾经使陌生人彼此隔绝。</p></li>
-<li><p>电话和收音机很接近，但是差别很大。</p></li>
-<li><p>过去20年发生的事情——尤其是过去10年——历史从来没有过。电话消除了你和亲戚之间的信息差距，但是互联网缩小了你和世界上每一个陌生人之间的差距。这是件大事，也许是二战以来最大的事。</p></li>
-<li><p>TechCrunch 的创始人迈克尔 · 阿灵顿最近写道: “我本以为Twitter 正在将我们分裂，但是我慢慢开始觉得你们中一部分人一直讨厌另一部分，但是直到 Twitter出现，才暴露出来这一点。”这是一个很好的观点，突出了一些容易被忽视的东西:</p></li>
+<li>对大规模时序预测，工业界一直<strong>研究不足</strong></li>
+<li>一般的模型开发和部署的流程：算法人员在实验环境使用一套语言（例如keras）快速实验。工程人员在生产环境将模型重新实现一遍并上线。</li>
+<li>难点在于系统层面，又要 稳定 又要 灵活。提升稳定性的代价是代码复杂度上升，缺少抽象导致没法快速实验。</li>
+<li>本文提出了一个时序预测的框架，并且支持四种建模范式：local(数据并行)/global(最简单)/local with 人工指定分组/global and local(人工不指定分组，给出商品的元信息，让模型去学)</li>
+<li>本文的解决方案--将工程人员的工作沉淀为平台工具，如:</li>
 </ol>
 <ul>
-<li>1)每个人都属于一个部落（tribe）;</li>
-<li>2)这些部落有时候根本上不同意对方;</li>
-<li>3)如果这些部落保持距离，这很好;</li>
-<li>4)互联网越来越确保他们不会保持距离</li>
+<li>提供了数据处理的high-leve API：用户只用指定dataflow的数据源，处理的逻辑流，背后真正执行的数据流（一个DAG）会被系统重写（优化计算效率）</li>
+<li>后台支持四种模型训练范式</li>
+<li>后台支持分布式学习</li>
+<li>使用层面：实验阶段 希望快速出结果 ，生产阶段希望自动化地配置各种任务，包括自动化搜索超参</li>
+<li>算法层面：抽象出了路由功能 和 集成功能，使用命令式编程的方式 就可以实现 1. 给每个算法or策略分配 sub group样本用来训练， 2 给每个sub group 分配多个算法，并指定集成的权重）</li>
 </ul>
-<ol start="35" type="1">
-<li><p>接受不同的观点是好的，也是必要的。但是，当某个部落基本的、不可动摇的观点在向其他部落展示时，人们会震惊地发现，对他们来说神圣的东西并不总是普遍真理。政治观点的范围一直是极端的，但是在过去十年中看到的是，当意识形态的裹脚布被移除后会发生什么。</p></li>
-<li><p>另一个转变是推动精英管理（meritocracy）。那些从未拥有过声音的人，几乎一夜之间就拥有了最大的声音。匿名博主杰西•利弗莫尔(Jesse Livermore)提供的投资分析，比顶级投资银行的整个部门能够发表的文章还要睿智。两年前，Nick Maggiulli 还默默无闻，从未在金融领域工作过; 现在，他的投资文章比大多数主要新闻机构获得了更多关注。实际上，文凭主义（credentialism）正在消失。我不在乎你是谁或者你的职位是什么。如果你有什么好主意，我想听听。当然，这种做法的另一面是危险的，因为疯子（maniac）喊得最大声往往会引起注意。但是当你移除了准入门槛，你会发现天赋比你以前想象的更加普遍。成千上万的迈克尔 · 杰克逊、斯蒂芬 · 金斯和托马斯 · 爱迪生的作品将在未来得到认可，而这些作品在任何其他时代都会被忽略。</p></li>
-<li><p>第三个转变是，现在更难躲在后面，但更容易传播虚假和误导性信息。我不知道如何调和这种矛盾，但是你在任何地方都能看到这两者。客户评论可以完成Better Business Bureau 永远无法完成的任务，但是虚假评论带来的挑战在二十年前是不存在的。杰夫 · 贝佐斯(Jeff Bezos)曾经说过，随着消费者变得更加见多识广，企业应该把“绝大多数的精力、注意力和金钱投入到创造一个伟大的产品或服务上，而少量投入到宣传和营销中去。”同时，垃圾邮件的存在是因为它works。也许互联网让我们更了解情况，也更容易上当受骗。区分两者是困难的。真实和虚构这两个极端都会对现实造成重大影响。</p></li>
-<li><p>在线交友会从根本上改变未来几代人的婚姻。</p></li>
-<li><p>在线教育的影响力会增长。</p></li>
-<li><p>地缘政治似乎也是一个有趣的矛盾，因为它比以往任何时候都更加脆弱(通过 Twitter 进行外交) ，却更加依赖彼此(全球市场)。还有一个问题是，当两位候选人在高中都有社交媒体时，总统竞选是如何进行的，当每个人都发布他们以后会后悔的东西时。这场戏一定很有意思——既鼓舞人心又令人害怕。</p></li>
-<li><p>世界是由尾部事件（tail event）驱动的。少数因素决定了大多数结果。这是投资中最重要的概念之一，少量的头寸可能占到你一生的大部分回报。</p></li>
-<li><p>历史也不例外。第二次世界大战、第一次世界大战和大萧条几乎影响了20世纪的每一个重要事件。工业化和内战在19世纪也是如此。</p></li>
-<li><p>人口分布、不平等和信息获取将对未来几十年产生巨大影响。这些大事件的结局是一个有待讲述的故事。但是当这个故事发生了，我们才知道它是从哪里开始的。</p></li>
+<ol start="6" type="1">
+<li><p>本方法的收益：支持大规模训练；算法和工程分开。</p></li>
+<li><p>可伸缩性(可扩展性)：评价系统处理能力的一种指标。高可伸缩性表示，通过很少的改动甚至只添加硬件，就能实现整个系统处理能力的线性增长。</p></li>
+<li><p>实际中的需求：</p>
+<ul>
+<li>预测某个类别商品（比如厨具）的销量。</li>
+<li>历史数据缺失比较常见：比如某段时间，商品卖脱销了/有些商品停产了</li>
+<li>圣诞节前几周，销量可能会上升（跟商品自己无关）</li>
+<li>对高销量（看每周的平均销量 在所有商品中的排名）商品，使用混合策略，各自权重为0.5：baseline 模型和GLM模型</li>
+<li>对系统的自动化需求：在生产阶段会用到集群，服务的可用性有严格的标准。自动化的模型选择，自动的模型更新（固定特征集，超参），自动化的模型集成策略。</li>
+</ul></li>
+<li><p>一些最佳实践</p>
+<ul>
+<li>新发布一个模型之前要回测</li>
+<li>面对众多需要预测的商品时，使用二八原则，80%不重要的商品（例如历史数据稀疏），使用cheap解决方案（baseline 模型），20%重要的商品，使用expensive解决方案（nn，集成模型）</li>
+<li>对没有被路由到的商品，使用baseline模型兜底</li>
+<li>如果单个learner失败了，使用该leaner的商品就预测不出来了，使用ensemble策略比较好</li>
+<li>在模型开发的整个生命周期：先尝试小范围的baseline模型，后面不断的对特定的商品子类（subset）添加 specialized learners，来提升准确率（why 保证提升？）</li>
+<li>分组训练怎么保证准确率？将error tolerance 设置很小，将num_iteration设置为一个固定的较大的值。</li>
+<li>如果又想要在不同曲线之间迁移，又想保持曲线各自的特点，可以这么做：将共享的向量弄小一点，或者 提供自由度：让每个曲线都选择自己的特征。</li>
+</ul></li>
 </ol>
+<h1 id="附录">附录</h1>
+<h2 id="问题">问题</h2>
+<ul>
+<li>预测多个时序，使用全局模型和局部模型，系统后台分别是怎么设计的？为什么要这么设计?</li>
+<li>时序预测的后台能否拓展到其他场景，或者更general 的机器学习场景中？</li>
+<li>预处理 和 特征转换 阶段，专门针对时序数据做了哪些改进？提供了哪些算子？</li>
+<li>参数服务器是数据平行还是模型并行？</li>
+</ul>
+<h2 id="概率模型的输出">概率模型的输出</h2>
+<figure>
+<img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fsg4v0LRFEh.png?alt=media&amp;token=ec469b3d-4912-4f27-9e1d-080f37bb27fa" alt="时序预测需求"><figcaption aria-hidden="true">时序预测需求</figcaption>
+</figure>
+<ul>
+<li>黑色：观测值</li>
+<li>绿色：训练阶段，0.9 和 0.1 的分位数</li>
+<li>红色：未知数据上推断，0.9 和 0.1 的分位数</li>
+</ul>
+<h2 id="系统架构">系统架构</h2>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FdxvYHgGI4v.png?alt=media&amp;token=ebc71e8e-6863-42d3-8b2c-e5f8159c2a8d"></p>
+<h2 id="数据处理api">数据处理API</h2>
+<p>让用户只用关心 数据源，算子组装 逻辑，平台会根据用户的声明式编程语言（declarative ），生成计算图（DAG）和 优化（合并相同计算逻辑，生成缓存节点）</p>
+<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FKE2kXC_eEL.png?alt=media&amp;token=612d833e-359e-44d3-9f86-42d0c152d120"></p>
 <h1 id="参考">参考</h1>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.collaborativefund.com/blog/three-big-things-the-most-important-forces-shaping-the-world/">Morgan Housel 摩根豪斯</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.vldb.org/pvldb/vol10/p1694-schelter.pdf">基于概率的大规模需求预测</a></li>
 </ol>
 
       
@@ -597,7 +544,7 @@ mjx-container[display="true"] + br {
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/92/">92</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/93/">93</a><a class="extend next" rel="next" href="/page/8/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
