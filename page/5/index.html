@@ -245,7 +245,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">180</span>
+          <span class="site-state-item-count">182</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -295,7 +295,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/28/timeseries/timeseries5-2_probability-tensorflow/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/08/03/nlp/nlp_2-preprocess/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -308,7 +308,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/07/28/timeseries/timeseries5-2_probability-tensorflow/" class="post-title-link" itemprop="url">时间序列5-2 时序预测框架-TensorFlow Probability</a>
+          <a href="/2021/08/03/nlp/nlp_2-preprocess/" class="post-title-link" itemprop="url">自然语言处理2 预处理</a>
         </h2>
 
         <div class="post-meta-container">
@@ -319,14 +319,14 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-07-28 22:10:33" itemprop="dateCreated datePublished" datetime="2021-07-28T22:10:33+08:00">2021-07-28</time>
+      <time title="创建时间：2021-08-03 20:42:05" itemprop="dateCreated datePublished" datetime="2021-08-03T20:42:05+08:00">2021-08-03</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-11 13:55:24" itemprop="dateModified" datetime="2021-08-11T13:55:24+08:00">2021-08-11</time>
+        <time title="修改时间：2021-08-12 17:52:22" itemprop="dateModified" datetime="2021-08-12T17:52:22+08:00">2021-08-12</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -334,7 +334,7 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">时间序列</span></a>
+          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
         </span>
     </span>
 
@@ -348,37 +348,177 @@ mjx-container[display="true"] + br {
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>下面介绍一种基于tensorflow的概率编程框架TensorFlow Probability，可用于对时间序列构建概率模型。</p>
-<ol type="1">
-<li><p>2018年谷歌在tf开发者峰会上，宣布了新工具--tensorFlow Probability，用于构建贝叶斯模型，可分布式部署，对于大规模的时间序列的场景优势明显。</p></li>
-<li><p>贝叶斯概率模型虽然在tfp中被看作一种新的建模范式，依然遵循经典的时序模型建模原理，如时序的季节性，增长趋势。</p></li>
-<li><p>从整体上看看TensorFlow Probability主要包含：分布、模型构建层/损失函数、马尔可夫概率推断、优化。通过 Bijectors 和 TransformedDistribution计算复杂的分布，使用tfp.mcmc，tfp.vi进行概率推断。建模部分正主要分为以下步骤：</p>
+          <h2 id="总结">总结</h2>
 <ul>
-<li>build_mode:将训练数据输入-输出映射；</li>
-<li>fit_model， 使用变分推断拟合模型，抽样计算参数后验分布；</li>
-<li>得到模型预测值；</li>
-<li>evaluate：计算模型评估指标MAPE；</li>
+<li>NLP 的第一步是语料预处理，语料预处理的流程为：分词(tokenization), 词干提取（Stemming），词性还原（Lemmatisation）。</li>
 </ul>
 <figure>
-<img src="./image-20190621104830343.png" alt="image-20190621104830343"><figcaption aria-hidden="true">image-20190621104830343</figcaption>
-</figure></li>
-<li><p>贝叶斯模型的特点是，引入先验信息，通过概率描述不确定；概率编程则是利用计算机采样的方法进行贝叶斯推断（Bayesian inference），得出未知参数的概率分布，也就是利用贝叶斯公式给定观测数据和先验分布计算参数的后验概率，公式如下： <span class="math display"><mjx-container class="MathJax" jax="SVG" display="true"><svg style="vertical-align: -2.172ex" xmlns="http://www.w3.org/2000/svg" width="24.397ex" height="5.475ex" role="img" focusable="false" viewBox="0 -1460 10783.7 2420"><g stroke="currentColor" fill="currentColor" stroke-width="0" transform="scale(1,-1)"><g data-mml-node="math"><g data-mml-node="mi"><path data-c="1D45D" d="M23 287Q24 290 25 295T30 317T40 348T55 381T75 411T101 433T134 442Q209 442 230 378L240 387Q302 442 358 442Q423 442 460 395T497 281Q497 173 421 82T249 -10Q227 -10 210 -4Q199 1 187 11T168 28L161 36Q160 35 139 -51T118 -138Q118 -144 126 -145T163 -148H188Q194 -155 194 -157T191 -175Q188 -187 185 -190T172 -194Q170 -194 161 -194T127 -193T65 -192Q-5 -192 -24 -194H-32Q-39 -187 -39 -183Q-37 -156 -26 -148H-6Q28 -147 33 -136Q36 -130 94 103T155 350Q156 355 156 364Q156 405 131 405Q109 405 94 377T71 316T59 280Q57 278 43 278H29Q23 284 23 287ZM178 102Q200 26 252 26Q282 26 310 49T356 107Q374 141 392 215T411 325V331Q411 405 350 405Q339 405 328 402T306 393T286 380T269 365T254 350T243 336T235 326L232 322Q232 321 229 308T218 264T204 212Q178 106 178 102Z"></path></g><g data-mml-node="mo" transform="translate(503,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(892,0)"><path data-c="1D703" d="M35 200Q35 302 74 415T180 610T319 704Q320 704 327 704T339 705Q393 701 423 656Q462 596 462 495Q462 380 417 261T302 66T168 -10H161Q125 -10 99 10T60 63T41 130T35 200ZM383 566Q383 668 330 668Q294 668 260 623T204 521T170 421T157 371Q206 370 254 370L351 371Q352 372 359 404T375 484T383 566ZM113 132Q113 26 166 26Q181 26 198 36T239 74T287 161T335 307L340 324H145Q145 321 136 286T120 208T113 132Z"></path></g><g data-mml-node="mo" transform="translate(1638.8,0)"><path data-c="2223" d="M139 -249H137Q125 -249 119 -235V251L120 737Q130 750 139 750Q152 750 159 735V-235Q151 -249 141 -249H139Z"></path></g><g data-mml-node="mi" transform="translate(2194.6,0)"><path data-c="1D44B" d="M42 0H40Q26 0 26 11Q26 15 29 27Q33 41 36 43T55 46Q141 49 190 98Q200 108 306 224T411 342Q302 620 297 625Q288 636 234 637H206Q200 643 200 645T202 664Q206 677 212 683H226Q260 681 347 681Q380 681 408 681T453 682T473 682Q490 682 490 671Q490 670 488 658Q484 643 481 640T465 637Q434 634 411 620L488 426L541 485Q646 598 646 610Q646 628 622 635Q617 635 609 637Q594 637 594 648Q594 650 596 664Q600 677 606 683H618Q619 683 643 683T697 681T738 680Q828 680 837 683H845Q852 676 852 672Q850 647 840 637H824Q790 636 763 628T722 611T698 593L687 584Q687 585 592 480L505 384Q505 383 536 304T601 142T638 56Q648 47 699 46Q734 46 734 37Q734 35 732 23Q728 7 725 4T711 1Q708 1 678 1T589 2Q528 2 496 2T461 1Q444 1 444 10Q444 11 446 25Q448 35 450 39T455 44T464 46T480 47T506 54Q523 62 523 64Q522 64 476 181L429 299Q241 95 236 84Q232 76 232 72Q232 53 261 47Q262 47 267 47T273 46Q276 46 277 46T280 45T283 42T284 35Q284 26 282 19Q279 6 276 4T261 1Q258 1 243 1T201 2T142 2Q64 2 42 0Z"></path></g><g data-mml-node="mo" transform="translate(3046.6,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mo" transform="translate(3713.3,0)"><path data-c="3D" d="M56 347Q56 360 70 367H707Q722 359 722 347Q722 336 708 328L390 327H72Q56 332 56 347ZM56 153Q56 168 72 173H708Q722 163 722 153Q722 140 707 133H70Q56 140 56 153Z"></path></g><g data-mml-node="mfrac" transform="translate(4769.1,0)"><g data-mml-node="mrow" transform="translate(220,710)"><g data-mml-node="mi"><path data-c="1D45D" d="M23 287Q24 290 25 295T30 317T40 348T55 381T75 411T101 433T134 442Q209 442 230 378L240 387Q302 442 358 442Q423 442 460 395T497 281Q497 173 421 82T249 -10Q227 -10 210 -4Q199 1 187 11T168 28L161 36Q160 35 139 -51T118 -138Q118 -144 126 -145T163 -148H188Q194 -155 194 -157T191 -175Q188 -187 185 -190T172 -194Q170 -194 161 -194T127 -193T65 -192Q-5 -192 -24 -194H-32Q-39 -187 -39 -183Q-37 -156 -26 -148H-6Q28 -147 33 -136Q36 -130 94 103T155 350Q156 355 156 364Q156 405 131 405Q109 405 94 377T71 316T59 280Q57 278 43 278H29Q23 284 23 287ZM178 102Q200 26 252 26Q282 26 310 49T356 107Q374 141 392 215T411 325V331Q411 405 350 405Q339 405 328 402T306 393T286 380T269 365T254 350T243 336T235 326L232 322Q232 321 229 308T218 264T204 212Q178 106 178 102Z"></path></g><g data-mml-node="mo" transform="translate(503,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(892,0)"><path data-c="1D703" d="M35 200Q35 302 74 415T180 610T319 704Q320 704 327 704T339 705Q393 701 423 656Q462 596 462 495Q462 380 417 261T302 66T168 -10H161Q125 -10 99 10T60 63T41 130T35 200ZM383 566Q383 668 330 668Q294 668 260 623T204 521T170 421T157 371Q206 370 254 370L351 371Q352 372 359 404T375 484T383 566ZM113 132Q113 26 166 26Q181 26 198 36T239 74T287 161T335 307L340 324H145Q145 321 136 286T120 208T113 132Z"></path></g><g data-mml-node="mo" transform="translate(1361,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g><g data-mml-node="mi" transform="translate(1750,0)"><path data-c="1D45D" d="M23 287Q24 290 25 295T30 317T40 348T55 381T75 411T101 433T134 442Q209 442 230 378L240 387Q302 442 358 442Q423 442 460 395T497 281Q497 173 421 82T249 -10Q227 -10 210 -4Q199 1 187 11T168 28L161 36Q160 35 139 -51T118 -138Q118 -144 126 -145T163 -148H188Q194 -155 194 -157T191 -175Q188 -187 185 -190T172 -194Q170 -194 161 -194T127 -193T65 -192Q-5 -192 -24 -194H-32Q-39 -187 -39 -183Q-37 -156 -26 -148H-6Q28 -147 33 -136Q36 -130 94 103T155 350Q156 355 156 364Q156 405 131 405Q109 405 94 377T71 316T59 280Q57 278 43 278H29Q23 284 23 287ZM178 102Q200 26 252 26Q282 26 310 49T356 107Q374 141 392 215T411 325V331Q411 405 350 405Q339 405 328 402T306 393T286 380T269 365T254 350T243 336T235 326L232 322Q232 321 229 308T218 264T204 212Q178 106 178 102Z"></path></g><g data-mml-node="mo" transform="translate(2253,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mo" transform="translate(2642,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(3031,0)"><path data-c="1D44B" d="M42 0H40Q26 0 26 11Q26 15 29 27Q33 41 36 43T55 46Q141 49 190 98Q200 108 306 224T411 342Q302 620 297 625Q288 636 234 637H206Q200 643 200 645T202 664Q206 677 212 683H226Q260 681 347 681Q380 681 408 681T453 682T473 682Q490 682 490 671Q490 670 488 658Q484 643 481 640T465 637Q434 634 411 620L488 426L541 485Q646 598 646 610Q646 628 622 635Q617 635 609 637Q594 637 594 648Q594 650 596 664Q600 677 606 683H618Q619 683 643 683T697 681T738 680Q828 680 837 683H845Q852 676 852 672Q850 647 840 637H824Q790 636 763 628T722 611T698 593L687 584Q687 585 592 480L505 384Q505 383 536 304T601 142T638 56Q648 47 699 46Q734 46 734 37Q734 35 732 23Q728 7 725 4T711 1Q708 1 678 1T589 2Q528 2 496 2T461 1Q444 1 444 10Q444 11 446 25Q448 35 450 39T455 44T464 46T480 47T506 54Q523 62 523 64Q522 64 476 181L429 299Q241 95 236 84Q232 76 232 72Q232 53 261 47Q262 47 267 47T273 46Q276 46 277 46T280 45T283 42T284 35Q284 26 282 19Q279 6 276 4T261 1Q258 1 243 1T201 2T142 2Q64 2 42 0Z"></path></g><g data-mml-node="mo" transform="translate(4160.8,0)"><path data-c="2223" d="M139 -249H137Q125 -249 119 -235V251L120 737Q130 750 139 750Q152 750 159 735V-235Q151 -249 141 -249H139Z"></path></g><g data-mml-node="mi" transform="translate(4716.6,0)"><path data-c="1D703" d="M35 200Q35 302 74 415T180 610T319 704Q320 704 327 704T339 705Q393 701 423 656Q462 596 462 495Q462 380 417 261T302 66T168 -10H161Q125 -10 99 10T60 63T41 130T35 200ZM383 566Q383 668 330 668Q294 668 260 623T204 521T170 421T157 371Q206 370 254 370L351 371Q352 372 359 404T375 484T383 566ZM113 132Q113 26 166 26Q181 26 198 36T239 74T287 161T335 307L340 324H145Q145 321 136 286T120 208T113 132Z"></path></g><g data-mml-node="mo" transform="translate(5185.6,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g><g data-mml-node="mrow" transform="translate(1940.8,-710)"><g data-mml-node="mi"><path data-c="1D45D" d="M23 287Q24 290 25 295T30 317T40 348T55 381T75 411T101 433T134 442Q209 442 230 378L240 387Q302 442 358 442Q423 442 460 395T497 281Q497 173 421 82T249 -10Q227 -10 210 -4Q199 1 187 11T168 28L161 36Q160 35 139 -51T118 -138Q118 -144 126 -145T163 -148H188Q194 -155 194 -157T191 -175Q188 -187 185 -190T172 -194Q170 -194 161 -194T127 -193T65 -192Q-5 -192 -24 -194H-32Q-39 -187 -39 -183Q-37 -156 -26 -148H-6Q28 -147 33 -136Q36 -130 94 103T155 350Q156 355 156 364Q156 405 131 405Q109 405 94 377T71 316T59 280Q57 278 43 278H29Q23 284 23 287ZM178 102Q200 26 252 26Q282 26 310 49T356 107Q374 141 392 215T411 325V331Q411 405 350 405Q339 405 328 402T306 393T286 380T269 365T254 350T243 336T235 326L232 322Q232 321 229 308T218 264T204 212Q178 106 178 102Z"></path></g><g data-mml-node="mo" transform="translate(503,0)"><path data-c="28" d="M94 250Q94 319 104 381T127 488T164 576T202 643T244 695T277 729T302 750H315H319Q333 750 333 741Q333 738 316 720T275 667T226 581T184 443T167 250T184 58T225 -81T274 -167T316 -220T333 -241Q333 -250 318 -250H315H302L274 -226Q180 -141 137 -14T94 250Z"></path></g><g data-mml-node="mi" transform="translate(892,0)"><path data-c="1D44B" d="M42 0H40Q26 0 26 11Q26 15 29 27Q33 41 36 43T55 46Q141 49 190 98Q200 108 306 224T411 342Q302 620 297 625Q288 636 234 637H206Q200 643 200 645T202 664Q206 677 212 683H226Q260 681 347 681Q380 681 408 681T453 682T473 682Q490 682 490 671Q490 670 488 658Q484 643 481 640T465 637Q434 634 411 620L488 426L541 485Q646 598 646 610Q646 628 622 635Q617 635 609 637Q594 637 594 648Q594 650 596 664Q600 677 606 683H618Q619 683 643 683T697 681T738 680Q828 680 837 683H845Q852 676 852 672Q850 647 840 637H824Q790 636 763 628T722 611T698 593L687 584Q687 585 592 480L505 384Q505 383 536 304T601 142T638 56Q648 47 699 46Q734 46 734 37Q734 35 732 23Q728 7 725 4T711 1Q708 1 678 1T589 2Q528 2 496 2T461 1Q444 1 444 10Q444 11 446 25Q448 35 450 39T455 44T464 46T480 47T506 54Q523 62 523 64Q522 64 476 181L429 299Q241 95 236 84Q232 76 232 72Q232 53 261 47Q262 47 267 47T273 46Q276 46 277 46T280 45T283 42T284 35Q284 26 282 19Q279 6 276 4T261 1Q258 1 243 1T201 2T142 2Q64 2 42 0Z"></path></g><g data-mml-node="mo" transform="translate(1744,0)"><path data-c="29" d="M60 749L64 750Q69 750 74 750H86L114 726Q208 641 251 514T294 250Q294 182 284 119T261 12T224 -76T186 -143T145 -194T113 -227T90 -246Q87 -249 86 -250H74Q66 -250 63 -250T58 -247T55 -238Q56 -237 66 -225Q221 -64 221 250T66 725Q56 737 55 738Q55 746 60 749Z"></path></g></g><rect width="5774.6" height="60" x="120" y="220"></rect></g></g></g></svg></mjx-container></span></p></li>
-<li><p>由于后验分布精确求解非常困难，所以使用变分推断（variational inference）算近似分布，将计算后验分布转化最小化ELBO（negative evidence lower bound），得到变分的参数。</p></li>
-<li><p>输出模型参数有</p></li>
-</ol>
+<img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-weizhi.png" alt="词干提取和词形还原在 NLP 中在什么位置"><figcaption aria-hidden="true">词干提取和词形还原在 NLP 中在什么位置</figcaption>
+</figure>
 <ul>
-<li>observation_noise_scale： 噪声</li>
-<li>LocalLinearTrend/level_scale：局部线性截距</li>
-<li>LocalLinearTrend/slope_scale：局部线性趋势的斜率</li>
-<li>Seasonal/_drift_scale：季节性</li>
-</ul>
-<h2 id="附录">附录</h2>
-<p>程序运算步骤主要为：用正态分布作为先验分布，使用negative evidence lower bound作为损失函数，通过tfp.sts计算后验。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#本文为使用tensorflow概率建模</span></span><br><span class="line"></span><br><span class="line">%matplotlib inline</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> matplotlib <span class="keyword">import</span> pylab <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> seaborn <span class="keyword">as</span> sns</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"><span class="keyword">import</span> tensorflow_probability <span class="keyword">as</span> tfp</span><br><span class="line"><span class="keyword">from</span> tensorflow_probability <span class="keyword">import</span> distributions <span class="keyword">as</span> tfd</span><br><span class="line"><span class="keyword">from</span> tensorflow_probability <span class="keyword">import</span> sts</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#绘制预测与真实值时间序列图</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">plot_forecast</span>(<span class="params">x, y,</span></span></span><br><span class="line"><span class="params"><span class="function">                  forecast_mean, forecast_scale, forecast_samples,</span></span></span><br><span class="line"><span class="params"><span class="function">                  title, x_locator=<span class="literal">None</span>, x_formatter=<span class="literal">None</span></span>):</span></span><br><span class="line">    <span class="string">"""Plot a forecast distribution against the 'true' time series."""</span></span><br><span class="line">    colors = sns.color_palette()</span><br><span class="line">    c1, c2 = colors[<span class="number">0</span>], colors[<span class="number">1</span>]</span><br><span class="line">    fig = plt.figure(figsize=(<span class="number">12</span>, <span class="number">6</span>))</span><br><span class="line">    ax = fig.add_subplot(<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    num_steps = <span class="built_in">len</span>(y)</span><br><span class="line">    num_steps_forecast = forecast_mean.shape[-<span class="number">1</span>]</span><br><span class="line">    num_steps_train = num_steps - num_steps_forecast</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    ax.plot(x, y, lw=<span class="number">2</span>, color=c1, label=<span class="string">'ground truth'</span>)</span><br><span class="line">    forecast_steps = np.arange(</span><br><span class="line">      x[num_steps_train],</span><br><span class="line">      x[num_steps_train]+num_steps_forecast,</span><br><span class="line">      dtype=x.dtype)</span><br><span class="line">    <span class="comment">#</span></span><br><span class="line">    ax.plot(forecast_steps, forecast_samples.T, lw=<span class="number">1</span>, color=c2, alpha=<span class="number">0.1</span>)</span><br><span class="line">    <span class="comment">#绘制预测期望值以及针对最后三个月的100个采样结果</span></span><br><span class="line">    ax.plot(forecast_steps, forecast_mean, lw=<span class="number">2</span>, ls=<span class="string">'--'</span>, color=<span class="string">'r'</span>,</span><br><span class="line">           label=<span class="string">'forecast'</span>)</span><br><span class="line">    ax.fill_between(forecast_steps,</span><br><span class="line">                   forecast_mean-<span class="number">2</span>*forecast_scale,</span><br><span class="line">                   forecast_mean+<span class="number">2</span>*forecast_scale, color=c2, alpha=<span class="number">0.2</span>)</span><br><span class="line">    </span><br><span class="line">    ymin, ymax = <span class="built_in">min</span>(np.<span class="built_in">min</span>(forecast_samples), np.<span class="built_in">min</span>(y)), <span class="built_in">max</span>(np.<span class="built_in">max</span>(forecast_samples), np.<span class="built_in">max</span>(y))</span><br><span class="line">    yrange = ymax-ymin</span><br><span class="line">    ax.set_ylim([ymin - yrange*<span class="number">0.1</span>, ymax + yrange*<span class="number">0.1</span>])</span><br><span class="line">    ax.set_title(<span class="string">"{}"</span>.<span class="built_in">format</span>(title))</span><br><span class="line">    ax.legend()</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">if</span> x_locator <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>:</span><br><span class="line">        ax.xaxis.set_major_locator(x_locator)</span><br><span class="line">        ax.xaxis.set_major_formatter(x_formatter)</span><br><span class="line">        fig.autofmt_xdate()</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> fig, ax</span><br><span class="line"></span><br><span class="line"><span class="comment">#建构模型，并计算计算损失函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">cal_loss</span>(<span class="params">training_data</span>):</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">#设置全局默认图形</span></span><br><span class="line">    tf.reset_default_graph()</span><br><span class="line">    <span class="comment">#遵循加法模型，设置趋势</span></span><br><span class="line">    trend = sts.LocalLinearTrend(observed_time_series=observed_time_series)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#设置季节性</span></span><br><span class="line">    seasonal = tfp.sts.Seasonal(</span><br><span class="line">          num_seasons=<span class="number">12</span>, observed_time_series=observed_time_series)</span><br><span class="line">    <span class="comment">#模型拟合,之所以用sum，而不是我们在建模中常见的fit定义，是因为，</span></span><br><span class="line">    <span class="comment">#模型时间序列为加法模型，有如上文提到的趋势，季节性，周期性等成分相加</span></span><br><span class="line">    <span class="comment">#默认的先验分布为正态（normal）</span></span><br><span class="line">    ts_model = sts.Sum([trend, seasonal], observed_time_series=observed_time_series)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#构建变分损失函数和后验</span></span><br><span class="line">    <span class="keyword">with</span> tf.variable_scope(<span class="string">'sts_elbo'</span>, reuse=tf.AUTO_REUSE):</span><br><span class="line">        elbo_loss, variational_posteriors = tfp.sts.build_factored_variational_loss(</span><br><span class="line">          ts_model,observed_time_series=training_data)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> ts_model,elbo_loss,variational_posteriors</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#模型训练，输出后验分布</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">run</span>(<span class="params">training_data</span>):</span></span><br><span class="line">    </span><br><span class="line">    ts_model,elbo_loss,variational_posteriors=cal_loss(training_data)</span><br><span class="line">    num_variational_steps = <span class="number">401</span> </span><br><span class="line">    num_variational_steps = <span class="built_in">int</span>(num_variational_steps)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#训练模型，ELBO作为在变分推断的损失函数</span></span><br><span class="line">    train_vi = tf.train.AdamOptimizer(<span class="number">0.1</span>).minimize(elbo_loss)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#创建会话,并通过上下文管理器方式对张量Tensor对象进行计算</span></span><br><span class="line">    <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">        sess.run(tf.global_variables_initializer())</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(num_variational_steps):</span><br><span class="line">            _, elbo_ = sess.run((train_vi, elbo_loss))</span><br><span class="line">            </span><br><span class="line">        <span class="keyword">if</span> i % <span class="number">20</span> == <span class="number">0</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"step {} -ELBO {}"</span>.<span class="built_in">format</span>(i, elbo_))</span><br><span class="line">        <span class="comment">#求解后验参数</span></span><br><span class="line">        q_samples_ = sess.run({k: q.sample(<span class="number">3</span>)</span><br><span class="line">                             <span class="keyword">for</span> k, q <span class="keyword">in</span> variational_posteriors.items()})</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"打印变分推断参数信息:"</span>)</span><br><span class="line">        <span class="keyword">for</span> param <span class="keyword">in</span> ts_model.parameters:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"{}: {} +- {}"</span>.<span class="built_in">format</span>(param.name,</span><br><span class="line">                      np.mean(q_samples_[param.name], axis=<span class="number">0</span>),</span><br><span class="line">                      np.std(q_samples_[param.name], axis=<span class="number">0</span>)))</span><br><span class="line">    </span><br><span class="line">    data_t_dist = tfp.sts.forecast(ts_model,observed_time_series=training_data,\</span><br><span class="line">                                   parameter_samples=q_samples_,num_steps_forecast=num_forecast_steps)</span><br><span class="line">    <span class="keyword">return</span>  data_t_dist</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#模型预测</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">forecast</span>(<span class="params">training_data</span>):</span></span><br><span class="line">    data_t_dist=run(training_data)</span><br><span class="line">    <span class="keyword">with</span> tf.Session() <span class="keyword">as</span> sess:</span><br><span class="line">        data_t_mean, data_t_scale, data_t_samples = sess.run(</span><br><span class="line">          (data_t_dist.mean()[..., <span class="number">0</span>],</span><br><span class="line">           data_t_dist.stddev()[..., <span class="number">0</span>],</span><br><span class="line">           data_t_dist.sample(num_samples)[..., <span class="number">0</span>]))</span><br><span class="line">        </span><br><span class="line">    <span class="keyword">return</span> data_t_mean,data_t_scale, data_t_samples</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#计算回测</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_mape</span>(<span class="params">data_t,forecsat</span>):</span></span><br><span class="line">    true_=data_t[-num_forecast_steps:]</span><br><span class="line">    true_=true_.iloc[:,-<span class="number">1</span>]</span><br><span class="line">    true_=true_.reset_index()</span><br><span class="line">    forecsat=pd.DataFrame(forecsat,columns=[<span class="string">'focecast'</span>])</span><br><span class="line">    mape_=pd.concat([pd.DataFrame(true_),forecsat],axis=<span class="number">1</span>)</span><br><span class="line">    mape_[<span class="string">'mape'</span>]=<span class="built_in">abs</span>(mape_.iloc[:,-<span class="number">2</span>]-mape_.iloc[:,-<span class="number">1</span>])/mape_.iloc[:,-<span class="number">2</span>]*<span class="number">100</span></span><br><span class="line">    <span class="keyword">return</span> mape_</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#读取数据集</span></span><br><span class="line">    </span><br><span class="line">    data_t=pd.read_csv(<span class="string">"../input/ts_sale.csv"</span>)</span><br><span class="line">    data_t=data_t[[<span class="string">'sale'</span>,<span class="string">'ym'</span>]]</span><br><span class="line">    data_t=data_t.set_index(<span class="string">'ym'</span>)</span><br><span class="line">    <span class="comment">#data_t.to_csv('/input/ts_sale')</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'序列长度'</span>,<span class="built_in">len</span>(data_t))</span><br><span class="line">    </span><br><span class="line">    <span class="comment">#设置超参数</span></span><br><span class="line">    num_forecast_steps =<span class="number">3</span> <span class="comment"># 最后三个月作为预测值，以便于计算回测mape</span></span><br><span class="line">    num_samples=<span class="number">100</span>    <span class="comment">#设定采样次数</span></span><br><span class="line">    </span><br><span class="line">    training_data = data_t[:-num_forecast_steps]</span><br><span class="line">    data_dates=np.array(data_t.index,dtype=<span class="string">'datetime64[M]'</span>)</span><br><span class="line">    </span><br><span class="line">    observed_time_series=training_data</span><br><span class="line">    data_t_mean,data_t_scale, data_t_samples=forecast(training_data)</span><br><span class="line">    </span><br><span class="line">    data_y=pd.Series(data_t[<span class="string">'sale'</span>])</span><br><span class="line">    fig, ax = plot_forecast(</span><br><span class="line">    data_dates, data_y,</span><br><span class="line">    data_t_mean,data_t_scale, data_t_samples,title=<span class="string">"forecast"</span>)</span><br><span class="line">    ax.axvline(data_dates[-num_forecast_steps], linestyle=<span class="string">"--"</span>)</span><br><span class="line">    ax.legend(loc=<span class="string">"upper left"</span>)</span><br><span class="line">    ax.set_ylabel(<span class="string">"sale"</span>)</span><br><span class="line">    ax.set_xlabel(<span class="string">"year_month"</span>)</span><br><span class="line">    fig.autofmt_xdate()</span><br><span class="line">    </span><br><span class="line">    mape=get_mape(data_t,data_t_mean)</span><br><span class="line">    <span class="built_in">print</span>(mape)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'mape:'</span>,mape[<span class="string">'mape'</span>].mean())</span><br></pre></td></tr></table></figure>
-<h2 id="参考资料">参考资料</h2>
+<li><p>中英语处理的区别：</p>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.jiqizhixin.com/articles/042202">blog</a></li>
-<li><a target="_blank" rel="noopener" href="https://github.com/tensorflow/probability">tfp</a></li>
+<li><strong>英文单词有多种形态</strong>，所以需要做词干提取和词性还原，</li>
+<li>中文有多种分词方式，<strong>并且有多种粒度</strong></li>
+</ol></li>
+</ul>
+<h2 id="分词tokenization">分词（Tokenization）</h2>
+<ul>
+<li><p>目前中文分词没有统一的标准，也没有公认的规范。</p></li>
+<li><p>分词的方法大致分为3类：：基于词典匹配/基于统计/基于深度学习。</p>
+<ul>
+<li>基于词典匹配：将待分词的中文文本根据一定规则切分和调整，然后跟词典中的词语进行匹配，匹配成功则按照词典的词分词，匹配失败通过调整或者重新选择，如此反复循环即可。代表方法有基于正向最大匹配和基于逆向最大匹配及双向匹配法</li>
+<li>基于统计：这类目前常用的是算法是<strong>HMM、CRF、<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/svm/">SVM</a>、深度学习</strong>等算法，比如stanford、Hanlp分词工具是基于CRF算法。以CRF为例，基本思路是对汉字进行标注训练，不仅考虑了词语出现的频率，还考虑上下文，具备较好的学习能力，因此其对歧义词和未登录词的识别都具有良好的效果。</li>
+<li>基于深度学习：本质上是序列标注，所以有通用性，命名实体识别等都可以使用该模型，例如有人尝试使用双向LSTM+CRF实现分词器，其分词器字符准确率可高达97.5%。常见的分词器都是使用机器学习算法和词典相结合，一方面能够提高分词准确率，另一方面能够改善领域适应性。</li>
+</ul></li>
+<li><p>中文分词工具：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/hankcs/HanLP">Hanlp</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/stanfordnlp/CoreNLP">Stanford 分词</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/NLPchina/ansj_seg">ansj 分词器</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/HIT-SCIR/ltp">哈工大 LTP</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/koth/kcws">KCWS分词器</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/yanyiwu/cppjieba">jieba</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wks/ik-analyzer">IK</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/thunlp/THULAC">清华大学THULAC</a></li>
+<li>ICTCLAS</li>
+</ul></li>
+</ul>
+<h2 id="词干提取和词形还原">词干提取和词形还原</h2>
+<h3 id="词干提取-stemming">词干提取 – Stemming</h3>
+<p>词干提取是去除单词的前后缀得到词根的过程。大家常见的前后词缀有「名词的复数」、「进行式」、「过去分词」</p>
+<p>cities，children，teeth 这些词需要词干提取转换为 city，child，tooth这些基本形态。</p>
+<figure>
+<img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-cigan.png" alt="词干提取"><figcaption aria-hidden="true">词干提取</figcaption>
+</figure>
+<h2 id="section"></h2>
+<h3 id="词形还原-lemmatisation">词形还原 – Lemmatisation</h3>
+<p>词形还原是基于词典，将单词的复杂形态转变成最基础的形态，而不仅仅是简单地将前后缀去掉，比如「drove」会转换为「drive」，dive就是原形。</p>
+<p>does，done，doing，did 通过词性还原恢复成 do。</p>
+<figure>
+<img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-cixing.png" alt="词形还原"><figcaption aria-hidden="true">词形还原</figcaption>
+</figure>
+<h3 id="为什么要做词干提取和词形还原"><strong>为什么要做词干提取和词形还原？</strong></h3>
+<p>词干提取和词形还原的目的就是将含义相同，但是长相不同的词，统一起来，这样方便后续的处理和分析。</p>
+<h3 id="词干提取和词形还原对比">词干提取和词形还原对比</h3>
+<p>相同点：</p>
+<ol type="1">
+<li>目标一致：词干提取和词形还原都是将长相不同，但是含义相同的词统一起来，方便后续的处理和分析。</li>
+<li>结果部分可能相同：如“dogs”的词干为“dog”，其原形也为“dog”。</li>
+<li>主流实现方法类似：均是利用语言中存在的规则或利用词典映射提取词干或获得词的原形。</li>
+<li>应用领域相似。主要应用于信息检索和文本、自然语言处理等方面，二者均是这些应用的基本步骤。</li>
+</ol>
+<p>不同点：</p>
+<ol type="1">
+<li>在复杂性上，词干提取更简单粗暴，只用删减前后缀。词形还原则更复杂，为了返回词的原形，不仅要进行词缀的转化，还要进行<strong>词性识别</strong>，区分相同词形但原形不同的词的差别。词性标注的准确率也直接影响词形还原的准确率，因此，词形还原更为复杂。</li>
+</ol>
+<h2 id="命名实体识别ner">命名实体识别（NER）</h2>
+<p>命名实体识别（Named Entity Recognition，简称NER），是指识别文本中具有特定意义的实体，主要包括人名、地名、机构名、专有名词等。简单的讲，就是识别自然文本中的实体指称的边界和类别。</p>
+<p>NER一直是NLP领域中的研究热点，从早期基于词典和规则的方法，到传统机器学习的方法，到近年来基于深度学习的方法，NER研究进展的大概趋势大致如下：</p>
+<ul>
+<li><p>阶段 1：早期的方法，如：基于规则的方法、基于字典的方法</p></li>
+<li><p>阶段 2：传统机器学习，如：HMM、MEMM、CRF</p></li>
+<li><p>阶段 3：深度学习的方法，如：<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/rnn/">RNN</a> – CRF、<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/cnn/">CNN</a> – CRF</p></li>
+<li><p>阶段 4：近期新出现的一些方法，如：注意力模型、迁移学习、半监督学习的方法</p></li>
+</ul>
+<p>早期的命名实体识别方法基本都是基于规则的。之后由于基于大规模的语料库的统计方法在自然语言处理各个方面取得不错的效果之后，一大批机器学习的方法也出现在命名实体类识别任务。宗成庆老师在统计自然语言处理一书粗略的将这些基于机器学习的命名实体识别方法划分为以下几类：</p>
+<ul>
+<li><p><strong>有监督的学习方法</strong>：这一类方法需要利用大规模的已标注语料对模型进行参数训练。目前常用的方法包括隐马尔可夫模型、语言模型、最大熵模型、支持向量机、决策树和条件随机场（CRF）等。CRF是命名实体识别中最成功的方法。</p></li>
+<li><p><strong>半监督的学习方法</strong>：这一类方法利用标注的小数据集（种子数据）自举学习。</p></li>
+<li><p><strong>无监督的学习方法</strong>：这一类方法利用词汇资源（如WordNet）等进行上下文聚类。</p></li>
+<li><p><strong>混合方法</strong>：几种模型相结合或利用统计方法和人工总结的知识库。</p></li>
+</ul>
+<p>值得一提的是，由于深度学习在自然语言的广泛应用，基于深度学习的命名实体识别方法也展现出不错的效果，此类方法基本还是把命名实体识别当做<strong>序列标注</strong>任务来做，经典的方法是<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/lstm/">LSTM</a>+CRF、BiLSTM+CRF。</p>
+<h3 id="ner-数据集">NER 数据集</h3>
+<p>https://github.com/thunlp/THULAC</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>数据集</strong></th>
+<th style="text-align: left;"><strong>简要说明</strong></th>
+<th style="text-align: left;"><strong>访问地址</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">电子病例测评</td>
+<td style="text-align: left;">CCKS2017开放的中文的电子病例测评相关的数据</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://biendata.com/competition/CCKS2017_1/">测评1</a> | <a target="_blank" rel="noopener" href="https://biendata.com/competition/CCKS2017_2/">测评2</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">音乐领域</td>
+<td style="text-align: left;">CCKS2018开放的音乐领域的实体识别任务</td>
+<td style="text-align: left;">CCKS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">位置、组织、人…</td>
+<td style="text-align: left;">这是来自GMB语料库的摘录，用于训练分类器以预测命名实体，例如姓名，位置等。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus">kaggle</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">口语</td>
+<td style="text-align: left;">NLPCC2018开放的任务型对话系统中的口语理解评测</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="http://tcci.ccf.org.cn/conference/2018/taskdata.php">NLPCC</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">人名、地名、机构、专有名词</td>
+<td style="text-align: left;">一家公司提供的数据集,包含人名、地名、机构名、专有名词</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://bosonnlp.com/dev/resource">boson</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="ner工具推荐">NER工具推荐</h3>
+<table>
+<colgroup>
+<col style="width: 28%">
+<col style="width: 35%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>工具</strong></th>
+<th style="text-align: left;"><strong>简介</strong></th>
+<th style="text-align: left;"><strong>访问地址</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Stanford NER</td>
+<td style="text-align: left;">斯坦福大学开发的基于条件随机场的命名实体识别系统，该系统参数是基于CoNLL、MUC-6、MUC-7和ACE命名实体语料训练出来的。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://nlp.stanford.edu/software/CRF-NER.shtml">官网</a> | <a target="_blank" rel="noopener" href="https://github.com/Lynten/stanford-corenlp">GitHub 地址</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MALLET</td>
+<td style="text-align: left;">麻省大学开发的一个统计自然语言处理的开源包，其序列标注工具的应用中能够实现命名实体识别。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="http://mallet.cs.umass.edu/">官网</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hanlp</td>
+<td style="text-align: left;">HanLP是一系列模型与算法组成的NLP工具包，由大快搜索主导并完全开源，目标是普及自然语言处理在生产环境中的应用。支持命名实体识别。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="http://hanlp.linrunsoft.com/">官网</a> | <a target="_blank" rel="noopener" href="https://github.com/hankcs/pyhanlp">GitHub 地址</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/nltk/">NLTK</a></td>
+<td style="text-align: left;">NLTK是一个高效的Python构建的平台,用来处理人类自然语言数据。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="http://www.nltk.org/">官网</a> | <a target="_blank" rel="noopener" href="https://github.com/nltk/nltk">GitHub 地址</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SpaCy</td>
+<td style="text-align: left;">工业级的自然语言处理工具，遗憾的是不支持中文。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://spacy.io/">官网</a> | <a target="_blank" rel="noopener" href="https://github.com/explosion/spaCy">GitHub 地址</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Crfsuite</td>
+<td style="text-align: left;">可以载入自己的数据集去训练CRF实体识别模型。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://sklearn-crfsuite.readthedocs.io/en/latest/?badge=latest">文档</a> | <a target="_blank" rel="noopener" href="https://github.com/yuquanle/StudyForNLP/blob/master/NLPbasic/NER.ipynb">GitHub 地址</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><p>https://easyai.tech/ai-definition/stemming-lemmatisation/#weizhi</p></li>
+<li><p>https://easyai.tech/ai-definition/ner/</p></li>
+<li><p>https://easyai.tech/ai-definition/stemming-lemmatisation/#weizhi</p></li>
 </ol>
 
       
@@ -406,7 +546,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/27/timeseries/timeseries5-1_system/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/29/zhexue/dao-zhuangzi_qiwulun/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -419,7 +559,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/07/27/timeseries/timeseries5-1_system/" class="post-title-link" itemprop="url">时间序列5-1 时序预测框架--《Probabilistic Demand Forecasting at Scale》</a>
+          <a href="/2021/07/29/zhexue/dao-zhuangzi_qiwulun/" class="post-title-link" itemprop="url">庄子-齐物论</a>
         </h2>
 
         <div class="post-meta-container">
@@ -430,14 +570,14 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-07-27 11:35:00" itemprop="dateCreated datePublished" datetime="2021-07-27T11:35:00+08:00">2021-07-27</time>
+      <time title="创建时间：2021-07-29 21:55:31" itemprop="dateCreated datePublished" datetime="2021-07-29T21:55:31+08:00">2021-07-29</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-11 13:55:24" itemprop="dateModified" datetime="2021-08-11T13:55:24+08:00">2021-08-11</time>
+        <time title="修改时间：2021-07-30 11:46:42" itemprop="dateModified" datetime="2021-07-30T11:46:42+08:00">2021-07-30</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -445,7 +585,7 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+          <a href="/categories/%E5%93%B2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">哲学</span></a>
         </span>
     </span>
 
@@ -460,70 +600,74 @@ mjx-container[display="true"] + br {
     
     <div class="post-body" itemprop="articleBody">
           <blockquote>
-<p>本文设计了一个时序预测系统，针对大规模时序进行预测</p>
+<p>齐物论是《庄子》的代表篇目。“齐物论”包含齐物与齐论两个意思。</p>
 </blockquote>
-<h1 id="要点">要点</h1>
+<h2 id="一">一</h2>
+<p>南郭子綦隐机而坐，仰天而嘘，荅焉似丧其耦。 颜成子游立侍乎前，曰：“何居乎？形固可使如槁木，而心固可使如死灰乎？今之隐机者，非昔之隐机者也。” 子綦曰：“偃，不亦善乎而问之也！今者吾丧我，汝知之乎？女闻人籁而未闻地籁，女闻地籁而未闻天籁夫。” 子游曰：“敢问其方。” 子綦曰：“夫大块噫气，其名为风，是唯无作，作则万窍怒呺。而独不闻之翏翏乎？山林之畏隹，大木百围之窍穴，似鼻，似口，似耳，似枅，似圈，似臼，似洼者，似污者。激者，謞者，叱者，吸者，叫者，譹者，宎者，咬者，前者唱于而随者唱喁。泠风则小和，飘风则大和，厉风济则众窍为虚。而独不见之调调之刁刁乎？” 子游曰：“地簌则众窍是已，人簌则比竹是已，敢问天簌。” 子綦曰：“夫吹万不同，而使其自己也，咸其自取，怒者其谁邪？”</p>
+<p>(1)南郭子綦〔qí〕：楚昭王庶弟，居住在南郭，故称此号。隐：凭靠。机：靠椅、几案。</p>
+<p>(2)嘘：吐气。</p>
+<p>(3)荅〔tà〕焉：肌体放松，离形去智的样子。耦：匹对。丧其耦，表示精神超脱<a target="_blank" rel="noopener" href="http://youxue.5000yan.com/shenti/">身体</a>达到忘我的境界。</p>
+<p>(4)颜成<a target="_blank" rel="noopener" href="https://lunyu.5000yan.com/renwu/lunyu/6928.html">子游</a>：南郭子綦的学生，姓颜成，名偃，字子游。</p>
+<p>(5)何居：何故。</p>
+<p>(6)偃：即颜成子游。</p>
+<p>(7)吾丧我：吾，指真我，内在我；我，指外在我。</p>
+<p>(8)籁：箫，这里泛指从孔穴里发出的声响。</p>
+<p>(9)大块：<a target="_blank" rel="noopener" href="http://zhuangzi.5000yan.com/tiandi/">天地</a>。噫气：吐气。</p>
+<p>(10)呺：亦作“号”，吼叫。</p>
+<p>(11)翏翏：大风呼呼的声响。</p>
+<p>(12)林：通“陵”，大山。畏隹〔cuī〕：亦作“嵔隹”，即嵬崖，山陵高峻的样子。</p>
+<p>(13)枅〔yán〕：柱头横木。</p>
+<p>(14)污：小池。</p>
+<p>(15)激：急流声。</p>
+<p>(16)謞：飞箭声。</p>
+<p>(17)譹：嚎哭声。</p>
+<p>(18)宎：沉吟声。</p>
+<p>(19)咬〔yǎo〕：哀叹声。</p>
+<p>(20)于、喁：前后相和的声音。</p>
+<p>(21)泠风：小风、清风。</p>
+<p>(22)厉风：猛烈的暴风。济：止。</p>
+<p>(23)调调、刁刁：晃动摇曳的样子。</p>
+<p>(24)比竹：各种竹管类的乐器。</p>
+<p>(25)使其自己：意思使它们自身发出各种各样的声音。</p>
+<p>(26)怒：这里是发动的意思。</p>
+<h2 id="二">二</h2>
+<p>大智闲闲(1)，小知间间(2)。大言炎炎(3)，小言詹詹(4)。其寐也魂交，其觉也形开(5)。与接为搆(6)，日以心斗。缦(7)者、窖(8)者、密(9)者。小恐惴惴(10)，大恐缦缦(11)。其发若机栝(12)，其司(13)是非之谓也；其留如诅盟(14)，其守胜之谓也。其杀若秋冬，以言其日消也；其溺之所为之，不可使复之也；其厌也如缄，以言其老洫(15)也；近死之心，莫使复阳也。喜怒哀乐，虑叹变慹(16)，姚佚(17)启态。乐出虚(18)，蒸成菌(19)。日夜相代乎前，而莫知其所萌。已乎，已乎！旦暮得此，其所由以生乎！</p>
+<p>非彼无我，非我无所取。是亦近矣，而不知其所为使。若有真宰(20)，而特不得其眹(21)，可行己<a target="_blank" rel="noopener" href="http://dizigui.5000yan.com/xin/">信</a>，而不见其形，有情而无形。百骸、九窍(22)、六藏(23)，赅(24)而存焉，吾谁与为亲？汝皆悦之乎？其有私焉？如是皆有为臣妾乎？其臣妾不足以相治乎？其递相为君臣乎？其有真君(25)存焉？如求得其情与不得，无益损乎其真。</p>
+<p>一受其成形，不亡以待尽(26)。与物相刃相靡，其行尽如驰，而莫之能止，不亦悲乎！终身役役而不见其成功，苶然疲役而不知其所归(27)，可不哀邪！人谓之不死，奚益？其形化，其心与之然，可不谓大哀乎？人之生也，固若是芒(28)乎？其我独芒，而人亦有不芒者乎？</p>
+<p>夫随其成心而师之，谁独且无师乎？奚必知代而心自取者有之？愚者与有焉。未成乎心而有是非，是今日适越而昔至也。是以无有为有。无有为有，虽有神禹且不能知，吾独且奈何哉！</p>
+<p>(1)闲闲：广博的样子。</p>
+<p>(2)间间：细别的样子。</p>
+<p>(3)炎炎：猛烈，比喻说话时盛气凌人。</p>
+<p>(4)詹詹：喋喋不休。</p>
+<p>(5)形开：指形体不宁。</p>
+<p>(6)搆〔ɡòu〕：交合的意思。</p>
+<p>(7)缦〔màn〕：通“慢”，迟缓。</p>
+<p>(8)窖：深沉。</p>
+<p>(9)密：隐秘。</p>
+<p>(10)惴惴〔zhuì〕：恐惧不安的样子。</p>
+<p>(11)缦缦：神情沮丧的样子。</p>
+<p>(12)机栝〔ɡuā〕：机，弩上发射的机关；栝，箭末扣弦处。</p>
+<p>(13)司：通“伺”，伺察。</p>
+<p>(14)诅〔zǔ〕盟：誓约。</p>
+<p>(15)洫：田间的水道，喻指封闭。</p>
+<p>(16)慹〔zhé〕：恐惧。</p>
+<p>(17)姚：轻浮躁动。佚：奢华放纵。</p>
+<p>(18)乐出虚：乐声发自中空处。</p>
+<p>(19)蒸成菌：湿气蒸发而生出各种菌类。</p>
+<p>(20)真宰：真我，即我身的主宰。</p>
+<p>(21)眹：端倪、征兆。</p>
+<p>(22)九窍：人体上九个可以向外张开的孔穴，指双眼、双耳、双鼻孔、口、生殖器、肛门。</p>
+<p>(23)藏：内脏：古代写作“臓”，简化成“脏”。心、肺、肝、脾、肾俗称五脏。</p>
+<p>(24)赅：齐备。</p>
+<p>(25)真君：即“真我”“真心”。</p>
+<p>(26)不亡：没有。尽：耗竭。</p>
+<p>(27)苶然：疲倦困顿的样子。</p>
+<p>(28)芒：通“茫”，迷昧。</p>
+<p>(29)成心：成见。</p>
+<p>(30)代：更改，变化。</p>
+<h2 id="参考">参考</h2>
 <ol type="1">
-<li>对大规模时序预测，工业界一直<strong>研究不足</strong></li>
-<li>一般的模型开发和部署的流程：算法人员在实验环境使用一套语言（例如keras）快速实验。工程人员在生产环境将模型重新实现一遍并上线。</li>
-<li>难点在于系统层面，又要 稳定 又要 灵活。提升稳定性的代价是代码复杂度上升，缺少抽象导致没法快速实验。</li>
-<li>本文提出了一个时序预测的框架，并且支持四种建模范式：local(数据并行)/global(最简单)/local with 人工指定分组/global and local(人工不指定分组，给出商品的元信息，让模型去学)</li>
-<li>本文的解决方案--将工程人员的工作沉淀为平台工具，如:</li>
-</ol>
-<ul>
-<li>提供了数据处理的high-leve API：用户只用指定dataflow的数据源，处理的逻辑流，背后真正执行的数据流（一个DAG）会被系统重写（优化计算效率）</li>
-<li>后台支持四种模型训练范式</li>
-<li>后台支持分布式学习</li>
-<li>使用层面：实验阶段 希望快速出结果 ，生产阶段希望自动化地配置各种任务，包括自动化搜索超参</li>
-<li>算法层面：抽象出了路由功能 和 集成功能，使用命令式编程的方式 就可以实现 1. 给每个算法or策略分配 sub group样本用来训练， 2 给每个sub group 分配多个算法，并指定集成的权重）</li>
-</ul>
-<ol start="6" type="1">
-<li><p>本方法的收益：支持大规模训练；算法和工程分开。</p></li>
-<li><p>可伸缩性(可扩展性)：评价系统处理能力的一种指标。高可伸缩性表示，通过很少的改动甚至只添加硬件，就能实现整个系统处理能力的线性增长。</p></li>
-<li><p>实际中的需求：</p>
-<ul>
-<li>预测某个类别商品（比如厨具）的销量。</li>
-<li>历史数据缺失比较常见：比如某段时间，商品卖脱销了/有些商品停产了</li>
-<li>圣诞节前几周，销量可能会上升（跟商品自己无关）</li>
-<li>对高销量（看每周的平均销量 在所有商品中的排名）商品，使用混合策略，各自权重为0.5：baseline 模型和GLM模型</li>
-<li>对系统的自动化需求：在生产阶段会用到集群，服务的可用性有严格的标准。自动化的模型选择，自动的模型更新（固定特征集，超参），自动化的模型集成策略。</li>
-</ul></li>
-<li><p>一些最佳实践</p>
-<ul>
-<li>新发布一个模型之前要回测</li>
-<li>面对众多需要预测的商品时，使用二八原则，80%不重要的商品（例如历史数据稀疏），使用cheap解决方案（baseline 模型），20%重要的商品，使用expensive解决方案（nn，集成模型）</li>
-<li>对没有被路由到的商品，使用baseline模型兜底</li>
-<li>如果单个learner失败了，使用该leaner的商品就预测不出来了，使用ensemble策略比较好</li>
-<li>在模型开发的整个生命周期：先尝试小范围的baseline模型，后面不断的对特定的商品子类（subset）添加 specialized learners，来提升准确率（why 保证提升？）</li>
-<li>分组训练怎么保证准确率？将error tolerance 设置很小，将num_iteration设置为一个固定的较大的值。</li>
-<li>如果又想要在不同曲线之间迁移，又想保持曲线各自的特点，可以这么做：将共享的向量弄小一点，或者 提供自由度：让每个曲线都选择自己的特征。</li>
-</ul></li>
-</ol>
-<h1 id="附录">附录</h1>
-<h2 id="问题">问题</h2>
-<ul>
-<li>预测多个时序，使用全局模型和局部模型，系统后台分别是怎么设计的？为什么要这么设计?</li>
-<li>时序预测的后台能否拓展到其他场景，或者更general 的机器学习场景中？</li>
-<li>预处理 和 特征转换 阶段，专门针对时序数据做了哪些改进？提供了哪些算子？</li>
-<li>参数服务器是数据平行还是模型并行？</li>
-</ul>
-<h2 id="概率模型的输出">概率模型的输出</h2>
-<figure>
-<img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2Fsg4v0LRFEh.png?alt=media&amp;token=ec469b3d-4912-4f27-9e1d-080f37bb27fa" alt="时序预测需求"><figcaption aria-hidden="true">时序预测需求</figcaption>
-</figure>
-<ul>
-<li>黑色：观测值</li>
-<li>绿色：训练阶段，0.9 和 0.1 的分位数</li>
-<li>红色：未知数据上推断，0.9 和 0.1 的分位数</li>
-</ul>
-<h2 id="系统架构">系统架构</h2>
-<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FdxvYHgGI4v.png?alt=media&amp;token=ebc71e8e-6863-42d3-8b2c-e5f8159c2a8d"></p>
-<h2 id="数据处理api">数据处理API</h2>
-<p>让用户只用关心 数据源，算子组装 逻辑，平台会根据用户的声明式编程语言（declarative ），生成计算图（DAG）和 优化（合并相同计算逻辑，生成缓存节点）</p>
-<p><img src="https://firebasestorage.googleapis.com/v0/b/firescript-577a2.appspot.com/o/imgs%2Fapp%2Frf_learning%2FKE2kXC_eEL.png?alt=media&amp;token=612d833e-359e-44d3-9f86-42d0c152d120"></p>
-<h1 id="参考">参考</h1>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="http://www.vldb.org/pvldb/vol10/p1694-schelter.pdf">基于概率的大规模需求预测</a></li>
+<li>http://zhuangzi.5000yan.com/qiwulun/14.html</li>
 </ol>
 
       
@@ -544,7 +688,7 @@ mjx-container[display="true"] + br {
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/90/">90</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/91/">91</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
