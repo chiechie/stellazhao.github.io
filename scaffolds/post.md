@@ -1,9 +1,9 @@
 ---
 title: {{ title }}
 date: {{ date }}
-tags: {{ tags }}
 author: "chiechie"
 categories: {{ categories }}
+tags: {{ tags }}
 mathjax: true
 
 ---
