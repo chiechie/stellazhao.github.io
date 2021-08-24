@@ -3,7 +3,7 @@ layout: poste
 title: metaverse
 date: 2021-08-20 00:01:45
 categories: 
-- 投资
+- 区块链
 tags:
 - 投资
 - 元宇宙

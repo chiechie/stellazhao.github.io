@@ -1,5 +1,5 @@
 ---
-title: 《区块链：通往资产数字化之路》读书笔记
+title: 《区块链：通往资产数字化之路》
 author: chiechie
 mathjax: true
 date: 2021-04-30 08:50:28
@@ -8,7 +8,7 @@ tags:
 - 区块链
 - 比特币
 categories: 
-- 阅读
+- 区块链
 ---
 
 
