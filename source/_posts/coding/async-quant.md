@@ -4,7 +4,13 @@ author: chiechie
 mathjax: true
 date: 2021-08-22 23:30:15
 categories:
+- 编程
 tags:
+- 计算机原理
+- 线程
+- 进程
+- 异步
+- 量化
 ---
 
 

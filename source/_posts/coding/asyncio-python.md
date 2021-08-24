@@ -9,6 +9,10 @@ tags:
 - 编程
 - 协程
 - 并发
+- 计算机原理
+- 线程
+- 进程
+- 异步
 ---
 
 
@@ -72,5 +76,4 @@ gr2 Ended work: at 2.0 seconds
 1. https://yeray.dev/python/asyncio/asyncio-for-the-working-python-developer
 2. [asyncio资料汇总](https://github.com/timofurrer/awesome-asyncio)
 3. https://zhuanlan.zhihu.com/p/237067072
-
 

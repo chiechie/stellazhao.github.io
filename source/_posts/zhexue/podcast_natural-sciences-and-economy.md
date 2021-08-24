@@ -28,5 +28,5 @@ categories:
 
 
 ## 参考
-1.[微信公众号-RandomWalk Theory-许成钢教授谈治学](https://mp.weixin.qq.com/s/OOZabR5vQgmQzFIPrkJyoA)
+1.[RandomWalk Theory-许成钢教授谈治学](https://mp.weixin.qq.com/s/OOZabR5vQgmQzFIPrkJyoA)
 
