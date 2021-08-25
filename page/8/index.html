@@ -245,18 +245,18 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">185</span>
+          <span class="site-state-item-count">190</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">204</span>
+        <span class="site-state-item-count">209</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -295,7 +295,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/26/timeseries/timeseries6_anomalydetection/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/08/04/nlp/nlp_1-summary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -308,7 +308,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/07/26/timeseries/timeseries6_anomalydetection/" class="post-title-link" itemprop="url">时间序列6 时序异常检测</a>
+          <a href="/2021/08/04/nlp/nlp_1-summary/" class="post-title-link" itemprop="url">自然语言处理-总览</a>
         </h2>
 
         <div class="post-meta-container">
@@ -319,14 +319,14 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-07-26 23:12:28" itemprop="dateCreated datePublished" datetime="2021-07-26T23:12:28+08:00">2021-07-26</time>
+      <time title="创建时间：2021-08-04 10:32:32" itemprop="dateCreated datePublished" datetime="2021-08-04T10:32:32+08:00">2021-08-04</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-11 13:55:24" itemprop="dateModified" datetime="2021-08-11T13:55:24+08:00">2021-08-11</time>
+        <time title="修改时间：2021-08-12 17:52:22" itemprop="dateModified" datetime="2021-08-12T17:52:22+08:00">2021-08-12</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -334,7 +334,7 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">时间序列</span></a>
+          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
         </span>
     </span>
 
@@ -348,76 +348,45 @@ mjx-container[display="true"] + br {
     
     
     <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>I'm not an outlier; I just haven't found my distribution yet!</p>
-</blockquote>
-<h2 id="总结">总结</h2>
-<ol type="1">
-<li>通用需求使用生成模型，长尾需求使用有监督或者策略。</li>
-<li>有监督要求样本标记质量较高，需按照某个标准来标记，不可标准忽高忽低。</li>
-</ol>
-<blockquote>
-<p>未成乎心而有是非，是今日适越而昔至也。是以无有为有。无有为有，虽有神禹且不能知，吾独且奈何哉！--庄子.齐物论</p>
-</blockquote>
-<h2 id="附录">附录</h2>
-<ol type="1">
-<li><p>何为异常？正常的反面即异常。如果我们可以定义正常，那么异常就是其反面，很容易判断。</p></li>
-<li><p>如何定义正常？很多时间序列模型都可以，如arima/garch等，生成模型也可以。</p></li>
-<li><p>众多模式如何的选择？用拟合程度来判断，即找到一个最佳视角，能够解释当前的观测值。</p></li>
-<li><p>如果群体本身就是一个mess，还有必要跟它对比吗？如果这个群体就是一个五花八门的, 很难说哪个异常，因为都很有个性。eg美国的拉美裔，女权团体。</p></li>
-<li><p>如果这个群体mostly有秩序，只有少部分个体表现的不符合这个秩序，这些人就是异常。</p></li>
-<li><p>可以通过预测群体的正常行为来做异常检测，换言之时序预测是一种做异常检测的方法。</p></li>
-<li><p>异常检测比预测更简单。异常检测只需自圆其说即可，时序预测需要拿现实数据来验证。</p></li>
-<li><p>异常检测分两步，先做模式识别，也就是找规律，然后判断当前数据是否符合规律，符合即正常，反之则为异常。</p></li>
-<li><p>不是所有的序列都可以预测，比如股票数据就不可预测，因为历史数据里面包含的信息有限。 但是天气很好预测，因为很有规律。但是「能不能由预测」这些元知识都是人类总结出来的，通过很短的历史数据很难挖掘出这样的认识。</p></li>
-<li><p>狭义的预测，即，上面的预测 是想要 排除掉 异常的场景的，比如 出现经融危机的时候，希望预测出来正常值，所以，上面的预测 跟 一般的时序预测 不一样，上面的 预测 是希望 观测数据（训练数据） 或者 说 评分指标 能过滤掉哪些 极端异常的情况。</p>
+          <p>文本是随手可得的数据，但是其非结构化的特点需要特殊的处理，才能使用常规的分析工具使用。</p>
+<p>随着互联网的普及，生成了越来越多的非结构化数据，例如文章，图片，音频和视频等等，其中，文本占大部分。</p>
+<p>为了分析和挖掘这些文本信息，就需要使用自然语言处理（NLP）技术了。</p>
+<p>自然语言就是平时在生活中常用的表达方式。NLP是人类和机器之间的沟通桥梁。</p>
+<p>自然语言处理有2个核心任务：自然语言理解和自然语言生成。</p>
+<figure>
+<img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-07-23-nlp-qiaoliang.png" alt="NLP就是人类和机器之间沟通的桥梁"><figcaption aria-hidden="true">NLP就是人类和机器之间沟通的桥梁</figcaption>
+</figure>
+<p>自然语言理解就是希望机器具备像人一样的语言理解能力，自然语言在理解上有很多难点(下面详细说明)，至今表现远不如人类。</p>
+<p><strong>自然语言理解的5个难点：</strong>语言的多样性/语言的歧义性/语言的鲁棒性/语言的知识依赖/语言的上下文。</p>
+<p><strong>自然语言生成</strong>（<strong>NLG</strong>）是将非语言格式的数据转换成人类可以理解的语言格式，如文章、报告等。</p>
+<p>自然语言生成的6个步骤：内容确定Content Determination/文本结构 – Text Structuring/句子聚合 – Sentence Aggregation/语法化 – Lexicalisation/参考表达式生成（Referring Expression Generation，REG）/语言实现 – Linguistic Realisation</p>
+<p>NLP的几个难点：语法错综复杂；语意要基于环境（特定领域）和上下文。</p>
+<p>NLP 的4个典型应用：情感分析 /聊天机器人/<strong>语音识别</strong>/<strong>机器翻译</strong>。</p>
 <ul>
-<li>但是 实际情况是，我们很难给到 最单纯的 观测数据，现实中由于设备或者 采集环境 的原因，得到的观测值 往往是 含有噪声的，那么进一步的，这个噪声也分为两种，一种是正常的噪声，一种是极端异常值（比如金融危机，或者整个系统瘫痪）。</li>
-<li>对于正常的噪声，我们希望能够捕捉它的范围，然后在 推断阶段，依葫芦画瓢，也认为观测值是模式 + 正常噪声的结果。</li>
-<li>对于极端异常值，我们希望在训练阶段屏蔽掉 该值的影响，然后在 推断阶段，能识别出 它是远离 正常噪声范围的。进而告警。 8.又引申出新的问题，如何 分离出 一个观测值中的 趋势 + 噪声模式 + 极端值这三个分量？</li>
-<li>最直觉的方法 就是用stl的方法，基本原理 就是 待定系数法， 假设有3个函数组成（参数待估），然后用真实样本拟合（loss 应该是l2吧）。</li>
-<li>这种方法有一个问题，就是 拟合出来的趋势 经常是0，拟合出来的噪声经常是带有周期性的，并且也没法干预吼？</li>
-</ul></li>
-<li><p>异常检测只需要告知自己理解是啥；预测需要更进一步，考虑现实中的所有可能发生的情况。异常检测可以大胆地做，理论上没法证伪。预测是企业家的事情，需要一比高下。做异常检测是学术界的事情，选定一个视角，自己得出结论，不用跟别人一比高下。</p></li>
-<li><p>异常检测的原理是历史外延，没法证伪。如果预测和现实有偏差，碰巧能找到故障。如果找不到，也有可能是隐患，或者我们的视角有局限。没法证明是误判。</p></li>
-<li><p>一种异常检测器是一种视角，应该允许存在多个视角，并且可自由切换。</p></li>
-<li><p>什么样的告警结果用户可接受？符合他们认知模式的，比如同环比，上下界。</p></li>
-<li><p>时间序列相对于iid样本，生成机制不一样。时间序列比如人在不同时刻的行为序列，是有延续的。iid的数据比如，体育彩票，每一期中奖号码跟上一期没有关系。</p></li>
-<li><p>iid的样本满足中心极限定理（CLT），时间序列数据就没有这么简单，样本之间的关系还粘粘乎乎的。</p></li>
-<li><p>简单粗暴地将中心极限定义套到时间序列上面行不行？即，如果新来的样本点不满足历史正态分布，就是异常。 不行，看两个反例：</p></li>
-</ol>
-<ul>
-<li>反例1-周期性凸起：新来的样本不满足正态分布，但是正常</li>
-<li>反例2-局部拐点：新来的样本满足正态分布，但是异常</li>
+<li><p>情感分析的应用场景比如舆情分析，了解用户的使用体验是正面的还是负面的。</p></li>
+<li><p>语音识别的应用场景比如输入法，导航系统，</p></li>
+<li><p>聊天机器人的应用场景比如siri，智能客服，随着智能家居，智能汽车的发展，聊天机器人会有更大的价值。</p></li>
+<li><p>机器翻译的应用场景就蛮多了，目前的state of the art技术是Transformers。</p></li>
 </ul>
-<ol start="15" type="1">
-<li>还是想补救一下，能不能认为，排除掉了周期性凸起和局部拐点之后，就满足中心极限定理了？或者切换到一个更简单清晰的视角，不用中心极限定理，而用常见的时间序列模式描述？例如arima/stl模型等，也不能很理想地解决这两个问题。</li>
-</ol>
+<p>NLP 在使用机器学习模型之前，需要对语料进行预处理。中英文的预处理方式非常不一样。</p>
+<p>英文语料预处理的6个步骤： 分词（Tokenization）/词干提取（stemming）/词形还原 （Lemmatization）/词性标注（ Parts of Speech）/命名实体识别（NER）/分块 （Chunking）</p>
+<p><strong>中文语料预处理的 4 个步骤</strong>：中文分词 （Chinese Word Segmentation）/词性标注（Parts of Speech）/命名实体识别（NER 去除停用词）。</p>
 <blockquote>
-<p>stl模型假设时间序列是由周期性 + 趋势性 + 高斯噪声 三部分组成，相关的参数可以从历史数据中估计出来。估计出来参数后，假设新的正常数据中，趋势性保持，周期性往复，高斯噪声依旧无规律，于是可以生成一个预测的分布，然后看新来的数据是否落入这个区间 stl模型能否表达周期性凸起和抹掉局部拐点呢？不行，因为周期性凸起一般波动非常大，算法很难精准拟合，毕竟要照顾其他大部分平庸之辈的拟合程度，一般给的预测的置信区间太都很大，所以局部拐点告不出来。</p>
+<p><strong>文本挖掘的意义就是从数据中寻找有价值的信息，来发现或者解决一些实际问题。</strong></p>
 </blockquote>
-<ol start="16" type="1">
-<li><p>周期性凸起和局部拐点对与很多算法来说，是两个不相容的问题，解决了一个就忽略了另外一个。通常针对不相容的问题，可采用blending的思路，即构建一个复合的策略，多个子策略投票，或者取并集。blending的策略本来也是可以通过数据学习出来的（AdaBoosting和GradientBoosting就是）</p></li>
-<li><p>以周期性凸起和局部拐点为例，可以构建2个子策略：一个基于环比的子策略用来检测突升/突降，一个基于同比的子策略检测用来屏蔽周期性告警。然后对这个两个子策略构建路由：</p>
+<p>文本挖掘的几种方法：关键词提取，文本摘要，聚类，文本分类，文本主题模型，观点抽取，情感分析</p>
+<ul>
+<li><strong>关键词提取</strong>：对长文本的内容进行分析，输出能够反映文本关键信息的关键词。</li>
+<li><strong>文本摘要</strong>：许多文本挖掘应用程序需要总结文本文档，以便对大型文档或某一主题的文档集合做出简要概述。</li>
+<li><strong>聚类</strong>：聚类是未标注文本中获取隐藏数据结构的技术，常见的有 K均值聚类和层次聚类。更多见 <a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/unsupervised-learning/">无监督学习</a></li>
+<li><strong>文本分类</strong>：文本分类使用监督学习的方法，以对未知数据的分类进行预测的机器学习方法。</li>
+<li><strong>文本主题模型</strong>：LDA（<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/latent-dirichlet-allocationlda/">Latent Dirichlet Allocation</a>）是一种文档主题生成模型，也称为一个三层贝叶斯概率模型，包含词、主题和文档三层结构。</li>
+<li><strong>观点抽取</strong>：对文本（主要针对评论）进行分析，抽取出核心观点，并判断极性(正负面)，主要用于电商、美食、酒店、汽车等评论进行分析。</li>
+<li><strong>情感分析</strong>：对文本进行情感倾向判断，将文本情感分为正向、负向、中性。用于口碑分析、话题监控、舆情分析。</li>
+</ul>
+<h2 id="参考">参考</h2>
 <ol type="1">
-<li>if 突升/突降 &amp; 周期性，不告警</li>
-<li>if 突升/突降 &amp; 非 周期性，告警【特殊】</li>
-<li>if 非 突升/突降 &amp; 周期性，不告警</li>
-<li>if 非 突升/突降 &amp; 非 周期性，告警</li>
-</ol></li>
-<li><p>为什么要用ewma去检测局部平稳性，而不用ma呢？ewma比ma更适合表达趋势。</p></li>
-<li><p>需求还是方案？怎么给一个合适的阈值？怎么给一个合适的窗口？这个是一个需求？（用户定）还是一个解决方案？（给最佳实践）</p></li>
-<li><p>如果训练集代表的群体只是总体的子集，就只能找到疑似异常。这种情况下，单纯的数据挖掘是获取不到可信的知识的，还需要交给人来确定。就像做图像分类，训练集是动物世界中的动物，测试的时候，给了一个孙悟空，模型就不认识了。这种任务就不应该交给算法，应该转交给更高级的人类去处理，他有样本外的知识，有动画和真实世界这两个概念。</p></li>
-<li><p>对时间序列进行异常检测的流程：</p>
-<ol type="1">
-<li>找出最匹配模式：用拟合程度来判断最符合的是哪个模式。</li>
-<li>使用模式来预测未来范围：给一个区间</li>
-</ol></li>
-<li><p>对时间序列进行异常检测的流程：先用预测的方法，去做曲线模式判断，用拟合程度来判断符合哪个模式，即找到最佳视角能够解释这个现象，然后采用历史外推的方式，估算出正常区间</p></li>
-<li><p>更进一步的，正常区间之外，想要找出某个类型的异常，就再次配置出异常类型。</p></li>
-<li><p>使用邻近窗口的高斯检测器，要注意，这个方法忽略了时间序列的趋势性。</p></li>
-<li><p>使用ewma，或者曲线拟合出趋势，可以弥补1的问题。</p></li>
-<li><p>经过验证，ewma局部 + 屏蔽周期告警 的组合策略可以搞定大部分时序场景。</p></li>
+<li>https://easyai.tech/ai-definition/nlp/</li>
 </ol>
 
       
@@ -445,7 +414,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/26/reading_notes/reality/force/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/08/03/nlp/nlp_2-preprocess/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -458,7 +427,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/07/26/reading_notes/reality/force/" class="post-title-link" itemprop="url">3个驱动因子</a>
+          <a href="/2021/08/03/nlp/nlp_2-preprocess/" class="post-title-link" itemprop="url">自然语言处理2 预处理</a>
         </h2>
 
         <div class="post-meta-container">
@@ -469,14 +438,14 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-07-26 09:43:58" itemprop="dateCreated datePublished" datetime="2021-07-26T09:43:58+08:00">2021-07-26</time>
+      <time title="创建时间：2021-08-03 20:42:05" itemprop="dateCreated datePublished" datetime="2021-08-03T20:42:05+08:00">2021-08-03</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-17 10:22:24" itemprop="dateModified" datetime="2021-08-17T10:22:24+08:00">2021-08-17</time>
+        <time title="修改时间：2021-08-12 17:52:22" itemprop="dateModified" datetime="2021-08-12T17:52:22+08:00">2021-08-12</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -484,7 +453,7 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+          <a href="/categories/NLP/" itemprop="url" rel="index"><span itemprop="name">NLP</span></a>
         </span>
     </span>
 
@@ -498,85 +467,177 @@ mjx-container[display="true"] + br {
     
     
     <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>接下来几十年，三个突出的问题：人口结构、贫富两极化和信息获取平民化。</p>
-</blockquote>
-<h1 id="要点">要点</h1>
-<ol type="1">
-<li><p>研究历史的一个讽刺（irony）是，我们常常知道一个故事的确切结局，但不知道它什么时候开始的</p></li>
-<li><p>举个例子，是什么导致了金融危机？抵押贷款市场（mortgage，market）。是什么塑造了抵押贷款市场? 前30年的利率下降。利率下降的原因是什么? 20世纪70年代的通货膨胀。是什么导致了通货膨胀？20世纪70年代的货币体系和越南战争的后遗症。是什么导致了越南战争? 二战后西方对共产主义（communism）的恐惧..。如此没有尽头。</p></li>
-<li><p>每一个当前的事件，无论大小，都有父母、祖父母、曾祖父母、兄弟姐妹和堂兄弟姐妹。忽略其演变路径，会混淆对事件的理解，给人一种错误的印象，比如事情为什么会发生，可能会持续多久，以及在什么情况下它们可能会再次发。孤立地看待事件，而不去欣赏它们的长期根因（long roots），往往会得到肤浅的错误的结论。</p></li>
-<li><p>那些根因可以溯源。挖得越深，你就越能接近重大事件: 这些事件是如此的强大，它们影响着一系列看起来毫不相关的话题。上面这些事件的根原是二次世界大战。</p></li>
-<li><p>从1939年到1945年，世界重置了多少，战争留下的变化有多么深刻，这些都很难夸大，几乎定义了此后发生的一切。</p></li>
-<li><p>青霉素（Penicillin）的存在归功于战争。雷达、喷气式飞机、核能、火箭和直升机也是如此。用消费信贷和可减税的利息补贴消费是战时生产结束后为了保持经济正常运转而采取的深思熟虑的政策。高速公路是为了疏散城市居民和动员军队以防止冷战期间的核弹袭击，而冷战是二战的近亲。互联网也是如此。</p></li>
-<li><p>民权运动——也许是我们这个时代最重要的社会和政治事件——在战争期间真诚地开始了种族融合。</p></li>
-<li><p>战争期间，由于工厂需要妇女，女性劳动力增加了650万。大多数人在战争结束后继续工作，开始了一个趋势，到1990年，女性劳动力参与率翻了一番。这可能是我们一生中最重要的一次经济事件。</p></li>
-<li><p>在2019年找到一些对你重要的东西——社会的，政治的，经济的，无论什么——只要稍微努力一下，你就可以追溯到二战时期。这一规则的例外太少了，这令人震惊。</p></li>
-<li><p>伟大的技术和创新是如何诞生的？诞生于恐慌而不是舒适。为什么家庭债务会以现在的速度增长？为什么欧洲人对社会保障体系的看法与美国人不同？约翰·梅纳德·凯恩斯预测，被战争摧毁的国家会继续“渴望社会和个人安全”，事实也的确如此。历史学家托尼 · 朱特写到战后的欧洲:</p></li>
-</ol>
-<blockquote>
-<p>只有国家才能给广大人民带来希望或拯救（salvation）。在经济萧条、占领和内战之后，国家作为福利、安全和公平的代理人，是社区和社会凝聚力的重要来源。</p>
-</blockquote>
-<ol start="12" type="1">
-<li><p>今天发生的许多事情，都摆脱不了二战的影响。那么: 还有什么像第二次世界大战一样的影响因子吗？--人口(demographics)、不平等和信息获取。以及这三者的衍生品。</p></li>
-<li><p>人口结构的变化( demographic shift)重塑了现代经济。1960年，0-4岁的美国人是70-74岁的三倍。到2060年，这两个群体的数量基本持平。年轻工人的比例正在下降。老年工人的比例正在上升。退休人员的比例正在激增。后来随着女性变得越来越富有，她们生育的孩子也越来越少。富裕的家庭也会改变抚养孩子的期望值，降低想要孩子的数量。教育成本尤其造成了一个悖论，你认为你能负担的孩子数量随着你变得富有而减少，过去50年里拥有大学学位的人口比例一路飙升。</p></li>
-<li><p>人的寿命更长，婴儿数量更少是一件大事，因为这意味着人口老龄化。当人口老龄化的时候，从经济增长到职场文化，再到国际秩序，一切都会发生变化。低生育率是一个全球现象，尤其是在发达国家。随着人口老龄化和人口增长放缓，人口增长在许多情况下正在转向负增长。</p></li>
-<li><p>哪个国家将主导下个世纪？有人指向了人工智能和机器学习领域的领导地位，在这两个领域中，中国看起来很有竞争力。但是，当下一代人失去了五分之一的劳动力时，经济增长就难得多。中国可以发明一些像下一代互联网一样大的东西，但是当考虑到其人口结构，中国的经济就会混乱不堪。欧洲、日本和韩国甚至更糟。但是，人口结构对美国经济带来的负面影响没有那么糟糕。</p></li>
-<li><p>人们喜欢谈论新技术和创新，因为很酷，人口结构这个话题就很无酷。但是，在未来几十年里，对于整体经济增长的重要性，人口结构跟大多数创新相比，重要性有过之无不及。个人口结构造成的另外一个影响是: 一些国家越来越依赖移民来增加本国人口增长。</p></li>
-<li><p>四十年来不断扩大的财富不平等已经到了不可避免的转折点。不平等是现存的最具争议性的话题之一，因为它让资本主义与公平对立起来，就像是零和游戏。这是部落的天性，部落之间的冲突可能升级，因为你身份和尊严更加岌岌可危。</p></li>
-<li><p>但在这个故事（narrative）中，你认为不平等是对还是错，是好还是坏，或者我们应该怎么做，都无关紧要。重要的是，这件事确实发生了/</p></li>
-<li><p>上世纪50年代，历史学家弗雷德里克•刘易斯•艾伦(Frederick Lewis Allen)在一篇文章中描述了镀金时代(Gilded Age)让位于更为平衡的经济时期所发生的社会革命:</p></li>
-</ol>
-<blockquote>
-<p>要了解今天的美国，我们不仅必须认识到美国良知的反抗对其发展有多么重要，它向美国人灌输了这样的思想: 你可以修复这个国家的经济和政治机器，使之更好地为大多数人服务，而不必停止这个机器... ..。</p>
-<p>... ... 通过对体系的修订——税法、最低工资法、各种补贴、保障和规章，加上工会的压力和新的管理态度——我们废除了《铁的工资法》。我们实际上实现了收入的自动再分配，把富裕阶层的收入分配给不那么富裕的阶层。这并没有使机器停止运转，反而增强了它的动力。正如个人企业将部分利润投入到改善中时，似乎运转得最好一样，如果将部分国民收入用于改善低收入群体的收入和地位，使他们能够购买更多的商品，从而为所有人扩大市场，那么整个企业体系似乎运转得更好。我们发现了一个新的开拓领域: 穷人的购买力。</p>
-</blockquote>
-<ol start="25" type="1">
-<li><p>以下是经济力量的平衡如何在社会两极间切换的历史轨迹:</p>
+          <h2 id="总结">总结</h2>
 <ul>
-<li><p>一个人创造一个伟大的事业，变得富有。</p></li>
-<li><p>人们说，“太棒了! 他们创造了一个伟大的企业。他们应该富有。”真正的钦佩。</p></li>
-<li><p>随着商业的复利效应，财富带来更多的财富。</p></li>
-<li><p>更多的财富掌握了权力，包括监管影响力（regulatory influence）、公司治理缺陷（ governance deficiencies,）和工资谈判杠杆。</p></li>
-<li><p>这些权力创造了超级富豪，低收入的工人开始说，“嘿，你超级富有的原因是，你从仅仅是财富中获得了权力，更像是寻租，而不是创造价值。”</p></li>
-<li><p>人们说，“这是不对的，你不能这么做。”</p></li>
-<li><p>超级富豪说，“太糟糕了，事情就是这样运转的。”</p></li>
-<li><p>这个过程一直在compounding。</p></li>
-<li><p>人们感到士气低落（demoralized），没有尊严（undignified），就好像整个体制都在偏袒少数人一样。</p></li>
-<li><p>他们最终拥有了足够的资源，并且组成了一个强大的群体，足以 force change，特别是通过税收、最低工资和工会。</p></li>
-<li><p>超级富豪说，“这不对，你不能这么做。”</p></li>
-<li><p>人们说，“太糟糕了，事情就是这样运转的。”</p></li>
-</ul></li>
-<li><p>这种情况在两个方向都发生。到20世纪80年代初，影响力主要来自工人，而不是投资者。然后权力再次转移，来来回回。</p></li>
-<li><p>权力是短暂的。当失去权力的人受够了，他们会联合起来获得足够的影响力来夺回权力时，权力就发生了交接。永远不要低估拥有共同目标的一群弱者的力量。</p></li>
-<li><p>人们不会凭空判断自己的幸福。他们对比自己相对于周围人的财富。如果你的收入保持不变，而你周围的人看到他们的收入增长了10% ，你可能会感觉更糟。这通常是微妙的，因为那些拥有更多钱的人的物质财富会挑起你的欲望，经常嘲笑你通过借债来缩小你和他们之间的差距。</p></li>
-<li><p>仅仅看到顶部变得多么富有，或者底部停滞不前，两者之间的差距导致了一个群体对另一个群体的反抗。这个分裂是近一个世纪以来最大的。</p></li>
-<li><p>当底部开始向顶部反推时会发生什么？教育制度将被颠覆。目前的安排是需要大学学位才有机会成为并保持中产阶级，但是如果你没有家庭的帮助，那么承担改变生活的大量债务就不能持久。我不知道结局如何。但是，在30年的时间里，几乎不可能出现这样的情况: “每个人都在18岁时继续接受教育抵押贷款，学费持续上涨，涨幅是通货膨胀率的两倍，一切都很好。”这样一定会崩溃。</p></li>
-<li><p>获取信息填补了过去用来建立无知的社会盾牌的空白。 上一代人最伟大的创新就是摧毁了信息屏障，这种屏障曾经使陌生人彼此隔绝。</p></li>
-<li><p>电话和收音机很接近，但是差别很大。</p></li>
-<li><p>过去20年发生的事情——尤其是过去10年——历史从来没有过。电话消除了你和亲戚之间的信息差距，但是互联网缩小了你和世界上每一个陌生人之间的差距。这是件大事，也许是二战以来最大的事。</p></li>
-<li><p>TechCrunch 的创始人迈克尔 · 阿灵顿最近写道: “我本以为Twitter 正在将我们分裂，但是我慢慢开始觉得你们中一部分人一直讨厌另一部分，但是直到 Twitter出现，才暴露出来这一点。”这是一个很好的观点，突出了一些容易被忽视的东西:</p></li>
-</ol>
-<ul>
-<li>1)每个人都属于一个部落（tribe）;</li>
-<li>2)这些部落有时候根本上不同意对方;</li>
-<li>3)如果这些部落保持距离，这很好;</li>
-<li>4)互联网越来越确保他们不会保持距离</li>
+<li>NLP 的第一步是语料预处理，语料预处理的流程为：分词(tokenization), 词干提取（Stemming），词性还原（Lemmatisation）。</li>
 </ul>
-<ol start="35" type="1">
-<li><p>接受不同的观点是好的，也是必要的。但是，当某个部落基本的、不可动摇的观点在向其他部落展示时，人们会震惊地发现，对他们来说神圣的东西并不总是普遍真理。政治观点的范围一直是极端的，但是在过去十年中看到的是，当意识形态的裹脚布被移除后会发生什么。</p></li>
-<li><p>另一个转变是推动精英管理（meritocracy）。那些从未拥有过声音的人，几乎一夜之间就拥有了最大的声音。匿名博主杰西•利弗莫尔(Jesse Livermore)提供的投资分析，比顶级投资银行的整个部门能够发表的文章还要睿智。两年前，Nick Maggiulli 还默默无闻，从未在金融领域工作过; 现在，他的投资文章比大多数主要新闻机构获得了更多关注。实际上，文凭主义（credentialism）正在消失。我不在乎你是谁或者你的职位是什么。如果你有什么好主意，我想听听。当然，这种做法的另一面是危险的，因为疯子（maniac）喊得最大声往往会引起注意。但是当你移除了准入门槛，你会发现天赋比你以前想象的更加普遍。成千上万的迈克尔 · 杰克逊、斯蒂芬 · 金斯和托马斯 · 爱迪生的作品将在未来得到认可，而这些作品在任何其他时代都会被忽略。</p></li>
-<li><p>第三个转变是，现在更难躲在后面，但更容易传播虚假和误导性信息。我不知道如何调和这种矛盾，但是你在任何地方都能看到这两者。客户评论可以完成Better Business Bureau 永远无法完成的任务，但是虚假评论带来的挑战在二十年前是不存在的。杰夫 · 贝佐斯(Jeff Bezos)曾经说过，随着消费者变得更加见多识广，企业应该把“绝大多数的精力、注意力和金钱投入到创造一个伟大的产品或服务上，而少量投入到宣传和营销中去。”同时，垃圾邮件的存在是因为它works。也许互联网让我们更了解情况，也更容易上当受骗。区分两者是困难的。真实和虚构这两个极端都会对现实造成重大影响。</p></li>
-<li><p>在线交友会从根本上改变未来几代人的婚姻。</p></li>
-<li><p>在线教育的影响力会增长。</p></li>
-<li><p>地缘政治似乎也是一个有趣的矛盾，因为它比以往任何时候都更加脆弱(通过 Twitter 进行外交) ，却更加依赖彼此(全球市场)。还有一个问题是，当两位候选人在高中都有社交媒体时，总统竞选是如何进行的，当每个人都发布他们以后会后悔的东西时。这场戏一定很有意思——既鼓舞人心又令人害怕。</p></li>
-<li><p>世界是由尾部事件（tail event）驱动的。少数因素决定了大多数结果。这是投资中最重要的概念之一，少量的头寸可能占到你一生的大部分回报。</p></li>
-<li><p>历史也不例外。第二次世界大战、第一次世界大战和大萧条几乎影响了20世纪的每一个重要事件。工业化和内战在19世纪也是如此。</p></li>
-<li><p>人口分布、不平等和信息获取将对未来几十年产生巨大影响。这些大事件的结局是一个有待讲述的故事。但是当这个故事发生了，我们才知道它是从哪里开始的。</p></li>
-</ol>
-<h1 id="参考">参考</h1>
+<figure>
+<img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-weizhi.png" alt="词干提取和词形还原在 NLP 中在什么位置"><figcaption aria-hidden="true">词干提取和词形还原在 NLP 中在什么位置</figcaption>
+</figure>
+<ul>
+<li><p>中英语处理的区别：</p>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.collaborativefund.com/blog/three-big-things-the-most-important-forces-shaping-the-world/">Morgan Housel 摩根豪斯</a></li>
+<li><strong>英文单词有多种形态</strong>，所以需要做词干提取和词性还原，</li>
+<li>中文有多种分词方式，<strong>并且有多种粒度</strong></li>
+</ol></li>
+</ul>
+<h2 id="分词tokenization">分词（Tokenization）</h2>
+<ul>
+<li><p>目前中文分词没有统一的标准，也没有公认的规范。</p></li>
+<li><p>分词的方法大致分为3类：：基于词典匹配/基于统计/基于深度学习。</p>
+<ul>
+<li>基于词典匹配：将待分词的中文文本根据一定规则切分和调整，然后跟词典中的词语进行匹配，匹配成功则按照词典的词分词，匹配失败通过调整或者重新选择，如此反复循环即可。代表方法有基于正向最大匹配和基于逆向最大匹配及双向匹配法</li>
+<li>基于统计：这类目前常用的是算法是<strong>HMM、CRF、<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/svm/">SVM</a>、深度学习</strong>等算法，比如stanford、Hanlp分词工具是基于CRF算法。以CRF为例，基本思路是对汉字进行标注训练，不仅考虑了词语出现的频率，还考虑上下文，具备较好的学习能力，因此其对歧义词和未登录词的识别都具有良好的效果。</li>
+<li>基于深度学习：本质上是序列标注，所以有通用性，命名实体识别等都可以使用该模型，例如有人尝试使用双向LSTM+CRF实现分词器，其分词器字符准确率可高达97.5%。常见的分词器都是使用机器学习算法和词典相结合，一方面能够提高分词准确率，另一方面能够改善领域适应性。</li>
+</ul></li>
+<li><p>中文分词工具：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/hankcs/HanLP">Hanlp</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/stanfordnlp/CoreNLP">Stanford 分词</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/NLPchina/ansj_seg">ansj 分词器</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/HIT-SCIR/ltp">哈工大 LTP</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/koth/kcws">KCWS分词器</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/yanyiwu/cppjieba">jieba</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wks/ik-analyzer">IK</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/thunlp/THULAC">清华大学THULAC</a></li>
+<li>ICTCLAS</li>
+</ul></li>
+</ul>
+<h2 id="词干提取和词形还原">词干提取和词形还原</h2>
+<h3 id="词干提取-stemming">词干提取 – Stemming</h3>
+<p>词干提取是去除单词的前后缀得到词根的过程。大家常见的前后词缀有「名词的复数」、「进行式」、「过去分词」</p>
+<p>cities，children，teeth 这些词需要词干提取转换为 city，child，tooth这些基本形态。</p>
+<figure>
+<img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-cigan.png" alt="词干提取"><figcaption aria-hidden="true">词干提取</figcaption>
+</figure>
+<h2 id="section"></h2>
+<h3 id="词形还原-lemmatisation">词形还原 – Lemmatisation</h3>
+<p>词形还原是基于词典，将单词的复杂形态转变成最基础的形态，而不仅仅是简单地将前后缀去掉，比如「drove」会转换为「drive」，dive就是原形。</p>
+<p>does，done，doing，did 通过词性还原恢复成 do。</p>
+<figure>
+<img src="https://easy-ai.oss-cn-shanghai.aliyuncs.com/2019-08-15-cixing.png" alt="词形还原"><figcaption aria-hidden="true">词形还原</figcaption>
+</figure>
+<h3 id="为什么要做词干提取和词形还原"><strong>为什么要做词干提取和词形还原？</strong></h3>
+<p>词干提取和词形还原的目的就是将含义相同，但是长相不同的词，统一起来，这样方便后续的处理和分析。</p>
+<h3 id="词干提取和词形还原对比">词干提取和词形还原对比</h3>
+<p>相同点：</p>
+<ol type="1">
+<li>目标一致：词干提取和词形还原都是将长相不同，但是含义相同的词统一起来，方便后续的处理和分析。</li>
+<li>结果部分可能相同：如“dogs”的词干为“dog”，其原形也为“dog”。</li>
+<li>主流实现方法类似：均是利用语言中存在的规则或利用词典映射提取词干或获得词的原形。</li>
+<li>应用领域相似。主要应用于信息检索和文本、自然语言处理等方面，二者均是这些应用的基本步骤。</li>
+</ol>
+<p>不同点：</p>
+<ol type="1">
+<li>在复杂性上，词干提取更简单粗暴，只用删减前后缀。词形还原则更复杂，为了返回词的原形，不仅要进行词缀的转化，还要进行<strong>词性识别</strong>，区分相同词形但原形不同的词的差别。词性标注的准确率也直接影响词形还原的准确率，因此，词形还原更为复杂。</li>
+</ol>
+<h2 id="命名实体识别ner">命名实体识别（NER）</h2>
+<p>命名实体识别（Named Entity Recognition，简称NER），是指识别文本中具有特定意义的实体，主要包括人名、地名、机构名、专有名词等。简单的讲，就是识别自然文本中的实体指称的边界和类别。</p>
+<p>NER一直是NLP领域中的研究热点，从早期基于词典和规则的方法，到传统机器学习的方法，到近年来基于深度学习的方法，NER研究进展的大概趋势大致如下：</p>
+<ul>
+<li><p>阶段 1：早期的方法，如：基于规则的方法、基于字典的方法</p></li>
+<li><p>阶段 2：传统机器学习，如：HMM、MEMM、CRF</p></li>
+<li><p>阶段 3：深度学习的方法，如：<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/rnn/">RNN</a> – CRF、<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/cnn/">CNN</a> – CRF</p></li>
+<li><p>阶段 4：近期新出现的一些方法，如：注意力模型、迁移学习、半监督学习的方法</p></li>
+</ul>
+<p>早期的命名实体识别方法基本都是基于规则的。之后由于基于大规模的语料库的统计方法在自然语言处理各个方面取得不错的效果之后，一大批机器学习的方法也出现在命名实体类识别任务。宗成庆老师在统计自然语言处理一书粗略的将这些基于机器学习的命名实体识别方法划分为以下几类：</p>
+<ul>
+<li><p><strong>有监督的学习方法</strong>：这一类方法需要利用大规模的已标注语料对模型进行参数训练。目前常用的方法包括隐马尔可夫模型、语言模型、最大熵模型、支持向量机、决策树和条件随机场（CRF）等。CRF是命名实体识别中最成功的方法。</p></li>
+<li><p><strong>半监督的学习方法</strong>：这一类方法利用标注的小数据集（种子数据）自举学习。</p></li>
+<li><p><strong>无监督的学习方法</strong>：这一类方法利用词汇资源（如WordNet）等进行上下文聚类。</p></li>
+<li><p><strong>混合方法</strong>：几种模型相结合或利用统计方法和人工总结的知识库。</p></li>
+</ul>
+<p>值得一提的是，由于深度学习在自然语言的广泛应用，基于深度学习的命名实体识别方法也展现出不错的效果，此类方法基本还是把命名实体识别当做<strong>序列标注</strong>任务来做，经典的方法是<a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/lstm/">LSTM</a>+CRF、BiLSTM+CRF。</p>
+<h3 id="ner-数据集">NER 数据集</h3>
+<p>https://github.com/thunlp/THULAC</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>数据集</strong></th>
+<th style="text-align: left;"><strong>简要说明</strong></th>
+<th style="text-align: left;"><strong>访问地址</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">电子病例测评</td>
+<td style="text-align: left;">CCKS2017开放的中文的电子病例测评相关的数据</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://biendata.com/competition/CCKS2017_1/">测评1</a> | <a target="_blank" rel="noopener" href="https://biendata.com/competition/CCKS2017_2/">测评2</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">音乐领域</td>
+<td style="text-align: left;">CCKS2018开放的音乐领域的实体识别任务</td>
+<td style="text-align: left;">CCKS</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">位置、组织、人…</td>
+<td style="text-align: left;">这是来自GMB语料库的摘录，用于训练分类器以预测命名实体，例如姓名，位置等。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://www.kaggle.com/abhinavwalia95/entity-annotated-corpus">kaggle</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">口语</td>
+<td style="text-align: left;">NLPCC2018开放的任务型对话系统中的口语理解评测</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="http://tcci.ccf.org.cn/conference/2018/taskdata.php">NLPCC</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">人名、地名、机构、专有名词</td>
+<td style="text-align: left;">一家公司提供的数据集,包含人名、地名、机构名、专有名词</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://bosonnlp.com/dev/resource">boson</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="ner工具推荐">NER工具推荐</h3>
+<table>
+<colgroup>
+<col style="width: 28%">
+<col style="width: 35%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"><strong>工具</strong></th>
+<th style="text-align: left;"><strong>简介</strong></th>
+<th style="text-align: left;"><strong>访问地址</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Stanford NER</td>
+<td style="text-align: left;">斯坦福大学开发的基于条件随机场的命名实体识别系统，该系统参数是基于CoNLL、MUC-6、MUC-7和ACE命名实体语料训练出来的。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://nlp.stanford.edu/software/CRF-NER.shtml">官网</a> | <a target="_blank" rel="noopener" href="https://github.com/Lynten/stanford-corenlp">GitHub 地址</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">MALLET</td>
+<td style="text-align: left;">麻省大学开发的一个统计自然语言处理的开源包，其序列标注工具的应用中能够实现命名实体识别。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="http://mallet.cs.umass.edu/">官网</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Hanlp</td>
+<td style="text-align: left;">HanLP是一系列模型与算法组成的NLP工具包，由大快搜索主导并完全开源，目标是普及自然语言处理在生产环境中的应用。支持命名实体识别。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="http://hanlp.linrunsoft.com/">官网</a> | <a target="_blank" rel="noopener" href="https://github.com/hankcs/pyhanlp">GitHub 地址</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://easyai.tech/ai-definition/nltk/">NLTK</a></td>
+<td style="text-align: left;">NLTK是一个高效的Python构建的平台,用来处理人类自然语言数据。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="http://www.nltk.org/">官网</a> | <a target="_blank" rel="noopener" href="https://github.com/nltk/nltk">GitHub 地址</a></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">SpaCy</td>
+<td style="text-align: left;">工业级的自然语言处理工具，遗憾的是不支持中文。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://spacy.io/">官网</a> | <a target="_blank" rel="noopener" href="https://github.com/explosion/spaCy">GitHub 地址</a></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Crfsuite</td>
+<td style="text-align: left;">可以载入自己的数据集去训练CRF实体识别模型。</td>
+<td style="text-align: left;"><a target="_blank" rel="noopener" href="https://sklearn-crfsuite.readthedocs.io/en/latest/?badge=latest">文档</a> | <a target="_blank" rel="noopener" href="https://github.com/yuquanle/StudyForNLP/blob/master/NLPbasic/NER.ipynb">GitHub 地址</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><p>https://easyai.tech/ai-definition/stemming-lemmatisation/#weizhi</p></li>
+<li><p>https://easyai.tech/ai-definition/ner/</p></li>
+<li><p>https://easyai.tech/ai-definition/stemming-lemmatisation/#weizhi</p></li>
 </ol>
 
       
@@ -597,7 +658,7 @@ mjx-container[display="true"] + br {
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/93/">93</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/95/">95</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>

@@ -245,18 +245,18 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">185</span>
+          <span class="site-state-item-count">190</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">204</span>
+        <span class="site-state-item-count">209</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -295,7 +295,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/06/18/zhexue/zhexue-summary/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/06/27/coding/yibu/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -308,7 +308,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/06/18/zhexue/zhexue-summary/" class="post-title-link" itemprop="url">哲学导论</a>
+          <a href="/2021/06/27/coding/yibu/" class="post-title-link" itemprop="url">并发和并行</a>
         </h2>
 
         <div class="post-meta-container">
@@ -319,14 +319,14 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-06-18 17:01:52" itemprop="dateCreated datePublished" datetime="2021-06-18T17:01:52+08:00">2021-06-18</time>
+      <time title="创建时间：2021-06-27 12:16:07" itemprop="dateCreated datePublished" datetime="2021-06-27T12:16:07+08:00">2021-06-27</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-21 11:18:15" itemprop="dateModified" datetime="2021-08-21T11:18:15+08:00">2021-08-21</time>
+        <time title="修改时间：2021-08-25 08:58:59" itemprop="dateModified" datetime="2021-08-25T08:58:59+08:00">2021-08-25</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -334,7 +334,7 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%93%B2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">哲学</span></a>
+          <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
         </span>
     </span>
 
@@ -348,44 +348,38 @@ mjx-container[display="true"] + br {
     
     
     <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>哲学，乃是某种介乎神学与科学之间的东西。它和神学一样，包含着人类对于那些迄今仍为科学知识所不能肯定之事物的思考；但它又像科学一样，是诉之于人类的理性而不是诉之于权威的，不论是传统的权威还是启示的权威。一切确切的知识都属于科学；一切涉及超乎确切知识之外的教条都属于神学。但介乎神学与科学之间还有一片受到双方攻击的无人之域，这片无人之域就是哲学。---罗素</p>
+          <ol type="1">
+<li>异步编程有很多种实现方式， 协程模型，线程模型，进程模型， 分布式模型 。 asyncIO是协程模型哈</li>
+<li>yield本质上是一个控制流程的工具。</li>
+<li>生成器函数作用不大，但是进行一系列功能改进之后， 得到了Python协程用处大了。</li>
+<li>yield from：Python 生成器 中的 yield 有两个含义：产出和让步。yield item 这行代码会产出一个值，提供给 next(...) 的调用方;此外，还会作出让步，暂停执行 生成器，让调用方继续工作，直到需要使用另一个值时再调用 next()。调用方会从生成器中拉取值。</li>
+<li>从句法上看，协程与生成器类似，都是定义体中包含 yield 关键字的 函数。</li>
+<li>在协程中，yield 通常出现在表达式的右边(例如，datum = yield)，协程可能会从调用方 接收数据，调用方使用.send(datum)方法提供数据给协程 ，而不是next(...) 函数。</li>
+<li>并发（Concurrency）： tasks start，run，and complete in overlapping time periods</li>
+<li>并行（Parallelism）：tasks run simulateously。</li>
+<li>并发（Concurrency）和并行（Parallelism）都是一次做多件事，但是并发是方案层面的概念，并行是执行层面的概念。并发的方案不一定要并行执行</li>
+<li>并发编程和并行编程的区别和联系，类似并发和并行的区别和联系。</li>
+<li>举个例子的，笔记本电脑有4个CPU核心，通常有超过100个进程同时运行，就说这些进程是并发处理。但是，实际上CPU同时在做的事情不超过4件，这就叫并行（Parallelsm），另外96个事件处于pending状态，等待被唤醒。</li>
+<li>Python语言中有一个asyncio包，使用事件循环驱动的协程实现并发。</li>
+</ol>
+<blockquote>
+<p>Python 3.4把Tulip添加到标准库中时，把它重命名为asyncio。</p>
 </blockquote>
-<h1 id="哲学的主分支">哲学的主分支</h1>
-<p>哲学的主分支：形而上学、知识论、伦理学、逻辑学和美学 - <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E9%82%8F%E8%BC%AF%E5%AD%B8">逻辑学</a> - <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%BD%A2%E8%80%8C%E4%B8%8A%E5%AD%B8">形而上学</a>/<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%AE%87%E5%AE%99%E8%AB%96">宇宙论</a> - <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%9F%A5%E8%AD%98%E8%AB%96">知识论</a> - <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%80%AB%E7%90%86%E5%AD%B8">伦理学</a>/<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%83%B9%E5%80%BC%E8%AB%96">价值论</a> - <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%BE%8E%E5%AD%B8">美学</a></p>
-<h1 id="特殊分支">特殊分支</h1>
-<p>哲学的特殊分支：是交叉学科的哲学研究</p>
-<ul>
-<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%85%83%E5%93%B2%E5%AD%A6">后设哲学</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%AE%97%E6%95%99%E5%93%B2%E5%AD%A6">宗教哲学</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%BF%83%E9%9D%88%E5%93%B2%E5%AD%B8">心灵哲学</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%AF%AD%E8%A8%80%E5%93%B2%E5%AD%A6">语言哲学</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%A7%91%E5%AD%A6%E5%93%B2%E5%AD%A6">科学哲学</a>： 现代西方科学哲学的中心是<strong>科学方法论</strong>问题，具体包括
-<ul>
-<li>统计哲学：统计假设检验（证伪），贝叶斯</li>
-<li>数学哲学：</li>
-<li>物理哲学</li>
-<li>化学哲学</li>
-<li>生物哲学</li>
-<li>医学哲学</li>
-<li>心理学哲学</li>
-<li>经济哲学</li>
-<li>社会科学哲学：代表之一---马克思</li>
-</ul></li>
-<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%94%BF%E6%B2%BB%E5%93%B2%E5%AD%A6">政治哲学</a></li>
-<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%B3%95%E5%BE%8B%E5%93%B2%E5%AD%B8">法律哲学</a></li>
-</ul>
-<h2 id="西方的-科学哲学发展路径">西方的 科学哲学发展路径</h2>
-<ul>
-<li>到50年代为止，一直是作为“正统科学哲学”的<strong>逻辑实证主义</strong>占主导地位</li>
-<li>从50年代末兴起，在60年代发展和完成：波普尔的<strong>批判理性主义</strong>和库恩-拉卡托斯的<strong>历史主义</strong>科学哲学。</li>
-<li>至70年代，出现了两股发展趋势。
-<ul>
-<li>一股是<strong>复兴</strong>和发展“正统<strong>的”逻辑主义方法论</strong>，</li>
-<li>另一股就是法伊尔阿本德的<strong>非理性主义</strong>，它在很大程度上是把<strong>历史主义</strong>中的非理性因素贯彻到极端程度的产物。</li>
-</ul></li>
-<li>本书对<strong>逻辑实证主义</strong>和波普尔、库恩与拉卡托斯的科学哲学等现代西方理性主义科学哲学学说一一作了批判，并在这个批判中阐发了自己的科学哲学——<strong>多元主义方法论</strong></li>
-</ul>
+<ol start="13" type="1">
+<li><p>Python3中有一个内置的package---asyncio，asyncio提供了一个基础环境，可以使用协程（corotuine）来编写单线程（single-threaded）的并发（concurrent）代码，多路復用（multiplexing）I/O通过sockets和其他资源，运行客户端和服务端。</p></li>
+<li><p>同步(sync)/异步(async), 同步(sync)：不同task按照顺序进行。 异步(async)：两个task可以同时进行。 一个象棋高手，同时跟100个人下棋 同步：一个下完一步棋，接着跟另外一个人下。 异步：一个高手同时跟100个人下棋。</p></li>
+<li><p>GIL: 全局解释器锁，存在该锁时，同一个时刻只有一个线程执行。 这样就起不到多线程的加速效果。 如何避开GIL的问题呢？可以使用multiprossing，基于多进程的，所以GIL就不会限制并行加速的效果。</p></li>
+<li><p>同步和异步，</p></li>
+<li><p>CPU密集型程序，使用多进程（multi-processing）</p></li>
+<li><p>IO密集型程序：IO延迟很短的话，可以使用多线程。IO延迟很慢的话，使用asyncio</p></li>
+<li><p>通过yield可以生成一个协程。</p></li>
+</ol>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li>https://weread.qq.com/web/reader/ab832620715c017eab864a6kb6d32b90216b6d767d2f0dc</li>
+<li>https://github.com/fluentpython/example-code</li>
+<li>https://www.youtube.com/watch?v=zgKYPBj3x9E&amp;list=PLfQqWeOCIH4ClkdjqvTuc9hnCnagSlBHE&amp;index=2</li>
+</ol>
 
       
     </div>
@@ -412,7 +406,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/06/17/reading_notes/reality/about-AGI/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/06/26/coding/cache-memory/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -425,7 +419,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/06/17/reading_notes/reality/about-AGI/" class="post-title-link" itemprop="url">关于AGI？</a>
+          <a href="/2021/06/26/coding/cache-memory/" class="post-title-link" itemprop="url">计算机的存储单元</a>
         </h2>
 
         <div class="post-meta-container">
@@ -436,14 +430,14 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-06-17 17:04:32" itemprop="dateCreated datePublished" datetime="2021-06-17T17:04:32+08:00">2021-06-17</time>
+      <time title="创建时间：2021-06-26 09:47:32" itemprop="dateCreated datePublished" datetime="2021-06-26T09:47:32+08:00">2021-06-26</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
+        <time title="修改时间：2021-08-13 11:42:45" itemprop="dateModified" datetime="2021-08-13T11:42:45+08:00">2021-08-13</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -451,7 +445,7 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+          <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
         </span>
     </span>
 
@@ -465,38 +459,26 @@ mjx-container[display="true"] + br {
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="chiechies-reflection">chiechie's reflection</h2>
+          <h2 id="概览">概览</h2>
 <ol type="1">
-<li>理论突破不是技术爆发的必经之路，很多技术都没有理论，比如古代时候的发明，造船，造纸，造火药，爱迪森发明电灯泡，还有现代的量子计算机和深度学习，理论完备个P。</li>
-<li>大部分发明都是做实验，通过试错迭代而产生的,而很多情况下理论都是滞后的。</li>
+<li><p>计算机上的存储单元的处理速度从快到慢依次是： 寄存器&gt; L1&gt;L2&gt;L3&gt;内存&gt;固态硬盘&gt; 机械硬盘</p>
+<figure>
+<img src="./img_1.png" alt="存储单元"><figcaption aria-hidden="true">存储单元</figcaption>
+</figure></li>
+<li><p>早期的计算机只有寄存器和内存，但是寄存器的处理速度远高于内存，所以大部分时间是寄存器在等内存，所以CPU是处于空转状态。 经过改进</p></li>
+<li><p>除了寄存器，后面的计算机在CPU中又逐步加入了高速缓存--L1/L2/L3缓存，相当于让内存提前做功课，把数据提前取出来，在3个缓存中候着，等寄存器有空了就取来用。笨鸟先飞嘛。</p></li>
+<li><p>L1/L2/L3缓存，每层速度递减、容量递增。L1缓存速度接近寄存器速度，大约1ns时延。</p></li>
+<li><p>多核CPU的L3对诶个core是共享的，L2和L1是每个core私有的。</p></li>
 </ol>
-<h2 id="无人驾驶现状">无人驾驶现状</h2>
-<ol type="1">
-<li>一个技术在工业化生产之前，一般要经历三个阶段, 理论突破，技术验证，工程化
-<ol type="1">
-<li>理论突破，科学家在理论上证明其可行性，即产品要达到一个什么样的性能，在技术上是一定可以实现的；</li>
-<li>技术突破，研究机构突破技术实现上壁垒，做出来达到预期的Demo；</li>
-<li>工程化，主要解决产品设计，方案优化，功能完备，性能提升，良品率，鲁棒性，可用性提升，大规模复制的技术准备，成本降低等工程问题。</li>
-</ol></li>
-<li>通用无人驾驶在第一，第二阶段还彻底整明白的情况下，由资本驱动直接进入第三阶段.</li>
-</ol>
-<h2 id="agi的理论先行者">AGI的理论先行者</h2>
-<ol type="1">
-<li>目前强化学习是最被看好的方向。</li>
-<li>强化学习本质上是演化论的思路，跟自然界一样，给定一个reward，让机器放肆的学习探索。</li>
-<li>目前还需要解决的问题是计算资源的问题。</li>
-<li>自然界的演化大部分时间是平稳状态，只有极少数黑天鹅事件决定了演化的方向。</li>
-<li>在计算机中模拟agent的演化过程，和自然界的演化类似，需要忍受长期的无秩序无进展。</li>
-<li>如果全世界的资源往这方面倾斜，可能可以加快黑天鹅事件出现。</li>
-<li>理论突破不是AGI成熟的必要条件，有可能是2者互相促进发展。</li>
-<li>目前收到关注较多的公司--自动标注样本公司scale</li>
+<figure>
+<img src="./img_2.png" alt="img_2.png"><figcaption aria-hidden="true">img_2.png</figcaption>
+</figure>
+<ol start="6" type="1">
+<li>CPU读取数据时，要从内存读取到L3，再读取到L2再读取到L1，同样写到内存时也会经过这些层次。</li>
 </ol>
 <h2 id="参考">参考</h2>
 <ol type="1">
-<li>https://www.zhihu.com/question/404870865/answer/1324577689</li>
-<li>https://www.zhihu.com/question/464616760/answer/1940847401</li>
-<li><a target="_blank" rel="noopener" href="https://www.sciencedirect.com/science/article/pii/S0004370221000862">reward is enough ,david silver</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.notboring.co/p/scale-rational-in-the-fullness-of?token=eyJ1c2VyX2lkIjoxNzY2NjQ2OSwicG9zdF9pZCI6Mzc4NDY2MzEsIl8iOiJrTHFWcCIsImlhdCI6MTYyNDQyNDU4NCwiZXhwIjoxNjI0NDI4MTg0LCJpc3MiOiJwdWItMTAwMjUiLCJzdWIiOiJwb3N0LXJlYWN0aW9uIn0.zWmuXLn35R720iDVtX7yTuTpM4kCMk25457XzZN8_Ks">not boring</a></li>
+<li>https://www.junmajinlong.com/os/cpu_cache/</li>
 </ol>
 
       
@@ -517,7 +499,7 @@ mjx-container[display="true"] + br {
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/21/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/93/">93</a><a class="extend next" rel="next" href="/page/23/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/21/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><span class="page-number current">22</span><a class="page-number" href="/page/23/">23</a><span class="space">&hellip;</span><a class="page-number" href="/page/95/">95</a><a class="extend next" rel="next" href="/page/23/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>

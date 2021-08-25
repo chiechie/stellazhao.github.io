@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="异步编程在量化中的应用  订阅实时行情：使用websocket订阅行情 实时触发交易：在订阅行情的回调函数中加入策略函数，即下单逻辑。回调函数是一个异步的调用，即是在做行情推送这个事情的同时，还要监控有没有交易信号，然后执行交易策略。  123456789101112131415161718192021222324252627282930313233343536373839404142434445">
+<meta property="og:type" content="article">
+<meta property="og:title" content="async_quant">
+<meta property="og:url" content="https://chiechie.github.io/2021/08/22/coding/async-quant/index.html">
+<meta property="og:site_name" content="Chiechie&#39;s Mini World">
+<meta property="og:description" content="异步编程在量化中的应用  订阅实时行情：使用websocket订阅行情 实时触发交易：在订阅行情的回调函数中加入策略函数，即下单逻辑。回调函数是一个异步的调用，即是在做行情推送这个事情的同时，还要监控有没有交易信号，然后执行交易策略。  123456789101112131415161718192021222324252627282930313233343536373839404142434445">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-22T15:30:15.000Z">
+<meta property="article:modified_time" content="2021-08-25T00:58:59.952Z">
+<meta property="article:author" content="Chiechie">
+<meta property="article:tag" content="计算机原理">
+<meta property="article:tag" content="线程">
+<meta property="article:tag" content="进程">
+<meta property="article:tag" content="异步">
+<meta property="article:tag" content="量化">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://chiechie.github.io/2021/08/22/coding/async-quant/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://chiechie.github.io/2021/08/22/coding/async-quant/","path":"2021/08/22/coding/async-quant/","title":"async_quant"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>async_quant | Chiechie's Mini World</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Chiechie's Mini World</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">在我们离开的时候，这个世界还是那么愚蠢和邪恶，跟我们刚来的时候并无二致。--伏尔泰</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B%E5%9C%A8%E9%87%8F%E5%8C%96%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">异步编程在量化中的应用</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-overview">
+            <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Chiechie</p>
+  <div class="site-description" itemprop="description">a reader & thinker</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">209</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/08/22/coding/async-quant/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          async_quant
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-08-22 23:30:15" itemprop="dateCreated datePublished" datetime="2021-08-22T23:30:15+08:00">2021-08-22</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-25 08:58:59" itemprop="dateModified" datetime="2021-08-25T08:58:59+08:00">2021-08-25</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="异步编程在量化中的应用">异步编程在量化中的应用</h2>
+<ul>
+<li>订阅实时行情：使用websocket订阅行情</li>
+<li>实时触发交易：在订阅行情的回调函数中加入策略函数，即下单逻辑。回调函数是一个异步的调用，即是在做行情推送这个事情的同时，还要监控有没有交易信号，然后执行交易策略。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> aioquant <span class="keyword">import</span> const</span><br><span class="line"><span class="keyword">from</span> aioquant.utils <span class="keyword">import</span> logger</span><br><span class="line"><span class="keyword">from</span> aioquant.configure <span class="keyword">import</span> config</span><br><span class="line"><span class="keyword">from</span> aioquant.market <span class="keyword">import</span> Market</span><br><span class="line"><span class="keyword">from</span> aioquant.trade <span class="keyword">import</span> Trade</span><br><span class="line"><span class="keyword">from</span> aioquant.const <span class="keyword">import</span> BINANCE</span><br><span class="line"><span class="keyword">from</span> aioquant.order <span class="keyword">import</span> Order</span><br><span class="line"><span class="keyword">from</span> aioquant.market <span class="keyword">import</span> Orderbook</span><br><span class="line"><span class="keyword">from</span> aioquant.order <span class="keyword">import</span> ORDER_ACTION_BUY, ORDER_STATUS_FAILED, ORDER_STATUS_CANCELED, ORDER_STATUS_FILLED</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyStrategy</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">""" 初始化</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.strategy = <span class="string">"my_strategy"</span></span><br><span class="line">        self.platform = BINANCE</span><br><span class="line">        self.account = config.accounts[<span class="number">0</span>][<span class="string">"account"</span>]</span><br><span class="line">        self.access_key = config.accounts[<span class="number">0</span>][<span class="string">"access_key"</span>]</span><br><span class="line">        self.secret_key = config.accounts[<span class="number">0</span>][<span class="string">"secret_key"</span>]</span><br><span class="line">        self.symbol = config.symbol</span><br><span class="line"></span><br><span class="line">        self.order_id = <span class="literal">None</span>  <span class="comment"># 创建订单的id</span></span><br><span class="line">        self.create_order_price = <span class="string">"0.0"</span>  <span class="comment"># 创建订单的价格</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 交易模块</span></span><br><span class="line">        cc = {</span><br><span class="line">            <span class="string">"strategy"</span>: self.strategy,</span><br><span class="line">            <span class="string">"platform"</span>: self.platform,</span><br><span class="line">            <span class="string">"symbol"</span>: self.symbol,</span><br><span class="line">            <span class="string">"account"</span>: self.account,</span><br><span class="line">            <span class="string">"access_key"</span>: self.access_key,</span><br><span class="line">            <span class="string">"secret_key"</span>: self.secret_key,</span><br><span class="line">            <span class="string">"order_update_callback"</span>: self.on_event_order_update,<span class="comment"># 回调函数</span></span><br><span class="line">        }</span><br><span class="line">        self.trader = Trade(**cc)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 订阅行情</span></span><br><span class="line">        <span class="comment"># 在回调函数中加入下单逻辑，即策略</span></span><br><span class="line">        Market(const.MARKET_TYPE_ORDERBOOK, const.BINANCE, self.symbol, self.on_event_orderbook_update)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">on_event_orderbook_update</span>(<span class="params">self, orderbook: Orderbook</span>):</span></span><br><span class="line">        <span class="string">""" 订单薄更新</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        logger.debug(<span class="string">"orderbook:"</span>, orderbook, caller=self)</span><br><span class="line">        bid3_price = orderbook.bids[<span class="number">2</span>][<span class="number">0</span>]  <span class="comment"># 买三价格</span></span><br><span class="line">        bid4_price = orderbook.bids[<span class="number">3</span>][<span class="number">0</span>]  <span class="comment"># 买四价格</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 判断是否需要撤单</span></span><br><span class="line">        <span class="keyword">if</span> self.order_id:</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">float</span>(self.create_order_price) &lt; <span class="built_in">float</span>(bid3_price) <span class="keyword">or</span> <span class="built_in">float</span>(self.create_order_price) &gt; <span class="built_in">float</span>(bid4_price):</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            _, error = <span class="keyword">await</span> self.trader.revoke_order(self.order_id)</span><br><span class="line">            <span class="keyword">if</span> error:</span><br><span class="line">                logger.error(<span class="string">"revoke order error! error:"</span>, error, caller=self)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            self.order_id = <span class="literal">None</span></span><br><span class="line">            logger.info(<span class="string">"revoke order:"</span>, self.order_id, caller=self)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 创建新订单</span></span><br><span class="line">        price = (<span class="built_in">float</span>(bid3_price) + <span class="built_in">float</span>(bid4_price)) / <span class="number">2</span></span><br><span class="line">        quantity = <span class="string">"0.1"</span>  <span class="comment"># 假设委托数量为0.1</span></span><br><span class="line">        action = ORDER_ACTION_BUY</span><br><span class="line">        order_id, error = <span class="keyword">await</span> self.trader.create_order(action, price, quantity)</span><br><span class="line">        <span class="keyword">if</span> error:</span><br><span class="line">            logger.error(<span class="string">"create order error! error:"</span>, error, caller=self)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        self.order_id = order_id</span><br><span class="line">        self.create_order_price = price</span><br><span class="line">        logger.info(<span class="string">"create new order:"</span>, order_id, caller=self)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">on_event_order_update</span>(<span class="params">self, order: Order</span>):</span></span><br><span class="line">        <span class="string">""" 订单状态更新</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        logger.info(<span class="string">"order update:"</span>, order, caller=self)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 如果订单失败、订单取消、订单完成交易</span></span><br><span class="line">        <span class="keyword">if</span> order.status <span class="keyword">in</span> [ORDER_STATUS_FAILED, ORDER_STATUS_CANCELED, ORDER_STATUS_FILLED]:</span><br><span class="line">            self.order_id = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">    MyStrategy()</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ol type="1">
+<li>https://github.com/paulran/aioquant/blob/cfa4344f6787dd380339add6261bcce23a7e7e8e/aioquant/trade.py#L22</li>
+<li>https://github.com/paulran/aioquant/tree/cfa4344f6787dd380339add6261bcce23a7e7e8e/example/demo</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/" rel="tag"># 计算机原理</a>
+              <a href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag"># 线程</a>
+              <a href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag"># 进程</a>
+              <a href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag"># 异步</a>
+              <a href="/tags/%E9%87%8F%E5%8C%96/" rel="tag"># 量化</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/22/coding/asyncio-python/" rel="prev" title="python中的异步编程">
+                  <i class="fa fa-chevron-left"></i> python中的异步编程
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chiechie</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

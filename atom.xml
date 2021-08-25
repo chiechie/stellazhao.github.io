@@ -6,7 +6,7 @@
   <link href="https://chiechie.github.io/atom.xml" rel="self"/>
   
   <link href="https://chiechie.github.io/"/>
-  <updated>2021-08-20T02:35:45.847Z</updated>
+  <updated>2021-08-25T00:58:59.952Z</updated>
   <id>https://chiechie.github.io/</id>
   
   <author>
@@ -17,11 +17,11 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>metaverse</title>
-    <link href="https://chiechie.github.io/2021/08/20/reading_notes/qukuailian/metaverse/"/>
-    <id>https://chiechie.github.io/2021/08/20/reading_notes/qukuailian/metaverse/</id>
-    <published>2021-08-19T16:01:45.000Z</published>
-    <updated>2021-08-20T02:35:45.847Z</updated>
+    <title>async_quant</title>
+    <link href="https://chiechie.github.io/2021/08/22/coding/async-quant/"/>
+    <id>https://chiechie.github.io/2021/08/22/coding/async-quant/</id>
+    <published>2021-08-22T15:30:15.000Z</published>
+    <updated>2021-08-25T00:58:59.952Z</updated>
     
     
       
@@ -34,7 +34,156 @@
     
     
     
-    <category term="投资" scheme="https://chiechie.github.io/categories/%E6%8A%95%E8%B5%84/"/>
+    <category term="编程" scheme="https://chiechie.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+    <category term="计算机原理" scheme="https://chiechie.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"/>
+    
+    <category term="线程" scheme="https://chiechie.github.io/tags/%E7%BA%BF%E7%A8%8B/"/>
+    
+    <category term="进程" scheme="https://chiechie.github.io/tags/%E8%BF%9B%E7%A8%8B/"/>
+    
+    <category term="异步" scheme="https://chiechie.github.io/tags/%E5%BC%82%E6%AD%A5/"/>
+    
+    <category term="量化" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python中的异步编程</title>
+    <link href="https://chiechie.github.io/2021/08/22/coding/asyncio-python/"/>
+    <id>https://chiechie.github.io/2021/08/22/coding/asyncio-python/</id>
+    <published>2021-08-22T14:30:12.000Z</published>
+    <updated>2021-08-25T00:58:59.952Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html"></summary>
+        
+      
+    
+    
+    
+    <category term="编程" scheme="https://chiechie.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+    <category term="计算机原理" scheme="https://chiechie.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"/>
+    
+    <category term="线程" scheme="https://chiechie.github.io/tags/%E7%BA%BF%E7%A8%8B/"/>
+    
+    <category term="进程" scheme="https://chiechie.github.io/tags/%E8%BF%9B%E7%A8%8B/"/>
+    
+    <category term="异步" scheme="https://chiechie.github.io/tags/%E5%BC%82%E6%AD%A5/"/>
+    
+    <category term="编程" scheme="https://chiechie.github.io/tags/%E7%BC%96%E7%A8%8B/"/>
+    
+    <category term="协程" scheme="https://chiechie.github.io/tags/%E5%8D%8F%E7%A8%8B/"/>
+    
+    <category term="并发" scheme="https://chiechie.github.io/tags/%E5%B9%B6%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>web服务和web应用</title>
+    <link href="https://chiechie.github.io/2021/08/22/coding/network/"/>
+    <id>https://chiechie.github.io/2021/08/22/coding/network/</id>
+    <published>2021-08-22T06:32:29.000Z</published>
+    <updated>2021-08-25T00:58:59.953Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html"></summary>
+        
+      
+    
+    
+    
+    <category term="编程" scheme="https://chiechie.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+    <category term="编程" scheme="https://chiechie.github.io/tags/%E7%BC%96%E7%A8%8B/"/>
+    
+    <category term="协程" scheme="https://chiechie.github.io/tags/%E5%8D%8F%E7%A8%8B/"/>
+    
+    <category term="并发" scheme="https://chiechie.github.io/tags/%E5%B9%B6%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>生成器</title>
+    <link href="https://chiechie.github.io/2021/08/22/coding/generator/"/>
+    <id>https://chiechie.github.io/2021/08/22/coding/generator/</id>
+    <published>2021-08-22T03:11:23.000Z</published>
+    <updated>2021-08-23T01:11:52.319Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html"></summary>
+        
+      
+    
+    
+    
+    <category term="编程" scheme="https://chiechie.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+    <category term="日志处理" scheme="https://chiechie.github.io/tags/%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>日志处理</title>
+    <link href="https://chiechie.github.io/2021/08/22/coding/log/"/>
+    <id>https://chiechie.github.io/2021/08/22/coding/log/</id>
+    <published>2021-08-22T03:10:38.000Z</published>
+    <updated>2021-08-23T01:11:52.319Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html"></summary>
+        
+      
+    
+    
+    
+    <category term="编程" scheme="https://chiechie.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+    <category term="日志处理" scheme="https://chiechie.github.io/tags/%E6%97%A5%E5%BF%97%E5%A4%84%E7%90%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>metaverse</title>
+    <link href="https://chiechie.github.io/2021/08/20/reading_notes/qukuailian/metaverse/"/>
+    <id>https://chiechie.github.io/2021/08/20/reading_notes/qukuailian/metaverse/</id>
+    <published>2021-08-19T16:01:45.000Z</published>
+    <updated>2021-08-24T00:45:03.598Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html"></summary>
+        
+      
+    
+    
+    
+    <category term="区块链" scheme="https://chiechie.github.io/categories/%E5%8C%BA%E5%9D%97%E9%93%BE/"/>
     
     
     <category term="投资" scheme="https://chiechie.github.io/tags/%E6%8A%95%E8%B5%84/"/>
@@ -48,7 +197,7 @@
     <link href="https://chiechie.github.io/2021/08/18/zhexue/shubenhua-renshengdezhihui/"/>
     <id>https://chiechie.github.io/2021/08/18/zhexue/shubenhua-renshengdezhihui/</id>
     <published>2021-08-18T05:59:54.000Z</published>
-    <updated>2021-08-21T11:10:15.088Z</updated>
+    <updated>2021-08-25T00:58:59.965Z</updated>
     
     
       
@@ -135,7 +284,7 @@
     <link href="https://chiechie.github.io/2021/08/09/zhexue/li-chuanxilu/"/>
     <id>https://chiechie.github.io/2021/08/09/zhexue/li-chuanxilu/</id>
     <published>2021-08-09T02:38:45.000Z</published>
-    <updated>2021-08-21T06:04:49.201Z</updated>
+    <updated>2021-08-25T02:03:13.787Z</updated>
     
     
       
@@ -216,7 +365,7 @@
     <link href="https://chiechie.github.io/2021/08/06/zhexue/improve-research-taste/"/>
     <id>https://chiechie.github.io/2021/08/06/zhexue/improve-research-taste/</id>
     <published>2021-08-06T01:51:11.000Z</published>
-    <updated>2021-08-21T05:49:20.670Z</updated>
+    <updated>2021-08-25T00:58:59.963Z</updated>
     
     
       
@@ -394,9 +543,9 @@
     
     <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
     
-    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
-    
     <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
+    
+    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
     
   </entry>
   
@@ -428,157 +577,6 @@
     <category term="趋势回归" scheme="https://chiechie.github.io/tags/%E8%B6%8B%E5%8A%BF%E5%9B%9E%E5%BD%92/"/>
     
     <category term="视角主义" scheme="https://chiechie.github.io/tags/%E8%A7%86%E8%A7%92%E4%B8%BB%E4%B9%89/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>3个驱动因子</title>
-    <link href="https://chiechie.github.io/2021/07/26/reading_notes/reality/force/"/>
-    <id>https://chiechie.github.io/2021/07/26/reading_notes/reality/force/</id>
-    <published>2021-07-26T01:43:58.000Z</published>
-    <updated>2021-08-17T02:22:24.030Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html"></summary>
-        
-      
-    
-    
-    
-    <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
-    
-    
-    <category term="因果关系" scheme="https://chiechie.github.io/tags/%E5%9B%A0%E6%9E%9C%E5%85%B3%E7%B3%BB/"/>
-    
-    <category term="趋势" scheme="https://chiechie.github.io/tags/%E8%B6%8B%E5%8A%BF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>时间序列4-2 基于深度学习的时间序列预测方法-DeepAR</title>
-    <link href="https://chiechie.github.io/2021/07/25/timeseries/timeseries4-2_dl-DeepAR/"/>
-    <id>https://chiechie.github.io/2021/07/25/timeseries/timeseries4-2_dl-DeepAR/</id>
-    <published>2021-07-25T09:21:19.000Z</published>
-    <updated>2021-07-28T01:00:36.115Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html"></summary>
-        
-      
-    
-    
-    
-    <category term="时间序列" scheme="https://chiechie.github.io/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/"/>
-    
-    
-    <category term="AIOps" scheme="https://chiechie.github.io/tags/AIOps/"/>
-    
-    <category term="时间序列" scheme="https://chiechie.github.io/tags/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/"/>
-    
-    <category term="DeepAR" scheme="https://chiechie.github.io/tags/DeepAR/"/>
-    
-    <category term="人工智能" scheme="https://chiechie.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
-    
-    <category term="神经网络" scheme="https://chiechie.github.io/tags/%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/"/>
-    
-    <category term="预测" scheme="https://chiechie.github.io/tags/%E9%A2%84%E6%B5%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>人工智能交易系统</title>
-    <link href="https://chiechie.github.io/2021/07/25/reading_notes/investment/ai-trading/"/>
-    <id>https://chiechie.github.io/2021/07/25/reading_notes/investment/ai-trading/</id>
-    <published>2021-07-25T06:43:08.000Z</published>
-    <updated>2021-07-28T08:06:26.973Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html"></summary>
-        
-      
-    
-    
-    
-    <category term="阅读" scheme="https://chiechie.github.io/categories/%E9%98%85%E8%AF%BB/"/>
-    
-    
-    <category term="强化学习" scheme="https://chiechie.github.io/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="量化" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>时间序列4-1 基于机器学习的时间序列预测方法</title>
-    <link href="https://chiechie.github.io/2021/07/24/timeseries/timeseries4-1_ml-prediction/"/>
-    <id>https://chiechie.github.io/2021/07/24/timeseries/timeseries4-1_ml-prediction/</id>
-    <published>2021-07-23T16:06:21.000Z</published>
-    <updated>2021-08-03T08:33:55.016Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html"></summary>
-        
-      
-    
-    
-    
-    <category term="时间序列" scheme="https://chiechie.github.io/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/"/>
-    
-    
-    <category term="人工智能" scheme="https://chiechie.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
-    
-    <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
-    
-    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
-    
-    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>时间序列2 统计分析模型</title>
-    <link href="https://chiechie.github.io/2021/07/23/timeseries/timeseries3_classic-prediction/"/>
-    <id>https://chiechie.github.io/2021/07/23/timeseries/timeseries3_classic-prediction/</id>
-    <published>2021-07-23T00:25:11.000Z</published>
-    <updated>2021-08-16T00:53:25.445Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html"></summary>
-        
-      
-    
-    
-    
-    <category term="时间序列" scheme="https://chiechie.github.io/categories/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97/"/>
-    
-    
-    <category term="人工智能" scheme="https://chiechie.github.io/tags/%E4%BA%BA%E5%B7%A5%E6%99%BA%E8%83%BD/"/>
-    
-    <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
-    
-    <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
-    
-    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
     
   </entry>
   

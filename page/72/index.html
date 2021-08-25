@@ -245,18 +245,18 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">185</span>
+          <span class="site-state-item-count">190</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">204</span>
+        <span class="site-state-item-count">209</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -295,7 +295,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/23/reading_notes/reality/ray-dalio_how-to-make-decisions/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/27/reading_notes/computer/ABtest/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -308,7 +308,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/03/23/reading_notes/reality/ray-dalio_how-to-make-decisions/" class="post-title-link" itemprop="url">《原则》读书笔记-怎么做决策？</a>
+          <a href="/2021/03/27/reading_notes/computer/ABtest/" class="post-title-link" itemprop="url">ABtest</a>
         </h2>
 
         <div class="post-meta-container">
@@ -319,14 +319,14 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-03-23 09:05:11" itemprop="dateCreated datePublished" datetime="2021-03-23T09:05:11+08:00">2021-03-23</time>
+      <time title="创建时间：2021-03-27 23:43:55" itemprop="dateCreated datePublished" datetime="2021-03-27T23:43:55+08:00">2021-03-27</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-06-05 09:51:04" itemprop="dateModified" datetime="2021-06-05T09:51:04+08:00">2021-06-05</time>
+        <time title="修改时间：2021-06-07 08:17:56" itemprop="dateModified" datetime="2021-06-07T08:17:56+08:00">2021-06-07</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -349,46 +349,41 @@ mjx-container[display="true"] + br {
     
     <div class="post-body" itemprop="articleBody">
           <blockquote>
-<p>除非你意识到你的潜意识，否则潜意识将主导你的人生，而你将其称为命运. --卡尔.容格</p>
+<p>现在有很多平台都在做AB test，甚至还做成了一个变形金刚--实验平台，对于不同的推荐对象，给出不同的推荐方案</p>
+<p>正好目前在调研模型在线更新的流程和方案，似乎像是同一类需求。</p>
+<p>到底是不是同一类需求？是的话，实验平台的解决方案是什么？我们是否可以借鉴？</p>
+<p>下面来探讨一下</p>
 </blockquote>
-<blockquote>
-<p>这篇文章是Ray Dalio关于如何做决策给出的行动指南</p>
-</blockquote>
-<h2 id="公理">公理</h2>
+<h2 id="为什么要做ab测试">为什么要做A/B测试？</h2>
+<p>A/B测试很好的避免了由于时间不同而引起的访客样本属性变化的问题，它能让两个版本面对属性相同或近似的访客群体，基于这种情况对所获得的数据才有可比性，分析结果才更加准确、可靠。</p>
+<p>A一般指实验组, B一般指 对照组，对照组一般指基线，一般都会有模型。</p>
 <ol type="1">
-<li>最好的方案是，好处多于坏处的选择，没有毫无坏处的方案。</li>
-<li>根据预期的价值做决策。</li>
-<li>搜集更多信息再做决策？还是立马做决策？
-<ul>
-<li>先做"must"，再做"want"</li>
-<li>看重概率，而不是可能性：实干家看重概率，哲学家看重可能性，倾向于在可能性中迷路。</li>
-</ul></li>
+<li><p>treatment A 一般是重点考察对象，可以是最新版本的模型；treatment B是用来比对A的效果的，可以是上一个版本的模型/基线策略，</p></li>
+<li><p>为了排除用户群1和用户群2的群体差异，一般也会做BAtest。</p>
+<p>ABtest： treatment A 在用户群1测试，treatment B 在用户群2测试。</p>
+<p>BAtest：treatment B 在用户群1测试，treatment A 在用户群2测试。</p></li>
+<li><p>实际痛点：多数情况下流量不够，发现实验上线达不到预期（基线策略）直接下线。</p></li>
 </ol>
-<h2 id="推论">推论</h2>
+<h2 id="来自推荐一线的工程师">来自推荐一线的工程师</h2>
+<p>zhouwei: 做AB实验我总结需要重点考虑三个点：</p>
 <ol type="1">
-<li><p>提升押对概率。</p></li>
-<li><p>讨论问题的时候，不要因为对方发现一点问题，就反对整个方案，应该权衡利弊。</p></li>
-<li><p>学会简化：撇掉无关细节，让重要因素,相互关系呈现出来。</p></li>
-<li><p>「情景再现」原则：</p>
-<ul>
-<li>思维慢下来，注意到正在引用的决策标准</li>
-<li>把这个标准作为一项原则写下来</li>
-<li>当结果出现时，评估结果，思考标准，并且在下一个类似情景出现之前，改进标准</li>
-</ul></li>
-<li><p>识别每一件事情的类型，然后选择对其适用的原则。</p></li>
-<li><p>你可以用自己的原则，也可以用别人的，只需要吧能发现的最好原则用好</p></li>
-<li><p>世界上最好的决策者是这样的人：拥有理性、想象力和毅力，知道自己看重什么、想要什么，同时也利用计算机、算法和博弈论。</p></li>
+<li>置信度. 分配多少流量才能保证实验数据可信。</li>
+<li>流量分布. 如何保证实验流量和大盘流量的分布一致性。</li>
+<li>观察周期. 实验流量需要观察多久结论正确。</li>
 </ol>
-<h2 id="学会跟计算机合作">学会跟计算机合作</h2>
+<h2 id="来自chiechie-其他场景的算法工程师">来自chiechie-其他场景的算法工程师</h2>
+<p>推荐和一般场景的区别是，前者的流量是稀缺的。除此之外，两者本质都是在做线上模型对比</p>
 <ol type="1">
-<li>和计算机中的另一个你形成合作关系，你们相互从对方身上学习，各展所长，决策效率会比你单打独斗时高得多。我可能不需要平庸的合作者？</li>
-<li>与人脑决策相比，让计算机辅助我们做决策，让我们更快地，更少情绪化做出更周全的决策。</li>
-<li>毅力是计算机最擅长的，计算机不会顾虑自己的结论会不会受欢迎，从来不惊慌失措。</li>
+<li>推荐：用户群1在一个时间点只能接受1个treatment，要么是A要么是B, 测试次数是有限的资源。</li>
+<li>其他场景：比如异常检测，测试数据集1在一个时间点可接受多个treatment。可以无线测，反正是一个莫得感情的信息流。</li>
 </ol>
-<h2 id="参考">参考</h2>
+<h2 id="总结下">总结下</h2>
+<p>大家要解决的问题是相同的</p>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://weread.qq.com/web/reader/848324405e0fe08483ab6a4kc7432af0210c74d97b01b1c">原则-Ray Dalio-微信读书</a></li>
+<li>有不同的模型（解决方案）</li>
+<li>模型有持续更新的版本</li>
 </ol>
+<p>需要根据线上情况选择性能最好的模型</p>
 
       
     </div>
@@ -415,7 +410,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/22/reading_notes/investment/huiz-research/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/03/26/reading_notes/reality/sam-altman-productivity/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -428,7 +423,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/03/22/reading_notes/investment/huiz-research/" class="post-title-link" itemprop="url">对慧择的个股分析</a>
+          <a href="/2021/03/26/reading_notes/reality/sam-altman-productivity/" class="post-title-link" itemprop="url">如何提升生产力？</a>
         </h2>
 
         <div class="post-meta-container">
@@ -439,14 +434,14 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-03-22 19:58:09" itemprop="dateCreated datePublished" datetime="2021-03-22T19:58:09+08:00">2021-03-22</time>
+      <time title="创建时间：2021-03-26 22:06:34" itemprop="dateCreated datePublished" datetime="2021-03-26T22:06:34+08:00">2021-03-26</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
+        <time title="修改时间：2021-07-08 08:36:34" itemprop="dateModified" datetime="2021-07-08T08:36:34+08:00">2021-07-08</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -454,7 +449,7 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%95%E8%B5%84/" itemprop="url" rel="index"><span itemprop="name">投资</span></a>
+          <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
         </span>
     </span>
 
@@ -468,126 +463,44 @@ mjx-container[display="true"] + br {
     
     
     <div class="post-body" itemprop="articleBody">
-          <h2 id="整体分析">整体分析</h2>
-<p>我不看好慧择，主要原因，未来行业竞争加剧，没有护城河，短板很明显</p>
-<ul>
-<li><p>没有护城河：主跟互联网巨头主打流量的策略比，慧择现在主打的是高质量的服务，比如理赔协助，高质量人工客服。但是，互联网巨头一旦拿到长险牌照，这种优势也很容易复制的。</p></li>
-<li><p>短板：渠道</p>
+          <blockquote>
+<p>做的方向是错的，生产力再高也是白搭。</p>
+</blockquote>
+<h2 id="最佳实践">最佳实践</h2>
 <ol type="1">
-<li>渠道成本高：来自网红渠道的流量，抽成多，相对传统线下保险，无销售成本优势。还有一个政策风险，政府打压夸大宣传。</li>
-<li>慧择的第三方合作伙伴，比如深蓝保，未来可能自己发展成保险中介，申请牌照。这样慧择会丢失重要的流量入口，并且多了一些竞争对手。</li>
-</ol></li>
-</ul>
-<h2 id="保险相关专业名词">保险相关专业名词</h2>
-<ul>
-<li>保险机构：包括保险公司（含相互保险组织和互联网保险公司）和保险中介机构；</li>
-<li>保险中介机构：包括保险代理人（不含个人保险代理人）、保险经纪人、保险公估人；</li>
-<li>保险代理人（不含个人保险代理人）：包括保险专业代理机构、银行类保险兼业代理机构和依法获得保险代理业务许可的互联网企业；</li>
-<li>保险专业中介机构:包括保险专业代理机构、保险经纪人和保险公估人。</li>
-</ul>
-<h2 id="基本信息">基本信息</h2>
-<p>慧择控股(NASDAQ:HUIZ)是一个互联网保险服务平台。简单说就是互联网保险中介。</p>
-<h2 id="行业分析">行业分析</h2>
-<h3 id="互联网保险行业的市场数据">互联网保险行业的市场数据</h3>
-<ul>
-<li>股票7只</li>
-<li>总市值3.5万亿元</li>
-<li>流通市值2万亿元</li>
-</ul>
-<h3 id="保险指数表现">保险指数表现</h3>
-<p>2020年跑输大盘 <img src="zhishu.png" alt="指数表现"></p>
-<h3 id="参与主体">参与主体</h3>
-<figure>
-<img src="canyuzhuti.png" alt="互联网行业的参与主体"><figcaption aria-hidden="true">互联网行业的参与主体</figcaption>
-</figure>
-<h3 id="行业的几个主要销售模式">行业的几个主要销售模式</h3>
-<p>互联网保险行业，主要有三个销售模式 <img src="xiaoshoumoshi.png" alt="主要销售模式"></p>
-<ul>
-<li>2A(agent)2C：eg</li>
-<li>2B2C：eg慧择</li>
-<li>2C： 互联网巨头，eg微保，蚂蚁保险</li>
-</ul>
-<p>互联网保险中介TOP5的三个阵营:</p>
-<ol type="1">
-<li>以 微保、蚂蚁保险为代表的阵营，背靠头部互联网平台，在用户触达方面享有天然的流量 优势;</li>
-<li>以水滴、轻松保为代表的阵营，通过众筹、互助的形式吸引、留住用户，用户 黏性较高;</li>
-<li>以慧择为代表的独立的保险中介公司，通过互联网软文等方式吸引用户投保。</li>
+<li>最厉害的那部分人，都拥有坚定不移的世界观，这个在人群中是非常罕见的。如果你经常赞同上一个跟你说过话的人，那就糟糕了。你需要stick to 你的信念，并且develop the confidence。这会使你变得勇敢，当你对某个重要事情的看法是对的，但是大部分人看不到。换言之，你是聪明的少数人。</li>
+<li>我会在我的schedule里面留下足够多的时间，来思考接下来要做什么。对我而言去找到what to work on 的最好的方式，就是阅读，见有趣的人，在大自然中花时间。</li>
+<li>我对我不关心或者我不喜欢的事情，我的生产力低下。所以，我会尽量不让自己做这样的事情，通过外包出去，或者拒绝。 Stuff that you don’t like is a painful drag on morale and momentum. 不喜欢的事情会让你越做越痛苦，直到失去积极性。</li>
+<li>关于外包（delegation):记住比较优势--每个人都可以很有生产力，当他们做自己喜欢做的事情时。所以，当你想要别人做你的工作时，搞清楚谁喜欢做并且擅长做这个事情，然后分发给他。</li>
+<li>如果你发现很长一段时间，都在做不喜欢的事情，慎重考虑换一份工作。短期的焦虑经常发生，但是如果并不会岁时间消减，就应该找一个你更感兴趣的事情了。</li>
+<li>Doing great work经常给力的队友，试着围绕在聪明的，创造力的，欢快的，不会打击你的抱负的人。 比如我喜欢被推着我前进的人一起工作，并且能inspire我更好。 尽你所能远离一些糟糕的热--the cost of letting them take up your mental cycles is horrific.</li>
+<li>You have to both pick the right problem and do the work. There are not many shortcuts. If you’re going to do something really important, you are very likely going to work both smart and hard. The biggest prizes are heavily competed for.在绝大部分领域都是都这样。</li>
 </ol>
-<figure>
-<img src="img_3.png" alt="img_3.png"><figcaption aria-hidden="true">img_3.png</figcaption>
-</figure>
-<p>目前市场上通过教育、科普保险用户销售保险产品，并已经积聚起一定用户规模的独立 网销平台还包括小雨伞、悟空保等。慧择和小雨伞的运营思维较为接近，二者均通过 B2B2C 模式，借助于大 V 和 KOL 的影响力为产品销售引流;悟空保的业务模式带有更 多直达用户的形式，通过投放高质量的保险产品比对、投保指南等文章，教育用户，科 普保险知识，扩大平台影响力。 <img src="img_4.png" alt="img_4.png"></p>
-<p>互联网保险行业，主要有三个销售模式</p>
+<h2 id="其他小技巧">其他小技巧</h2>
+<ol start="8" type="1">
+<li>如何制定优先级？
 <ul>
-<li>2A2C：面向代理人和c端，eg小雨伞</li>
-<li>2B2C：eg 慧择，主要靠服务，客单价高。</li>
-<li>2C：互联网巨头，主要靠走量，客单价低，eg微保，蚂蚁保险</li>
-</ul>
-<figure>
-<img src="img_1.png" alt="img_1.png"><figcaption aria-hidden="true">img_1.png</figcaption>
-</figure>
-<h3 id="行业竞品分析">行业竞品分析</h3>
-<p>主要的互联网保险中介平台：</p>
-<ul>
-<li>慧择</li>
-<li>悟空保</li>
-<li>微保</li>
-<li>小雨伞</li>
-<li>OK车险</li>
-</ul>
-<figure>
-<img src="img_2.png" alt="主要的互联网保险中介平台"><figcaption aria-hidden="true">主要的互联网保险中介平台</figcaption>
-</figure>
-<h2 id="公司分析">公司分析</h2>
-<h3 id="运营情况">运营情况</h3>
-<p>长期和短期看，营收都是稳定上升的。 除了2020年第四个季度，净负债是在逐渐缩小的。</p>
-<p>可能是在技术上的投入增加了。</p>
-<figure>
-<img src="jibao.png" alt="年报和季报"><figcaption aria-hidden="true">年报和季报</figcaption>
-</figure>
-<p>长期和短期看，营收都是稳定上升的。 除了2020年第四个季度，净负债是在逐渐缩小的。</p>
-<p>最近一年，收入停滞不前，营销成本大幅增加 <img src="img_5.png" alt="img_5.png"></p>
-<figure>
-<img src="img_6.png" alt="img_6.png"><figcaption aria-hidden="true">img_6.png</figcaption>
-</figure>
-<h3 id="管理层">管理层</h3>
-<p>来自互联网，平安财险等</p>
-<figure>
-<img src="gaoguan.png" alt="高管"><figcaption aria-hidden="true">高管</figcaption>
-</figure>
-<h3 id="公司的亮点">公司的亮点</h3>
-<ol type="1">
-<li>自己研发保险产品</li>
-<li>重视服务质量：协助理赔，坚持高质量的人工客服。 （不会亏本吗？）</li>
+<li>把最重要的事情做了</li>
+<li>不要浪费时间做蠢事</li>
+<li>制定很多lists</li>
+</ul></li>
+<li>制作很多lists，每年/月/天 要完成的事项。这样处理并发任务很有用： 当我对其中某一项工作不感兴趣的时候，就切换到另外一个我感兴趣的事情上去。</li>
+<li>经常重新调整lists的内容：这会使我我经常思考lists上面的所有的事项，并且进行删减。</li>
+<li>不要花时间去给事项做分类，或者给事项去评估工作量，最多给重要的事项标记一个star。</li>
+<li>我尝试着以生成momentum为目标，去排优先级。我做的越多，感觉就越棒，然后我就更想做。我喜欢每天的开始和结束做的事情，都有很大的进展。（make progress）</li>
+<li>预留一部分时间去见新的人和ideas。虽然可能90%的内容都是辣鸡，但是剩下的10%的内容的价值可以弥补90%的内容所花费的时间。</li>
+<li>确保在处理正确的问题。working on the right problems</li>
+<li>正确的目标是最优配置你的year，而不是天。</li>
+<li>开发一些软件去做体力活。</li>
+<li>避开让自己陷入bad moods的人和事。</li>
+<li>每隔一两周我就不想做任何事情，没关系 这个情绪它自己会消散。</li>
+<li>给自己安排稍过量的任务，可以避免分心，也会使工作更高效。</li>
+<li>不要为了生产力，而忽视你的家人和朋友，这种做法很蠢，因为当你心情低落时，你很可能生产力为负数。</li>
+<li>最后，如果方向选错了，那么再怎么提高生产力都是做无用功。Think more about what to work on.</li>
 </ol>
-<h3 id="慧择的销售模式">慧择的销售模式</h3>
-<p>保险行业有一个common sense，就是"渠道为王"。</p>
-<p>慧择的流量主要来自外部推广，如一些网红，第三方合作伙伴（深蓝保）</p>
-<figure>
-<img src="metauniverse/img.png" alt="img.png"><figcaption aria-hidden="true">img.png</figcaption>
-</figure>
-<h3 id="风险1-渠道对净利润的影响">风险1-渠道对净利润的影响</h3>
-<p>间接营销佣金占比远高于直接营销，且近年来有上升的趋势。</p>
-<p>当渠道成本率达到 80%时，慧择会出现亏损;在目前约 75%的水平下，慧择可实现微薄的利润 公司后期，只有提升对第三方平台的议价能力，盈利能力才能提升。 这是一个风险点，他的议价的资本哪里来？</p>
-<figure>
-<img src="img_1.png" alt="渠道对净利润的影响"><figcaption aria-hidden="true">渠道对净利润的影响</figcaption>
-</figure>
-<h3 id="风险2-未来竞争加剧没有护城河">风险2-未来竞争加剧，没有护城河</h3>
-<p>商业模式，除了卖保险拿提成， 还有什么其他收入来源？ 该行业的进入成本有多高？ 相对竞争对手，它的护城河是什么？</p>
-<p>哇咔喳这种保险代理平台，现在来看似乎更受欢迎？用户跟用户之间还可以卖保险，有网络效应</p>
-<h2 id="跟朋友的讨论">跟朋友的讨论</h2>
-<p>哦，慧择 跟 futu/游戏 不一样的地方: 慧择的客单价 很容易到天花板，一个用户买了一个长期险，就不会持续买了吧。 futu或者游戏 的客单价就没有上限。</p>
-<p>慧择你可以按照saas来理解，短期股价说不准，但是好的赛道+好的团队，就值得研究</p>
-<p>爆发起来就很快？</p>
-<h2 id="参考资料">参考资料</h2>
+<h2 id="参考">参考</h2>
 <ol type="1">
-<li><a target="_blank" rel="noopener" href="https://www.sec.gov/Archives/edgar/data/0001778982/000119312521088464/d32761d20f.htm">2020年财报sec</a></li>
-<li><a target="_blank" rel="noopener" href="https://finance.yahoo.com/quote/HUIZ/financials?p=HUIZ">近年财报-yahoo</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.gov.cn/zhengce/2021-01/14/content_5580017.htm">政策禁健康险夸大宣传</a></li>
-<li><a target="_blank" rel="noopener" href="http://www.gov.cn/zhengce/zhengceku/2020-12/14/content_5569402.htm">互联网保险业务监管办法</a></li>
-<li><a target="_blank" rel="noopener" href="http://finance.people.com.cn/n1/2020/0916/c1004-31864208.html">2020中国互联网保险中介服务平台Top10</a></li>
-<li><a target="_blank" rel="noopener" href="http://pdf.dfcfw.com/pdf/H3_AP202003041375839267_1.pdf">从传统代理人社交圈到更广阔的互联网流量池-202003-华创证券</a></li>
-<li><a target="_blank" rel="noopener" href="https://pdf.dfcfw.com/pdf/H3_AP202101051447381631_1.pdf?1609858004000.pdf">从慧择看专业互联网保险中介如何创造增量价值？-202101-华创证券</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.samaltman.com/productivity">sam altman关于生产力的blog</a></li>
 </ol>
 
       
@@ -608,7 +521,7 @@ mjx-container[display="true"] + br {
 
 
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/71/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><span class="page-number current">72</span><a class="page-number" href="/page/73/">73</a><span class="space">&hellip;</span><a class="page-number" href="/page/93/">93</a><a class="extend next" rel="next" href="/page/73/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/71/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/71/">71</a><span class="page-number current">72</span><a class="page-number" href="/page/73/">73</a><span class="space">&hellip;</span><a class="page-number" href="/page/95/">95</a><a class="extend next" rel="next" href="/page/73/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>

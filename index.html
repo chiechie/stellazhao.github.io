@@ -48,7 +48,119 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
+<style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style><link rel="alternate" href="/atom.xml" title="Chiechie's Mini World" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -133,18 +245,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">185</span>
+          <span class="site-state-item-count">190</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">204</span>
+        <span class="site-state-item-count">209</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -183,7 +295,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/08/20/reading_notes/qukuailian/metaverse/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/08/22/coding/async-quant/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -196,7 +308,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/08/20/reading_notes/qukuailian/metaverse/" class="post-title-link" itemprop="url">metaverse</a>
+          <a href="/2021/08/22/coding/async-quant/" class="post-title-link" itemprop="url">async_quant</a>
         </h2>
 
         <div class="post-meta-container">
@@ -206,17 +318,23 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2021-08-20 00:01:45 / 修改时间：10:35:45" itemprop="dateCreated datePublished" datetime="2021-08-20T00:01:45+08:00">2021-08-20</time>
+      <time title="创建时间：2021-08-22 23:30:15" itemprop="dateCreated datePublished" datetime="2021-08-22T23:30:15+08:00">2021-08-22</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-08-25 08:58:59" itemprop="dateModified" datetime="2021-08-25T08:58:59+08:00">2021-08-25</time>
+      </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-folder"></i>
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%8A%95%E8%B5%84/" itemprop="url" rel="index"><span itemprop="name">投资</span></a>
+          <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
         </span>
     </span>
 
@@ -230,16 +348,15 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <ol type="1">
-<li>加密技术是基座，为自主金融体系、开放的创造者经济以及建立通用的数字权证（NFT）奠定基础。</li>
-<li>元宇宙正在到来; 趋势愈加明显.下一个里程碑：70亿数字soul在线上参与虚拟经济。</li>
-<li>线上时间越长，创造价值和消费价值就越多。</li>
-<li>为了让跟多人参与，构建信用体系和稳定的经济系统非常重要。</li>
-<li>web2.0的缺点日趋明显，处于隐私考虑，大家更倾向于使用中立平台。</li>
-</ol>
-<h2 id="参考">参考</h2>
+          <h2 id="异步编程在量化中的应用">异步编程在量化中的应用</h2>
+<ul>
+<li>订阅实时行情：使用websocket订阅行情</li>
+<li>实时触发交易：在订阅行情的回调函数中加入策略函数，即下单逻辑。回调函数是一个异步的调用，即是在做行情推送这个事情的同时，还要监控有没有交易信号，然后执行交易策略。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> aioquant <span class="keyword">import</span> const</span><br><span class="line"><span class="keyword">from</span> aioquant.utils <span class="keyword">import</span> logger</span><br><span class="line"><span class="keyword">from</span> aioquant.configure <span class="keyword">import</span> config</span><br><span class="line"><span class="keyword">from</span> aioquant.market <span class="keyword">import</span> Market</span><br><span class="line"><span class="keyword">from</span> aioquant.trade <span class="keyword">import</span> Trade</span><br><span class="line"><span class="keyword">from</span> aioquant.const <span class="keyword">import</span> BINANCE</span><br><span class="line"><span class="keyword">from</span> aioquant.order <span class="keyword">import</span> Order</span><br><span class="line"><span class="keyword">from</span> aioquant.market <span class="keyword">import</span> Orderbook</span><br><span class="line"><span class="keyword">from</span> aioquant.order <span class="keyword">import</span> ORDER_ACTION_BUY, ORDER_STATUS_FAILED, ORDER_STATUS_CANCELED, ORDER_STATUS_FILLED</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyStrategy</span>:</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="string">""" 初始化</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        self.strategy = <span class="string">"my_strategy"</span></span><br><span class="line">        self.platform = BINANCE</span><br><span class="line">        self.account = config.accounts[<span class="number">0</span>][<span class="string">"account"</span>]</span><br><span class="line">        self.access_key = config.accounts[<span class="number">0</span>][<span class="string">"access_key"</span>]</span><br><span class="line">        self.secret_key = config.accounts[<span class="number">0</span>][<span class="string">"secret_key"</span>]</span><br><span class="line">        self.symbol = config.symbol</span><br><span class="line"></span><br><span class="line">        self.order_id = <span class="literal">None</span>  <span class="comment"># 创建订单的id</span></span><br><span class="line">        self.create_order_price = <span class="string">"0.0"</span>  <span class="comment"># 创建订单的价格</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 交易模块</span></span><br><span class="line">        cc = {</span><br><span class="line">            <span class="string">"strategy"</span>: self.strategy,</span><br><span class="line">            <span class="string">"platform"</span>: self.platform,</span><br><span class="line">            <span class="string">"symbol"</span>: self.symbol,</span><br><span class="line">            <span class="string">"account"</span>: self.account,</span><br><span class="line">            <span class="string">"access_key"</span>: self.access_key,</span><br><span class="line">            <span class="string">"secret_key"</span>: self.secret_key,</span><br><span class="line">            <span class="string">"order_update_callback"</span>: self.on_event_order_update,<span class="comment"># 回调函数</span></span><br><span class="line">        }</span><br><span class="line">        self.trader = Trade(**cc)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 订阅行情</span></span><br><span class="line">        <span class="comment"># 在回调函数中加入下单逻辑，即策略</span></span><br><span class="line">        Market(const.MARKET_TYPE_ORDERBOOK, const.BINANCE, self.symbol, self.on_event_orderbook_update)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">on_event_orderbook_update</span>(<span class="params">self, orderbook: Orderbook</span>):</span></span><br><span class="line">        <span class="string">""" 订单薄更新</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        logger.debug(<span class="string">"orderbook:"</span>, orderbook, caller=self)</span><br><span class="line">        bid3_price = orderbook.bids[<span class="number">2</span>][<span class="number">0</span>]  <span class="comment"># 买三价格</span></span><br><span class="line">        bid4_price = orderbook.bids[<span class="number">3</span>][<span class="number">0</span>]  <span class="comment"># 买四价格</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 判断是否需要撤单</span></span><br><span class="line">        <span class="keyword">if</span> self.order_id:</span><br><span class="line">            <span class="keyword">if</span> <span class="built_in">float</span>(self.create_order_price) &lt; <span class="built_in">float</span>(bid3_price) <span class="keyword">or</span> <span class="built_in">float</span>(self.create_order_price) &gt; <span class="built_in">float</span>(bid4_price):</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            _, error = <span class="keyword">await</span> self.trader.revoke_order(self.order_id)</span><br><span class="line">            <span class="keyword">if</span> error:</span><br><span class="line">                logger.error(<span class="string">"revoke order error! error:"</span>, error, caller=self)</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            self.order_id = <span class="literal">None</span></span><br><span class="line">            logger.info(<span class="string">"revoke order:"</span>, self.order_id, caller=self)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 创建新订单</span></span><br><span class="line">        price = (<span class="built_in">float</span>(bid3_price) + <span class="built_in">float</span>(bid4_price)) / <span class="number">2</span></span><br><span class="line">        quantity = <span class="string">"0.1"</span>  <span class="comment"># 假设委托数量为0.1</span></span><br><span class="line">        action = ORDER_ACTION_BUY</span><br><span class="line">        order_id, error = <span class="keyword">await</span> self.trader.create_order(action, price, quantity)</span><br><span class="line">        <span class="keyword">if</span> error:</span><br><span class="line">            logger.error(<span class="string">"create order error! error:"</span>, error, caller=self)</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        self.order_id = order_id</span><br><span class="line">        self.create_order_price = price</span><br><span class="line">        logger.info(<span class="string">"create new order:"</span>, order_id, caller=self)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">on_event_order_update</span>(<span class="params">self, order: Order</span>):</span></span><br><span class="line">        <span class="string">""" 订单状态更新</span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        logger.info(<span class="string">"order update:"</span>, order, caller=self)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 如果订单失败、订单取消、订单完成交易</span></span><br><span class="line">        <span class="keyword">if</span> order.status <span class="keyword">in</span> [ORDER_STATUS_FAILED, ORDER_STATUS_CANCELED, ORDER_STATUS_FILLED]:</span><br><span class="line">            self.order_id = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line">    MyStrategy()</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <ol type="1">
-<li>https://naavik.co/business-breakdowns/into-the-void</li>
+<li>https://github.com/paulran/aioquant/blob/cfa4344f6787dd380339add6261bcce23a7e7e8e/aioquant/trade.py#L22</li>
+<li>https://github.com/paulran/aioquant/tree/cfa4344f6787dd380339add6261bcce23a7e7e8e/example/demo</li>
 </ol>
 
       
@@ -267,7 +384,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/08/18/zhexue/shubenhua-renshengdezhihui/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/08/22/coding/asyncio-python/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -280,7 +397,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/08/18/zhexue/shubenhua-renshengdezhihui/" class="post-title-link" itemprop="url">人生的智慧</a>
+          <a href="/2021/08/22/coding/asyncio-python/" class="post-title-link" itemprop="url">python中的异步编程</a>
         </h2>
 
         <div class="post-meta-container">
@@ -291,14 +408,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-08-18 13:59:54" itemprop="dateCreated datePublished" datetime="2021-08-18T13:59:54+08:00">2021-08-18</time>
+      <time title="创建时间：2021-08-22 22:30:12" itemprop="dateCreated datePublished" datetime="2021-08-22T22:30:12+08:00">2021-08-22</time>
     </span>
       <span class="post-meta-item">
         <span class="post-meta-item-icon">
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-08-21 19:10:15" itemprop="dateModified" datetime="2021-08-21T19:10:15+08:00">2021-08-21</time>
+        <time title="修改时间：2021-08-25 08:58:59" itemprop="dateModified" datetime="2021-08-25T08:58:59+08:00">2021-08-25</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -306,7 +423,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E5%93%B2%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">哲学</span></a>
+          <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">编程</span></a>
         </span>
     </span>
 
@@ -320,27 +437,22 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <blockquote>
-<p>人生的智慧--叔本华，杨立华翻译版</p>
-</blockquote>
-<h2 id="引言">引言</h2>
+          <h2 id="异步执行和同步执行">异步执行和同步执行</h2>
+<p>同步（synchronous）和异步（Asynchronous）： 同步就是一些事务按照顺序执行，做完第一个，接着做第二个，适用于比较简单的任务。 异步就是说事务穿插着进行，做第一个的途中，去做一下其他的，交替进行，适用于比较复杂的任务，很像实际工作构成中总免不了对上下游的依赖。</p>
+<p>Asyncio是python自带的一个异步编程工具，利用该工具，通过编写简单的单线程逻辑，就可以实现异步逻辑。 简单点来说，借助于由async, await构成的coroutine, 用同步的方式，编写异步的代码！</p>
+<ul>
+<li>可以使用多个协程(coroutines)来定义多个子任务，相当于多个worker，函数头前面加关键字async，子任务之间的相互依赖关系使用关键字await</li>
+<li>然后使用1个协程(coroutine)作为主任务，相当于一个master将这些子任务编排起来，使用asyncio.gather</li>
+<li>最后使用asyncio.run()将主协程启动起来。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">foo</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Running in foo'</span>)</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">0</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Explicit context switch to foo again'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">bar</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Explicit context to bar'</span>)</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">0</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Implicit context switch back to bar'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    tasks = [foo(), bar()]</span><br><span class="line">    <span class="keyword">await</span> asyncio.gather(*tasks)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">asyncio.run(main())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>输出为： <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ python 1b-cooperatively-scheduled.py</span><br><span class="line">gr1 started work: at 0.0 seconds</span><br><span class="line">gr2 started work: at 0.0 seconds</span><br><span class="line">Let's do some stuff while the coroutines are blocked, at 0.0 seconds</span><br><span class="line">Done!</span><br><span class="line">gr1 ended work: at 2.0 seconds</span><br><span class="line">gr2 Ended work: at 2.0 seconds</span><br></pre></td></tr></table></figure></p>
+<h2 id="参考">参考</h2>
 <ol type="1">
-<li>塞内卡：名声跟随功绩，就像身体投下的阴影，有时候在前面，有时候在后面。虽然当代人的嫉妒表现在普遍的沉默中，但将来会有哪些没有敌意或偏袒的人来评价。</li>
-<li>人更有可能欣赏那些为自己短促一声的境遇或者一时倾向服务</li>
-<li>一个人真正能理解的和欣赏的，是与自己本性相似的东西，迟钝的人喜欢无聊的东西，普通的人喜欢普通的东西，思想混杂的人会被混乱的思想所吸引，没有头脑的人被愚蠢吸引。同时，一个人也会喜欢自己的作品，因为自己的作品与自己的性格完全合而为一。所以，人对自己感到满意，并且认为自己的情况良好，我们不应该感到惊讶。因为对🐶来说，世界上最美丽的生物就是🐶，对🐂来说就是🐂，对🐷来说就是🐷。</li>
-<li>我门不该对他人的愚蠢感到沮丧，正如歌德所说，无法认识和欣赏存在的善，是一种智力无能，须加一一些人类的道德卑劣--嫉妒。一个人赢得的信名声将他重新抬高到他的同伴头上，他的同伴因此被按比例降级。所有显眼的优点，都是以没有任何优点的人为代价获得的，正如歌德在《西东诗集》所说：</li>
+<li>https://yeray.dev/python/asyncio/asyncio-for-the-working-python-developer</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/timofurrer/awesome-asyncio">asyncio资料汇总</a></li>
+<li>https://zhuanlan.zhihu.com/p/237067072</li>
 </ol>
-<blockquote>
-<p>我们给予别人荣耀的同时，也贬低了我们自己。 5. 无论卓越采取什么形式，平庸（大部分人的命运）都会联合起来对抗它，如果有可能的话，就会共谋来压制它。这个联盟的通行证是“打到成就”。重要的是，那些自己做过一件事并享有一定声誉的人，并不关心新名声的出现，因为他的成功容易使他们的名声安然失色。 6. 名声只意味着，一个人与另外一个人相比是什么，本质上是相对的，只有间接价值。 7. 一个人应该尊重的不是名声，而是值得出名的东西，名声只是一种偶然，主要作为一种外在症状影响着他的主体，用来印证一个人对自己的看法。。 8. 如果价值取决于别人的想法，那将是一种悲惨的存在。每个人都首先在自身之内存在，并且为了自己而存在。他人形成的关于他存在的想法是次要的，衍生的，暴露在命运的偶然之下，并最终影响他。 6. 拥有伟大智力的人，对各门学科都有所涉猎，包括自然跟人性，但是不会再卒中复杂的各种小径或鲜为人知的区域走的太远，即，不用专门的知识分支来占据自己。没有必要寻找难以企及的主题，以逃避一群竞争对手，生活中摆在大家面前的对象也作为他的材料，基于此他严肃又真实地提出新理论；他的贡献被大部分人认可，因为他们熟悉他处理的材料。</p>
-</blockquote>
-<h2 id="劝诫与格言">劝诫与格言</h2>
-<h3 id="第一章-一般规则">第一章 一般规则</h3>
-<p>明智生活的另外一个重要因素，就是按照适当比例保持对当下和未来的思考，过度关注其中一个都不好。亲肤的人太过沉迷于当下，太过纠结于未来的人总是焦虑不安，谨小慎微。人很难在两个极端中保持平衡。</p>
-<p>那些不懈努力充满希望，只活在未来的人，只会向前看，焦躁不安期待着即将到来的事情，表面装腔作势，但是跟一个被前面食物操控的驴子很相似。这样的人，整个生命都处于持续的幻觉状态，永远在过度阶段，直到死去。</p>
-<p>未来似乎总与我们的预期相反，过去也常常事与愿违，</p>
-<p>将未来之事交给神明，因为他们超出了我们的掌握范围。</p>
-<p>每天晚上睡觉之前，回顾白天做了什么，若是随心所欲地生活在繁忙的工作和娱乐中，不反省，持续下去，感情和思维都将是一团乱麻，很快，他谈吐间的唐突和支离破碎都会显现。若是一个人在时间焦躁不安地生活，与形形色色的路人交往，头脑中的思维活动却很贫瘠，那么他堕入这种宿命的概率就比较大。</p>
-<h3 id="第二章-我们与自身的关系">第二章 我们与自身的关系</h3>
 
       
     </div>
@@ -360,7 +472,7 @@
 
 
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/93/">93</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/95/">95</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 </div>
