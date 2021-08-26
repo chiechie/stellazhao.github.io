@@ -251,7 +251,7 @@ mjx-container[display="true"] + br {
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
@@ -513,7 +513,7 @@ mjx-container[display="true"] + br {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/25/reading_notes/investment/ai-trading/">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/07/25/quant/ai-trading/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -526,7 +526,7 @@ mjx-container[display="true"] + br {
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/07/25/reading_notes/investment/ai-trading/" class="post-title-link" itemprop="url">人工智能交易系统</a>
+          <a href="/2021/07/25/quant/ai-trading/" class="post-title-link" itemprop="url">AI在交易中应用的可行性</a>
         </h2>
 
         <div class="post-meta-container">
@@ -544,7 +544,7 @@ mjx-container[display="true"] + br {
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-28 16:06:26" itemprop="dateModified" datetime="2021-07-28T16:06:26+08:00">2021-07-28</time>
+        <time title="修改时间：2021-08-26 16:32:04" itemprop="dateModified" datetime="2021-08-26T16:32:04+08:00">2021-08-26</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -552,7 +552,7 @@ mjx-container[display="true"] + br {
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E9%98%85%E8%AF%BB/" itemprop="url" rel="index"><span itemprop="name">阅读</span></a>
+          <a href="/categories/%E9%87%8F%E5%8C%96/" itemprop="url" rel="index"><span itemprop="name">量化</span></a>
         </span>
     </span>
 
@@ -566,12 +566,13 @@ mjx-container[display="true"] + br {
     
     
     <div class="post-body" itemprop="articleBody">
-          <blockquote>
+          <h1 id="摘要">摘要</h1>
+<blockquote>
 <p><strong>Denny Britz</strong>的一篇blog，翻译下</p>
 </blockquote>
 <ol type="1">
 <li><p>交易是一个multi agent问题。</p></li>
-<li><p>有效市场假设（ Efficient Market Hypothesis， EMH）在现实中不成立。构建一个赚钱的交易系统是可能的，虽然套利机会最终会消失，但是市场反应时间通常要几个月/几年，（就作者的经验来说有12个月）这个时间内可以寻找新的机会。</p></li>
+<li><p>有效市场假设（ Efficient Market Hypothesis，EMH）在现实中不成立。构建一个赚钱的交易系统是可能的，虽然套利机会最终会消失，但是市场反应时间通常要几个月/几年，（就作者的经验来说有12个月）这个时间内可以寻找新的机会。</p></li>
 <li><p>选择什么视角看待市场？经济学？No！博弈论（Game Theory ）或者强化学习视角。</p></li>
 <li><p>「市场」是一个虚构的概念，多个agents为了最大化自己的目标，在environment中采取相应行动，涌现出来的结果。每个agent的目标都不一样，有的为了卖掉期权中获得的股票，有的为了快速获利而套利，有的试图根据新闻来预测短期走势。有的基金经理基于基本面而长期投资。有的做市商，为特定资产或交易所提供流动性，以换取费用。</p></li>
 <li><p>科技从业者更看重“绝对性”，交易更看重“相对性”。</p></li>
