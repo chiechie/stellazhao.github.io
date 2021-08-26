@@ -245,7 +245,7 @@ mjx-container[display="true"] + br {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">190</span>
+          <span class="site-state-item-count">189</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -256,7 +256,7 @@ mjx-container[display="true"] + br {
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">209</span>
+        <span class="site-state-item-count">210</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -286,140 +286,6 @@ mjx-container[display="true"] + br {
 
 
     <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/30/machine-learning/machine-learning_6-meta-learning/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Chiechie">
-      <meta itemprop="description" content="a reader & thinker">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Chiechie's Mini World">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/04/30/machine-learning/machine-learning_6-meta-learning/" class="post-title-link" itemprop="url">chapter 6 元学习和小样本学习</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2021-04-30 14:47:47" itemprop="dateCreated datePublished" datetime="2021-04-30T14:47:47+08:00">2021-04-30</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-07-22 16:44:40" itemprop="dateModified" datetime="2021-07-22T16:44:40+08:00">2021-07-22</time>
-      </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">机器学习</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="总结">总结</h2>
-<ol type="1">
-<li><p>元学习是一种机器学习的范式：现做多个小任务，预先学习，然后带着学好的知识（就是元知识），去做新的任务。</p>
-<blockquote>
-<p>元学习，迁移学习，多任务学习，三者原理大同小异，都是在一堆低成本的小任务预先学习，升级打怪，然后去真实的任务上，真枪实战地接受训练。</p>
-</blockquote></li>
-<li><p>小样本学习（few shot learning）是元学习（meta learning）的一个子类，大致思路是这样的：</p></li>
-</ol>
-<ul>
-<li>在大样本中学习:在领域1中使用大样本中学习得到距离函数或者相似度函数。</li>
-<li>在小样本中预测: 使用该距离函数或者相似度函数，找出领域2中最接近query的样本，这个样本对应类别就是query的类别。</li>
-</ul>
-<blockquote>
-<p>few-shot learning 叫few-shot prediction会更贴切。</p>
-</blockquote>
-<ol start="3" type="1">
-<li><p>领域1中的样本叫training set，领域2中的样本集叫support set，新预测的实例叫query sample。support set有两个属性：k-way和n-shot，𝑘表示support set中的类别数，𝑛表示support set中每一类的样本数。k和n对预测准确率的影响：k越大准确率越低，因为任务变复杂了；n越大准确率越高，因为可以学习的样本数变多了。</p></li>
-<li><p>小样本学习的具体的建模方法有两种：构建孪生网络（siamese-network）和直接学习图片的embedding表示，后者效果更好。孪生网络有两个变体，分别是基于Pairwise loss的孪生网络和基于tripplet loss的孪生网络。</p></li>
-<li><p>使用孪生网络去做小样本学习具体思路是这样的：</p>
-<ol type="1">
-<li>在<strong>学习</strong>阶段，构造一个孪生网络，将样本从原始空间映射到特征空间，这个映射最好能让不同类别样本在特征空间中距离很远，相同类别距离很近</li>
-<li>在<strong>预测</strong>阶段，输入一个𝑘-way 𝑛-shot的support set和一个query，然后输出query的类别。使用孪生网络中的部分参数，计算query和support中每个样本的（特征的）距离，返回最近的样本的类别。</li>
-</ol></li>
-</ol>
-<h2 id="附录">附录</h2>
-<h3 id="training-setsupport-setquery-sample三者关系">training set/support set/query sample三者关系</h3>
-<p>k-way和n-shot</p>
-<figure>
-<img src="./image-20200505125818526.png" alt="training set/support set/query sample"><figcaption aria-hidden="true">training set/support set/query sample</figcaption>
-</figure>
-<ul>
-<li>support set有两个属性：k-way和n-shot</li>
-<li>𝑘-way: support set中的类别数，图中为6，</li>
-<li>𝑛-shot: support set中每一类的样本数，图中为1</li>
-</ul>
-<h3 id="k和n对预测准确率的影响">k和n对预测准确率的影响</h3>
-<figure>
-<img src="./image-20200505130507134.png" alt="k和n对预测准确率的影响（"><figcaption aria-hidden="true">k和n对预测准确率的影响（</figcaption>
-</figure>
-<h4 id="基于pairwise-loss的孪生网络">基于Pairwise loss的孪生网络</h4>
-<figure>
-<img src="./image-20200505131406968.png" alt="基于Pairwise loss的孪生网络"><figcaption aria-hidden="true">基于Pairwise loss的孪生网络</figcaption>
-</figure>
-<h4 id="基于tripplet-loss的孪生网络">基于tripplet loss的孪生网络</h4>
-<figure>
-<img src="./image-20200505132048021.png" alt="基于tripplet loss的孪生网络"><figcaption aria-hidden="true">基于tripplet loss的孪生网络</figcaption>
-</figure>
-<h2 id="参考">参考</h2>
-<ol type="1">
-<li><a target="_blank" rel="noopener" href="https://github.com/wangshusen/DeepLearning/blob/master/Slides/16_Meta_1.pdf">slide</a></li>
-<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Er8xH_k0Vj4">youtube</a></li>
-<li>Bromley et al. Signature verification using a Siamese time delay neural network. In <em>NIPS</em>. 1994.</li>
-<li>Koch, Zemel, &amp; Salakhutdinov. Siamese neural networks for one-shot image recognition. In <em>ICML</em>, 2015.</li>
-<li>Schroff, Kalenichenko, &amp; Philbin. Facenet: A unified embedding for face recognition and clustering. In <em>CVPR</em>, 2015.</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
 
     
 
@@ -813,6 +679,263 @@ mjx-container[display="true"] + br {
 <li><a target="_blank" rel="noopener" href="https://weread.qq.com/web/reader/6c4321805e3c8a6c44811dck16732dc0161679091c5aeb1">区块链：通往资产数字化之路-微信读书</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=AQDCe585Lnc">什么是非对称较密</a></li>
 <li>https://mapofcoins.com/</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://chiechie.github.io/2021/04/29/reinforcement_learning/rl11_tradingrobot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Chiechie">
+      <meta itemprop="description" content="a reader & thinker">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chiechie's Mini World">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/04/29/reinforcement_learning/rl11_tradingrobot/" class="post-title-link" itemprop="url">强化学习11 使用gym构建股票交易机器人</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-04-29 15:01:49" itemprop="dateCreated datePublished" datetime="2021-04-29T15:01:49+08:00">2021-04-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-07-09 08:29:06" itemprop="dateModified" datetime="2021-07-09T08:29:06+08:00">2021-07-09</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">强化学习</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <blockquote>
+<p>现在进行强化学习第2个实践项目--构建交易机器人，</p>
+</blockquote>
+<h2 id="思路">思路</h2>
+<p>老路子，先构建environment 再构建agent：</p>
+<ul>
+<li>environment需要定义state，action类型，以及step和render方法。</li>
+<li>agent需要定义策略函数，即每个state下最优action</li>
+</ul>
+<p>下面从0到构建一个,</p>
+<p>为了构建environment，先简化问题:</p>
+<ul>
+<li>state: 过去3天close/open/high/low/volume5个指标的数据, shape = &lt;3, 5&gt;</li>
+<li>action: 买/卖/持仓 + 数量(基于目前仓位的百分比), shape = &lt;2, &gt; ,</li>
+<li>step方法返回
+<ul>
+<li>state2: 第二天的close/open/high/low/volume5个指标的数据, shape = &lt;3, 5&gt;</li>
+<li>reward：变动仓位 * 变化的股价</li>
+</ul></li>
+</ul>
+<p>为了构建agent:</p>
+<ul>
+<li>随机策略</li>
+<li>Q-table不行，因为state不连续了</li>
+<li>naive策略：趋势策略，短期有上升趋势就买入，否则卖出。</li>
+</ul>
+<h2 id="实施">实施</h2>
+<h3 id="step-1-自定义一个environment">step 1 自定义一个environment</h3>
+<p>自定义一个environment，需要继承gym的标准环境类--gym.Env, 并实现类的关键方法，有step和reset</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> CustomEnv(gym.Env):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    metadata <span class="op">=</span> {<span class="st">'render.modes'</span>: [<span class="st">'human'</span>]}</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, arg1, arg2, ...):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(CustomEnv, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.action_space <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.observation_space <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                                       </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> step(<span class="va">self</span>, action):                                               </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> observation, reward, done, info</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> reset(<span class="va">self</span>):</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> observation  <span class="co"># reward, done, info can't be included</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> render(<span class="va">self</span>, mode<span class="op">=</span><span class="st">'human'</span>):</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                                       </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> close (<span class="va">self</span>):</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span></code></pre></div>
+<h4 id="step1-1-定义环境类的构造函数">step1-1: 定义环境类的构造函数</h4>
+<p>在构造函数中，定义state空间，和 action空间 state是连续的，action因为涉及到具体买卖多少份额，所以也有部分是连续的， 可以用gyn.space.Box来定义，需要指定上下界。 此外，为了简化问题，直接把一个df当作成员给这个子类</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> StockEnv(gym.Env):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, df):</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(StockEnv, <span class="va">self</span>).<span class="fu">__init__</span>()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.action_space <span class="op">=</span> spaces.Box(low<span class="op">=-</span><span class="dv">1</span>, high<span class="op">=</span><span class="dv">1</span>,shape<span class="op">=</span>(<span class="dv">1</span>, ), dtype<span class="op">=</span>np.float16)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.observation_space <span class="op">=</span> spaces.Box(low<span class="op">=</span><span class="dv">0</span>, high<span class="op">=</span><span class="dv">1</span>, shape<span class="op">=</span>(<span class="dv">3</span>, <span class="dv">5</span>), dtype<span class="op">=</span>np.float16)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.df <span class="op">=</span> df</span></code></pre></div>
+<h4 id="step1-2-定义环境类的reset方法">step1-2: 定义环境类的reset方法</h4>
+<p>定义环境类的reset方法，reset用来重置一局游戏。需要返回游戏的初始状态，收益为0， 计算收益的几个变量，账户净值，持股数量，余额，以及游戏开始的时间戳（这个可以随机设置的）</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> reset(<span class="va">self</span>):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.net_worth <span class="op">=</span> <span class="dv">10000</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.share_hold <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.current_step <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>.cash <span class="op">=</span> <span class="dv">10000</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    observation <span class="op">=</span> <span class="va">self</span>.df.loc[<span class="va">self</span>.current_step <span class="op">-</span> WINDOW_SIZE <span class="op">+</span> <span class="dv">1</span>: <span class="va">self</span>.current_step,  [<span class="st">"open"</span>, <span class="st">"close"</span>, <span class="st">"high"</span>, <span class="st">"low"</span>, <span class="st">"volume"</span>]]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> observation  <span class="co"># reward, done, info can't be included</span></span></code></pre></div>
+<h4 id="step1-3-定义环境类的step方法">step1-3: 定义环境类的step方法</h4>
+<p>定义step方法，step是标准环境类的标准方法，输入输出的格式是固定的，输入一个state，输出下一个state, reward, done, info。</p>
+<p>这里涉及到交易的常识，补充下几个概念：</p>
+<ul>
+<li>net value：账户净值，也就是说账户当前现金+股票折现价值</li>
+<li>cash：这里叫现金是为了方便理解。专业的叫法是balance。</li>
+<li>action amount：一个百分比，基于当前账户余额（balance）可以买卖的比例。</li>
+<li>done：什么时候一轮游戏结束？时间到了或者爆仓了，即net value &lt; 0了</li>
+</ul>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> step(<span class="va">self</span>, action):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        current_price <span class="op">=</span> <span class="va">self</span>.df.loc[<span class="va">self</span>.current_step, <span class="st">"close"</span>]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="co"># action_type, action_percent = action</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># action = action[0]</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        action_amount <span class="op">=</span> <span class="bu">abs</span>(action)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        buy <span class="op">=</span> action <span class="op">&gt;</span> <span class="dv">0</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        sell <span class="op">=</span> action <span class="op">&lt;</span> <span class="dv">0</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># 0表示买     </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        action_amount <span class="op">=</span> <span class="va">self</span>.cash <span class="op">*</span> action_amount <span class="op">/</span> current_price</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>        reward <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> sell <span class="kw">and</span> <span class="va">self</span>.share_hold <span class="op">&lt;</span> action_amount:</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>            <span class="co"># 不允许做空</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>            <span class="cf">pass</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">elif</span> buy:</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.share_hold <span class="op">+=</span> action_amount</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.cash <span class="op">-=</span> action_amount <span class="op">*</span> current_price</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>            reward <span class="op">=</span> (<span class="va">self</span>.df.loc[<span class="va">self</span>.current_step <span class="op">+</span> <span class="dv">1</span>, <span class="st">"close"</span>] <span class="op">-</span> current_price) <span class="op">*</span> action_amount</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.share_hold <span class="op">-=</span> action_amount</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.cash <span class="op">+=</span> action_amount <span class="op">*</span>  current_price</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>            reward <span class="op">=</span> <span class="op">-</span> (<span class="va">self</span>.df.loc[<span class="va">self</span>.current_step <span class="op">+</span> <span class="dv">1</span>, <span class="st">"close"</span>] <span class="op">-</span> current_price) <span class="op">*</span> action_amount</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.current_step <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        observation <span class="op">=</span> <span class="va">self</span>._next_observation()</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        next_price <span class="op">=</span> <span class="va">self</span>.df.loc[<span class="va">self</span>.current_step, <span class="st">"close"</span>]</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>                                       </span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.net_worth <span class="op">=</span> <span class="va">self</span>.cash <span class="op">+</span> <span class="va">self</span>.share_hold <span class="op">*</span> next_price</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        done <span class="op">=</span> <span class="va">self</span>.net_worth <span class="op">&lt;=</span> <span class="fl">0.01</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>                                             </span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>                                               </span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> observation, reward, done, {}</span></code></pre></div>
+<h3 id="step-2--定义策略policy">step 2- 定义策略policy</h3>
+<h4 id="step-2-1-定义一个静态策略">step 2-1 定义一个静态策略</h4>
+<p>这里先用一个简单的趋势策略作为baseline，如下</p>
+<pre><code>def pi(obs):
+    close_list = obs["close"].values
+    ma = close_list[:-1].mean()
+    price =  close_list[-1]
+
+    if price / ma &gt; 1.02:
+        action = 0.2
+    elif price / ma &lt; 0.98:
+        action = -0.2
+    else:
+        action = 0
+    return action
+    </code></pre>
+<h4 id="step-2-2-使用ppo算法构建策略">step 2-2 使用PPO算法构建策略</h4>
+<p>PPO（Proximal Policy Optimization）算法结合了A2C和TRPO的idea，主要思路是， 每次更新策略时，新的策略不能离旧的策略太远，具体的做法是对梯度做截断（clipping）。</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>env_PPO <span class="op">=</span> DummyVecEnv([<span class="kw">lambda</span>: StockEnv(df)])</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> PPO2(MlpPolicy, env_PPO, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>model.learn(total_timesteps<span class="op">=</span><span class="dv">100</span>)</span></code></pre></div>
+<h4 id="step2-3-对比">step2-3 对比</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.read_csv(<span class="st">'./stockdata/train/sh.600004.白云机场.csv'</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.sort_values(<span class="st">'date'</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    df[<span class="st">"volume"</span>] <span class="op">=</span> df[<span class="st">"volume"</span>].<span class="bu">map</span>(np.log)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    env_PPO <span class="op">=</span> DummyVecEnv([<span class="kw">lambda</span>: StockEnv(df)])</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    env_basis <span class="op">=</span> StockEnv(df)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    env_PPO1 <span class="op">=</span> StockEnv(df)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> PPO2(MlpPolicy, env_PPO, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    model.learn(total_timesteps<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    obs_PPO1 <span class="op">=</span> env_PPO1.reset()</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    obs_basis <span class="op">=</span> env_basis.reset()</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    env_PPO1.current_step <span class="op">=</span> env_basis.current_step</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    obs_PPO1 <span class="op">=</span> obs_basis</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">200</span>):</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>        action_PPO1, _ <span class="op">=</span> model.predict(obs_PPO1)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>        action_basis <span class="op">=</span> pi(obs_basis)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># print(env_PPO1.current_step, env_basis.current_step)</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>        obs_PPO, rewards_PPO, done_PPO, info_PPO <span class="op">=</span> env_PPO1.step(action_PPO1)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        obs_basis, rewards_basis, done_basis, info_basis <span class="op">=</span> env_basis.step(action_basis)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> i <span class="op">%</span> <span class="dv">20</span> <span class="op">==</span><span class="dv">0</span>:</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"****"</span><span class="op">*</span><span class="dv">5</span>, <span class="st">"PPO"</span>, <span class="st">"***"</span><span class="op">*</span><span class="dv">5</span>)</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>            env_PPO1.render()</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">"****"</span><span class="op">*</span><span class="dv">5</span>,<span class="st">"Basis"</span>,<span class="st">"***"</span><span class="op">*</span><span class="dv">5</span>)</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>            env_basis.render()</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>            </span></code></pre></div>
+<p>还凑活吧，能用</p>
+<figure>
+<img src="img.png" alt="img.png"><figcaption aria-hidden="true">img.png</figcaption>
+</figure>
+<h2 id="总结">总结</h2>
+<ol type="1">
+<li>牛刀初试，强化学习实际效果不算离谱，凑活能用。</li>
+<li>现有的强化学习算法框架比较成熟了, like stable-baselines，接口简单易用。</li>
+<li>股票交易的Environment，github上还没有找到比较好用的工具，这个只能自己靠自己写了。上面写的一个简单的env，没有考虑交易费用/允许做空等情况，还要进一步细化。</li>
+</ol>
+<h2 id="参考">参考</h2>
+<ol type="1">
+<li><a target="_blank" rel="noopener" href="https://github.com/chiechie/quantML/blob/master/gym_rl.py">quantML-github-chiechie</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/hill-a/stable-baselines">强化学习算法框架-stable-baselines</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.oreilly.com/radar/introduction-to-reinforcement-learning-and-openai-gym/">强化学习环境框架-gym</a></li>
+<li><a target="_blank" rel="noopener" href="https://towardsdatascience.com/creating-a-custom-openai-gym-environment-for-stock-trading-be532be3910e">构建交易环境-medium</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/wangshub/RL-Stock">构建交易环境和交易策略-github</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=5P7I-xPq8u8">PPO-youtube</a></li>
 </ol>
 
       
