@@ -1,5 +1,5 @@
 ---
-title: 强化学习11 使用gym构建股票交易机器人
+title: 使用gym构建股票交易机器人
 author: chiechie
 mathjax: true
 date: 2021-04-29 15:01:49
