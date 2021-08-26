@@ -1,10 +1,10 @@
 ---
-title: async_quant
+title: 搭建一个量化交易后台
 author: chiechie
 mathjax: true
 date: 2021-08-22 23:30:15
 categories:
-- 编程
+- 量化
 tags:
 - 计算机原理
 - 线程

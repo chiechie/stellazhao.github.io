@@ -5,8 +5,9 @@ mathjax: true
 date: 2021-03-31 08:52:16
 tags:
 - 量化
+- 预测
 categories:
-- 阅读
+- 量化
 ---
 
 ## 一些reflection
@@ -19,4 +20,4 @@ categories:
 
 ## 参考
 
-1. https://www.zhihu.com/question/437563654/answer/1729894854
+1. https://www.zhihu.com/question/437563654/answer/1729894854s

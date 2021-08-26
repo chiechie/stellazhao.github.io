@@ -7,15 +7,18 @@ tags:
 - 强化学习
 - 人工智能
 - 量化交易
+- 量化
 categories:
-- 强化学习
+- 量化
 ---
 
 > 现在进行强化学习第2个实践项目--构建交易机器人，
 
 ## 思路
 
-老路子，先构建environment 再构建agent：
+
+
+先构建environment 再构建agent：
 
 - environment需要定义state，action类型，以及step和render方法。
 - agent需要定义策略函数，即每个state下最优action
