@@ -1,5 +1,5 @@
 ---
-title: 使用gym构建股票交易机器人
+title: 基于强化学习构建股票交易机器人
 author: chiechie
 mathjax: true
 date: 2021-04-29 15:01:49
@@ -14,33 +14,25 @@ categories:
 
 > 现在进行强化学习第2个实践项目--构建交易机器人，
 
-## 思路
+## 大概思路
 
 
+先简化一下问题：
+- agent需要根据过去3天的量价数据（也就是state）做出买卖决策
+- environment需要对买卖决策给出反馈信号，即是赚钱了还是亏钱了
 
-先构建environment 再构建agent：
+
+下面从0到构建一个交易机器人agent，同时借助gym.Env构造一个交易环境enironment：
+- agent需要定义策略函数，即每个state下最优action
+    - action: 买/卖/持仓 + 数量(基于目前仓位的百分比), shape = <2, > ,
+
 
 - environment需要定义state，action类型，以及step和render方法。
-- agent需要定义策略函数，即每个state下最优action
+    - state: 过去3天close/open/high/low/volume5个指标的数据, shape = <3, 5>
+    - step方法返回
+        - state2: 第二天的close/open/high/low/volume5个指标的数据, shape = <3, 5>
+        - reward：变动仓位 * 变化的股价
 
-下面从0到构建一个, 
-
-为了构建environment，先简化问题:
-
-- state: 过去3天close/open/high/low/volume5个指标的数据, shape = <3, 5>
-- action: 买/卖/持仓 + 数量(基于目前仓位的百分比), shape = <2, > ,
-- step方法返回
-    - state2: 第二天的close/open/high/low/volume5个指标的数据, shape = <3, 5>
-    - reward：变动仓位 * 变化的股价
-
-为了构建agent:
-
-- 随机策略
-- Q-table不行，因为state不连续了
-- naive策略：趋势策略，短期有上升趋势就买入，否则卖出。
-
-
-## 实施
 
 ### step 1 自定义一个environment
 
@@ -152,7 +144,16 @@ def reset(self):
         return observation, reward, done, {}
 ```
 
-### step 2- 定义策略policy
+### step 2 - 构建agent
+
+构建agent，即定义策略policy，通常来说有下面几种做法
+
+- 随机策略：作为baselin
+- Q-table，不行，因为state不连续
+- naive策略：双均线策略; 动量策略等等
+- 策略梯度：
+
+
 
 #### step 2-1 定义一个静态策略
 
