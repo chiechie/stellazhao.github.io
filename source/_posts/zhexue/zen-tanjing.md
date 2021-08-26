@@ -1,6 +1,5 @@
 ---
-layout: categories
-title: 《坛经》
+title: 坛经
 date: 2021-08-05 13:59:17
 tags:
 - 人生哲学

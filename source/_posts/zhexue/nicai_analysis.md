@@ -1,5 +1,5 @@
 ---
-title: 尼采说
+title: 尼采
 author: chiechie
 mathjax: true
 date: 2021-03-28 21:42:03

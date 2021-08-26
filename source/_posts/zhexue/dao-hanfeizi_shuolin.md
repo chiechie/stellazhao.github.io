@@ -1,5 +1,5 @@
 ---
-title: 《韩非子-说林》
+title: 韩非子
 author: chiechie
 mathjax: true
 date: 2021-05-15 22:46:04

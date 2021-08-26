@@ -1,5 +1,5 @@
 ---
-title: 王德峰-艺术与哲学
+title: 艺术与哲学
 author: chiechie
 mathjax: true
 date: 2021-04-04 23:30:28
