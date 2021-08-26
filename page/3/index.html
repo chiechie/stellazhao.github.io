@@ -350,9 +350,22 @@ mjx-container[display="true"] + br {
     <div class="post-body" itemprop="articleBody">
           <p>现在面临一个需求：多个文件打印日志。</p>
 <p>解决思路：将文本分为两类，1个主脚本，多个被调用的子脚本。</p>
-<p>在多个子脚本中注册各自的logger <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"></span><br><span class="line">logger = logging.getLogger(__name__)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_function</span>():</span></span><br><span class="line">    logger.info(<span class="string">'something'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>在多个子脚本中注册各自的logger</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>logger <span class="op">=</span> logging.getLogger(<span class="va">__name__</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> my_function():</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    logger.info(<span class="st">'something'</span>)</span></code></pre></div>
 <p>在主脚本中注册rooted logger，并且配置日志的全局变量</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">import</span> mypkg</span><br><span class="line"></span><br><span class="line">root_logger = logging.getLogger()</span><br><span class="line">root_logger.setLevel(logging.INFO)</span><br><span class="line"></span><br><span class="line">mypkg.my_function()  <span class="comment"># produces output to stderr</span></span><br></pre></td></tr></table></figure>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> logging</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mypkg</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>root_logger <span class="op">=</span> logging.getLogger()</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>root_logger.setLevel(logging.INFO)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>mypkg.my_function()  <span class="co"># produces output to stderr</span></span></code></pre></div>
 <h2 id="参考">参考</h2>
 <ol type="1">
 <li>https://stackoverflow.com/questions/40000929/python-logging-for-a-module-shared-by-different-scripts</li>

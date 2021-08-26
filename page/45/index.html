@@ -466,12 +466,21 @@ mjx-container[display="true"] + br {
 <ul>
 <li>Object.split</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; some_text = 'a,b,,,,c d'</span><br><span class="line">&gt;&gt;&gt; reObj = re.compile('[, ]+')</span><br><span class="line">&gt;&gt;&gt; reObj.split(some_text)</span><br><span class="line">['a', 'b', 'c', 'd']</span><br></pre></td></tr></table></figure>
+<pre><code>&gt;&gt;&gt; some_text = 'a,b,,,,c d'
+&gt;&gt;&gt; reObj = re.compile('[, ]+')
+&gt;&gt;&gt; reObj.split(some_text)
+['a', 'b', 'c', 'd']</code></pre>
 <p>也可以不用先转换为pattern对象</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text = 'a,b,,,,c d'</span><br><span class="line">&gt;&gt;&gt; re.split('[, ]+',some_text)</span><br><span class="line">['a', 'b', 'c', 'd']</span><br></pre></td></tr></table></figure>
+<pre><code>&gt;&gt;&gt; import re
+&gt;&gt;&gt; some_text = 'a,b,,,,c d'
+&gt;&gt;&gt; re.split('[, ]+',some_text)
+['a', 'b', 'c', 'd']</code></pre>
 <h2 id="re.sub">re.sub</h2>
 <p>re.sub：将某些固定的模式，替换为指定的格式。 比如 将连续空格转换为"-"</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text = 'a,  b,,,  ,c    d'</span><br><span class="line">&gt;&gt;&gt; re.sub(r'\s+', "-", some_text)</span><br><span class="line">a,-b,,,-,c-d</span><br></pre></td></tr></table></figure>
+<pre><code>&gt;&gt;&gt; import re
+&gt;&gt;&gt; some_text = 'a,  b,,,  ,c    d'
+&gt;&gt;&gt; re.sub(r'\s+', "-", some_text)
+a,-b,,,-,c-d</code></pre>
 <h2 id="str.strip">str.strip</h2>
 <p>去除首字符 和 尾字符</p>
 <h2 id="参考">参考</h2>

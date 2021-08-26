@@ -404,7 +404,18 @@ mjx-container[display="true"] + br {
 <li>Backpropagation can thus be thought of as gates communicating to each other (through the gradient signal) whether they want their outputs to increase or decrease (and how strongly), so as to make the final output value higher.</li>
 </ul>
 <h2 id="layer的输入输出">layer的输入输出</h2>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">model_m = Sequential()</span><br><span class="line">model_m.add(Reshape((TIME_PERIODS, num_sensors),</span><br><span class="line">                    input_shape=(input_shape,)))</span><br><span class="line">model_m.add(Conv1D(<span class="number">100</span>, <span class="number">10</span>, activation=<span class="string">'relu'</span>,</span><br><span class="line">                   input_shape=(TIME_PERIODS, num_sensors)))</span><br><span class="line">model_m.add(Conv1D(<span class="number">100</span>, <span class="number">10</span>, activation=<span class="string">'relu'</span>))</span><br><span class="line">model_m.add(MaxPooling1D(<span class="number">3</span>))</span><br><span class="line">model_m.add(Conv1D(<span class="number">160</span>, <span class="number">10</span>, activation=<span class="string">'relu'</span>))</span><br><span class="line">model_m.add(Conv1D(<span class="number">160</span>, <span class="number">10</span>, activation=<span class="string">'relu'</span>))</span><br><span class="line">model_m.add(GlobalAveragePooling1D())</span><br><span class="line">model_m.add(Dropout(<span class="number">0.5</span>))</span><br><span class="line">model_m.add(Dense(num_classes, activation=<span class="string">'softmax'</span>))</span><br></pre></td></tr></table></figure>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>model_m <span class="op">=</span> Sequential()</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>model_m.add(Reshape((TIME_PERIODS, num_sensors),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                    input_shape<span class="op">=</span>(input_shape,)))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>model_m.add(Conv1D(<span class="dv">100</span>, <span class="dv">10</span>, activation<span class="op">=</span><span class="st">'relu'</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                   input_shape<span class="op">=</span>(TIME_PERIODS, num_sensors)))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>model_m.add(Conv1D(<span class="dv">100</span>, <span class="dv">10</span>, activation<span class="op">=</span><span class="st">'relu'</span>))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>model_m.add(MaxPooling1D(<span class="dv">3</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>model_m.add(Conv1D(<span class="dv">160</span>, <span class="dv">10</span>, activation<span class="op">=</span><span class="st">'relu'</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>model_m.add(Conv1D(<span class="dv">160</span>, <span class="dv">10</span>, activation<span class="op">=</span><span class="st">'relu'</span>))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>model_m.add(GlobalAveragePooling1D())</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>model_m.add(Dropout(<span class="fl">0.5</span>))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>model_m.add(Dense(num_classes, activation<span class="op">=</span><span class="st">'softmax'</span>))</span></code></pre></div>
 <figure>
 <img src="https://miro.medium.com/max/2073/1*Y117iNR_CnBtBh8MWVtUDg.png" alt="Image for post"><figcaption aria-hidden="true">Image for post</figcaption>
 </figure>
@@ -450,13 +461,35 @@ mjx-container[display="true"] + br {
 </ul></li>
 </ul>
 <h2 id="layer如何设置初始化权重">layer如何设置初始化权重？</h2>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keras.layers.Dense(<span class="number">10</span>, activation=<span class="string">"relu"</span>, kernel_initializer=<span class="string">"he_normal"</span>)</span><br></pre></td></tr></table></figure>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>keras.layers.Dense(<span class="dv">10</span>, activation<span class="op">=</span><span class="st">"relu"</span>, kernel_initializer<span class="op">=</span><span class="st">"he_normal"</span>)</span></code></pre></div>
 <figure>
 <img src="./img.png" alt="3种初始化方法"><figcaption aria-hidden="true">3种初始化方法</figcaption>
 </figure>
 <h2 id="训练过程太长">训练过程太长？</h2>
 <p>保存训练结果</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. 设置loss，优化算法</span></span><br><span class="line">model.<span class="built_in">compile</span>(loss=..., optimizer=...,</span><br><span class="line">              metrics=[<span class="string">'accuracy'</span>])</span><br><span class="line"></span><br><span class="line">EPOCHS = <span class="number">10</span></span><br><span class="line">checkpoint_filepath = <span class="string">'/tmp/checkpoint'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 定义回调函数</span></span><br><span class="line">model_checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(</span><br><span class="line">    filepath=checkpoint_filepath,</span><br><span class="line">    save_weights_only=<span class="literal">True</span>,</span><br><span class="line">    monitor=<span class="string">'val_accuracy'</span>,</span><br><span class="line">    mode=<span class="string">'max'</span>,</span><br><span class="line">    save_best_only=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Model weights are saved at the end of every epoch, if it's the best seen</span></span><br><span class="line"><span class="comment"># so far.</span></span><br><span class="line"><span class="comment"># 3.在fit中传入回调函数，模型会一边训练一边存储</span></span><br><span class="line">model.fit(epochs=EPOCHS, callbacks=[model_checkpoint_callback])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 从缓存路径中加载模型</span></span><br><span class="line"><span class="comment"># The model weights (that are considered the best) are loaded into the model.</span></span><br><span class="line">model.load_weights(checkpoint_filepath)</span><br></pre></td></tr></table></figure>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. 设置loss，优化算法</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(loss<span class="op">=</span>..., optimizer<span class="op">=</span>...,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>              metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>EPOCHS <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>checkpoint_filepath <span class="op">=</span> <span class="st">'/tmp/checkpoint'</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. 定义回调函数</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>model_checkpoint_callback <span class="op">=</span> tf.keras.callbacks.ModelCheckpoint(</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    filepath<span class="op">=</span>checkpoint_filepath,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    save_weights_only<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    monitor<span class="op">=</span><span class="st">'val_accuracy'</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    mode<span class="op">=</span><span class="st">'max'</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    save_best_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Model weights are saved at the end of every epoch, if it's the best seen</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co"># so far.</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co"># 3.在fit中传入回调函数，模型会一边训练一边存储</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>model.fit(epochs<span class="op">=</span>EPOCHS, callbacks<span class="op">=</span>[model_checkpoint_callback])</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. 从缓存路径中加载模型</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co"># The model weights (that are considered the best) are loaded into the model.</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>model.load_weights(checkpoint_filepath)</span></code></pre></div>
 <h2 id="参考">参考</h2>
 <ol type="1">
 <li><p>Hands-On Machine Learning with Scikit-Learn and TensorFlow, P334</p></li>

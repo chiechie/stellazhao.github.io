@@ -70,6 +70,8 @@
     <category term="编程" scheme="https://chiechie.github.io/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
+    <category term="编程" scheme="https://chiechie.github.io/tags/%E7%BC%96%E7%A8%8B/"/>
+    
     <category term="计算机原理" scheme="https://chiechie.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/"/>
     
     <category term="线程" scheme="https://chiechie.github.io/tags/%E7%BA%BF%E7%A8%8B/"/>
@@ -77,8 +79,6 @@
     <category term="进程" scheme="https://chiechie.github.io/tags/%E8%BF%9B%E7%A8%8B/"/>
     
     <category term="异步" scheme="https://chiechie.github.io/tags/%E5%BC%82%E6%AD%A5/"/>
-    
-    <category term="编程" scheme="https://chiechie.github.io/tags/%E7%BC%96%E7%A8%8B/"/>
     
     <category term="协程" scheme="https://chiechie.github.io/tags/%E5%8D%8F%E7%A8%8B/"/>
     
@@ -543,9 +543,9 @@
     
     <category term="最佳实践" scheme="https://chiechie.github.io/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"/>
     
-    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
-    
     <category term="时序预测" scheme="https://chiechie.github.io/tags/%E6%97%B6%E5%BA%8F%E9%A2%84%E6%B5%8B/"/>
+    
+    <category term="量化交易" scheme="https://chiechie.github.io/tags/%E9%87%8F%E5%8C%96%E4%BA%A4%E6%98%93/"/>
     
   </entry>
   

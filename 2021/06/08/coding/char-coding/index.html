@@ -379,12 +379,36 @@ mjx-container[display="true"] + br {
 <p>UTF-8是unicode的升级版，减少存储空间。</p>
 </blockquote>
 <p>unicode字符集是这样的编码表：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">I 0049</span><br><span class="line">t 0074</span><br><span class="line">' 0027</span><br><span class="line">s 0073</span><br><span class="line">  0020</span><br><span class="line">知 77e5</span><br><span class="line">乎 4e4e</span><br><span class="line">日 65e5</span><br><span class="line">报 62a5</span><br></pre></td></tr></table></figure>
+<pre class="shell"><code>I 0049
+t 0074
+' 0027
+s 0073
+  0020
+知 77e5
+乎 4e4e
+日 65e5
+报 62a5</code></pre>
 <p>每一个字符对应一个十六进制数字。计算机只懂二进制，因此，严格按照unicode的方式(UCS-2)，应该这样存储：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">I 00000000 01001001</span><br><span class="line">t 00000000 01110100</span><br><span class="line">' 00000000 00100111</span><br><span class="line">s 00000000 01110011</span><br><span class="line">  00000000 00100000</span><br><span class="line">知 01110111 11100101</span><br><span class="line">乎 01001110 01001110</span><br><span class="line">日 01100101 11100101</span><br><span class="line">报 01100010 10100101</span><br></pre></td></tr></table></figure>
+<pre class="shell"><code>I 00000000 01001001
+t 00000000 01110100
+' 00000000 00100111
+s 00000000 01110011
+  00000000 00100000
+知 01110111 11100101
+乎 01001110 01001110
+日 01100101 11100101
+报 01100010 10100101</code></pre>
 <p>这个字符串总共占用了18个字节，但是对比中英文的二进制码，可以发现，英文前9位都是0！浪费啊，浪费硬盘，浪费流量。怎么办？UTF。</p>
 <p>”It's 知乎日报“就变成了：</p>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">I 01001001</span><br><span class="line">t 01110100</span><br><span class="line">' 00100111</span><br><span class="line">s 01110011</span><br><span class="line">  00100000</span><br><span class="line">知 11100111 10011111 10100101</span><br><span class="line">乎 11100100 10111001 10001110</span><br><span class="line">日 11100110 10010111 10100101</span><br><span class="line">报 11100110 10001010 10100101</span><br></pre></td></tr></table></figure>
+<div class="sourceCode" id="cb3"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>I 01001001</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>t 01110100</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>' 00100111</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>s 01110011</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  00100000</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>知 11100111 10011111 10100101</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>乎 11100100 10111001 10001110</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>日 11100110 10010111 10100101</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>报 11100110 10001010 10100101</span></code></pre></div>
 <p>和上边的方案对比一下，英文短了，每个中文字符却多用了一个字节。但是整个字符串只用了17个字节，比上边的18个短了一点点。</p>
 <figure>
 <img src="img_1.png" alt="img_1.png"><figcaption aria-hidden="true">img_1.png</figcaption>

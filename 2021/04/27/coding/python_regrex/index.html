@@ -20,12 +20,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"chiechie.github.io","root":"/","images":"/images","scheme":"Gemini","version":"8.7.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="正则表达式一直都迷糊的很，现在要做日志聚类了，看看吧  re.compile 和 split  re.compile: 将字符串的正则表达式，转换为pattern对象。 pattern对象，有点像re的中间数据对象，它有很多方法，like  Object.split  1234&gt;&gt;&gt; some_text &#x3D; &#39;a,b,,,,c d&#39;&gt;&gt;&gt; reObj &#x3D; re">
+<meta name="description" content="正则表达式一直都迷糊的很，现在要做日志聚类了，看看吧  re.compile 和 split  re.compile: 将字符串的正则表达式，转换为pattern对象。 pattern对象，有点像re的中间数据对象，它有很多方法，like  Object.split  &gt;&gt;&gt; some_text &#x3D; &#39;a,b,,,,c d&#39; &gt;&gt;&gt; reObj &#x3D; re.co">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用python进行正则操作">
 <meta property="og:url" content="https://chiechie.github.io/2021/04/27/coding/python_regrex/index.html">
 <meta property="og:site_name" content="Chiechie&#39;s Mini World">
-<meta property="og:description" content="正则表达式一直都迷糊的很，现在要做日志聚类了，看看吧  re.compile 和 split  re.compile: 将字符串的正则表达式，转换为pattern对象。 pattern对象，有点像re的中间数据对象，它有很多方法，like  Object.split  1234&gt;&gt;&gt; some_text &#x3D; &#39;a,b,,,,c d&#39;&gt;&gt;&gt; reObj &#x3D; re">
+<meta property="og:description" content="正则表达式一直都迷糊的很，现在要做日志聚类了，看看吧  re.compile 和 split  re.compile: 将字符串的正则表达式，转换为pattern对象。 pattern对象，有点像re的中间数据对象，它有很多方法，like  Object.split  &gt;&gt;&gt; some_text &#x3D; &#39;a,b,,,,c d&#39; &gt;&gt;&gt; reObj &#x3D; re.co">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://chiechie.github.io/2021/04/27/coding/python_regrex/max-common-subsequence/img.png">
 <meta property="article:published_time" content="2021-04-27T02:51:56.000Z">
@@ -364,12 +364,21 @@ mjx-container[display="true"] + br {
 <ul>
 <li>Object.split</li>
 </ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; some_text = 'a,b,,,,c d'</span><br><span class="line">&gt;&gt;&gt; reObj = re.compile('[, ]+')</span><br><span class="line">&gt;&gt;&gt; reObj.split(some_text)</span><br><span class="line">['a', 'b', 'c', 'd']</span><br></pre></td></tr></table></figure>
+<pre><code>&gt;&gt;&gt; some_text = 'a,b,,,,c d'
+&gt;&gt;&gt; reObj = re.compile('[, ]+')
+&gt;&gt;&gt; reObj.split(some_text)
+['a', 'b', 'c', 'd']</code></pre>
 <p>也可以不用先转换为pattern对象</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text = 'a,b,,,,c d'</span><br><span class="line">&gt;&gt;&gt; re.split('[, ]+',some_text)</span><br><span class="line">['a', 'b', 'c', 'd']</span><br></pre></td></tr></table></figure>
+<pre><code>&gt;&gt;&gt; import re
+&gt;&gt;&gt; some_text = 'a,b,,,,c d'
+&gt;&gt;&gt; re.split('[, ]+',some_text)
+['a', 'b', 'c', 'd']</code></pre>
 <h2 id="re.sub">re.sub</h2>
 <p>re.sub：将某些固定的模式，替换为指定的格式。 比如 将连续空格转换为"-"</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; some_text = 'a,  b,,,  ,c    d'</span><br><span class="line">&gt;&gt;&gt; re.sub(r'\s+', "-", some_text)</span><br><span class="line">a,-b,,,-,c-d</span><br></pre></td></tr></table></figure>
+<pre><code>&gt;&gt;&gt; import re
+&gt;&gt;&gt; some_text = 'a,  b,,,  ,c    d'
+&gt;&gt;&gt; re.sub(r'\s+', "-", some_text)
+a,-b,,,-,c-d</code></pre>
 <h2 id="str.strip">str.strip</h2>
 <p>去除首字符 和 尾字符</p>
 <h2 id="参考">参考</h2>

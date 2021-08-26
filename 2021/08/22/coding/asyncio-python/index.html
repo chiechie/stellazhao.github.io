@@ -30,11 +30,11 @@
 <meta property="article:published_time" content="2021-08-22T14:30:12.000Z">
 <meta property="article:modified_time" content="2021-08-25T00:58:59.952Z">
 <meta property="article:author" content="Chiechie">
+<meta property="article:tag" content="编程">
 <meta property="article:tag" content="计算机原理">
 <meta property="article:tag" content="线程">
 <meta property="article:tag" content="进程">
 <meta property="article:tag" content="异步">
-<meta property="article:tag" content="编程">
 <meta property="article:tag" content="协程">
 <meta property="article:tag" content="并发">
 <meta name="twitter:card" content="summary">
@@ -366,8 +366,35 @@ mjx-container[display="true"] + br {
 <li>然后使用1个协程(coroutine)作为主任务，相当于一个master将这些子任务编排起来，使用asyncio.gather</li>
 <li>最后使用asyncio.run()将主协程启动起来。</li>
 </ul>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> asyncio</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">foo</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Running in foo'</span>)</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">0</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Explicit context switch to foo again'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">bar</span>():</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Explicit context to bar'</span>)</span><br><span class="line">    <span class="keyword">await</span> asyncio.sleep(<span class="number">0</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">'Implicit context switch back to bar'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    tasks = [foo(), bar()]</span><br><span class="line">    <span class="keyword">await</span> asyncio.gather(*tasks)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">asyncio.run(main())</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>输出为： <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ python 1b-cooperatively-scheduled.py</span><br><span class="line">gr1 started work: at 0.0 seconds</span><br><span class="line">gr2 started work: at 0.0 seconds</span><br><span class="line">Let's do some stuff while the coroutines are blocked, at 0.0 seconds</span><br><span class="line">Done!</span><br><span class="line">gr1 ended work: at 2.0 seconds</span><br><span class="line">gr2 Ended work: at 2.0 seconds</span><br></pre></td></tr></table></figure></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> asyncio</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> foo():</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Running in foo'</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> asyncio.sleep(<span class="dv">0</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Explicit context switch to foo again'</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> bar():</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Explicit context to bar'</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> asyncio.sleep(<span class="dv">0</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">'Implicit context switch back to bar'</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="kw">def</span> main():</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    tasks <span class="op">=</span> [foo(), bar()]</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> asyncio.gather(<span class="op">*</span>tasks)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>asyncio.run(main())</span></code></pre></div>
+<p>输出为：</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>$ python 1b-cooperatively-scheduled.py</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>gr1 started work: at 0.0 seconds</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>gr2 started work: at 0.0 seconds</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Let's do some stuff while the coroutines are blocked, at 0.0 seconds</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>Done!</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>gr1 ended work: at 2.0 seconds</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>gr2 Ended work: at 2.0 seconds</span></code></pre></div>
 <h2 id="参考">参考</h2>
 <ol type="1">
 <li>https://yeray.dev/python/asyncio/asyncio-for-the-working-python-developer</li>
@@ -383,11 +410,11 @@ mjx-container[display="true"] + br {
 
     <footer class="post-footer">
           <div class="post-tags">
+              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%8E%9F%E7%90%86/" rel="tag"># 计算机原理</a>
               <a href="/tags/%E7%BA%BF%E7%A8%8B/" rel="tag"># 线程</a>
               <a href="/tags/%E8%BF%9B%E7%A8%8B/" rel="tag"># 进程</a>
               <a href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag"># 异步</a>
-              <a href="/tags/%E7%BC%96%E7%A8%8B/" rel="tag"># 编程</a>
               <a href="/tags/%E5%8D%8F%E7%A8%8B/" rel="tag"># 协程</a>
               <a href="/tags/%E5%B9%B6%E5%8F%91/" rel="tag"># 并发</a>
           </div>
