@@ -1,5 +1,5 @@
 ---
-title: 《巫师唐望》
+title: 巫师唐望
 author: chiechie
 mathjax: true
 date: 2021-07-03 15:30:45

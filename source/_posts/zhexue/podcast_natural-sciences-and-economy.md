@@ -1,5 +1,5 @@
 ---
-title: 谈治学
+title: 治学
 author: chiechie
 mathjax: true
 date: 2021-03-08 09:38:42
@@ -8,6 +8,7 @@ tags:
 - 价值观
 - 物理
 - 哲学
+- 治学
 categories: 
 - 哲学
 ---

@@ -1,5 +1,5 @@
 ---
-title: 研究taste提升小练习
+title: 谈研究
 author: chiechie
 mathjax: true
 date: 2021-08-06 09:51:11
@@ -8,7 +8,6 @@ tags:
 categories: 
 - 哲学
 ---
-
 
 
 > 原文来自，https://colah.github.io/notes/taste/
